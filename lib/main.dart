@@ -14,7 +14,8 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'ON & OFF',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primaryColor: Color(0xffebebeb),
+        canvasColor: Color(0xffebebeb),
       ),
       initialRoute: '/',
       routes: Routes.routes,
