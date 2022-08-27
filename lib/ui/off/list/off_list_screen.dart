@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:on_off/domain/model/content.dart';
+import 'package:on_off/ui/off/detail/off_detail_screen.dart';
 import 'package:on_off/ui/off/list/list_item.dart';
 
 class OffListScreen extends StatefulWidget {
@@ -111,7 +112,12 @@ class _OffListScreenState extends State<OffListScreen> {
           removeTop: true,
           child: ListView.builder(
             itemBuilder: ((context, index) {
-              return ListItem(content: widget.contents[index]);
+              return GestureDetector(
+                child: ListItem(content: widget.contents[index]),
+                onTap: () {
+                  Navigator.pushNamed(context, OffDetailScreen.routeName);
+                },
+              );
             }),
             itemCount: widget.contents.length,
           ),
