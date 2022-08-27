@@ -17,7 +17,7 @@ class Routes {
     OffHomeScreen.routeName: (ctx) => OffHomeScreen(),
     OffWriteScreen.routeName: (ctx) => OffWriteScreen(),
     OffListScreen.routeName: (ctx) => OffListScreen(),
-    OffDetailScreen.routeName: (ctx) =>
-        OffDetailScreen(), // '/on-list': (ctx) => ListScreen(),
+    OffDetailScreen.routeName: (ctx) => OffDetailScreen(),
+    // '/on-list': (ctx) => ListScreen(),
   };
 }

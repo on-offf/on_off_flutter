@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:on_off/ui/off/detail/off_detail_screen.dart';
 import 'package:on_off/ui/off/home/off_home_screen.dart';
 import 'package:on_off/ui/off/list/off_list_screen.dart';
 import 'package:on_off/ui/off/write/off_write_screen.dart';
@@ -46,7 +47,9 @@ class SplashScreen extends StatelessWidget {
               child: Text("리스트"),
             ),
             ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.pushNamed(context, OffDetailScreen.routeName);
+              },
               child: Text("상세페이지"),
             ),
           ],
