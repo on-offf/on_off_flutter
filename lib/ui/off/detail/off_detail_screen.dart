@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:on_off/constants/constants_text_style.dart';
 import 'package:on_off/domain/model/content.dart';
+import 'package:on_off/ui/components/off_appbar.dart';
 
 class OffDetailScreen extends StatefulWidget {
   static const routeName = '/off/detail';
