@@ -17,6 +17,7 @@ class OffDetailScreen extends StatefulWidget {
 
 class _OffDetailScreenState extends State<OffDetailScreen> {
   CarouselController carouselController = CarouselController();
+  int _currentIndex = 0;
   @override
   Widget build(BuildContext context) {
     final routeArgs =
@@ -99,6 +100,10 @@ class _OffDetailScreenState extends State<OffDetailScreen> {
                           enableInfiniteScroll: false,
                           viewportFraction: 1.0,
                           aspectRatio: 313 / 240,
+                          onPageChanged: (index, reason) {
+                            _currentIndex = index;
+                            setState(() {});
+                          },
                         ),
                         items: content.imagePaths.map((img) {
                           return Container(
@@ -109,35 +114,37 @@ class _OffDetailScreenState extends State<OffDetailScreen> {
                           );
                         }).toList(),
                       ),
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: IconButton(
-                          onPressed: () {
-                            // Use the controller to change the current page
-                            carouselController.previousPage();
-                          },
-                          icon: Transform.rotate(
-                            angle: 180 * math.pi / 180,
-                            child: Icon(
-                              Icons.double_arrow_sharp,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
-                      ),
-                      Align(
-                        alignment: Alignment.centerRight,
-                        child: IconButton(
-                          onPressed: () {
-                            // Use the controller to change the current page
-                            carouselController.nextPage();
-                          },
-                          icon: Icon(
-                            Icons.double_arrow_sharp,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
+                      _currentIndex > 0
+                          ? Align(
+                              alignment: Alignment.centerLeft,
+                              child: IconButton(
+                                onPressed: () {
+                                  carouselController.previousPage();
+                                },
+                                icon: Transform.rotate(
+                                  angle: 180 * math.pi / 180,
+                                  child: Icon(
+                                    Icons.double_arrow_sharp,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
+                            )
+                          : SizedBox(),
+                      _currentIndex < content.imagePaths.length - 1
+                          ? Align(
+                              alignment: Alignment.centerRight,
+                              child: IconButton(
+                                onPressed: () {
+                                  carouselController.nextPage();
+                                },
+                                icon: Icon(
+                                  Icons.double_arrow_sharp,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            )
+                          : SizedBox(),
                     ],
                   ),
                 ),
