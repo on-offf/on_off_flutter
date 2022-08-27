@@ -12,15 +12,20 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'ON & OFF',
-      theme: ThemeData(
-        primaryColor: Color(0xff219EBC),
-        canvasColor: Color(0xffebebeb),
+    return GestureDetector(
+      onTap: () {
+        FocusManager.instance.primaryFocus?.unfocus();
+      },
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'ON & OFF',
+        theme: ThemeData(
+          primaryColor: Color(0xff219EBC),
+          canvasColor: Color(0xffebebeb),
+        ),
+        initialRoute: '/',
+        routes: Routes.routes,
       ),
-      initialRoute: '/',
-      routes: Routes.routes,
     );
   }
 }
