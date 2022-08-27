@@ -46,12 +46,6 @@ class SplashScreen extends StatelessWidget {
               },
               child: Text("리스트"),
             ),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.pushNamed(context, OffDetailScreen.routeName);
-              },
-              child: Text("상세페이지"),
-            ),
           ],
         ),
       ),
