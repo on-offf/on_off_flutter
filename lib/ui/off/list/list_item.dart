@@ -24,7 +24,11 @@ class ListItem extends StatelessWidget {
                 style: kSubtitle2,
               ),
               SizedBox(width: 14),
-              Icon(Icons.add),
+              Image(
+                image: AssetImage("assets/icons/plus.png"),
+                width: 14,
+                height: 14,
+              ),
               SizedBox(width: 14),
               Expanded(
                 child: Container(

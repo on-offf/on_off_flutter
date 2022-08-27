@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:on_off/domain/model/content.dart';
+import 'package:on_off/ui/off/detail/off_detail_screen.dart';
 import 'package:on_off/ui/off/list/list_item.dart';
 
 class OffListScreen extends StatefulWidget {
@@ -34,7 +35,7 @@ class OffListScreen extends StatefulWidget {
       // date: "8월 2일 목요일",
       // time: "오후 12시 33분",
       content:
-          "내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용",
+          "내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용",
       imagePaths: [],
     ),
     Content(
@@ -98,9 +99,38 @@ class _OffListScreenState extends State<OffListScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("앱바자리"),
-        backgroundColor: Theme.of(context).primaryColor,
-        foregroundColor: Colors.black,
+        toolbarHeight: 77,
+        automaticallyImplyLeading: false,
+        actions: [
+          GestureDetector(
+            onTap: () {
+              print('click change on & off');
+            },
+            child: const Image(
+              image: AssetImage("assets/icons/change_category.png"),
+              width: 22,
+              height: 28,
+            ),
+          ),
+          const SizedBox(
+            width: 14.42,
+          ),
+          GestureDetector(
+            onTap: () {
+              print('click setting');
+            },
+            child: const Image(
+              image: AssetImage("assets/icons/setting.png"),
+              width: 24.17,
+              height: 24.76,
+            ),
+          ),
+          const SizedBox(
+            width: 11.41,
+          ),
+        ],
+        elevation: 0.0,
+        backgroundColor: Theme.of(context).canvasColor,
       ),
       body: Container(
         padding: const EdgeInsets.symmetric(
@@ -111,7 +141,18 @@ class _OffListScreenState extends State<OffListScreen> {
           removeTop: true,
           child: ListView.builder(
             itemBuilder: ((context, index) {
-              return ListItem(content: widget.contents[index]);
+              return GestureDetector(
+                child: ListItem(content: widget.contents[index]),
+                onTap: () {
+                  Navigator.pushNamed(
+                    context,
+                    OffDetailScreen.routeName,
+                    arguments: {
+                      'content': widget.contents[index],
+                    },
+                  );
+                },
+              );
             }),
             itemCount: widget.contents.length,
           ),
