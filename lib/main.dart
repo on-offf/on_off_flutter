@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:intl/date_symbol_data_local.dart';
+import 'package:on_off/routes.dart';
 
-void main() {
+void main() async {
+  initializeDateFormatting('ko_KR', null);
   runApp(const MyApp());
 }
 
@@ -10,15 +13,14 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'ON & OFF',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primaryColor: Color(0xff219EBC),
+        canvasColor: Color(0xffebebeb),
       ),
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text('Title'),
-        ),
-      ),
+      initialRoute: '/',
+      routes: Routes.routes,
     );
   }
 }
