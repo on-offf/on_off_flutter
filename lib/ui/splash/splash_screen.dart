@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:on_off/ui/off/home/off_home_screen.dart';
+import 'package:on_off/ui/off/list/off_list_screen.dart';
+import 'package:on_off/ui/off/write/off_write_screen.dart';
 import 'package:on_off/ui/splash/components/splash_swipe.dart';
 
 class SplashScreen extends StatelessWidget {
@@ -10,9 +13,11 @@ class SplashScreen extends StatelessWidget {
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: const [
+          children: [
             SplashSwipe(),
-            SizedBox(height: 10.44,),
+            SizedBox(
+              height: 10.44,
+            ),
             Text(
               '원하는 옵션으로 밀어주세요!',
               style: TextStyle(
@@ -21,6 +26,28 @@ class SplashScreen extends StatelessWidget {
                 letterSpacing: 0.15,
                 height: 1.5,
               ),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pushNamed(context, OffHomeScreen.routeName);
+              },
+              child: Text("홈"),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pushNamed(context, OffWriteScreen.routeName);
+              },
+              child: Text("작성"),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pushNamed(context, OffListScreen.routeName);
+              },
+              child: Text("리스트"),
+            ),
+            ElevatedButton(
+              onPressed: () {},
+              child: Text("상세페이지"),
             ),
           ],
         ),
