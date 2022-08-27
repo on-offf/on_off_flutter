@@ -22,8 +22,9 @@ class SplashSwipe extends StatelessWidget {
                 ),
               ),
               child: Padding(
-                padding: const EdgeInsets.symmetric(
-                    vertical: 0, horizontal: 16),
+                padding: const EdgeInsets.only(
+                  left: 23.68, right: 15.86
+                ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: const [

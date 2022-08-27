@@ -8,7 +8,7 @@ abstract class ColorConst {
 
   Color black = const Color(0xff000000);
   Color darkGray = const Color(0xff4F4F4F);
-  Color gray = const Color(0xffBDBDBD);
+  Color gray = const Color(0xffB3B3B3);
   Color lightGray = const Color(0xffE7E7E7);
 
   Color getPrimary();

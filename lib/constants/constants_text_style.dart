@@ -15,18 +15,18 @@ const TextStyle kSubtitle1 = TextStyle(
 );
 
 const TextStyle kSubtitle2 = TextStyle(
-  height: 1.714,
-  fontSize: 14,
-  fontWeight: FontWeight.w700,
+  height: 1.448,
+  fontSize: 16,
+  fontWeight: FontWeight.w400,
   letterSpacing: 0.1,
 );
 
-const TextStyle kBody1 = TextStyle(
-  height: 1.75,
-  fontSize: 16,
-  fontWeight: FontWeight.w300,
-  letterSpacing: 0.44,
-);
+// const TextStyle kBody1 = TextStyle(
+//   height: 1.75,
+//   fontSize: 16,
+//   fontWeight: FontWeight.w300,
+//   letterSpacing: 0.44,
+// );
 
 const TextStyle kBody2 = TextStyle(
   height: 1.428,
