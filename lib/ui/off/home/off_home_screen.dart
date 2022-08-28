@@ -1,4 +1,3 @@
-import 'dart:math' as math;
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -6,10 +5,10 @@ import 'package:on_off/domain/model/content.dart';
 import 'package:on_off/ui/off/home/components/off_home_calendar.dart';
 
 import 'package:on_off/constants/constants_text_style.dart';
+import 'package:on_off/ui/off/home/components/off_home_item.dart';
 
 class OffHomeScreen extends StatelessWidget {
   static const routeName = '/off/home';
-  CarouselController carouselController = CarouselController();
 
   OffHomeScreen({Key? key}) : super(key: key);
 
@@ -123,128 +122,14 @@ class OffHomeScreen extends StatelessWidget {
         padding: const EdgeInsets.only(left: 37, right: 37, bottom: 41),
         child: ListView(
           children: [
-            OffHomeCalendar(),
-            SizedBox(
+            const OffHomeCalendar(),
+            const SizedBox(
               height: 47.5,
             ),
-            Row(
-              children: [
-                Text(
-                  DateFormat.MMMMEEEEd('ko_KR').format(content.time),
-                  style: kSubtitle2,
-                ),
-                SizedBox(width: 14),
-                Image(
-                  image: AssetImage("assets/icons/plus.png"),
-                  width: 14,
-                  height: 14,
-                ),
-                SizedBox(width: 14),
-                Expanded(
-                  child: Container(
-                    height: 2,
-                    color: Theme.of(context).primaryColor,
-                  ),
-                ),
-              ],
+            OffHomeItem(
+              content: content,
             ),
-            SizedBox(height: 23),
-            content.imagePaths.isEmpty
-                ? SizedBox()
-                : SizedBox(
-                    width: 313,
-                    height: 240,
-                    child: Stack(
-                      children: [
-                        CarouselSlider(
-                          carouselController: carouselController,
-                          options: CarouselOptions(
-                            initialPage: 0,
-                            enableInfiniteScroll: false,
-                            viewportFraction: 1.0,
-                            aspectRatio: 313 / 240,
-                          ),
-                          items: content.imagePaths.map((img) {
-                            return Container(
-                              child: Image.asset(
-                                img,
-                                fit: BoxFit.fill,
-                              ),
-                            );
-                          }).toList(),
-                        ),
-                        Align(
-                          alignment: Alignment.centerLeft,
-                          child: IconButton(
-                            onPressed: () {
-                              // Use the controller to change the current page
-                              carouselController.previousPage();
-                            },
-                            icon: Transform.rotate(
-                              angle: 180 * math.pi / 180,
-                              child: Icon(
-                                Icons.double_arrow_sharp,
-                                color: Colors.white,
-                              ),
-                            ),
-                          ),
-                        ),
-                        Align(
-                          alignment: Alignment.centerRight,
-                          child: IconButton(
-                            onPressed: () {
-                              // Use the controller to change the current page
-                              carouselController.nextPage();
-                            },
-                            icon: Icon(
-                              Icons.double_arrow_sharp,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-            content.imagePaths.isEmpty ? SizedBox() : SizedBox(height: 15),
-            Row(
-              children: [
-                Text(
-                  "오늘의 일기",
-                  style: kSubtitle1,
-                ),
-                SizedBox(
-                  width: 40.5,
-                ),
-                Expanded(
-                  child: Container(
-                    height: 2,
-                    decoration: BoxDecoration(
-                      color: Color(0xff219EBC),
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(2.0),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(height: 10),
-            Row(
-              children: [
-                Text(
-                  DateFormat('오후 HH:MM', 'ko_KR').format(content.time),
-                  style: kSubtitle2,
-                ),
-              ],
-            ),
-            SizedBox(height: 7),
-            Container(
-              child: Text(
-                content.content,
-                softWrap: true,
-              ),
-            ),
-            SizedBox(height: 41),
+            const SizedBox(height: 41),
           ],
         ),
       ),
