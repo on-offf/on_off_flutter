@@ -13,8 +13,8 @@ PreferredSize offAppBar(BuildContext context) {
           },
           child: const Image(
             image: AssetImage("assets/icons/change_category.png"),
-            width: 22,
-            height: 28,
+            width: 17,
+            height: 26,
           ),
         ),
         const SizedBox(
