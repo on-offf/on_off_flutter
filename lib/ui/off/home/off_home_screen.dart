@@ -8,7 +8,7 @@ import 'package:on_off/ui/off/home/components/off_home_item.dart';
 class OffHomeScreen extends StatelessWidget {
   static const routeName = '/off/home';
 
-  OffHomeScreen({Key? key}) : super(key: key);
+  const OffHomeScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -79,7 +79,7 @@ class OffHomeScreen extends StatelessWidget {
       ),
     ];
 
-    final Content content = contents[0];
+    final Content content = contents[4];
 
     return Scaffold(
       appBar: offAppBar(context),

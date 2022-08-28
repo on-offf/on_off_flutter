@@ -17,7 +17,7 @@ class _OffHomeCalendarState extends State<OffHomeCalendar> {
     return TableCalendar(
       locale: 'ko-KR',
       headerVisible: false,
-      focusedDay: DateTime.now(),
+      focusedDay: _focusedDay,
       firstDay: DateTime.utc(1900, 1, 1),
       lastDay: DateTime.utc(2099, 12, 31),
       onDaySelected: _onDaySelected(),
