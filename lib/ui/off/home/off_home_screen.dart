@@ -1,10 +1,8 @@
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:on_off/domain/model/content.dart';
+import 'package:on_off/ui/components/off_appbar.dart';
 import 'package:on_off/ui/off/home/components/off_home_calendar.dart';
 
-import 'package:on_off/constants/constants_text_style.dart';
 import 'package:on_off/ui/off/home/components/off_home_item.dart';
 
 class OffHomeScreen extends StatelessWidget {
@@ -84,40 +82,7 @@ class OffHomeScreen extends StatelessWidget {
     final Content content = contents[0];
 
     return Scaffold(
-      appBar: AppBar(
-        toolbarHeight: 77,
-        automaticallyImplyLeading: false,
-        actions: [
-          GestureDetector(
-            onTap: () {
-              print('click change on & off');
-            },
-            child: const Image(
-              image: AssetImage("assets/icons/change_category.png"),
-              width: 22,
-              height: 28,
-            ),
-          ),
-          const SizedBox(
-            width: 14.42,
-          ),
-          GestureDetector(
-            onTap: () {
-              print('click setting');
-            },
-            child: const Image(
-              image: AssetImage("assets/icons/setting.png"),
-              width: 24.17,
-              height: 24.76,
-            ),
-          ),
-          const SizedBox(
-            width: 11.41,
-          ),
-        ],
-        elevation: 0.0,
-        backgroundColor: Theme.of(context).canvasColor,
-      ),
+      appBar: offAppBar(context),
       body: Padding(
         padding: const EdgeInsets.only(left: 37, right: 37, bottom: 41),
         child: ListView(
