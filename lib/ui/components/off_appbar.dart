@@ -31,7 +31,7 @@ PreferredSize offAppBar(BuildContext context) {
           ),
         ),
         const SizedBox(
-          width: 11.41,
+          width: 40,
         ),
       ],
       elevation: 0.0,

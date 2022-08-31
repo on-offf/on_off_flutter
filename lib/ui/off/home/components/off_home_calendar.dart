@@ -50,7 +50,7 @@ class _OffHomeCalendarState extends State<OffHomeCalendar> {
         fontWeight: FontWeight.w400,
         fontSize: 11,
         height: 1.21,
-        color: Color(0xffFF0000),
+        color: Color(0xff219EBC),
       ),
     );
   }
@@ -78,7 +78,7 @@ class _OffHomeCalendarState extends State<OffHomeCalendar> {
         fontWeight: FontWeight.w400,
         fontSize: 11,
         height: 1.21,
-        color: Color(0xffFF0000),
+        color: Color(0xff219EBC),
       ),
       todayDecoration: BoxDecoration(
         color: Color(0xFF219EBC),
