@@ -1,6 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
+import 'package:on_off/domain/icon/icon.dart';
 
 class IconSheet extends StatelessWidget {
   BuildContext context;
@@ -16,18 +16,18 @@ class IconSheet extends StatelessWidget {
 
   //off 화면의 아이콘 리스트
   List<String> iconPaths = [
-    "assets/icons/expression_normal.png",
-    "assets/icons/expression_smile.png",
-    "assets/icons/expression_little_sad.png",
-    "assets/icons/expression_sleep.png",
-    "assets/icons/expression_angry.png",
-    "assets/icons/expression_small_eye.png",
-    "assets/icons/wine_glass.png",
-    "assets/icons/star.png",
-    "assets/icons/rice.png",
-    "assets/icons/note.png",
-    "assets/icons/weather_snow.png",
-    "assets/icons/weather_sunny.png",
+    IconPath.expressionNormal.name,
+    IconPath.expressionSmile.name,
+    IconPath.expressionLittleSad.name,
+    IconPath.expressionSleep.name,
+    IconPath.expressionAngry.name,
+    IconPath.expressionSmallEye.name,
+    IconPath.wineGlass.name,
+    IconPath.star.name,
+    IconPath.rice.name,
+    IconPath.note.name,
+    IconPath.weatherSnow.name,
+    IconPath.weatherSunny.name,
   ];
 
   @override
