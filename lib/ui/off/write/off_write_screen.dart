@@ -1,7 +1,9 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:on_off/constants/constants_text_style.dart';
+import 'package:on_off/ui/components/build_selected_icons.dart';
+import 'package:on_off/ui/components/icon_sheet.dart';
 import 'package:on_off/ui/components/off_appbar.dart';
+import 'package:on_off/ui/components/plus_button.dart';
 
 class OffWriteScreen extends StatefulWidget {
   static const routeName = "/off/write";
@@ -15,25 +17,20 @@ class OffWriteScreen extends StatefulWidget {
 class _OffWriteScreenState extends State<OffWriteScreen> {
   var bodyController = TextEditingController();
   bool isClicked = false;
-  List<String> iconPaths = [];
-  final LayerLink _selectIconSheet = LayerLink();
+  List<String> seletcedIconPaths = [];
 
-  IconButton _buildImage(String imagePath) {
-    return IconButton(
-      onPressed: () => selectIcon(imagePath),
-      padding: EdgeInsets.all(0),
-      icon: Image(
-        image: AssetImage(imagePath),
-        width: 48,
-        height: 48,
-      ),
-    );
+  final LayerLink selectIconSheetLink = LayerLink();
+
+  void clickAddIcon() {
+    setState(() {
+      isClicked = !isClicked;
+    });
   }
 
-  void selectIcon(String imagePath) {
+  void actionAfterSelect(String imagePath) {
     setState(() {
       isClicked = false;
-      iconPaths.add(imagePath);
+      seletcedIconPaths.add(imagePath);
     });
   }
 
@@ -70,7 +67,7 @@ class _OffWriteScreenState extends State<OffWriteScreen> {
                 Row(
                   children: [
                     CompositedTransformTarget(
-                      link: _selectIconSheet,
+                      link: selectIconSheetLink,
                       child: Text(
                         "8월 2일 목요일",
                         style: kSubtitle2,
@@ -79,33 +76,9 @@ class _OffWriteScreenState extends State<OffWriteScreen> {
                     SizedBox(
                       width: 8,
                     ),
-                    if (iconPaths.length > 0)
-                      for (var i in iconPaths)
-                        Image(
-                          image: AssetImage(i),
-                          width: 14,
-                          height: 14,
-                        ),
-                    IconButton(
-                      padding: EdgeInsets.zero,
-                      constraints: BoxConstraints(),
-                      onPressed: () {
-                        setState(() {
-                          isClicked = !isClicked;
-                        });
-                      },
-                      icon: isClicked
-                          ? Image(
-                              image: AssetImage("assets/icons/minus.png"),
-                              width: 14,
-                              height: 14,
-                            )
-                          : Image(
-                              image: AssetImage("assets/icons/plus.png"),
-                              width: 14,
-                              height: 14,
-                            ),
-                    ),
+                    ...buildSelectedIcons(seletcedIconPaths),
+                    PlusButton(
+                        isClicked: isClicked, actionAfterClick: clickAddIcon),
                     SizedBox(
                       width: 8,
                     ),
@@ -146,49 +119,10 @@ class _OffWriteScreenState extends State<OffWriteScreen> {
               ],
             ),
             isClicked
-                ? Positioned(
-                    child: CompositedTransformFollower(
-                      link: _selectIconSheet,
-                      showWhenUnlinked: false,
-                      offset: Offset(0, 23),
-                      child: Container(
-                        width: 314,
-                        height: 254,
-                        padding: EdgeInsets.all(30),
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                            color: Theme.of(context).primaryColor,
-                            width: 3,
-                          ),
-                          borderRadius: BorderRadius.circular(29),
-                          color: Theme.of(context).canvasColor,
-                        ),
-                        child: GridView(
-                          children: <Widget>[
-                            _buildImage("assets/icons/expression_normal.png"),
-                            _buildImage("assets/icons/expression_smile.png"),
-                            _buildImage(
-                                "assets/icons/expression_little_sad.png"),
-                            _buildImage("assets/icons/expression_sleep.png"),
-                            _buildImage("assets/icons/expression_angry.png"),
-                            _buildImage(
-                                "assets/icons/expression_small_eye.png"),
-                            _buildImage("assets/icons/wine_glass.png"),
-                            _buildImage("assets/icons/star.png"),
-                            _buildImage("assets/icons/rice.png"),
-                            _buildImage("assets/icons/note.png"),
-                            _buildImage("assets/icons/weather_snow.png"),
-                            _buildImage("assets/icons/weather_sunny.png"),
-                          ],
-                          gridDelegate:
-                              SliverGridDelegateWithMaxCrossAxisExtent(
-                            maxCrossAxisExtent: 60,
-                            crossAxisSpacing: 20,
-                            mainAxisSpacing: 20,
-                          ),
-                        ),
-                      ),
-                    ),
+                ? IconSheet(
+                    context: context,
+                    link: selectIconSheetLink,
+                    actionAfterSelect: actionAfterSelect,
                   )
                 : SizedBox()
           ],
