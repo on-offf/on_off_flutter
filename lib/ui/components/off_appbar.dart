@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:on_off/domain/icon/icon.dart';
 
 PreferredSize offAppBar(BuildContext context) {
   return PreferredSize(
@@ -11,8 +12,8 @@ PreferredSize offAppBar(BuildContext context) {
           onTap: () {
             print('click change on & off');
           },
-          child: const Image(
-            image: AssetImage("assets/icons/change_category.png"),
+          child: Image(
+            image: AssetImage(IconPath.changeCategory.name),
             width: 17,
             height: 26,
           ),
@@ -24,8 +25,8 @@ PreferredSize offAppBar(BuildContext context) {
           onTap: () {
             print('click setting');
           },
-          child: const Image(
-            image: AssetImage("assets/icons/setting.png"),
+          child: Image(
+            image: AssetImage(IconPath.setting.name),
             width: 24.17,
             height: 24.76,
           ),
