@@ -1,4 +1,4 @@
-enum Icon {
+enum IconPath {
   plus,
   minus,
   expressionNormal,
@@ -18,42 +18,42 @@ enum Icon {
   setting,
 }
 
-extension IconExtension on Icon {
+extension IconExtension on IconPath {
   String get name {
     switch (this) {
-      case Icon.plus:
+      case IconPath.plus:
         return "assets/icons/plus.png";
-      case Icon.minus:
+      case IconPath.minus:
         return "assets/icons/minus.png";
-      case Icon.expressionNormal:
+      case IconPath.expressionNormal:
         return "assets/icons/expression_normal.png";
-      case Icon.expressionSmile:
+      case IconPath.expressionSmile:
         return "assets/icons/expression_smile.png";
-      case Icon.expressionLittleSad:
+      case IconPath.expressionLittleSad:
         return "assets/icons/expression_little_sad.png";
-      case Icon.expressionSleep:
+      case IconPath.expressionSleep:
         return "assets/icons/expression_sleep.png";
-      case Icon.expressionAngry:
+      case IconPath.expressionAngry:
         return "assets/icons/expression_angry.png";
-      case Icon.expressionSmallEye:
+      case IconPath.expressionSmallEye:
         return "assets/icons/expression_small_eye.png";
-      case Icon.wineGlass:
+      case IconPath.wineGlass:
         return "assets/icons/wine_glass.png";
-      case Icon.star:
+      case IconPath.star:
         return "assets/icons/star.png";
-      case Icon.rice:
+      case IconPath.rice:
         return "assets/icons/rice.png";
-      case Icon.note:
+      case IconPath.note:
         return "assets/icons/note.png";
-      case Icon.weatherSnow:
+      case IconPath.weatherSnow:
         return "assets/icons/weather_snow.png";
-      case Icon.weatherSunny:
+      case IconPath.weatherSunny:
         return "assets/icons/weather_sunny.png";
-      case Icon.changeCategory:
+      case IconPath.changeCategory:
         return "assets/icons/change_category.png";
-      case Icon.downArrow:
+      case IconPath.downArrow:
         return "assets/icons/down_arrow.png ";
-      case Icon.setting:
+      case IconPath.setting:
         return "assets/icons/setting.png";
       default:
         return "";

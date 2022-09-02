@@ -16,18 +16,19 @@ class IconSheet extends StatelessWidget {
 
   //off 화면의 아이콘 리스트
   List<String> iconPaths = [
-    "assets/icons/expression_normal.png",
-    "assets/icons/expression_smile.png",
-    "assets/icons/expression_little_sad.png",
-    "assets/icons/expression_sleep.png",
-    "assets/icons/expression_angry.png",
-    "assets/icons/expression_small_eye.png",
-    "assets/icons/wine_glass.png",
-    "assets/icons/star.png",
-    "assets/icons/rice.png",
-    "assets/icons/note.png",
-    "assets/icons/weather_snow.png",
-    "assets/icons/weather_sunny.png",
+    // "assets/icons/expression_normal.png",
+    // "assets/icons/expression_smile.png",
+    // "assets/icons/expression_little_sad.png",
+    // "assets/icons/expression_sleep.png",
+    // "assets/icons/expression_angry.png",
+    // "assets/icons/expression_small_eye.png",
+    // "assets/icons/wine_glass.png",
+    // "assets/icons/star.png",
+    // "assets/icons/rice.png",
+    // "assets/icons/note.png",
+    // "assets/icons/weather_snow.png",
+    // "assets/icons/weather_sunny.png",
+    Icon.plus,
   ];
 
   @override
