@@ -1,8 +1,11 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+
 import 'package:on_off/constants/constants_text_style.dart';
 import 'package:on_off/domain/icon/icon.dart';
 import 'package:on_off/ui/components/build_selected_icons.dart';
-import 'package:on_off/ui/components/icons_stick_keyboard.dart';
+import 'package:on_off/ui/components/image_input.dart';
 import 'package:on_off/ui/components/off_appbar.dart';
 import 'package:on_off/ui/components/plus_button.dart';
 
@@ -21,6 +24,12 @@ class _OffWriteScreenState extends State<OffWriteScreen> {
   List<String> seletcedIconPaths = [];
   final LayerLink selectIconSheetLink = LayerLink();
   bool isClicked = false;
+
+  late File _pickedImage;
+
+  void _selectImage(File pickedImage) {
+    _pickedImage = pickedImage;
+  }
 
   void changeByFocus(bool hasFocus) {
     if (hasFocus == true) {
@@ -165,7 +174,10 @@ class _OffWriteScreenState extends State<OffWriteScreen> {
                         ),
                         SizedBox(width: 20),
                         IconButton(
-                          onPressed: () {},
+                          onPressed: () async {
+                            await inputImage(1, _selectImage);
+                            print("$_pickedImage");
+                          },
                           padding: EdgeInsets.all(0),
                           icon: Image(
                             image: AssetImage(IconPath.clip.name),
