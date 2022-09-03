@@ -16,23 +16,8 @@ class OffWriteScreen extends StatefulWidget {
 
 class _OffWriteScreenState extends State<OffWriteScreen> {
   var bodyController = TextEditingController();
-  // bool isClicked = false;
   List<String> seletcedIconPaths = [];
-
   final LayerLink selectIconSheetLink = LayerLink();
-
-  // void clickAddIcon() {
-  //   setState(() {
-  //     isClicked = !isClicked;
-  //   });
-  // }
-
-  // void actionAfterSelect(String imagePath) {
-  //   setState(() {
-  //     isClicked = false;
-  //     seletcedIconPaths.add(imagePath);
-  //   });
-  // }
 
   @override
   Widget build(BuildContext context) {
