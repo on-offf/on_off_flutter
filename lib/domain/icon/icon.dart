@@ -1,5 +1,3 @@
-import 'dart:html';
-
 enum IconPath {
   plus,
   minus,
