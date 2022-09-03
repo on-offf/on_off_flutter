@@ -4,6 +4,6 @@ import 'package:on_off/constants/color_constants.dart';
 part 'setting_event.freezed.dart';
 
 @freezed
-class SettingEvent with _$SettingEvent {
-  const factory SettingEvent._changeMainColor(ColorConst colorConst) = ChangeMainColor;
+abstract class SettingEvent with _$SettingEvent {
+  const factory SettingEvent.changeMainColor(ColorConst colorConst) = ChangeMainColor;
 }
