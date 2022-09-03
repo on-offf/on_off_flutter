@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:on_off/constants/color_constants.dart';
-import 'package:on_off/main_view_model/main_state.dart';
+import 'package:on_off/ui/setting/setting_state.dart';
 
-class MainViewModel with ChangeNotifier {
-  MainState _state = MainState(
+class SettingViewModel with ChangeNotifier {
+  SettingState _state = SettingState(
       colorConst: OceanMainColor(),
   );
 
-  MainState get state => _state;
+  SettingState get state => _state;
 
   void _changeMainColor(ColorConst colorConst) {
     _state = _state.copyWith(colorConst: colorConst);

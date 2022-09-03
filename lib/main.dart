@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:on_off/di/provider_setup.dart';
-import 'package:on_off/main_view_model/main_view_model.dart';
 import 'package:on_off/routes.dart';
+import 'package:on_off/ui/setting/setting_view_model.dart';
 import 'package:provider/provider.dart';
 
 void main() async {
@@ -24,8 +24,8 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final viewModel = context.watch<MainViewModel>();
-    final state = viewModel.state;
+    final settingViewModel = context.watch<SettingViewModel>();
+    final state = settingViewModel.state;
 
     return GestureDetector(
       onTap: () {

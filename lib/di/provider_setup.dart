@@ -1,7 +1,10 @@
 import 'package:on_off/data/data_source/db/off/off_diary_dao.dart';
 import 'package:on_off/data/data_source/db/off/off_icon_dao.dart';
 import 'package:on_off/data/data_source/db/off/off_image_dao.dart';
-import 'package:on_off/main_view_model/main_view_model.dart';
+import 'package:on_off/domain/use_case/data_source/off_diary_use_case.dart';
+import 'package:on_off/domain/use_case/data_source/off_icon_use_case.dart';
+import 'package:on_off/domain/use_case/data_source/off_image_use_case.dart';
+import 'package:on_off/ui/setting/setting_view_model.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
 import 'package:sqflite/sqflite.dart';
@@ -25,9 +28,15 @@ Future<List<SingleChildWidget>> getProviders() async {
   OffImageDAO offImageDAO = OffImageDAO(database);
   OffIconDAO offIconDAO = OffIconDAO(database);
 
+  OffDiaryUseCase offDiaryUseCase = OffDiaryUseCase(offDiaryDAO);
+  OffImageUseCase offImageUseCase = OffImageUseCase(offImageDAO);
+  OffIconUseCase offIconUseCase = OffIconUseCase(offIconDAO);
+
+  
+
 
 
   return [
-    ChangeNotifierProvider(create: (_) => MainViewModel()),
+    ChangeNotifierProvider(create: (_) => SettingViewModel()),
   ];
 }
