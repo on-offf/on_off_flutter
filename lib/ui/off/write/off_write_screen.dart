@@ -174,9 +174,8 @@ class _OffWriteScreenState extends State<OffWriteScreen> {
                         ),
                         SizedBox(width: 20),
                         IconButton(
-                          onPressed: () async {
-                            await inputImage(1, _selectImage);
-                            print("$_pickedImage");
+                          onPressed: () {
+                            inputImage(1, _selectImage);
                           },
                           padding: EdgeInsets.all(0),
                           icon: Image(
