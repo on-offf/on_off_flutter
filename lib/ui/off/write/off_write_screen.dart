@@ -17,30 +17,28 @@ class OffWriteScreen extends StatefulWidget {
 
 class _OffWriteScreenState extends State<OffWriteScreen> {
   final FocusNode _focus = FocusNode();
-  var bodyController = TextEditingController();
+  final TextEditingController bodyController = TextEditingController();
   List<String> seletcedIconPaths = [];
   final LayerLink selectIconSheetLink = LayerLink();
   bool isClicked = false;
 
-  void clickText() {
-    setState(() {
-      isClicked = !isClicked;
-    });
+  void changeByFocus(bool hasFocus) {
+    if (hasFocus == true) {
+      setState(() {
+        isClicked = true;
+      });
+    } else {
+      setState(() {
+        isClicked = false;
+      });
+    }
   }
 
   @override
   void initState() {
     super.initState();
     _focus.addListener(() {
-      if (_focus.hasFocus == true) {
-        setState(() {
-          isClicked = true;
-        });
-      } else {
-        setState(() {
-          isClicked = false;
-        });
-      }
+      changeByFocus(_focus.hasFocus);
     });
   }
 
@@ -124,6 +122,7 @@ class _OffWriteScreenState extends State<OffWriteScreen> {
                 ),
                 Expanded(
                   child: TextField(
+                    focusNode: _focus,
                     controller: bodyController,
                     style: kBody2,
                     decoration: const InputDecoration(
@@ -131,7 +130,7 @@ class _OffWriteScreenState extends State<OffWriteScreen> {
                       focusedBorder: InputBorder.none,
                       border: InputBorder.none,
                     ),
-                    focusNode: _focus,
+                    maxLines: null,
                   ),
                 ),
               ],
@@ -144,6 +143,7 @@ class _OffWriteScreenState extends State<OffWriteScreen> {
                   child: Container(
                     height: 56,
                     decoration: BoxDecoration(
+                      color: Theme.of(context).canvasColor,
                       border: Border.symmetric(
                         horizontal: BorderSide(
                           width: 1,
