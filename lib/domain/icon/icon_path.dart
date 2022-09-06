@@ -19,6 +19,7 @@ enum IconPath {
   calendarAdd,
   clip,
   trashCan,
+  camera,
 }
 
 extension IconExtension on IconPath {
@@ -64,6 +65,8 @@ extension IconExtension on IconPath {
         return "assets/icons/clip.png";
       case IconPath.trashCan:
         return "assets/icons/trash_can.png";
+      case IconPath.camera:
+        return "assets/icons/camera.png";
       default:
         return "";
     }

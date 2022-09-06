@@ -4,6 +4,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart' as syspaths;
 
+//mode = 0 : 카메라, 1 : 갤러리
 Future<void> inputImage(int mode, onSelectImage,
     {double maxHeight = 600}) async {
   final picker = ImagePicker();

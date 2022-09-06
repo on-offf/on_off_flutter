@@ -175,6 +175,18 @@ class _OffWriteScreenState extends State<OffWriteScreen> {
                         SizedBox(width: 20),
                         IconButton(
                           onPressed: () {
+                            inputImage(0, _selectImage);
+                          },
+                          padding: EdgeInsets.all(0),
+                          icon: Image(
+                            image: AssetImage(IconPath.camera.name),
+                            width: 37,
+                            height: 35,
+                          ),
+                        ),
+                        SizedBox(width: 20),
+                        IconButton(
+                          onPressed: () {
                             inputImage(1, _selectImage);
                           },
                           padding: EdgeInsets.all(0),
