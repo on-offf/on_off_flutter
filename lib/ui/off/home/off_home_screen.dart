@@ -4,7 +4,7 @@ import 'package:on_off/ui/off/home/components/off_home_calendar.dart';
 
 import 'package:on_off/ui/off/home/components/off_home_item.dart';
 
-import 'components/off_focus_month.dart';
+import '../../components/off_focus_month.dart';
 
 class OffHomeScreen extends StatelessWidget {
   static const routeName = '/off/home';

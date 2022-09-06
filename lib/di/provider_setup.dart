@@ -42,7 +42,10 @@ Future<List<SingleChildWidget>> getProviders() async {
     iconUseCase: iconUseCase,
   );
   OffWriteViewModel offWriteViewModel = OffWriteViewModel();
-  OffListViewModel offListViewModel = OffListViewModel();
+  OffListViewModel offListViewModel = OffListViewModel(
+    offDiaryUseCase: offDiaryUseCase,
+    offImageUseCase: offImageUseCase,
+  );
   OffDetailViewModel offDetailViewModel = OffDetailViewModel();
 
   return [
