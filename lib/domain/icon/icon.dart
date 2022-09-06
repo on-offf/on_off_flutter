@@ -16,6 +16,9 @@ enum IconPath {
   changeCategory,
   downArrow,
   setting,
+  calendarAdd,
+  clip,
+  trashCan,
 }
 
 extension IconExtension on IconPath {
@@ -55,6 +58,12 @@ extension IconExtension on IconPath {
         return "assets/icons/down_arrow.png ";
       case IconPath.setting:
         return "assets/icons/setting.png";
+      case IconPath.calendarAdd:
+        return "assets/icons/calendar_add.png";
+      case IconPath.clip:
+        return "assets/icons/clip.png";
+      case IconPath.trashCan:
+        return "assets/icons/trash_can.png";
       default:
         return "";
     }
