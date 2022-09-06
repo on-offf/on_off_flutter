@@ -1,25 +1,25 @@
-import 'package:on_off/data/data_source/db/off/off_icon_dao.dart';
-import 'package:on_off/domain/entity/off/off_icon.dart';
+import 'package:on_off/data/data_source/db/icon_dao.dart';
+import 'package:on_off/domain/entity/off_icon.dart';
 import 'package:on_off/util/date_util.dart';
 
-class OffIconUseCase {
-  final OffIconDAO offIconDAO;
-  OffIconUseCase(this.offIconDAO);
+class IconUseCase {
+  final IconDAO iconDAO;
+  IconUseCase(this.iconDAO);
 
   Future<void> insert(OffIcon offIcon) async {
-    await offIconDAO.insertOffIcon(offIcon);
+    await iconDAO.insertOffIcon(offIcon);
   }
 
   Future<void> delete(OffIcon offIcon) async {
-    await offIconDAO.deleteOffIcon(offIcon);
+    await iconDAO.deleteOffIcon(offIcon);
   }
 
   Future<void> update(OffIcon offIcon) async {
-    await offIconDAO.updateOffIcon(offIcon);
+    await iconDAO.updateOffIcon(offIcon);
   }
 
   Future<OffIcon?> selectOffIcon(int id) async {
-    return await offIconDAO.selectOffIcon(id);
+    return await iconDAO.selectOffIcon(id);
   }
 
   Future<List<OffIcon>> selectListByDateTime(DateTime dateTime) async {
@@ -29,7 +29,7 @@ class OffIconUseCase {
     int unixStartDate = dateTimeToUnixTime(startDate);
     int unixEndDate = dateTimeToUnixTime(endDate);
 
-    return await offIconDAO.selectOffIconList(unixStartDate, unixEndDate);
+    return await iconDAO.selectOffIconList(unixStartDate, unixEndDate);
   }
 
   Future<List<OffIcon>> selectOffIconList(DateTime startDateTime, DateTime endDateTime) async {
@@ -40,7 +40,7 @@ class OffIconUseCase {
     int startUnixTime = dateTimeToUnixTime(startDateTime);
     int endUnixTime = dateTimeToUnixTime(endDateTime);
 
-    return await offIconDAO.selectOffIconList(startUnixTime, endUnixTime);
+    return await iconDAO.selectOffIconList(startUnixTime, endUnixTime);
   }
 
 }

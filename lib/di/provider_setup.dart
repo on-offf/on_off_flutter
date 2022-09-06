@@ -1,9 +1,9 @@
+import 'package:on_off/data/data_source/db/icon_dao.dart';
 import 'package:on_off/data/data_source/db/off/off_diary_dao.dart';
-import 'package:on_off/data/data_source/db/off/off_icon_dao.dart';
 import 'package:on_off/data/data_source/db/off/off_image_dao.dart';
-import 'package:on_off/domain/use_case/data_source/off_diary_use_case.dart';
-import 'package:on_off/domain/use_case/data_source/off_icon_use_case.dart';
-import 'package:on_off/domain/use_case/data_source/off_image_use_case.dart';
+import 'package:on_off/domain/use_case/data_source/icon_use_case.dart';
+import 'package:on_off/domain/use_case/data_source/off/off_diary_use_case.dart';
+import 'package:on_off/domain/use_case/data_source/off/off_image_use_case.dart';
 import 'package:on_off/ui/off/detail/off_detail_view_model.dart';
 import 'package:on_off/ui/off/home/off_home_view_model.dart';
 import 'package:on_off/ui/off/list/off_list_view_model.dart';
@@ -24,19 +24,23 @@ Future<List<SingleChildWidget>> getProviders() async {
       await db.execute(
           'CREATE TABLE off_image (id INTEGER PRIMARY KEY AUTOINCREMENT, dateTime Integer, offDiaryId Integer, path TEXT)');
       await db.execute(
-          'CREATE TABLE off_icon (id INTEGER PRIMARY KEY AUTOINCREMENT, dateTime Integer, name TEXT)');
+          'CREATE TABLE icon (id INTEGER PRIMARY KEY AUTOINCREMENT, dateTime Integer, name TEXT)');
     },
   );
 
   OffDiaryDAO offDiaryDAO = OffDiaryDAO(database);
   OffImageDAO offImageDAO = OffImageDAO(database);
-  OffIconDAO offIconDAO = OffIconDAO(database);
+  IconDAO iconDAO = IconDAO(database);
 
   OffDiaryUseCase offDiaryUseCase = OffDiaryUseCase(offDiaryDAO);
   OffImageUseCase offImageUseCase = OffImageUseCase(offImageDAO);
-  OffIconUseCase offIconUseCase = OffIconUseCase(offIconDAO);
+  IconUseCase iconUseCase = IconUseCase(iconDAO);
 
-  OffHomeViewModel offHomeViewModel = OffHomeViewModel();
+  OffHomeViewModel offHomeViewModel = OffHomeViewModel(
+    offDiaryUseCase: offDiaryUseCase,
+    offImageUseCase: offImageUseCase,
+    offIconUseCase: iconUseCase,
+  );
   OffWriteViewModel offWriteViewModel = OffWriteViewModel();
   OffListViewModel offListViewModel = OffListViewModel();
   OffDetailViewModel offDetailViewModel = OffDetailViewModel();

@@ -1,12 +1,12 @@
-import 'package:on_off/domain/entity/off/off_icon.dart';
+import 'package:on_off/domain/entity/off_icon.dart';
 import 'package:sqflite/sqflite.dart';
 
-class OffIconDAO {
-  static const table = 'off_icon';
+class IconDAO {
+  static const table = 'icon';
 
   final Database database;
 
-  OffIconDAO(this.database);
+  IconDAO(this.database);
 
   Future<void> insertOffIcon(OffIcon offIcon) async {
     await database.insert(table, offIcon.toJson());

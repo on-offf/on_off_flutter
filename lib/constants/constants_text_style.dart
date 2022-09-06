@@ -1,5 +1,12 @@
 import 'package:flutter/widgets.dart';
 
+const TextStyle kTitle2 = TextStyle(
+  fontSize: 16,
+  fontWeight: FontWeight.w400,
+  height: 1.448,
+  letterSpacing: 0.25,
+);
+
 const TextStyle kHeadline6 = TextStyle(
   height: 1.448,
   fontSize: 20,
