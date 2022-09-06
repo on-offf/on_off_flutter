@@ -38,7 +38,7 @@ class OffHomeViewModel with ChangeNotifier {
 
   void _changeCalendarPage(DateTime changeCalendarPage) {
     _state = _state.copyWith(changeCalendarPage: changeCalendarPage);
-    // notifyListeners();
+    notifyListeners();
   }
 
   void _changeSelectedDay(DateTime selectedDay) {

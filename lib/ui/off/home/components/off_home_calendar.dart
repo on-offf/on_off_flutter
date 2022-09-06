@@ -23,13 +23,8 @@ class OffHomeCalendar extends StatelessWidget {
         return isSameDay(state.selectedDay, day);
       },
       onPageChanged: (dateTime) {
-        print(dateTime);
+        viewModel.onEvent(OffHomeEvent.changeFocusedDay(dateTime));
         viewModel.onEvent(OffHomeEvent.changeCalendarPage(dateTime));
-      },
-      eventLoader: (day) {
-        print(day);
-
-        return [];
       },
       daysOfWeekStyle: _daysOfWeekStyle(),
       calendarStyle: _calendarStyle(),
@@ -38,8 +33,6 @@ class OffHomeCalendar extends StatelessWidget {
 
   OnDaySelected _onDaySelected(viewModel) {
     return (selectedDay, focusedDay) {
-      print('selectedDay: $selectedDay');
-      print('focusedDay: $focusedDay');
       viewModel.onEvent(OffHomeEvent.changeSelectedDay(selectedDay));
       viewModel.onEvent(OffHomeEvent.changeFocusedDay(focusedDay));
     };
