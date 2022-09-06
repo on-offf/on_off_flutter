@@ -8,6 +8,11 @@ import 'package:on_off/ui/components/build_selected_icons.dart';
 import 'package:on_off/ui/components/image_input.dart';
 import 'package:on_off/ui/components/off_appbar.dart';
 import 'package:on_off/ui/components/plus_button.dart';
+import 'package:on_off/ui/off/write/components/IconsAboveKeyboard.dart';
+import 'package:on_off/ui/off/write/off_write_event.dart';
+import 'package:on_off/ui/off/write/off_write_state.dart';
+import 'package:on_off/ui/off/write/off_write_view_model.dart';
+import 'package:provider/provider.dart';
 
 class OffWriteScreen extends StatefulWidget {
   static const routeName = "/off/write";
@@ -24,12 +29,6 @@ class _OffWriteScreenState extends State<OffWriteScreen> {
   List<String> seletcedIconPaths = [];
   final LayerLink selectIconSheetLink = LayerLink();
   bool isClicked = false;
-
-  late File _pickedImage;
-
-  void _selectImage(File pickedImage) {
-    _pickedImage = pickedImage;
-  }
 
   void changeByFocus(bool hasFocus) {
     if (hasFocus == true) {
@@ -54,11 +53,15 @@ class _OffWriteScreenState extends State<OffWriteScreen> {
   @override
   void dispose() {
     _focus.dispose();
+    bodyController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    OffWriteViewModel viewModel = context.watch<OffWriteViewModel>();
+    OffWriteState state = viewModel.state;
+
     return Scaffold(
       appBar: offAppBar(context),
       body: Stack(
@@ -147,70 +150,10 @@ class _OffWriteScreenState extends State<OffWriteScreen> {
             ),
           ),
           isClicked
-              ? Positioned(
-                  bottom: 0,
-                  width: MediaQuery.of(context).size.width,
-                  child: Container(
-                    height: 56,
-                    decoration: BoxDecoration(
-                      color: Theme.of(context).canvasColor,
-                      border: Border.symmetric(
-                        horizontal: BorderSide(
-                          width: 1,
-                          color: Theme.of(context).primaryColor,
-                        ),
-                      ),
-                    ),
-                    child: Row(
-                      children: [
-                        SizedBox(width: 38),
-                        IconButton(
-                          onPressed: () {},
-                          padding: EdgeInsets.all(0),
-                          icon: Image(
-                            image: AssetImage(IconPath.calendarAdd.name),
-                            width: 37,
-                            height: 35,
-                          ),
-                        ),
-                        SizedBox(width: 20),
-                        IconButton(
-                          onPressed: () {
-                            inputImage(0, _selectImage);
-                          },
-                          padding: EdgeInsets.all(0),
-                          icon: Image(
-                            image: AssetImage(IconPath.camera.name),
-                            width: 37,
-                            height: 35,
-                          ),
-                        ),
-                        SizedBox(width: 20),
-                        IconButton(
-                          onPressed: () {
-                            inputImage(1, _selectImage);
-                          },
-                          padding: EdgeInsets.all(0),
-                          icon: Image(
-                            image: AssetImage(IconPath.clip.name),
-                            width: 29,
-                            height: 29,
-                          ),
-                        ),
-                        SizedBox(width: 20),
-                        IconButton(
-                          onPressed: () {},
-                          padding: EdgeInsets.all(0),
-                          icon: Image(
-                            image: AssetImage(IconPath.trashCan.name),
-                            width: 29,
-                            height: 29,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                )
+              ? IconsAboveKeyboard(
+                  context: context,
+                  viewModel: viewModel,
+                  bodyController: bodyController)
               : SizedBox(),
         ],
       ),
