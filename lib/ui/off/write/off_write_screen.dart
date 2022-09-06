@@ -101,8 +101,9 @@ class _OffWriteScreenState extends State<OffWriteScreen> {
                     ),
                     ...buildSelectedIcons(seletcedIconPaths),
                     PlusButton(
-                        seletcedIconPaths: seletcedIconPaths,
-                        layerLink: selectIconSheetLink),
+                      seletcedIconPaths: seletcedIconPaths,
+                      layerLink: selectIconSheetLink,
+                    ),
                     SizedBox(
                       width: 8,
                     ),
