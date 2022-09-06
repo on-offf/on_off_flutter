@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:on_off/domain/icon/icon.dart';
+import 'package:on_off/domain/icon/icon_path.dart';
 
 PreferredSize offAppBar(BuildContext context) {
   return PreferredSize(

@@ -1,4 +1,4 @@
-import 'package:on_off/domain/entity/off_icon.dart';
+import 'package:on_off/domain/entity/icon_entity.dart';
 import 'package:sqflite/sqflite.dart';
 
 class IconDAO {
@@ -8,15 +8,15 @@ class IconDAO {
 
   IconDAO(this.database);
 
-  Future<void> insertOffIcon(OffIcon offIcon) async {
+  Future<void> insertOffIcon(IconEntity offIcon) async {
     await database.insert(table, offIcon.toJson());
   }
 
-  Future<void> deleteOffIcon(OffIcon offIcon) async {
+  Future<void> deleteOffIcon(IconEntity offIcon) async {
     await database.delete(table, where: 'id = ?', whereArgs: [offIcon.id]);
   }
 
-  Future<void> updateOffIcon(OffIcon offIcon) async {
+  Future<void> updateOffIcon(IconEntity offIcon) async {
     await database.update(
       table,
       offIcon.toJson(),
@@ -25,24 +25,24 @@ class IconDAO {
     );
   }
 
-  Future<OffIcon?> selectOffIcon(int id) async {
+  Future<IconEntity?> selectOffIcon(int id) async {
     final List<Map<String, dynamic>> maps = await database.query(
       table,
       where: 'id = ?',
       whereArgs: [id],
     );
 
-    if (maps.isNotEmpty) return OffIcon.fromJson(maps.first);
+    if (maps.isNotEmpty) return IconEntity.fromJson(maps.first);
     return null;
   }
 
-  Future<List<OffIcon>> selectOffIconList(int unixStartDate, int unixEndDate) async {
+  Future<List<IconEntity>> selectOffIconList(int unixStartDate, int unixEndDate) async {
     final List<Map<String, dynamic>> maps = await database.query(
       table,
       where: 'dateTime > ? and dateTime < ?',
       whereArgs: [unixStartDate, unixEndDate],
     );
 
-    return maps.map((e) => OffIcon.fromJson(e)).toList();
+    return maps.map((e) => IconEntity.fromJson(e)).toList();
   }
 }

@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 
 import 'package:on_off/constants/constants_text_style.dart';
-import 'package:on_off/domain/icon/icon.dart';
+import 'package:on_off/domain/icon/icon_path.dart';
 import 'package:on_off/ui/components/build_selected_icons.dart';
 import 'package:on_off/ui/components/image_input.dart';
 import 'package:on_off/ui/components/off_appbar.dart';
