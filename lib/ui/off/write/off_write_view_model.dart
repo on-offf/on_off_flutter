@@ -21,6 +21,7 @@ class OffWriteViewModel with ChangeNotifier {
     List<String> seletcedIconPaths = _state.seletcedIconPaths;
     seletcedIconPaths.add(path);
     _state = _state.copyWith(seletcedIconPaths: seletcedIconPaths);
+    notifyListeners();
   }
 
   void _saveTextContent(String text) {

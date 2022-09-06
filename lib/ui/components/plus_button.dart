@@ -1,15 +1,18 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
+import 'package:table_calendar/table_calendar.dart';
 
 import 'package:on_off/domain/icon/icon_path.dart';
 
 class PlusButton extends StatefulWidget {
   List<String> seletcedIconPaths;
   LayerLink layerLink;
+  BuildContext ctx;
   PlusButton({
     Key? key,
     required this.seletcedIconPaths,
     required this.layerLink,
+    required this.ctx,
   }) : super(key: key);
 
   @override
@@ -36,27 +39,29 @@ class _PlusButtonState extends State<PlusButton> {
   bool isClicked = false;
 
   // 드롭박스.
-  OverlayEntry? _overlayEntry;
+  late final OverlayEntry overlayEntry =
+      OverlayEntry(builder: _overlayEntryBuilder);
   static const double _dropdownWidth = 314;
   static const double _dropdownHeight = 254;
 
   // 드롭다운 생성.
-  void _createOverlay() {
-    if (_overlayEntry == null) {
-      _overlayEntry = _buildIconSheet();
-      Overlay.of(context)?.insert(_overlayEntry!);
+  void _insertOverlay() {
+    if (!overlayEntry.mounted) {
+      OverlayState overlayState = Overlay.of(context)!;
+      overlayState.insert(overlayEntry);
     }
   }
 
   // 드롭다운 해제.
   void _removeOverlay() {
-    _overlayEntry?.remove();
-    _overlayEntry = null;
+    if (overlayEntry.mounted) {
+      overlayEntry.remove();
+    }
   }
 
   @override
   void dispose() {
-    _overlayEntry?.dispose();
+    overlayEntry.dispose();
     super.dispose();
   }
 
@@ -78,7 +83,7 @@ class _PlusButtonState extends State<PlusButton> {
     return IconButton(
       padding: EdgeInsets.zero,
       constraints: BoxConstraints(),
-      onPressed: () => _createOverlay,
+      onPressed: () => _insertOverlay,
       icon: isClicked
           ? Image(
               image: AssetImage(IconPath.plus.name),
@@ -93,33 +98,30 @@ class _PlusButtonState extends State<PlusButton> {
     );
   }
 
-  OverlayEntry _buildIconSheet() {
-    return OverlayEntry(
-      maintainState: true,
-      builder: (ctx) => Positioned(
-        child: CompositedTransformFollower(
-          link: widget.layerLink,
-          showWhenUnlinked: false,
-          offset: Offset(0, 23),
-          child: Container(
-            width: _dropdownWidth,
-            height: _dropdownHeight,
-            padding: EdgeInsets.all(30),
-            decoration: BoxDecoration(
-              border: Border.all(
-                color: Theme.of(context).primaryColor,
-                width: 3,
-              ),
-              borderRadius: BorderRadius.circular(29),
-              color: Theme.of(context).canvasColor,
+  Widget _overlayEntryBuilder(BuildContext _) {
+    return Positioned(
+      child: CompositedTransformFollower(
+        link: widget.layerLink,
+        showWhenUnlinked: false,
+        offset: Offset(0, 23),
+        child: Container(
+          width: _dropdownWidth,
+          height: _dropdownHeight,
+          padding: EdgeInsets.all(30),
+          decoration: BoxDecoration(
+            border: Border.all(
+              color: Theme.of(context).primaryColor,
+              width: 3,
             ),
-            child: GridView(
-              children: _buildIconButtonList(),
-              gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                maxCrossAxisExtent: 60,
-                crossAxisSpacing: 20,
-                mainAxisSpacing: 20,
-              ),
+            borderRadius: BorderRadius.circular(29),
+            color: Theme.of(context).canvasColor,
+          ),
+          child: GridView(
+            children: _buildIconButtonList(),
+            gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+              maxCrossAxisExtent: 60,
+              crossAxisSpacing: 20,
+              mainAxisSpacing: 20,
             ),
           ),
         ),
