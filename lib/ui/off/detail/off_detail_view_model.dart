@@ -1,3 +1,4 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:on_off/ui/off/detail/off_detail_event.dart';
 import 'package:on_off/ui/off/detail/off_detail_state.dart';
@@ -5,6 +6,7 @@ import 'package:on_off/ui/off/detail/off_detail_state.dart';
 class OffDetailViewModel with ChangeNotifier {
   OffDetailState _state = OffDetailState(
     currentIndex: 0,
+    carouselController: CarouselController(),
   );
 
   OffDetailState get state => _state;

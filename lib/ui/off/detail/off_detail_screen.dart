@@ -6,21 +6,21 @@ import 'package:intl/intl.dart';
 import 'package:on_off/constants/constants_text_style.dart';
 import 'package:on_off/domain/model/content.dart';
 import 'package:on_off/ui/components/off_appbar.dart';
+import 'package:on_off/ui/off/detail/off_detail_event.dart';
+import 'package:on_off/ui/off/detail/off_detail_state.dart';
+import 'package:on_off/ui/off/detail/off_detail_view_model.dart';
+import 'package:provider/provider.dart';
 
-class OffDetailScreen extends StatefulWidget {
+class OffDetailScreen extends StatelessWidget {
   static const routeName = '/off/detail';
 
   const OffDetailScreen({Key? key}) : super(key: key);
 
   @override
-  State<OffDetailScreen> createState() => _OffDetailScreenState();
-}
-
-class _OffDetailScreenState extends State<OffDetailScreen> {
-  CarouselController carouselController = CarouselController();
-  int _currentIndex = 0;
-  @override
   Widget build(BuildContext context) {
+    OffDetailViewModel viewModel = context.watch<OffDetailViewModel>();
+    OffDetailState state = viewModel.state;
+
     final routeArgs =
         ModalRoute.of(context)!.settings.arguments as Map<String, Content>;
     final Content content = routeArgs['content']!;
@@ -62,15 +62,14 @@ class _OffDetailScreenState extends State<OffDetailScreen> {
                   child: Stack(
                     children: [
                       CarouselSlider(
-                        carouselController: carouselController,
+                        carouselController: state.carouselController,
                         options: CarouselOptions(
                           initialPage: 0,
                           enableInfiniteScroll: false,
                           viewportFraction: 1.0,
                           aspectRatio: 313 / 240,
                           onPageChanged: (index, reason) {
-                            _currentIndex = index;
-                            setState(() {});
+                            viewModel.onEvent(OffDetailEvent.changeCurrentIndex(index));
                           },
                         ),
                         items: content.imagePaths.map((img) {
@@ -82,12 +81,12 @@ class _OffDetailScreenState extends State<OffDetailScreen> {
                           );
                         }).toList(),
                       ),
-                      _currentIndex > 0
+                      state.currentIndex > 0
                           ? Align(
                               alignment: Alignment.centerLeft,
                               child: IconButton(
                                 onPressed: () {
-                                  carouselController.previousPage();
+                                  state.carouselController.previousPage();
                                 },
                                 icon: Transform.rotate(
                                   angle: 180 * math.pi / 180,
@@ -99,12 +98,12 @@ class _OffDetailScreenState extends State<OffDetailScreen> {
                               ),
                             )
                           : SizedBox(),
-                      _currentIndex < content.imagePaths.length - 1
+                      state.currentIndex < content.imagePaths.length - 1
                           ? Align(
                               alignment: Alignment.centerRight,
                               child: IconButton(
                                 onPressed: () {
-                                  carouselController.nextPage();
+                                  state.carouselController.nextPage();
                                 },
                                 icon: Icon(
                                   Icons.double_arrow_sharp,
