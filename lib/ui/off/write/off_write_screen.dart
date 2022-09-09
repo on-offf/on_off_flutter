@@ -8,6 +8,7 @@ import 'package:on_off/ui/components/build_selected_icons.dart';
 import 'package:on_off/ui/components/off_appbar.dart';
 import 'package:on_off/ui/components/plus_button.dart';
 import 'package:on_off/ui/off/write/components/icons_above_keyboard.dart';
+import 'package:on_off/ui/off/write/off_write_event.dart';
 import 'package:on_off/ui/off/write/off_write_state.dart';
 import 'package:on_off/ui/off/write/off_write_view_model.dart';
 import 'package:provider/provider.dart';
@@ -104,11 +105,10 @@ class _OffWriteScreenState extends State<OffWriteScreen> {
                       child: PlusButton(
                         seletcedIconPaths: state.seletcedIconPaths,
                         layerLink: selectIconSheetLink,
+                        actionAfterSelect: (path) => viewModel.onEvent(
+                          OffWriteEvent.addSelectedIconPaths(path),
+                        ),
                       ),
-                      // child: PplusButton(
-                      //   seletcedIconPaths: state.seletcedIconPaths,
-                      //   layerLink: selectIconSheetLink,
-                      // ),
                     ),
                     SizedBox(
                       width: 8,

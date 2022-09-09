@@ -6,10 +6,12 @@ import 'package:on_off/domain/icon/icon_path.dart';
 class PlusButton extends StatefulWidget {
   List<String> seletcedIconPaths;
   LayerLink layerLink;
+  Function actionAfterSelect;
   PlusButton({
     Key? key,
     required this.seletcedIconPaths,
     required this.layerLink,
+    required this.actionAfterSelect,
   }) : super(key: key);
 
   @override
@@ -70,10 +72,11 @@ class _PlusButtonState extends State<PlusButton> {
     });
   }
 
-  void actionAfterSelect(String imagePath) {
+  void _actionAfterSelect(String imagePath) {
     setState(() {
       isClicked = false;
-      widget.seletcedIconPaths.add(imagePath);
+      widget.actionAfterSelect(imagePath);
+      // widget.seletcedIconPaths.add(imagePath);
     });
   }
 
@@ -141,8 +144,11 @@ class _PlusButtonState extends State<PlusButton> {
 
   IconButton _buildIconButton(String imagePath) {
     return IconButton(
-      // onPressed: () => actionAfterSelect(imagePath),
-      onPressed: () => print(imagePath),
+      onPressed: () {
+        _actionAfterSelect(imagePath);
+        _removeOverlay();
+      },
+      // onPressed: () => print(imagePath),
       padding: EdgeInsets.all(0),
       icon: Image(
         image: AssetImage(imagePath),
