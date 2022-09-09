@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:on_off/domain/model/content.dart';
 
@@ -9,6 +10,8 @@ class OffHomeState with _$OffHomeState {
     required DateTime selectedDay,
     required DateTime focusedDay,
     required DateTime changeCalendarPage,
+    required bool offFocusMonthSelected,
+    OverlayEntry? overlayEntry,
     Content? content,
   }) = _OffHomeState;
 }

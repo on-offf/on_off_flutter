@@ -19,7 +19,7 @@ class OffHomeScreen extends StatelessWidget {
         padding: const EdgeInsets.only(left: 37, right: 37, bottom: 41),
         child: ListView(
           children: [
-            const OffFocusMonth(),
+            OffFocusMonth(),
             const OffHomeCalendar(),
             const SizedBox(
               height: 47.5,
