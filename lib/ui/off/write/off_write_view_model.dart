@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:on_off/ui/off/write/off_write_event.dart';
 import 'package:on_off/ui/off/write/off_write_state.dart';
@@ -10,6 +12,7 @@ class OffWriteViewModel with ChangeNotifier {
   void onEvent(OffWriteEvent event) {
     event.when(
       addSelectedIconPaths: _addSelectedIconPaths,
+      addSelectedImagePaths: _addSelectedImagePaths,
       saveTextContent: _saveTextContent,
     );
   }
@@ -19,6 +22,15 @@ class OffWriteViewModel with ChangeNotifier {
     temp.addAll(_state.iconPaths);
     temp.add(path);
     _state = _state.copyWith(iconPaths: temp);
+    notifyListeners();
+  }
+
+  void _addSelectedImagePaths(File path) {
+    List<File> temp = [];
+    print("path $path");
+    temp.addAll(_state.imagePaths);
+    temp.add(path);
+    _state = _state.copyWith(imagePaths: temp);
     notifyListeners();
   }
 

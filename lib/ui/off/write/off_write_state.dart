@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'off_write_state.freezed.dart';
@@ -6,6 +8,6 @@ part 'off_write_state.freezed.dart';
 class OffWriteState with _$OffWriteState {
   factory OffWriteState({
     @Default([]) List<String> iconPaths,
-    @Default([]) List<String> imagePaths,
+    @Default([]) List<File> imagePaths,
   }) = _OffWriteState;
 }

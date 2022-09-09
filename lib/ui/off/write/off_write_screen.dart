@@ -131,6 +131,25 @@ class _OffWriteScreenState extends State<OffWriteScreen> {
                 SizedBox(
                   height: 5,
                 ),
+                SizedBox(
+                  height: 100,
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: state.imagePaths.length,
+                    itemBuilder: (ctx, index) {
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 3.0),
+                        child: Image.file(
+                          state.imagePaths[index],
+                          height: 40,
+                        ),
+                      );
+                    },
+                  ),
+                ),
+                SizedBox(
+                  height: 5,
+                ),
                 Expanded(
                   child: TextField(
                     focusNode: _focus,
