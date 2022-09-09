@@ -24,7 +24,7 @@ class IconsAboveKeyboard extends StatefulWidget {
 }
 
 class _IconsAboveKeyboardState extends State<IconsAboveKeyboard> {
-  late File _pickedImage;
+  File? _pickedImage;
 
   void _selectImage(File pickedImage) {
     _pickedImage = pickedImage;
@@ -48,47 +48,62 @@ class _IconsAboveKeyboardState extends State<IconsAboveKeyboard> {
         ),
         child: Row(
           children: [
-            SizedBox(width: 38),
+            const SizedBox(width: 38),
             IconButton(
               onPressed: () {
                 widget.viewModel.onEvent(
-                    OffWriteEvent.saveTextContent(widget.bodyController.text));
+                  //TODO 글 입력하지 않고 저장하고 싶을때 수정해야 함.
+                  OffWriteEvent.saveTextContent(widget.bodyController.text),
+                );
+                Navigator.of(context).pop();
               },
-              padding: EdgeInsets.all(0),
+              padding: const EdgeInsets.all(0),
               icon: Image(
                 image: AssetImage(IconPath.calendarAdd.name),
                 width: 37,
                 height: 35,
               ),
             ),
-            SizedBox(width: 20),
+            const SizedBox(width: 20),
             IconButton(
-              onPressed: () {
-                inputImage(0, _selectImage);
+              onPressed: () async {
+                await inputImage(0, _selectImage);
+                if (_pickedImage != null) {
+                  widget.viewModel.onEvent(
+                    OffWriteEvent.addSelectedImagePaths(_pickedImage!),
+                  );
+                  _pickedImage = null;
+                }
               },
-              padding: EdgeInsets.all(0),
+              padding: const EdgeInsets.all(0),
               icon: Image(
                 image: AssetImage(IconPath.camera.name),
                 width: 37,
                 height: 35,
               ),
             ),
-            SizedBox(width: 20),
+            const SizedBox(width: 20),
             IconButton(
-              onPressed: () {
-                inputImage(1, _selectImage);
+              onPressed: () async {
+                await inputImage(1, _selectImage);
+                if (_pickedImage != null) {
+                  widget.viewModel.onEvent(
+                    OffWriteEvent.addSelectedImagePaths(_pickedImage!),
+                  );
+                  _pickedImage = null;
+                }
               },
-              padding: EdgeInsets.all(0),
+              padding: const EdgeInsets.all(0),
               icon: Image(
                 image: AssetImage(IconPath.clip.name),
                 width: 29,
                 height: 29,
               ),
             ),
-            SizedBox(width: 20),
+            const SizedBox(width: 20),
             IconButton(
               onPressed: () {},
-              padding: EdgeInsets.all(0),
+              padding: const EdgeInsets.all(0),
               icon: Image(
                 image: AssetImage(IconPath.trashCan.name),
                 width: 29,
