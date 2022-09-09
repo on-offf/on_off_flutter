@@ -52,7 +52,10 @@ class _IconsAboveKeyboardState extends State<IconsAboveKeyboard> {
             IconButton(
               onPressed: () {
                 widget.viewModel.onEvent(
-                    OffWriteEvent.saveTextContent(widget.bodyController.text));
+                  //TODO 글 입력하지 않고 저장하고 싶을때 수정해야 함.
+                  OffWriteEvent.saveTextContent(widget.bodyController.text),
+                );
+                Navigator.of(context).pop();
               },
               padding: const EdgeInsets.all(0),
               icon: Image(
@@ -67,7 +70,8 @@ class _IconsAboveKeyboardState extends State<IconsAboveKeyboard> {
                 await inputImage(0, _selectImage);
                 if (_pickedImage != null) {
                   widget.viewModel.onEvent(
-                      OffWriteEvent.addSelectedImagePaths(_pickedImage!));
+                    OffWriteEvent.addSelectedImagePaths(_pickedImage!),
+                  );
                   _pickedImage = null;
                 }
               },
@@ -84,21 +88,22 @@ class _IconsAboveKeyboardState extends State<IconsAboveKeyboard> {
                 await inputImage(1, _selectImage);
                 if (_pickedImage != null) {
                   widget.viewModel.onEvent(
-                      OffWriteEvent.addSelectedImagePaths(_pickedImage!));
+                    OffWriteEvent.addSelectedImagePaths(_pickedImage!),
+                  );
                   _pickedImage = null;
                 }
               },
-              padding: EdgeInsets.all(0),
+              padding: const EdgeInsets.all(0),
               icon: Image(
                 image: AssetImage(IconPath.clip.name),
                 width: 29,
                 height: 29,
               ),
             ),
-            SizedBox(width: 20),
+            const SizedBox(width: 20),
             IconButton(
               onPressed: () {},
-              padding: EdgeInsets.all(0),
+              padding: const EdgeInsets.all(0),
               icon: Image(
                 image: AssetImage(IconPath.trashCan.name),
                 width: 29,

@@ -11,4 +11,5 @@ abstract class OffWriteEvent with _$OffWriteEvent {
   const factory OffWriteEvent.addSelectedImagePaths(File path) =
       AddSelectedImagePaths;
   const factory OffWriteEvent.saveTextContent(String text) = SaveTextContent;
+  const factory OffWriteEvent.resetState() = ResetState;
 }

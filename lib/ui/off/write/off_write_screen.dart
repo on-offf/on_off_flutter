@@ -24,6 +24,7 @@ class _OffWriteScreenState extends State<OffWriteScreen> {
   final TextEditingController bodyController = TextEditingController();
   final LayerLink selectIconSheetLink = LayerLink();
   bool isClicked = false;
+  OffWriteViewModel? viewModel;
 
   void changeByFocus(bool hasFocus) {
     if (hasFocus == true) {
@@ -49,13 +50,14 @@ class _OffWriteScreenState extends State<OffWriteScreen> {
   void dispose() {
     _focus.dispose();
     bodyController.dispose();
+    viewModel!.onEvent(OffWriteEvent.resetState());
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    OffWriteViewModel viewModel = context.watch<OffWriteViewModel>();
-    OffWriteState state = viewModel.state;
+    viewModel = context.watch<OffWriteViewModel>();
+    OffWriteState state = viewModel!.state;
 
     return Scaffold(
       appBar: offAppBar(context),
@@ -82,7 +84,7 @@ class _OffWriteScreenState extends State<OffWriteScreen> {
                     ),
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 Row(
@@ -94,24 +96,24 @@ class _OffWriteScreenState extends State<OffWriteScreen> {
                         style: kSubtitle2,
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 8,
                     ),
                     ...buildSelectedIcons(state.iconPaths),
                     SizedBox(
                       child: PlusButton(
                         layerLink: selectIconSheetLink,
-                        actionAfterSelect: (path) => viewModel
+                        actionAfterSelect: (path) => viewModel!
                             .onEvent(OffWriteEvent.addSelectedIconPaths(path)),
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 8,
                     ),
                     Expanded(
                       child: Container(
                         height: 2,
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                           color: Color(0xff219EBC),
                           borderRadius: BorderRadius.all(
                             Radius.circular(2.0),
@@ -121,14 +123,14 @@ class _OffWriteScreenState extends State<OffWriteScreen> {
                     ),
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 10,
                 ),
                 Text(
                   "오후 12:33분",
                   style: kSubtitle2,
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 5,
                 ),
                 SizedBox(
@@ -147,7 +149,7 @@ class _OffWriteScreenState extends State<OffWriteScreen> {
                     },
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 5,
                 ),
                 Expanded(
@@ -169,9 +171,9 @@ class _OffWriteScreenState extends State<OffWriteScreen> {
           isClicked
               ? IconsAboveKeyboard(
                   context: context,
-                  viewModel: viewModel,
+                  viewModel: viewModel!,
                   bodyController: bodyController)
-              : SizedBox(),
+              : const SizedBox(),
         ],
       ),
     );

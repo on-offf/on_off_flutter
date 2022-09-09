@@ -14,6 +14,7 @@ class OffWriteViewModel with ChangeNotifier {
       addSelectedIconPaths: _addSelectedIconPaths,
       addSelectedImagePaths: _addSelectedImagePaths,
       saveTextContent: _saveTextContent,
+      resetState: _resetState,
     );
   }
 
@@ -35,6 +36,11 @@ class OffWriteViewModel with ChangeNotifier {
   }
 
   void _saveTextContent(String text) {
+    notifyListeners();
+  }
+
+  void _resetState() {
+    _state = OffWriteState();
     notifyListeners();
   }
 }
