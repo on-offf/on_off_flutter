@@ -8,6 +8,7 @@ import 'package:on_off/ui/off/detail/off_detail_view_model.dart';
 import 'package:on_off/ui/off/home/off_home_view_model.dart';
 import 'package:on_off/ui/off/list/off_list_view_model.dart';
 import 'package:on_off/ui/off/write/off_write_view_model.dart';
+import 'package:on_off/ui/on/home/on_home_view_model.dart';
 import 'package:on_off/ui/provider/ui_provider.dart';
 import 'package:on_off/ui/provider/ui_provider_observe.dart';
 import 'package:provider/provider.dart';
@@ -37,6 +38,8 @@ Future<List<SingleChildWidget>> getProviders() async {
   OffImageUseCase offImageUseCase = OffImageUseCase(offImageDAO);
   IconUseCase iconUseCase = IconUseCase(iconDAO);
 
+
+  // Off View Model
   OffHomeViewModel offHomeViewModel = OffHomeViewModel(
     offDiaryUseCase: offDiaryUseCase,
     offImageUseCase: offImageUseCase,
@@ -51,17 +54,33 @@ Future<List<SingleChildWidget>> getProviders() async {
 
   OffDetailViewModel offDetailViewModel = OffDetailViewModel();
 
+  // On View Model
+  OnHomeViewModel onHomeViewModel = OnHomeViewModel();
+
+
+  // Ui Provider ( common provider )
   List<UiProviderObserve> viewModelList = [];
+
   viewModelList.add(offHomeViewModel);
   viewModelList.add(offListViewModel);
+  viewModelList.add(offDetailViewModel);
+
+  viewModelList.add(onHomeViewModel);
 
   UiProvider uiProvider = UiProvider(viewModelList: viewModelList);
 
   return [
     ChangeNotifierProvider(create: (_) => uiProvider),
+
+    // off
     ChangeNotifierProvider(create: (_) => offWriteViewModel),
     ChangeNotifierProvider(create: (_) => offHomeViewModel),
     ChangeNotifierProvider(create: (_) => offListViewModel),
     ChangeNotifierProvider(create: (_) => offDetailViewModel),
+
+    // on
+    ChangeNotifierProvider(create: (_) => onHomeViewModel),
+
+
   ];
 }
