@@ -1,18 +1,15 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
-import 'package:table_calendar/table_calendar.dart';
 
 import 'package:on_off/domain/icon/icon_path.dart';
 
 class PlusButton extends StatefulWidget {
   List<String> seletcedIconPaths;
   LayerLink layerLink;
-  BuildContext ctx;
   PlusButton({
     Key? key,
     required this.seletcedIconPaths,
     required this.layerLink,
-    required this.ctx,
   }) : super(key: key);
 
   @override
@@ -43,6 +40,7 @@ class _PlusButtonState extends State<PlusButton> {
       OverlayEntry(builder: _overlayEntryBuilder);
   static const double _dropdownWidth = 314;
   static const double _dropdownHeight = 254;
+  // static  LayerLink link = widget.layerLink;
 
   // 드롭다운 생성.
   void _insertOverlay() {
@@ -68,6 +66,7 @@ class _PlusButtonState extends State<PlusButton> {
   void clickAddIcon() {
     setState(() {
       isClicked = !isClicked;
+      isClicked ? _insertOverlay() : _removeOverlay();
     });
   }
 
@@ -83,7 +82,7 @@ class _PlusButtonState extends State<PlusButton> {
     return IconButton(
       padding: EdgeInsets.zero,
       constraints: BoxConstraints(),
-      onPressed: () => _insertOverlay,
+      onPressed: () => clickAddIcon(),
       icon: isClicked
           ? Image(
               image: AssetImage(IconPath.plus.name),
@@ -99,29 +98,32 @@ class _PlusButtonState extends State<PlusButton> {
   }
 
   Widget _overlayEntryBuilder(BuildContext _) {
+    LayerLink link = widget.layerLink;
     return Positioned(
+      width: _dropdownWidth,
+      height: _dropdownHeight,
       child: CompositedTransformFollower(
-        link: widget.layerLink,
-        showWhenUnlinked: false,
+        link: link,
+        // showWhenUnlinked: false,
         offset: Offset(0, 23),
-        child: Container(
-          width: _dropdownWidth,
-          height: _dropdownHeight,
-          padding: EdgeInsets.all(30),
-          decoration: BoxDecoration(
-            border: Border.all(
-              color: Theme.of(context).primaryColor,
-              width: 3,
+        child: Material(
+          child: Container(
+            decoration: BoxDecoration(
+              border: Border.all(
+                color: Theme.of(context).primaryColor,
+                width: 3,
+              ),
+              borderRadius: BorderRadius.circular(29),
+              color: Theme.of(context).canvasColor,
             ),
-            borderRadius: BorderRadius.circular(29),
-            color: Theme.of(context).canvasColor,
-          ),
-          child: GridView(
-            children: _buildIconButtonList(),
-            gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-              maxCrossAxisExtent: 60,
-              crossAxisSpacing: 20,
-              mainAxisSpacing: 20,
+            child: GridView(
+              padding: EdgeInsets.all(30),
+              children: [..._buildIconButtonList()],
+              gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                maxCrossAxisExtent: 60,
+                crossAxisSpacing: 20,
+                mainAxisSpacing: 20,
+              ),
             ),
           ),
         ),
@@ -132,14 +134,15 @@ class _PlusButtonState extends State<PlusButton> {
   List<IconButton> _buildIconButtonList() {
     List<IconButton> res = [];
     for (var i in iconPaths) {
-      res.add(_buildImage(i));
+      res.add(_buildIconButton(i));
     }
     return res;
   }
 
-  IconButton _buildImage(String imagePath) {
+  IconButton _buildIconButton(String imagePath) {
     return IconButton(
-      onPressed: () => actionAfterSelect(imagePath),
+      // onPressed: () => actionAfterSelect(imagePath),
+      onPressed: () => print(imagePath),
       padding: EdgeInsets.all(0),
       icon: Image(
         image: AssetImage(imagePath),
