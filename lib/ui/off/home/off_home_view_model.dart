@@ -7,9 +7,11 @@ import 'package:on_off/domain/use_case/data_source/icon_use_case.dart';
 import 'package:on_off/domain/use_case/data_source/off/off_image_use_case.dart';
 import 'package:on_off/ui/off/home/off_home_event.dart';
 import 'package:on_off/ui/off/home/off_home_state.dart';
+import 'package:on_off/ui/provider/ui_provider_observe.dart';
+import 'package:on_off/ui/provider/ui_state.dart';
 import 'package:on_off/util/date_util.dart';
 
-class OffHomeViewModel with ChangeNotifier {
+class OffHomeViewModel extends UiProviderObserve {
   final OffDiaryUseCase offDiaryUseCase;
   final IconUseCase iconUseCase;
   final OffImageUseCase offImageUseCase;
@@ -21,9 +23,6 @@ class OffHomeViewModel with ChangeNotifier {
   });
 
   OffHomeState _state = OffHomeState(
-    selectedDay: DateTime.now(),
-    focusedDay: DateTime.now(),
-    changeCalendarPage: DateTime.now(),
     offFocusMonthSelected: false,
   );
 
@@ -31,9 +30,6 @@ class OffHomeViewModel with ChangeNotifier {
 
   void onEvent(OffHomeEvent event) {
     event.when(
-      changeSelectedDay: _changeSelectedDay,
-      changeFocusedDay: _changeFocusedDay,
-      changeCalendarPage: _changeCalendarPage,
       offFocusMonthSelected: _offFocusMonthSelected,
       showOverlay: _showOverlay,
       removeOverlay: _removeOverlay,
@@ -56,14 +52,12 @@ class OffHomeViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  void _changeCalendarPage(DateTime changeCalendarPage) {
-    _state = _state.copyWith(changeCalendarPage: changeCalendarPage);
-    notifyListeners();
-  }
+  Future<List<String>> _findImagePathListByDiaryId(int diaryId) async {
+    List<String> imagePathList = [];
 
-  void _changeSelectedDay(DateTime selectedDay) {
-    _state = _state.copyWith(selectedDay: selectedDay);
-    notifyListeners();
+    List<OffImage> imageList = await offImageUseCase.selectOffImageList(diaryId);
+    for (var image in imageList) { imagePathList.add(image.path); }
+    return imagePathList;
   }
 
   void _changeFocusedDay(DateTime focusedDay) async {
@@ -78,19 +72,30 @@ class OffHomeViewModel with ChangeNotifier {
       );
 
       _state = _state.copyWith(content: content);
+      notifyListeners();
+    }
+  }
+
+
+  @override
+  init(UiState uiState) {
+    this.uiState = uiState;
+
+    _changeFocusedDay(uiState.focusedDay);
+  }
+
+  @override
+  update(UiState uiState) {
+    init(uiState);
+
+    if (this.uiState!.focusedDay != uiState.focusedDay) {
+      _changeFocusedDay(uiState.focusedDay);
     }
 
-    _state = _state.copyWith(focusedDay: focusedDay);
-    notifyListeners();
+    this.uiState = uiState;
   }
 
-  Future<List<String>> _findImagePathListByDiaryId(int diaryId) async {
-    List<String> imagePathList = [];
 
-    List<OffImage> imageList = await offImageUseCase.selectOffImageList(diaryId);
-    for (var image in imageList) { imagePathList.add(image.path); }
-    return imagePathList;
-  }
 
 
 }

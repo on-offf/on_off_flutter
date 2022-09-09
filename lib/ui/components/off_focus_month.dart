@@ -4,6 +4,9 @@ import 'package:on_off/constants/constants_text_style.dart';
 import 'package:on_off/ui/off/home/off_home_event.dart';
 import 'package:on_off/ui/off/home/off_home_state.dart';
 import 'package:on_off/ui/off/home/off_home_view_model.dart';
+import 'package:on_off/ui/provider/ui_event.dart';
+import 'package:on_off/ui/provider/ui_provider.dart';
+import 'package:on_off/ui/provider/ui_state.dart';
 import 'package:provider/provider.dart';
 
 class OffFocusMonth extends StatefulWidget {
@@ -17,9 +20,14 @@ class _OffFocusMonthState extends State<OffFocusMonth> {
   final LayerLink layerLink = LayerLink();
   late OffHomeViewModel? viewModel;
   late OffHomeState? state;
+  late UiProvider? uiProvider;
+  late UiState? uiState;
 
   @override
   Widget build(BuildContext context) {
+    uiProvider = context.watch<UiProvider>();
+    uiState = uiProvider!.state;
+
     viewModel = context.watch<OffHomeViewModel>();
     state = viewModel!.state;
 
@@ -46,7 +54,7 @@ class _OffFocusMonthState extends State<OffFocusMonth> {
                   link: layerLink,
                   child: Text(
                     DateFormat('yyyy년 MM월', 'ko_KR')
-                        .format(state!.changeCalendarPage),
+                        .format(uiState!.changeCalendarPage),
                     style: kTitle2,
                   ),
                 ),
@@ -97,9 +105,9 @@ class _OffFocusMonthState extends State<OffFocusMonth> {
                       int month = index + 1;
                       return GestureDetector(
                         onTap: () {
-                          DateTime date = DateTime(state!.changeCalendarPage.year, month, 1);
-                          viewModel?.onEvent(OffHomeEvent.changeCalendarPage(date));
-                          viewModel?.onEvent(OffHomeEvent.changeFocusedDay(date));
+                          DateTime date = DateTime(uiState!.changeCalendarPage.year, month, 1);
+                          uiProvider?.onEvent(UiEvent.changeCalendarPage(date));
+                          uiProvider?.onEvent(UiEvent.changeFocusedDay(date));
                           viewModel!.onEvent(const OffHomeEvent.removeOverlay());
                         },
                         child: Container(

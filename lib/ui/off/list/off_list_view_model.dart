@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:on_off/domain/entity/off/off_diary.dart';
 import 'package:on_off/domain/entity/off/off_image.dart';
 import 'package:on_off/domain/model/content.dart';
@@ -6,9 +5,11 @@ import 'package:on_off/domain/use_case/data_source/off/off_diary_use_case.dart';
 import 'package:on_off/domain/use_case/data_source/off/off_image_use_case.dart';
 import 'package:on_off/ui/off/list/off_list_event.dart';
 import 'package:on_off/ui/off/list/off_list_state.dart';
+import 'package:on_off/ui/provider/ui_provider_observe.dart';
+import 'package:on_off/ui/provider/ui_state.dart';
 import 'package:on_off/util/date_util.dart';
 
-class OffListViewModel with ChangeNotifier {
+class OffListViewModel extends UiProviderObserve {
   OffListState _state = OffListState(
       contents: [],
   );
@@ -57,6 +58,17 @@ class OffListViewModel with ChangeNotifier {
     }
 
     return imagePathList;
+  }
+
+
+  @override
+  init(UiState uiState) {
+    this.uiState = uiState;
+  }
+
+  @override
+  update(UiState uiState) {
+    this.uiState = uiState;
   }
 
 }

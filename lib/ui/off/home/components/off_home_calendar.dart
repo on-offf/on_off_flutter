@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:on_off/ui/off/home/off_home_event.dart';
-import 'package:on_off/ui/off/home/off_home_view_model.dart';
+import 'package:on_off/ui/provider/ui_event.dart';
+import 'package:on_off/ui/provider/ui_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 
@@ -9,32 +9,32 @@ class OffHomeCalendar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final viewModel = context.watch<OffHomeViewModel>();
-    final state = viewModel.state;
+    final uiProvider = context.watch<UiProvider>();
+    final uiState = uiProvider.state;
 
     return TableCalendar(
       locale: 'ko-KR',
       headerVisible: false,
-      focusedDay: state.focusedDay,
+      focusedDay: uiState.focusedDay,
       firstDay: DateTime.utc(1900, 1, 1),
       lastDay: DateTime.utc(2099, 12, 31),
-      onDaySelected: _onDaySelected(viewModel),
+      onDaySelected: _onDaySelected(uiProvider),
       selectedDayPredicate: (day) {
-        return isSameDay(state.selectedDay, day);
+        return isSameDay(uiState.selectedDay, day);
       },
       onPageChanged: (dateTime) {
-        viewModel.onEvent(OffHomeEvent.changeFocusedDay(dateTime));
-        viewModel.onEvent(OffHomeEvent.changeCalendarPage(dateTime));
+        uiProvider.onEvent(UiEvent.changeFocusedDay(dateTime));
+        uiProvider.onEvent(UiEvent.changeCalendarPage(dateTime));
       },
       daysOfWeekStyle: _daysOfWeekStyle(),
       calendarStyle: _calendarStyle(),
     );
   }
 
-  OnDaySelected _onDaySelected(viewModel) {
+  OnDaySelected _onDaySelected(uiProvider) {
     return (selectedDay, focusedDay) {
-      viewModel.onEvent(OffHomeEvent.changeSelectedDay(selectedDay));
-      viewModel.onEvent(OffHomeEvent.changeFocusedDay(focusedDay));
+      uiProvider.onEvent(UiEvent.changeSelectedDay(selectedDay));
+      uiProvider.onEvent(UiEvent.changeFocusedDay(focusedDay));
     };
   }
 

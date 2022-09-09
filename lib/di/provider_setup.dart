@@ -8,7 +8,8 @@ import 'package:on_off/ui/off/detail/off_detail_view_model.dart';
 import 'package:on_off/ui/off/home/off_home_view_model.dart';
 import 'package:on_off/ui/off/list/off_list_view_model.dart';
 import 'package:on_off/ui/off/write/off_write_view_model.dart';
-import 'package:on_off/ui/setting/setting_view_model.dart';
+import 'package:on_off/ui/provider/ui_provider.dart';
+import 'package:on_off/ui/provider/ui_provider_observe.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
 import 'package:sqflite/sqflite.dart';
@@ -41,15 +42,23 @@ Future<List<SingleChildWidget>> getProviders() async {
     offImageUseCase: offImageUseCase,
     iconUseCase: iconUseCase,
   );
+
   OffWriteViewModel offWriteViewModel = OffWriteViewModel();
   OffListViewModel offListViewModel = OffListViewModel(
     offDiaryUseCase: offDiaryUseCase,
     offImageUseCase: offImageUseCase,
   );
+
   OffDetailViewModel offDetailViewModel = OffDetailViewModel();
 
+  List<UiProviderObserve> viewModelList = [];
+  viewModelList.add(offHomeViewModel);
+  viewModelList.add(offListViewModel);
+
+  UiProvider uiProvider = UiProvider(viewModelList: viewModelList);
+
   return [
-    ChangeNotifierProvider(create: (_) => SettingViewModel()),
+    ChangeNotifierProvider(create: (_) => uiProvider),
     ChangeNotifierProvider(create: (_) => offWriteViewModel),
     ChangeNotifierProvider(create: (_) => offHomeViewModel),
     ChangeNotifierProvider(create: (_) => offListViewModel),
