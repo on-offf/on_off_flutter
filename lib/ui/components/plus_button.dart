@@ -6,10 +6,12 @@ import 'package:on_off/domain/icon/icon_path.dart';
 class PlusButton extends StatefulWidget {
   List<String> seletcedIconPaths;
   LayerLink layerLink;
+  Function actionAfterSelect;
   PlusButton({
     Key? key,
     required this.seletcedIconPaths,
     required this.layerLink,
+    required this.actionAfterSelect,
   }) : super(key: key);
 
   @override
@@ -36,40 +38,45 @@ class _PlusButtonState extends State<PlusButton> {
   bool isClicked = false;
 
   // 드롭박스.
-  OverlayEntry? _overlayEntry;
+  late final OverlayEntry overlayEntry =
+      OverlayEntry(builder: _overlayEntryBuilder);
   static const double _dropdownWidth = 314;
   static const double _dropdownHeight = 254;
+  // static  LayerLink link = widget.layerLink;
 
   // 드롭다운 생성.
-  void _createOverlay() {
-    if (_overlayEntry == null) {
-      _overlayEntry = _buildIconSheet();
-      Overlay.of(context)?.insert(_overlayEntry!);
+  void _insertOverlay() {
+    if (!overlayEntry.mounted) {
+      OverlayState overlayState = Overlay.of(context)!;
+      overlayState.insert(overlayEntry);
     }
   }
 
   // 드롭다운 해제.
   void _removeOverlay() {
-    _overlayEntry?.remove();
-    _overlayEntry = null;
+    if (overlayEntry.mounted) {
+      overlayEntry.remove();
+    }
   }
 
   @override
   void dispose() {
-    _overlayEntry?.dispose();
+    overlayEntry.dispose();
     super.dispose();
   }
 
   void clickAddIcon() {
     setState(() {
       isClicked = !isClicked;
+      isClicked ? _insertOverlay() : _removeOverlay();
     });
   }
 
-  void actionAfterSelect(String imagePath) {
+  void _actionAfterSelect(String imagePath) {
     setState(() {
       isClicked = false;
-      widget.seletcedIconPaths.add(imagePath);
+      widget.actionAfterSelect(imagePath);
+      // widget.seletcedIconPaths.add(imagePath);
     });
   }
 
@@ -78,7 +85,7 @@ class _PlusButtonState extends State<PlusButton> {
     return IconButton(
       padding: EdgeInsets.zero,
       constraints: BoxConstraints(),
-      onPressed: () => _createOverlay,
+      onPressed: () => clickAddIcon(),
       icon: isClicked
           ? Image(
               image: AssetImage(IconPath.plus.name),
@@ -93,18 +100,17 @@ class _PlusButtonState extends State<PlusButton> {
     );
   }
 
-  OverlayEntry _buildIconSheet() {
-    return OverlayEntry(
-      maintainState: true,
-      builder: (ctx) => Positioned(
-        child: CompositedTransformFollower(
-          link: widget.layerLink,
-          showWhenUnlinked: false,
-          offset: Offset(0, 23),
+  Widget _overlayEntryBuilder(BuildContext _) {
+    LayerLink link = widget.layerLink;
+    return Positioned(
+      width: _dropdownWidth,
+      height: _dropdownHeight,
+      child: CompositedTransformFollower(
+        link: link,
+        // showWhenUnlinked: false,
+        offset: Offset(0, 23),
+        child: Material(
           child: Container(
-            width: _dropdownWidth,
-            height: _dropdownHeight,
-            padding: EdgeInsets.all(30),
             decoration: BoxDecoration(
               border: Border.all(
                 color: Theme.of(context).primaryColor,
@@ -114,7 +120,8 @@ class _PlusButtonState extends State<PlusButton> {
               color: Theme.of(context).canvasColor,
             ),
             child: GridView(
-              children: _buildIconButtonList(),
+              padding: EdgeInsets.all(30),
+              children: [..._buildIconButtonList()],
               gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
                 maxCrossAxisExtent: 60,
                 crossAxisSpacing: 20,
@@ -130,14 +137,18 @@ class _PlusButtonState extends State<PlusButton> {
   List<IconButton> _buildIconButtonList() {
     List<IconButton> res = [];
     for (var i in iconPaths) {
-      res.add(_buildImage(i));
+      res.add(_buildIconButton(i));
     }
     return res;
   }
 
-  IconButton _buildImage(String imagePath) {
+  IconButton _buildIconButton(String imagePath) {
     return IconButton(
-      onPressed: () => actionAfterSelect(imagePath),
+      onPressed: () {
+        _actionAfterSelect(imagePath);
+        _removeOverlay();
+      },
+      // onPressed: () => print(imagePath),
       padding: EdgeInsets.all(0),
       icon: Image(
         image: AssetImage(imagePath),
