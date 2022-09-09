@@ -63,3 +63,10 @@ const TextStyle kOverLine = TextStyle(
   letterSpacing: 1.5,
 );
 
+const TextStyle kMonth = TextStyle(
+  height: 1.428,
+  fontWeight: FontWeight.w400,
+  fontSize: 14,
+  letterSpacing: 0.25,
+);
+

@@ -17,13 +17,14 @@ class OffHomeViewModel with ChangeNotifier {
   OffHomeViewModel({
     required this.offDiaryUseCase,
     required this.offImageUseCase,
-    required this.iconUseCase
+    required this.iconUseCase,
   });
 
   OffHomeState _state = OffHomeState(
     selectedDay: DateTime.now(),
     focusedDay: DateTime.now(),
     changeCalendarPage: DateTime.now(),
+    offFocusMonthSelected: false,
   );
 
   OffHomeState get state => _state;
@@ -33,7 +34,26 @@ class OffHomeViewModel with ChangeNotifier {
       changeSelectedDay: _changeSelectedDay,
       changeFocusedDay: _changeFocusedDay,
       changeCalendarPage: _changeCalendarPage,
+      offFocusMonthSelected: _offFocusMonthSelected,
+      showOverlay: _showOverlay,
+      removeOverlay: _removeOverlay,
     );
+  }
+
+  void _showOverlay(BuildContext context, OverlayEntry changeOverlayEntry) {
+    _state = state.copyWith(overlayEntry: changeOverlayEntry);
+    notifyListeners();
+  }
+
+  void _removeOverlay() {
+    _state.overlayEntry?.remove();
+    _state = state.copyWith(overlayEntry: null);
+    notifyListeners();
+  }
+
+  void _offFocusMonthSelected() {
+    _state = _state.copyWith(offFocusMonthSelected: !_state.offFocusMonthSelected);
+    notifyListeners();
   }
 
   void _changeCalendarPage(DateTime changeCalendarPage) {
