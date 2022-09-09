@@ -1,9 +1,6 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 
 import 'package:on_off/constants/constants_text_style.dart';
-import 'package:on_off/domain/icon/icon_path.dart';
 import 'package:on_off/ui/components/build_selected_icons.dart';
 import 'package:on_off/ui/components/off_appbar.dart';
 import 'package:on_off/ui/components/plus_button.dart';
@@ -100,14 +97,12 @@ class _OffWriteScreenState extends State<OffWriteScreen> {
                     SizedBox(
                       width: 8,
                     ),
-                    ...buildSelectedIcons(state.seletcedIconPaths),
+                    ...buildSelectedIcons(state.iconPaths),
                     SizedBox(
                       child: PlusButton(
-                        seletcedIconPaths: state.seletcedIconPaths,
                         layerLink: selectIconSheetLink,
-                        actionAfterSelect: (path) => viewModel.onEvent(
-                          OffWriteEvent.addSelectedIconPaths(path),
-                        ),
+                        actionAfterSelect: (path) => viewModel
+                            .onEvent(OffWriteEvent.addSelectedIconPaths(path)),
                       ),
                     ),
                     SizedBox(

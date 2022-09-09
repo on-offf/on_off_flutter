@@ -3,10 +3,7 @@ import 'package:on_off/ui/off/write/off_write_event.dart';
 import 'package:on_off/ui/off/write/off_write_state.dart';
 
 class OffWriteViewModel with ChangeNotifier {
-  OffWriteState _state = OffWriteState(
-    seletcedIconPaths: [],
-    textContent: "",
-  );
+  OffWriteState _state = OffWriteState();
 
   OffWriteState get state => _state;
 
@@ -18,16 +15,14 @@ class OffWriteViewModel with ChangeNotifier {
   }
 
   void _addSelectedIconPaths(String path) {
-    List<String> seletcedIconPaths = _state.seletcedIconPaths;
-    seletcedIconPaths.add(path);
-    _state = _state.copyWith(seletcedIconPaths: seletcedIconPaths);
+    List<String> temp = [];
+    temp.addAll(_state.iconPaths);
+    temp.add(path);
+    _state = _state.copyWith(iconPaths: temp);
     notifyListeners();
   }
 
   void _saveTextContent(String text) {
-    String textContent = _state.textContent;
-    textContent = text;
-    _state = _state.copyWith(textContent: textContent);
     notifyListeners();
   }
 }

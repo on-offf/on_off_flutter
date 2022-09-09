@@ -5,7 +5,7 @@ part 'off_write_state.freezed.dart';
 @freezed
 class OffWriteState with _$OffWriteState {
   factory OffWriteState({
-    required List<String> seletcedIconPaths,
-    required String textContent,
+    @Default([]) List<String> iconPaths,
+    @Default([]) List<String> imagePaths,
   }) = _OffWriteState;
 }

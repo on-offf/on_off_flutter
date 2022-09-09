@@ -4,12 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:on_off/domain/icon/icon_path.dart';
 
 class PlusButton extends StatefulWidget {
-  List<String> seletcedIconPaths;
   LayerLink layerLink;
   Function actionAfterSelect;
   PlusButton({
     Key? key,
-    required this.seletcedIconPaths,
     required this.layerLink,
     required this.actionAfterSelect,
   }) : super(key: key);
@@ -84,16 +82,16 @@ class _PlusButtonState extends State<PlusButton> {
   Widget build(BuildContext context) {
     return IconButton(
       padding: EdgeInsets.zero,
-      constraints: BoxConstraints(),
+      constraints: const BoxConstraints(),
       onPressed: () => clickAddIcon(),
       icon: isClicked
           ? Image(
-              image: AssetImage(IconPath.plus.name),
+              image: AssetImage(IconPath.minus.name),
               width: 14,
               height: 14,
             )
           : Image(
-              image: AssetImage(IconPath.minus.name),
+              image: AssetImage(IconPath.plus.name),
               width: 14,
               height: 14,
             ),
@@ -108,7 +106,7 @@ class _PlusButtonState extends State<PlusButton> {
       child: CompositedTransformFollower(
         link: link,
         // showWhenUnlinked: false,
-        offset: Offset(0, 23),
+        offset: const Offset(0, 23),
         child: Material(
           child: Container(
             decoration: BoxDecoration(
@@ -120,7 +118,7 @@ class _PlusButtonState extends State<PlusButton> {
               color: Theme.of(context).canvasColor,
             ),
             child: GridView(
-              padding: EdgeInsets.all(30),
+              padding: const EdgeInsets.all(30),
               children: [..._buildIconButtonList()],
               gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
                 maxCrossAxisExtent: 60,
@@ -145,11 +143,10 @@ class _PlusButtonState extends State<PlusButton> {
   IconButton _buildIconButton(String imagePath) {
     return IconButton(
       onPressed: () {
-        _actionAfterSelect(imagePath);
         _removeOverlay();
+        _actionAfterSelect(imagePath);
       },
-      // onPressed: () => print(imagePath),
-      padding: EdgeInsets.all(0),
+      padding: const EdgeInsets.all(0),
       icon: Image(
         image: AssetImage(imagePath),
         width: 48,
