@@ -6,6 +6,8 @@ import 'package:on_off/ui/components/off_appbar.dart';
 import 'package:on_off/ui/off/list/off_list_event.dart';
 import 'package:on_off/ui/off/list/off_list_state.dart';
 import 'package:on_off/ui/off/list/off_list_view_model.dart';
+import 'package:on_off/ui/provider/ui_provider.dart';
+import 'package:on_off/ui/provider/ui_state.dart';
 import 'package:provider/provider.dart';
 
 class OffListScreen extends StatelessWidget {
@@ -16,8 +18,10 @@ class OffListScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     OffListViewModel viewModel = context.watch<OffListViewModel>();
     OffListState state = viewModel.state;
+    UiProvider uiProvider = context.watch<UiProvider>();
+    UiState uiState = uiProvider.state;
 
-    viewModel.onEvent(OffListEvent.changeContents(DateTime.now()));
+    viewModel.onEvent(OffListEvent.changeContents(uiState.focusedDay));
 
     return Scaffold(
       appBar: offAppBar(context),
@@ -36,13 +40,13 @@ class OffListScreen extends StatelessWidget {
                 return OffFocusMonth();
               } else {
                 return GestureDetector(
-                  child: ListItem(content: state.contents[index]),
+                  child: ListItem(content: state.contents[index - 1]),
                   onTap: () {
                     Navigator.pushNamed(
                       context,
                       OffDetailScreen.routeName,
                       arguments: {
-                        'content': state.contents[index],
+                        'content': state.contents[index - 1],
                       },
                     );
                   },

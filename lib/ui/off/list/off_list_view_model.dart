@@ -45,6 +45,7 @@ class OffListViewModel extends UiProviderObserve {
 
       contentList.add(content);
     }
+
     _state = _state.copyWith(contents: contentList);
     notifyListeners();
   }
@@ -59,7 +60,6 @@ class OffListViewModel extends UiProviderObserve {
 
     return imagePathList;
   }
-
 
   @override
   init(UiState uiState) {
