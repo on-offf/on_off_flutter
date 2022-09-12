@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:on_off/data/data_source/db/icon_dao.dart';
 import 'package:on_off/data/data_source/db/off/off_diary_dao.dart';
 import 'package:on_off/data/data_source/db/off/off_image_dao.dart';
@@ -16,17 +17,22 @@ import 'package:provider/single_child_widget.dart';
 import 'package:sqflite/sqflite.dart';
 
 Future<List<SingleChildWidget>> getProviders() async {
+  var databaseName = 'on_off.db';
+  var databaseVersion = 1;
+
   Database database = await openDatabase(
-    'on_off',
-    version: 1,
+    databaseName,
+    version: databaseVersion,
     onCreate: (db, version) async {
+      // Common
+      await db.execute(
+          'CREATE TABLE ${IconDAO.table} (id INTEGER PRIMARY KEY AUTOINCREMENT, dateTime Integer, name TEXT)');
+
       // OFF
       await db.execute(
-          'CREATE TABLE off_diary (id INTEGER PRIMARY KEY AUTOINCREMENT, content TEXT, dateTime INTEGER)');
+          'CREATE TABLE ${OffDiaryDAO.table} (id INTEGER PRIMARY KEY AUTOINCREMENT, content TEXT, dateTime INTEGER)');
       await db.execute(
-          'CREATE TABLE off_image (id INTEGER PRIMARY KEY AUTOINCREMENT, dateTime Integer, offDiaryId Integer, path TEXT)');
-      await db.execute(
-          'CREATE TABLE icon (id INTEGER PRIMARY KEY AUTOINCREMENT, dateTime Integer, name TEXT)');
+          'CREATE TABLE ${OffImageDAO.table} (id INTEGER PRIMARY KEY AUTOINCREMENT, dateTime Integer, offDiaryId Integer, path TEXT)');
     },
   );
 
@@ -37,7 +43,6 @@ Future<List<SingleChildWidget>> getProviders() async {
   OffDiaryUseCase offDiaryUseCase = OffDiaryUseCase(offDiaryDAO);
   OffImageUseCase offImageUseCase = OffImageUseCase(offImageDAO);
   IconUseCase iconUseCase = IconUseCase(iconDAO);
-
 
   // Off View Model
   OffHomeViewModel offHomeViewModel = OffHomeViewModel(
@@ -55,6 +60,7 @@ Future<List<SingleChildWidget>> getProviders() async {
   OffListViewModel offListViewModel = OffListViewModel(
     offDiaryUseCase: offDiaryUseCase,
     offImageUseCase: offImageUseCase,
+    iconUseCase: iconUseCase,
   );
 
   OffDetailViewModel offDetailViewModel = OffDetailViewModel();
