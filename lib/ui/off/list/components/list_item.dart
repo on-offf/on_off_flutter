@@ -5,34 +5,55 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:on_off/constants/constants_text_style.dart';
 import 'package:on_off/domain/model/content.dart';
+import 'package:on_off/ui/components/build_selected_icons.dart';
+import 'package:on_off/ui/components/plus_button.dart';
+import 'package:on_off/ui/off/list/off_list_state.dart';
+import 'package:on_off/ui/off/list/off_list_view_model.dart';
+import 'package:on_off/ui/provider/ui_provider.dart';
+import 'package:on_off/ui/provider/ui_state.dart';
+import 'package:provider/provider.dart';
 
 class ListItem extends StatelessWidget {
   final Content content;
+  final LayerLink selectIconSheetLink = LayerLink();
 
-  const ListItem({
+  ListItem({
     Key? key,
     required this.content,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    OffListViewModel viewModel = context.watch<OffListViewModel>();
+    OffListState state = viewModel.state;
+
+    UiProvider uiProvider = context.watch<UiProvider>();
+    UiState uiState = uiProvider.state;
+
     return Container(
       height: 177,
       child: Column(
         children: [
           Row(
             children: [
-              Text(
-                DateFormat.MMMMEEEEd('ko_KR').format(content.time),
-                style: kSubtitle2,
+              CompositedTransformTarget(
+                link: selectIconSheetLink,
+                child: Text(
+                  DateFormat.MMMMEEEEd('ko_KR').format(content.time),
+                  style: kSubtitle2,
+                ),
               ),
-              SizedBox(width: 14),
-              Image(
-                image: AssetImage("assets/icons/plus.png"),
-                width: 14,
-                height: 14,
-              ),
-              SizedBox(width: 14),
+              SizedBox(width: 8,),
+              if (state.iconPathMap![content.time] != null)
+                ...buildSelectedIcons(state.iconPathMap![content.time]!) ,
+              // SizedBox(
+              //   child: PlusButton(
+              //     layerLink: selectIconSheetLink,
+              //     actionAfterSelect: (path) => viewModel!
+              //         .onEvent(OffWriteEvent.addSelectedIconPaths(path)),
+              //   ),
+              // ),
+              SizedBox(width: 8),
               Expanded(
                 child: Container(
                   height: 2,
