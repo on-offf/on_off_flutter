@@ -87,7 +87,6 @@ class _OffWriteScreenState extends State<OffWriteScreen> {
                       link: selectIconSheetLink,
                       child: Text(
                         DateFormat.MMMMEEEEd('ko_KR').format(uiState.focusedDay),
-                        // DateFormat('MM월 dd일 EEEE').format(uiState.focusedDay),
                         style: kSubtitle2,
                        ),
                     ),
@@ -99,7 +98,7 @@ class _OffWriteScreenState extends State<OffWriteScreen> {
                       child: PlusButton(
                         layerLink: selectIconSheetLink,
                         actionAfterSelect: (path) => viewModel!
-                            .onEvent(OffWriteEvent.addSelectedIconPaths(path)),
+                            .onEvent(OffWriteEvent.addSelectedIconPaths(path))
                       ),
                     ),
                     const SizedBox(

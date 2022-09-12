@@ -21,22 +21,19 @@ class UiProvider with ChangeNotifier {
     selectedDay: DateTime.now(),
     focusedDay: DateTime.now(),
     changeCalendarPage: DateTime.now(),
-
-
   );
 
   UiState get state => _state;
 
   void onEvent(UiEvent event) {
     event.when(
-      // setting
-      changeMainColor: _changeMainColor,
+        // setting
+        changeMainColor: _changeMainColor,
 
-      // calendar
-      changeSelectedDay: _changeSelectedDay,
-      changeFocusedDay: _changeFocusedDay,
-      changeCalendarPage: _changeCalendarPage
-    );
+        // calendar
+        changeSelectedDay: _changeSelectedDay,
+        changeFocusedDay: _changeFocusedDay,
+        changeCalendarPage: _changeCalendarPage);
   }
 
   void _changeCalendarPage(DateTime changeCalendarPage) {
@@ -67,7 +64,9 @@ class UiProvider with ChangeNotifier {
   }
 
   void _notifyListeners() {
-    for (var viewModel in viewModelList) { viewModel.update(_state); }
+    for (var viewModel in viewModelList) {
+      viewModel.update(_state);
+    }
     notifyListeners();
   }
 }

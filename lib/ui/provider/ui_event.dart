@@ -13,5 +13,4 @@ abstract class UiEvent with _$UiEvent {
   const factory UiEvent.changeSelectedDay(DateTime selectedDay) = ChangeSelectedDay;
   const factory UiEvent.changeFocusedDay(DateTime focusedDay) = ChangeFocusedDay;
   const factory UiEvent.changeCalendarPage(DateTime changeCalendarPage) = ChangeCalendarPage;
-
 }

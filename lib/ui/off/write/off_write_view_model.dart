@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:on_off/domain/entity/icon_entity.dart';
 import 'package:on_off/domain/entity/off/off_diary.dart';
 import 'package:on_off/domain/entity/off/off_image.dart';
 import 'package:on_off/domain/use_case/data_source/icon_use_case.dart';
@@ -35,17 +36,37 @@ class OffWriteViewModel extends UiProviderObserve {
     );
   }
 
-  void _addSelectedIconPaths(String path) {
-    List<String> temp = [];
-    temp.addAll(_state.iconPaths);
-    temp.add(path);
-    _state = _state.copyWith(iconPaths: temp);
-    notifyListeners();
+  void _addSelectedIconPaths(String path) async {
+    List<IconEntity> iconList = await iconUseCase.selectListByDateTime(uiState!.focusedDay);
+
+    bool saveIcon = true;
+
+    for (var iconEntity in iconList) {
+      if (iconEntity.name == path) saveIcon = false;
+    }
+
+    if (saveIcon) {
+      IconEntity entity = IconEntity(
+        dateTime: dateTimeToUnixTime(uiState!.focusedDay),
+        name: path,
+      );
+
+      await iconUseCase.insert(entity);
+      _addIconPathInState(path);
+
+      notifyListeners();
+    }
+  }
+
+  void _addIconPathInState(String path) {
+    List<String> iconPathList = [];
+    iconPathList.addAll(_state.iconPaths);
+    iconPathList.add(path);
+    _state = _state.copyWith(iconPaths: iconPathList);
   }
 
   void _addSelectedImagePaths(File path) {
     List<File> temp = [];
-    print("path $path");
     temp.addAll(_state.imagePaths);
     temp.add(path);
     _state = _state.copyWith(imagePaths: temp);
@@ -87,8 +108,6 @@ class OffWriteViewModel extends UiProviderObserve {
   @override
   init(UiState uiState) {
     this.uiState = uiState;
-    print("uiState: $uiState");
-    print("this.state: ${this.uiState}");
 
     notifyListeners();
   }
