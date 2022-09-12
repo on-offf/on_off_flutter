@@ -72,8 +72,10 @@ class OffHomeViewModel extends UiProviderObserve {
       );
 
       _state = _state.copyWith(content: content);
-      notifyListeners();
+    } else {
+      _state = _state.copyWith(content: null);
     }
+    notifyListeners();
   }
 
 
@@ -86,13 +88,11 @@ class OffHomeViewModel extends UiProviderObserve {
 
   @override
   update(UiState uiState) {
-    init(uiState);
-
     if (this.uiState!.focusedDay != uiState.focusedDay) {
       _changeFocusedDay(uiState.focusedDay);
     }
 
-    this.uiState = uiState;
+    this.uiState = uiState.copyWith();
   }
 
 

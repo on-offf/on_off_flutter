@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:on_off/constants/constants_text_style.dart';
 import 'package:on_off/ui/off/home/off_home_state.dart';
 import 'package:on_off/ui/off/home/off_home_view_model.dart';
+import 'package:on_off/ui/off/write/off_write_screen.dart';
 import 'package:provider/provider.dart';
 
 class OffHomeItem extends StatelessWidget {
@@ -17,7 +18,11 @@ class OffHomeItem extends StatelessWidget {
     OffHomeViewModel viewModel = context.watch<OffHomeViewModel>();
     OffHomeState state = viewModel.state;
 
-    return state.content == null ? Container() :
+    return state.content == null ?
+      TextButton(
+        onPressed: () => Navigator.pushNamed(context, OffWriteScreen.routeName),
+        child: Text('다이어리 추가'),
+      ) :
       Column(
       children: [
         Row(
