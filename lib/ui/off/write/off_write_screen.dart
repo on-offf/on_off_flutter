@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 import 'package:on_off/constants/constants_text_style.dart';
 import 'package:on_off/ui/components/build_selected_icons.dart';
 import 'package:on_off/ui/components/off_appbar.dart';
+import 'package:on_off/ui/components/off_focus_month.dart';
 import 'package:on_off/ui/components/plus_button.dart';
 import 'package:on_off/ui/off/write/components/icons_above_keyboard.dart';
 import 'package:on_off/ui/off/write/off_write_event.dart';
 import 'package:on_off/ui/off/write/off_write_state.dart';
 import 'package:on_off/ui/off/write/off_write_view_model.dart';
+import 'package:on_off/ui/provider/ui_provider.dart';
+import 'package:on_off/ui/provider/ui_state.dart';
 import 'package:provider/provider.dart';
 
 class OffWriteScreen extends StatefulWidget {
@@ -50,7 +54,9 @@ class _OffWriteScreenState extends State<OffWriteScreen> {
   void dispose() {
     _focus.dispose();
     bodyController.dispose();
-    viewModel!.onEvent(OffWriteEvent.resetState());
+    Future.delayed(Duration.zero, (){
+      viewModel!.onEvent(const OffWriteEvent.resetState());
+    });
     super.dispose();
   }
 
@@ -58,6 +64,9 @@ class _OffWriteScreenState extends State<OffWriteScreen> {
   Widget build(BuildContext context) {
     viewModel = context.watch<OffWriteViewModel>();
     OffWriteState state = viewModel!.state;
+
+    UiProvider uiProvider = context.watch<UiProvider>();
+    UiState uiState = uiProvider.state;
 
     return Scaffold(
       appBar: offAppBar(context),
@@ -68,22 +77,7 @@ class _OffWriteScreenState extends State<OffWriteScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Row(
-                  children: const [
-                    Text(
-                      "2022년 8월 첫째주",
-                      style: kSubtitle1,
-                    ),
-                    SizedBox(
-                      width: 6.38,
-                    ),
-                    Image(
-                      image: AssetImage("assets/icons/down_arrow.png"),
-                      width: 4.29,
-                      height: 6.32,
-                    ),
-                  ],
-                ),
+                const OffFocusMonth(),
                 const SizedBox(
                   height: 20,
                 ),
@@ -92,9 +86,10 @@ class _OffWriteScreenState extends State<OffWriteScreen> {
                     CompositedTransformTarget(
                       link: selectIconSheetLink,
                       child: Text(
-                        "8월 2일 목요일",
+                        DateFormat.MMMMEEEEd('ko_KR').format(uiState.focusedDay),
+                        // DateFormat('MM월 dd일 EEEE').format(uiState.focusedDay),
                         style: kSubtitle2,
-                      ),
+                       ),
                     ),
                     const SizedBox(
                       width: 8,
@@ -127,12 +122,13 @@ class _OffWriteScreenState extends State<OffWriteScreen> {
                   height: 10,
                 ),
                 Text(
-                  "오후 12:33분",
+                  "오후 ${DateFormat('kk:mm').format(DateTime.now())}분",
                   style: kSubtitle2,
                 ),
                 const SizedBox(
                   height: 5,
                 ),
+                state.imagePaths.isNotEmpty ?
                 SizedBox(
                   height: 100,
                   child: ListView.builder(
@@ -148,7 +144,7 @@ class _OffWriteScreenState extends State<OffWriteScreen> {
                       );
                     },
                   ),
-                ),
+                ) : Container(),
                 const SizedBox(
                   height: 5,
                 ),

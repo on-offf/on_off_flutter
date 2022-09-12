@@ -46,7 +46,12 @@ Future<List<SingleChildWidget>> getProviders() async {
     iconUseCase: iconUseCase,
   );
 
-  OffWriteViewModel offWriteViewModel = OffWriteViewModel();
+  OffWriteViewModel offWriteViewModel = OffWriteViewModel(
+    offDiaryUseCase: offDiaryUseCase,
+    offImageUseCase: offImageUseCase,
+    iconUseCase: iconUseCase,
+  );
+
   OffListViewModel offListViewModel = OffListViewModel(
     offDiaryUseCase: offDiaryUseCase,
     offImageUseCase: offImageUseCase,
@@ -57,13 +62,13 @@ Future<List<SingleChildWidget>> getProviders() async {
   // On View Model
   OnHomeViewModel onHomeViewModel = OnHomeViewModel();
 
-
   // Ui Provider ( common provider )
   List<UiProviderObserve> viewModelList = [];
 
   viewModelList.add(offHomeViewModel);
   viewModelList.add(offListViewModel);
   viewModelList.add(offDetailViewModel);
+  viewModelList.add(offWriteViewModel);
 
   viewModelList.add(onHomeViewModel);
 

@@ -60,7 +60,10 @@ class UiProvider with ChangeNotifier {
   }
 
   void _init() {
-    for (var viewModel in viewModelList) { viewModel.init(_state); }
+    for (var viewModel in viewModelList) {
+      viewModel.init(_state);
+    }
+    notifyListeners();
   }
 
   void _notifyListeners() {
