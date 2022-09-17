@@ -21,8 +21,6 @@ class OffListScreen extends StatelessWidget {
     UiProvider uiProvider = context.watch<UiProvider>();
     UiState uiState = uiProvider.state;
 
-    viewModel.onEvent(OffListEvent.changeContents(uiState.focusedDay));
-
     return Scaffold(
       appBar: offAppBar(context),
       body: Container(

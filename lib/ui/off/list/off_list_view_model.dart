@@ -33,10 +33,52 @@ class OffListViewModel extends UiProviderObserve {
   void onEvent(OffListEvent event) {
     event.when(
       changeContents: _changeContents,
+      addSelectedIconPaths: _addSelectedIconPaths,
     );
   }
 
+  void _addSelectedIconPaths(DateTime selectedDate, String path) async {
+    selectedDate = DateTime(selectedDate.year, selectedDate.month, selectedDate.day);
+
+    print(selectedDate);
+
+    List<String>? iconPathList = _state.iconPathMap![selectedDate.day];
+
+    if (iconPathList == null) {
+      iconPathList = [];
+      iconPathList.add(path);
+    } else {
+      bool saveIcon = true;
+
+      for (var iconPath in iconPathList) {
+        if (iconPath == path) saveIcon = false;
+      }
+
+      if (saveIcon) {
+        IconEntity entity = IconEntity(
+          dateTime: dateTimeToUnixTime(uiState!.focusedDay),
+          name: path,
+        );
+
+        await iconUseCase.insert(entity);
+        _addIconPathInState(selectedDate, path);
+
+        notifyListeners();
+      }
+    }
+  }
+
+  void _addIconPathInState(DateTime selectedDate, String path) {
+    List<String> iconPathList = [];
+
+    iconPathList.addAll(_state.iconPathMap![selectedDate.day]!);
+    iconPathList.add(path);
+
+    _state.iconPathMap![selectedDate.day] = iconPathList;
+  }
+
   void _changeContents(DateTime selectedDate) async {
+    print('changeContents');
     DateTime startDateTime = DateTime(selectedDate.year, selectedDate.month, 1);
     DateTime endDateTime = DateTime(
         selectedDate.year, selectedDate.month + 1, 0);
@@ -69,17 +111,19 @@ class OffListViewModel extends UiProviderObserve {
   void _selectIcons(DateTime startDateTime, DateTime endDateTime) async {
     List<IconEntity> iconEntityList = await iconUseCase.selectOffIconList(startDateTime, endDateTime);
 
-    var iconPathMap = HashMap<DateTime, List<String>>();
+    var iconPathMap = HashMap<int, List<String>>();
     for (var iconEntity in iconEntityList) {
       DateTime dateTime = unixToDateTime(iconEntity.dateTime);
 
-      if (iconPathMap[dateTime] == null) {
-        iconPathMap.putIfAbsent(dateTime, () => []);
-        iconPathMap[dateTime]?.add(iconEntity.name);
+      if (iconPathMap[dateTime.day] == null) {
+        iconPathMap.putIfAbsent(dateTime.day, () => []);
+        iconPathMap[dateTime.day]?.add(iconEntity.name);
       } else {
-        iconPathMap[dateTime]?.add(iconEntity.name);
+        iconPathMap[dateTime.day]?.add(iconEntity.name);
       }
     }
+
+    print(iconPathMap);
 
     _state = _state.copyWith(iconPathMap: iconPathMap);
 
@@ -107,7 +151,6 @@ class OffListViewModel extends UiProviderObserve {
   @override
   update(UiState uiState) async {
     this.uiState = uiState;
-
     if (uiState.focusedDay != uiState.focusedDay) {
       _changeContents(uiState.focusedDay);
     }

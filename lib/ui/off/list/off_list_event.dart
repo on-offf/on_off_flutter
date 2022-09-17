@@ -5,4 +5,5 @@ part 'off_list_event.freezed.dart';
 @freezed
 abstract class OffListEvent with _$OffListEvent {
   const factory OffListEvent.changeContents(DateTime selectedDate) = ChangeContents;
+  const factory OffListEvent.addSelectedIconPaths(DateTime selected, String path) = AddSelectedIconPaths;
 }

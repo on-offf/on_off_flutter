@@ -7,6 +7,7 @@ import 'package:on_off/constants/constants_text_style.dart';
 import 'package:on_off/domain/model/content.dart';
 import 'package:on_off/ui/components/build_selected_icons.dart';
 import 'package:on_off/ui/components/plus_button.dart';
+import 'package:on_off/ui/off/list/off_list_event.dart';
 import 'package:on_off/ui/off/list/off_list_state.dart';
 import 'package:on_off/ui/off/list/off_list_view_model.dart';
 import 'package:on_off/ui/provider/ui_provider.dart';
@@ -43,16 +44,16 @@ class ListItem extends StatelessWidget {
                   style: kSubtitle2,
                 ),
               ),
-              SizedBox(width: 8,),
-              if (state.iconPathMap![content.time] != null)
-                ...buildSelectedIcons(state.iconPathMap![content.time]!) ,
-              // SizedBox(
-              //   child: PlusButton(
-              //     layerLink: selectIconSheetLink,
-              //     actionAfterSelect: (path) => viewModel!
-              //         .onEvent(OffWriteEvent.addSelectedIconPaths(path)),
-              //   ),
-              // ),
+              const SizedBox(width: 8,),
+              if (state.iconPathMap![content.time.day] != null)
+                ...buildSelectedIcons(state.iconPathMap![content.time.day]!) ,
+              SizedBox(
+                child: PlusButton(
+                  layerLink: selectIconSheetLink,
+                  actionAfterSelect: (path) => viewModel!
+                      .onEvent(OffListEvent.addSelectedIconPaths(content.time, path)),
+                ),
+              ),
               SizedBox(width: 8),
               Expanded(
                 child: Container(
