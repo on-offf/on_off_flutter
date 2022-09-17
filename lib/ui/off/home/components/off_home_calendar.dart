@@ -19,9 +19,11 @@ class OffHomeCalendar extends StatelessWidget {
       firstDay: DateTime.utc(1900, 1, 1),
       lastDay: DateTime.utc(2099, 12, 31),
       onDaySelected: _onDaySelected(uiProvider),
+      daysOfWeekVisible: uiState.daysOfWeekVisible,
       selectedDayPredicate: (day) {
         return isSameDay(uiState.selectedDay, day);
       },
+      calendarFormat: uiState.calendarFormat,
       onPageChanged: (dateTime) {
         uiProvider.onEvent(UiEvent.changeFocusedDay(dateTime));
         uiProvider.onEvent(UiEvent.changeCalendarPage(dateTime));

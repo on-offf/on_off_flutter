@@ -3,6 +3,7 @@ import 'package:on_off/constants/color_constants.dart';
 import 'package:on_off/ui/provider/ui_event.dart';
 import 'package:on_off/ui/provider/ui_provider_observe.dart';
 import 'package:on_off/ui/provider/ui_state.dart';
+import 'package:table_calendar/table_calendar.dart';
 
 class UiProvider with ChangeNotifier {
   final List<UiProviderObserve> viewModelList;
@@ -21,19 +22,33 @@ class UiProvider with ChangeNotifier {
     selectedDay: DateTime.now(),
     focusedDay: DateTime.now(),
     changeCalendarPage: DateTime.now(),
+    calendarFormat: CalendarFormat.month,
+    daysOfWeekVisible: true,
   );
 
   UiState get state => _state;
 
   void onEvent(UiEvent event) {
     event.when(
-        // setting
-        changeMainColor: _changeMainColor,
+      // setting
+      changeMainColor: _changeMainColor,
 
-        // calendar
-        changeSelectedDay: _changeSelectedDay,
-        changeFocusedDay: _changeFocusedDay,
-        changeCalendarPage: _changeCalendarPage);
+      // calendar
+      changeSelectedDay: _changeSelectedDay,
+      changeFocusedDay: _changeFocusedDay,
+      changeCalendarPage: _changeCalendarPage,
+      changeCalendarFormat: _changeCalendarFormat,
+    );
+  }
+
+  void _changeCalendarFormat(CalendarFormat calendarFormat) {
+    if (_state.calendarFormat == calendarFormat) return;
+
+    _state = _state.copyWith(
+      calendarFormat: calendarFormat,
+      daysOfWeekVisible: !_state.daysOfWeekVisible,
+    );
+    _notifyListeners();
   }
 
   void _changeCalendarPage(DateTime changeCalendarPage) {

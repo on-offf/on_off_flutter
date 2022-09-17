@@ -1,5 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:on_off/constants/color_constants.dart';
+import 'package:table_calendar/table_calendar.dart';
 
 part 'ui_state.freezed.dart';
 
@@ -10,5 +11,7 @@ class UiState with _$UiState {
     required DateTime selectedDay,
     required DateTime focusedDay,
     required DateTime changeCalendarPage,
+    required CalendarFormat calendarFormat,
+    required bool daysOfWeekVisible,
   }) = _UiState;
 }

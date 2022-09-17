@@ -4,39 +4,41 @@ import 'package:on_off/ui/components/off_focus_month.dart';
 import 'package:on_off/ui/off/home/components/off_home_calendar.dart';
 
 import 'package:on_off/ui/off/home/components/off_home_item.dart';
-import 'package:on_off/ui/off/list/off_list_screen.dart';
+import 'package:on_off/ui/provider/ui_event.dart';
+import 'package:on_off/ui/provider/ui_provider.dart';
+import 'package:provider/provider.dart';
+import 'package:table_calendar/table_calendar.dart';
 
 
 class OffHomeScreen extends StatelessWidget {
   static const routeName = '/off/home';
-  bool scrollDownEvent = false;
+  final ScrollController _scrollController = ScrollController();
+  String _prevScrollDirectionName = 'idel';
 
   OffHomeScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final uiProvider = context.watch<UiProvider>();
+
     return Scaffold(
       appBar: offAppBar(context),
       body: Padding(
         padding: const EdgeInsets.only(left: 37, right: 37, bottom: 41),
         child: NotificationListener(
           onNotification: (ScrollNotification scrollNotification) {
-            var metrics = scrollNotification.metrics;
+            var position = _scrollController.position;
 
-            if (metrics.axisDirection != AxisDirection.down) return false;
-            if (metrics.extentAfter <= 0) {
-
-              if (!scrollDownEvent) {
-                scrollDownEvent = true;
-                Future.delayed(const Duration(milliseconds: 1000), () {
-                  scrollDownEvent = false;
-                });
-                Navigator.pushNamed(context, OffListScreen.routeName);
-              }
+            if (position.pixels <= 0) {
+              uiProvider.onEvent(const UiEvent.changeCalendarFormat(CalendarFormat.month));
+            } else if (position.pixels > 0) {
+              uiProvider.onEvent(const UiEvent.changeCalendarFormat(CalendarFormat.week));
             }
+
             return false;
           },
           child: ListView(
+            controller: _scrollController,
             children: [
               const OffFocusMonth(),
               const OffHomeCalendar(),

@@ -6,7 +6,14 @@ PreferredSize offAppBar(BuildContext context) {
     preferredSize: Size.fromHeight(77),
     child: AppBar(
       toolbarHeight: 77,
-      automaticallyImplyLeading: false,
+      leading: ElevatedButton(
+        onPressed: () {
+          Navigator.pop(context);
+        },
+        child: Image(
+          image: AssetImage(IconPath.setting.name),
+        ),
+      ),
       actions: [
         GestureDetector(
           onTap: () {
