@@ -100,6 +100,17 @@ class OffWriteViewModel extends UiProviderObserve {
     notifyListeners();
   }
 
+  void _getIconList(DateTime focuesdDay) async {
+    List<String> iconPaths = [];
+
+    List<IconEntity> iconEntityList = await iconUseCase.selectListByDateTime(focuesdDay);
+
+    for (var iconEntity in iconEntityList) {
+      iconPaths.add(iconEntity.name);
+    }
+    _state = _state.copyWith(iconPaths: iconPaths);
+  }
+
   void _resetState() {
     _state = OffWriteState();
     notifyListeners();
@@ -114,6 +125,11 @@ class OffWriteViewModel extends UiProviderObserve {
 
   @override
   update(UiState uiState) {
+
+    if (this.uiState?.focusedDay != uiState.focusedDay) {
+      _getIconList(uiState.focusedDay);
+    }
+
     this.uiState = uiState;
 
     notifyListeners();
