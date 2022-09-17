@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:on_off/di/provider_setup.dart';
 import 'package:on_off/routes.dart';
@@ -6,10 +7,12 @@ import 'package:on_off/ui/provider/ui_provider.dart';
 import 'package:provider/provider.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   final providers = await getProviders();
 
   initializeDateFormatting('ko_KR', null);
+
+  FlutterNativeSplash.remove();
 
   runApp(
     MultiProvider(
