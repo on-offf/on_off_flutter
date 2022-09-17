@@ -5,7 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:on_off/constants/constants_text_style.dart';
 import 'package:on_off/domain/model/content.dart';
+import 'package:on_off/ui/components/build_selected_icons.dart';
 import 'package:on_off/ui/components/off_appbar.dart';
+import 'package:on_off/ui/components/plus_button.dart';
 import 'package:on_off/ui/off/detail/off_detail_event.dart';
 import 'package:on_off/ui/off/detail/off_detail_state.dart';
 import 'package:on_off/ui/off/detail/off_detail_view_model.dart';
@@ -20,10 +22,14 @@ class OffDetailScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     OffDetailViewModel viewModel = context.watch<OffDetailViewModel>();
     OffDetailState state = viewModel.state;
+    LayerLink layerLink = LayerLink();
 
     final routeArgs =
-        ModalRoute.of(context)!.settings.arguments as Map<String, Content>;
-    final Content content = routeArgs['content']!;
+        ModalRoute.of(context)!.settings.arguments as Map<String, Object?>;
+    final Content content = routeArgs['content']! as Content;
+    final List<String> iconPaths = routeArgs['iconPaths']! as List<String>;
+
+    viewModel.onEvent(OffDetailEvent.getIconPaths(iconPaths));
 
     return Scaffold(
       appBar: offAppBar(context),
@@ -34,17 +40,22 @@ class OffDetailScreen extends StatelessWidget {
         child: Column(children: [
           Row(
             children: [
-              Text(
-                DateFormat.MMMMEEEEd('ko_KR').format(content.time),
-                style: kSubtitle2,
+              CompositedTransformTarget(
+                link: layerLink,
+                child: Text(
+                  DateFormat.MMMMEEEEd('ko_KR').format(content.time),
+                  style: kSubtitle2,
+                ),
               ),
-              SizedBox(width: 14),
-              Image(
-                image: AssetImage("assets/icons/plus.png"),
-                width: 14,
-                height: 14,
+              const SizedBox(width: 8),
+              ...buildSelectedIcons(state.iconPaths),
+              SizedBox(
+                child: PlusButton(
+                  layerLink: layerLink,
+                  actionAfterSelect: () {},
+                ),
               ),
-              SizedBox(width: 14),
+              SizedBox(width: 8),
               Expanded(
                 child: Container(
                   height: 2,

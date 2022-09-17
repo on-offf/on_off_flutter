@@ -45,6 +45,7 @@ class OffListScreen extends StatelessWidget {
                       OffDetailScreen.routeName,
                       arguments: {
                         'content': state.contents[index - 1],
+                        'iconPaths': state.iconPathMap![state.contents[index - 1].time.day],
                       },
                     );
                   },

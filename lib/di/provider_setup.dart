@@ -63,7 +63,9 @@ Future<List<SingleChildWidget>> getProviders() async {
     iconUseCase: iconUseCase,
   );
 
-  OffDetailViewModel offDetailViewModel = OffDetailViewModel();
+  OffDetailViewModel offDetailViewModel = OffDetailViewModel(
+    iconUseCase: iconUseCase,
+  );
 
   // On View Model
   OnHomeViewModel onHomeViewModel = OnHomeViewModel();
