@@ -8,6 +8,7 @@ part 'off_home_state.freezed.dart';
 class OffHomeState with _$OffHomeState {
   factory OffHomeState({
     required bool offFocusMonthSelected,
+    @Default([]) List<String> iconPaths,
     OverlayEntry? overlayEntry,
     Content? content,
   }) = _OffHomeState;

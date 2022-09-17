@@ -8,4 +8,5 @@ abstract class OffHomeEvent with _$OffHomeEvent {
   const factory OffHomeEvent.offFocusMonthSelected() = OffFocusMonthSelected;
   const factory OffHomeEvent.showOverlay(BuildContext context, OverlayEntry overlayEntry) = ShowOverlay;
   const factory OffHomeEvent.removeOverlay() = RemoveOverlay;
+  const factory OffHomeEvent.addSelectedIconPaths(String path) = AddSelectedIconPaths;
 }

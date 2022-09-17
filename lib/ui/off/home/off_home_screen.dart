@@ -13,7 +13,6 @@ import 'package:table_calendar/table_calendar.dart';
 class OffHomeScreen extends StatelessWidget {
   static const routeName = '/off/home';
   final ScrollController _scrollController = ScrollController();
-  String _prevScrollDirectionName = 'idel';
 
   OffHomeScreen({Key? key}) : super(key: key);
 
