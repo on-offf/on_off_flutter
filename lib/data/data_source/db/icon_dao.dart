@@ -39,7 +39,7 @@ class IconDAO {
   Future<List<IconEntity>> selectOffIconList(int unixStartDate, int unixEndDate) async {
     final List<Map<String, dynamic>> maps = await database.query(
       table,
-      where: 'dateTime > ? and dateTime < ?',
+      where: 'dateTime >= ? and dateTime < ?',
       whereArgs: [unixStartDate, unixEndDate],
     );
 

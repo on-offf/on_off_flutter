@@ -16,6 +16,7 @@ import 'package:on_off/util/date_util.dart';
 class OffListViewModel extends UiProviderObserve {
   OffListState _state = OffListState(
     contents: [],
+    iconPathMap: HashMap(),
   );
 
   OffDiaryUseCase offDiaryUseCase;
@@ -40,45 +41,35 @@ class OffListViewModel extends UiProviderObserve {
   void _addSelectedIconPaths(DateTime selectedDate, String path) async {
     selectedDate = DateTime(selectedDate.year, selectedDate.month, selectedDate.day);
 
-    print(selectedDate);
+    List<String>? iconPathList = _state.iconPathMap[selectedDate.day];
 
-    List<String>? iconPathList = _state.iconPathMap![selectedDate.day];
+    bool saveIcon = true;
 
-    if (iconPathList == null) {
-      iconPathList = [];
+    for (var iconPath in iconPathList!) {
+      if (iconPath == path) saveIcon = false;
+    }
+
+    if (saveIcon) {
+      await iconUseCase.insert(selectedDate, path);
       iconPathList.add(path);
-    } else {
-      bool saveIcon = true;
 
-      for (var iconPath in iconPathList) {
-        if (iconPath == path) saveIcon = false;
-      }
+      Map<int, List<String>> iconPathMap = HashMap();
 
-      if (saveIcon) {
-        IconEntity entity = IconEntity(
-          dateTime: dateTimeToUnixTime(uiState!.focusedDay),
-          name: path,
-        );
+      _state.iconPathMap.forEach((key, value) {
+        if (selectedDate.day == key) {
+          iconPathMap[key] = iconPathList;
+        } else {
+          iconPathMap[key] = _state.iconPathMap[key]!;
+        }
+      });
 
-        await iconUseCase.insert(entity);
-        _addIconPathInState(selectedDate, path);
+      _state = _state.copyWith(iconPathMap: iconPathMap);
 
-        notifyListeners();
-      }
+      notifyListeners();
     }
   }
 
-  void _addIconPathInState(DateTime selectedDate, String path) {
-    List<String> iconPathList = [];
-
-    iconPathList.addAll(_state.iconPathMap![selectedDate.day]!);
-    iconPathList.add(path);
-
-    _state.iconPathMap![selectedDate.day] = iconPathList;
-  }
-
   void _changeContents(DateTime selectedDate) async {
-    print('changeContents');
     DateTime startDateTime = DateTime(selectedDate.year, selectedDate.month, 1);
     DateTime endDateTime = DateTime(
         selectedDate.year, selectedDate.month + 1, 0);
@@ -112,6 +103,11 @@ class OffListViewModel extends UiProviderObserve {
     List<IconEntity> iconEntityList = await iconUseCase.selectOffIconList(startDateTime, endDateTime);
 
     var iconPathMap = HashMap<int, List<String>>();
+
+    for (int index = startDateTime.day; index <= endDateTime.day; index++) {
+      iconPathMap[index] = [];
+    }
+
     for (var iconEntity in iconEntityList) {
       DateTime dateTime = unixToDateTime(iconEntity.dateTime);
 
@@ -122,9 +118,6 @@ class OffListViewModel extends UiProviderObserve {
         iconPathMap[dateTime.day]?.add(iconEntity.name);
       }
     }
-
-    print(iconPathMap);
-
     _state = _state.copyWith(iconPathMap: iconPathMap);
 
     notifyListeners();

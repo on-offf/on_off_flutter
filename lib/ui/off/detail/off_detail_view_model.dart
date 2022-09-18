@@ -41,12 +41,7 @@ class OffDetailViewModel extends UiProviderObserve {
     }
 
     if (saveIcon) {
-      IconEntity entity = IconEntity(
-        dateTime: dateTimeToUnixTime(selectedDate),
-        name: path,
-      );
-
-      await iconUseCase.insert(entity);
+      await iconUseCase.insert(selectedDate, path);
       _addIconPathInState(path);
 
       notifyListeners();

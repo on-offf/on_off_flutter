@@ -50,11 +50,11 @@ class ListItem extends StatelessWidget {
               SizedBox(
                 child: PlusButton(
                   layerLink: selectIconSheetLink,
-                  actionAfterSelect: (path) => viewModel!
+                  actionAfterSelect: (path) => viewModel
                       .onEvent(OffListEvent.addSelectedIconPaths(content.time, path)),
                 ),
               ),
-              SizedBox(width: 8),
+              const SizedBox(width: 8),
               Expanded(
                 child: Container(
                   height: 2,
@@ -116,13 +116,13 @@ class ListItem extends StatelessWidget {
           //       crossAxisAlignment: CrossAxisAlignment.start,
           //       children: [
           //         content.imagePaths.isEmpty
-          //             ? SizedBox()
+          //             ? const SizedBox()
           //             : Image.asset(
           //                 content.imagePaths[0],
           //                 width: 96,
           //                 height: 81,
           //               ),
-          //         content.imagePaths.isEmpty ? SizedBox() : SizedBox(width: 23),
+          //         content.imagePaths.isEmpty ? const SizedBox() : const SizedBox(width: 23),
           //         Expanded(
           //           child: Text(
           //             content.content,

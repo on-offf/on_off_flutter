@@ -52,16 +52,19 @@ class UiProvider with ChangeNotifier {
   }
 
   void _changeCalendarPage(DateTime changeCalendarPage) {
+    changeCalendarPage = DateTime(changeCalendarPage.year, changeCalendarPage.month, changeCalendarPage.day);
     _state = _state.copyWith(changeCalendarPage: changeCalendarPage);
     _notifyListeners();
   }
 
   void _changeSelectedDay(DateTime selectedDay) {
+    selectedDay = DateTime(selectedDay.year, selectedDay.month, selectedDay.day);
     _state = _state.copyWith(selectedDay: selectedDay);
     _notifyListeners();
   }
 
   void _changeFocusedDay(DateTime focusedDay) {
+    focusedDay = DateTime(focusedDay.year, focusedDay.month, focusedDay.day);
     _state = _state.copyWith(focusedDay: focusedDay);
     _notifyListeners();
   }

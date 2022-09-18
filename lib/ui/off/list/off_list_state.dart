@@ -7,6 +7,6 @@ part 'off_list_state.freezed.dart';
 class OffListState with _$OffListState {
   factory OffListState({
     required List<Content> contents,
-    Map<int, List<String>>? iconPathMap,
+    required Map<int, List<String>> iconPathMap,
   }) = _OffListState;
 }

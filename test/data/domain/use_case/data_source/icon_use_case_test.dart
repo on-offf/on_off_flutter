@@ -23,8 +23,8 @@ void main() async {
   IconEntity secondOffIcon = IconEntity(dateTime: unixTime, name: 'icon02.png');
 
   test('off_icon_use_case_test', () async {
-    await iconUseCase.insert(firstOffIcon);
-    await iconUseCase.insert(secondOffIcon);
+    await iconUseCase.insertEntity(firstOffIcon);
+    await iconUseCase.insertEntity(secondOffIcon);
 
     List<IconEntity> offIconList = await iconUseCase.selectListByDateTime(now);
 

@@ -4,10 +4,21 @@ import 'package:on_off/util/date_util.dart';
 
 class IconUseCase {
   final IconDAO iconDAO;
+
   IconUseCase(this.iconDAO);
 
-  Future<void> insert(IconEntity offIcon) async {
-    await iconDAO.insertOffIcon(offIcon);
+  Future<void> insert(DateTime dateTime, String name) async {
+    dateTime = DateTime(dateTime.year, dateTime.month, dateTime.day);
+    await insertEntity(
+      IconEntity(
+        dateTime: dateTimeToUnixTime(dateTime),
+        name: name,
+      ),
+    );
+  }
+
+  Future<void> insertEntity(IconEntity iconEntity) async {
+    await iconDAO.insertOffIcon(iconEntity);
   }
 
   Future<void> delete(IconEntity offIcon) async {
@@ -23,7 +34,8 @@ class IconUseCase {
   }
 
   Future<List<IconEntity>> selectListByDateTime(DateTime dateTime) async {
-    DateTime startDate = DateTime(dateTime.year, dateTime.month, dateTime.day, 0, 0, 0);
+    DateTime startDate =
+        DateTime(dateTime.year, dateTime.month, dateTime.day, 0, 0, 0);
     DateTime endDate = startDate.add(const Duration(days: 1));
 
     int unixStartDate = dateTimeToUnixTime(startDate);
@@ -32,15 +44,17 @@ class IconUseCase {
     return await iconDAO.selectOffIconList(unixStartDate, unixEndDate);
   }
 
-  Future<List<IconEntity>> selectOffIconList(DateTime startDateTime, DateTime endDateTime) async {
-    startDateTime = DateTime(startDateTime.year, startDateTime.month, startDateTime.day);
+  Future<List<IconEntity>> selectOffIconList(
+      DateTime startDateTime, DateTime endDateTime) async {
+    startDateTime =
+        DateTime(startDateTime.year, startDateTime.month, startDateTime.day);
     endDateTime = endDateTime.add(const Duration(days: 1));
-    endDateTime = DateTime(endDateTime.year, endDateTime.month, endDateTime.day);
+    endDateTime =
+        DateTime(endDateTime.year, endDateTime.month, endDateTime.day);
 
     int startUnixTime = dateTimeToUnixTime(startDateTime);
     int endUnixTime = dateTimeToUnixTime(endDateTime);
 
     return await iconDAO.selectOffIconList(startUnixTime, endUnixTime);
   }
-
 }

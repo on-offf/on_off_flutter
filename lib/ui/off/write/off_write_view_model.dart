@@ -46,12 +46,7 @@ class OffWriteViewModel extends UiProviderObserve {
     }
 
     if (saveIcon) {
-      IconEntity entity = IconEntity(
-        dateTime: dateTimeToUnixTime(uiState!.focusedDay),
-        name: path,
-      );
-
-      await iconUseCase.insert(entity);
+      await iconUseCase.insert(uiState!.focusedDay, path);
       _addIconPathInState(path);
 
       notifyListeners();
