@@ -4,6 +4,7 @@ import 'package:on_off/ui/components/off_focus_month.dart';
 import 'package:on_off/ui/off/home/components/off_home_calendar.dart';
 
 import 'package:on_off/ui/off/home/components/off_home_item.dart';
+import 'package:on_off/ui/off/list/off_list_screen.dart';
 import 'package:on_off/ui/provider/ui_event.dart';
 import 'package:on_off/ui/provider/ui_provider.dart';
 import 'package:provider/provider.dart';
@@ -22,6 +23,11 @@ class OffHomeScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: offAppBar(context),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.pushNamed(context, OffListScreen.routeName);
+        },
+      ),
       body: Padding(
         padding: const EdgeInsets.only(left: 37, right: 37, bottom: 41),
         child: NotificationListener(

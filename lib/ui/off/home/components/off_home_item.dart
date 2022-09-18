@@ -89,7 +89,7 @@ class OffHomeItem extends StatelessWidget {
                   },
                   icon: Transform.rotate(
                     angle: 180 * math.pi / 180,
-                    child: Icon(
+                    child: const Icon(
                       Icons.double_arrow_sharp,
                       color: Colors.white,
                     ),
@@ -103,7 +103,7 @@ class OffHomeItem extends StatelessWidget {
                     // Use the controller to change the current page
                     carouselController.nextPage();
                   },
-                  icon: Icon(
+                  icon: const Icon(
                     Icons.double_arrow_sharp,
                     color: Colors.white,
                   ),
@@ -117,7 +117,7 @@ class OffHomeItem extends StatelessWidget {
           children: [
             const Text(
               "오늘의 일기",
-              style: kSubtitle1,
+              style: kSubtitle2,
             ),
             const SizedBox(
               width: 40.5,
@@ -140,15 +140,18 @@ class OffHomeItem extends StatelessWidget {
           children: [
             Text(
               DateFormat('오후 HH:MM', 'ko_KR').format(state.content!.time),
-              style: kSubtitle2,
+              style: kSubtitle3,
             ),
           ],
         ),
         const SizedBox(height: 7),
-        Container(
+        SizedBox(
+          width: MediaQuery.of(context).size.width - 74,
           child: Text(
             state.content!.content,
+            textAlign: TextAlign.start,
             softWrap: true,
+            style: kBody1,
           ),
         ),
       ],

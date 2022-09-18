@@ -3,7 +3,6 @@ import 'package:on_off/ui/off/detail/off_detail_screen.dart';
 import 'package:on_off/ui/components/off_focus_month.dart';
 import 'package:on_off/ui/off/list/components/list_item.dart';
 import 'package:on_off/ui/components/off_appbar.dart';
-import 'package:on_off/ui/off/list/off_list_event.dart';
 import 'package:on_off/ui/off/list/off_list_state.dart';
 import 'package:on_off/ui/off/list/off_list_view_model.dart';
 import 'package:on_off/ui/provider/ui_provider.dart';
@@ -23,6 +22,11 @@ class OffListScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: offAppBar(context),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.pop(context);
+        },
+      ),
       body: Container(
         padding: const EdgeInsets.only(
           left: 37,

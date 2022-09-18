@@ -55,7 +55,7 @@ class _OffFocusMonthState extends State<OffFocusMonth> {
                   child: Text(
                     DateFormat('yyyy년 MM월', 'ko_KR')
                         .format(uiState!.changeCalendarPage),
-                    style: kTitle2,
+                    style: kSubtitle2,
                   ),
                 ),
                 const SizedBox(

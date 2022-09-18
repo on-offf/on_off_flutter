@@ -150,11 +150,11 @@ class OffListViewModel extends UiProviderObserve {
 
   @override
   update(UiState uiState) async {
-    this.uiState = uiState;
-    if (uiState.focusedDay != uiState.focusedDay) {
+    if (this.uiState!.focusedDay != uiState.focusedDay) {
       _changeContents(uiState.focusedDay);
     }
 
+    this.uiState = uiState;
   }
 
 }
