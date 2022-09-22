@@ -14,6 +14,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   flutter:
     sdk: flutter
+  flutter_native_splash: ^2.2.9
   freezed_annotation: ^2.1.0
   image_picker: ^0.8.5+3
   intl: ^0.17.0
@@ -37,4 +38,5 @@ flutter:
   uses-material-design: true
   assets:
     - assets/icons/
+    - assets/images/
     - lib/ui/off/list/
