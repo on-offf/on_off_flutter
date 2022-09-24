@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:on_off/constants/constants_text_style.dart';
 import 'package:on_off/domain/model/content.dart';
 import 'package:on_off/ui/components/build_selected_icons.dart';
+import 'package:on_off/ui/components/common_floating_action_button.dart';
 import 'package:on_off/ui/components/off_appbar.dart';
 import 'package:on_off/ui/components/plus_button.dart';
 import 'package:on_off/ui/off/detail/off_detail_event.dart';
@@ -35,6 +36,12 @@ class OffDetailScreen extends StatelessWidget {
       appBar: offAppBar(
         context,
         isPrevButton: true,
+      ),
+      floatingActionButton: CommonFloatingActionButton(
+        montlyWeeklyButtonNavigator: () {
+          Navigator.pop(context);
+        },
+        onOffButtonNavigator: () {},
       ),
       body: Container(
         padding: const EdgeInsets.symmetric(

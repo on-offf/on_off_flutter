@@ -16,4 +16,6 @@ abstract class UiEvent with _$UiEvent {
   const factory UiEvent.changeCalendarPage(DateTime changeCalendarPage) = ChangeCalendarPage;
   const factory UiEvent.changeCalendarFormat(CalendarFormat calendarFormat) = ChangeCalendarFormat;
 
+  // floating action button
+  const factory UiEvent.changeFloatingActionButtonSwitch(bool? floatingActionButtonSwitch) = ChangeFloatingActionButtonSwitch;
 }

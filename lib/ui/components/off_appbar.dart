@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:on_off/domain/icon/icon_path.dart';
+import 'package:on_off/ui/provider/ui_event.dart';
 import 'package:on_off/ui/provider/ui_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -14,6 +15,7 @@ PreferredSize offAppBar(BuildContext context, {required bool isPrevButton}) {
       leading: isPrevButton
           ? ElevatedButton(
               onPressed: () {
+                uiProvider.onEvent(const UiEvent.changeFloatingActionButtonSwitch(true));
                 Navigator.pop(context);
               },
               style: ButtonStyle(
@@ -28,19 +30,6 @@ PreferredSize offAppBar(BuildContext context, {required bool isPrevButton}) {
             )
           : Container(),
       actions: [
-        GestureDetector(
-          onTap: () {
-            print('click change on & off');
-          },
-          child: Image(
-            image: AssetImage(IconPath.changeCategory.name),
-            width: 17,
-            height: 26,
-          ),
-        ),
-        const SizedBox(
-          width: 14.42,
-        ),
         GestureDetector(
           onTap: () {
             print('click setting');

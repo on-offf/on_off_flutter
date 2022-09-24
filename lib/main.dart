@@ -3,6 +3,7 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:on_off/di/provider_setup.dart';
 import 'package:on_off/routes.dart';
+import 'package:on_off/ui/off/home/off_home_screen.dart';
 import 'package:on_off/ui/provider/ui_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -41,7 +42,7 @@ class MyApp extends StatelessWidget {
           primaryColor: state.colorConst.getPrimary(),
           canvasColor: state.colorConst.canvas,
         ),
-        initialRoute: '/',
+        initialRoute: OffHomeScreen.routeName,
         routes: Routes.routes,
       ),
     );

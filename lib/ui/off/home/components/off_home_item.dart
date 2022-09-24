@@ -10,6 +10,8 @@ import 'package:on_off/ui/off/home/off_home_event.dart';
 import 'package:on_off/ui/off/home/off_home_state.dart';
 import 'package:on_off/ui/off/home/off_home_view_model.dart';
 import 'package:on_off/ui/off/write/off_write_screen.dart';
+import 'package:on_off/ui/provider/ui_event.dart';
+import 'package:on_off/ui/provider/ui_provider.dart';
 import 'package:provider/provider.dart';
 
 class OffHomeItem extends StatelessWidget {
@@ -20,11 +22,15 @@ class OffHomeItem extends StatelessWidget {
   Widget build(BuildContext context) {
     OffHomeViewModel viewModel = context.watch<OffHomeViewModel>();
     OffHomeState state = viewModel.state;
+    UiProvider uiProvider = context.watch<UiProvider>();
     LayerLink layerLink = LayerLink();
 
     return state.content == null ?
       TextButton(
-        onPressed: () => Navigator.pushNamed(context, OffWriteScreen.routeName),
+        onPressed: () {
+          uiProvider.onEvent(const UiEvent.changeFloatingActionButtonSwitch(true));
+          Navigator.pushNamed(context, OffWriteScreen.routeName);
+        },
         child: Text('다이어리 추가'),
       ) :
       Column(

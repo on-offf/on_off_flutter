@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 
 import 'package:on_off/constants/constants_text_style.dart';
 import 'package:on_off/ui/components/build_selected_icons.dart';
+import 'package:on_off/ui/components/common_floating_action_button.dart';
 import 'package:on_off/ui/components/off_appbar.dart';
 import 'package:on_off/ui/components/off_focus_month.dart';
 import 'package:on_off/ui/components/plus_button.dart';
@@ -72,6 +73,12 @@ class _OffWriteScreenState extends State<OffWriteScreen> {
       appBar: offAppBar(
         context,
         isPrevButton: true,
+      ),
+      floatingActionButton: CommonFloatingActionButton(
+        montlyWeeklyButtonNavigator: () {
+          Navigator.pop(context);
+        },
+        onOffButtonNavigator: () {},
       ),
       body: Stack(
         children: [

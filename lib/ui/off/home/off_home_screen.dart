@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:on_off/ui/components/common_floating_action_button.dart';
 import 'package:on_off/ui/components/off_appbar.dart';
 import 'package:on_off/ui/components/off_focus_month.dart';
 import 'package:on_off/ui/off/home/components/off_home_calendar.dart';
@@ -25,10 +26,11 @@ class OffHomeScreen extends StatelessWidget {
         context,
         isPrevButton: false,
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
+      floatingActionButton: CommonFloatingActionButton(
+        montlyWeeklyButtonNavigator: () {
           Navigator.pushNamed(context, OffListScreen.routeName);
         },
+        onOffButtonNavigator: () { },
       ),
       body: Padding(
         padding: const EdgeInsets.only(left: 37, right: 37, bottom: 41),

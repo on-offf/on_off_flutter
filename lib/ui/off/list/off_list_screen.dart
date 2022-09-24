@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:on_off/ui/components/common_floating_action_button.dart';
 import 'package:on_off/ui/off/detail/off_detail_screen.dart';
 import 'package:on_off/ui/components/off_focus_month.dart';
 import 'package:on_off/ui/off/list/components/list_item.dart';
@@ -26,10 +27,11 @@ class OffListScreen extends StatelessWidget {
         context,
         isPrevButton: true,
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
+      floatingActionButton: CommonFloatingActionButton(
+        montlyWeeklyButtonNavigator: () {
           Navigator.pop(context);
         },
+        onOffButtonNavigator: () { },
       ),
       body: Container(
         padding: const EdgeInsets.only(

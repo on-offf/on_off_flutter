@@ -24,6 +24,9 @@ class UiProvider with ChangeNotifier {
     changeCalendarPage: DateTime.now(),
     calendarFormat: CalendarFormat.month,
     daysOfWeekVisible: true,
+
+    // floating action button
+    floatingActionButtonSwitch: true,
   );
 
   UiState get state => _state;
@@ -38,7 +41,14 @@ class UiProvider with ChangeNotifier {
       changeFocusedDay: _changeFocusedDay,
       changeCalendarPage: _changeCalendarPage,
       changeCalendarFormat: _changeCalendarFormat,
+      changeFloatingActionButtonSwitch: _changeFloatingActionButtonSwitch,
     );
+  }
+
+  void _changeFloatingActionButtonSwitch(bool? floatingActionButtonSwitch) {
+    floatingActionButtonSwitch = floatingActionButtonSwitch ?? !_state.floatingActionButtonSwitch;
+    _state = _state.copyWith(floatingActionButtonSwitch: floatingActionButtonSwitch!);
+    _notifyListeners();
   }
 
   void _changeCalendarFormat(CalendarFormat calendarFormat) {

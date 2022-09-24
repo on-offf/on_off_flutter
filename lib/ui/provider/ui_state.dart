@@ -13,5 +13,6 @@ class UiState with _$UiState {
     required DateTime changeCalendarPage,
     required CalendarFormat calendarFormat,
     required bool daysOfWeekVisible,
+    required bool floatingActionButtonSwitch,
   }) = _UiState;
 }

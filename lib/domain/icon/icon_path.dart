@@ -21,6 +21,8 @@ enum IconPath {
   clip,
   trashCan,
   camera,
+  floatingActionButtonOnOff,
+  floatingActionButtonMonthlyWeekly,
 }
 
 extension IconExtension on IconPath {
@@ -70,6 +72,10 @@ extension IconExtension on IconPath {
         return "assets/icons/trash_can.png";
       case IconPath.camera:
         return "assets/icons/camera.png";
+      case IconPath.floatingActionButtonOnOff:
+        return "assets/icons/floating_action_button_on_off.png";
+      case IconPath.floatingActionButtonMonthlyWeekly:
+        return "assets/icons/floating_action_button_monthly_weekly.png";
       default:
         return "";
     }
