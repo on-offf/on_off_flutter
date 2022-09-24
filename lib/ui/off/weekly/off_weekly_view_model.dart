@@ -7,14 +7,14 @@ import 'package:on_off/domain/model/content.dart';
 import 'package:on_off/domain/use_case/data_source/icon_use_case.dart';
 import 'package:on_off/domain/use_case/data_source/off/off_diary_use_case.dart';
 import 'package:on_off/domain/use_case/data_source/off/off_image_use_case.dart';
-import 'package:on_off/ui/off/list/off_list_event.dart';
-import 'package:on_off/ui/off/list/off_list_state.dart';
+import 'package:on_off/ui/off/weekly/off_weekly_event.dart';
+import 'package:on_off/ui/off/weekly/off_weekly_state.dart';
 import 'package:on_off/ui/provider/ui_provider_observe.dart';
 import 'package:on_off/ui/provider/ui_state.dart';
 import 'package:on_off/util/date_util.dart';
 
-class OffListViewModel extends UiProviderObserve {
-  OffListState _state = OffListState(
+class OffWeeklyViewModel extends UiProviderObserve {
+  OffWeeklyState _state = OffWeeklyState(
     contents: [],
     iconPathMap: HashMap(),
   );
@@ -23,15 +23,15 @@ class OffListViewModel extends UiProviderObserve {
   OffImageUseCase offImageUseCase;
   IconUseCase iconUseCase;
 
-  OffListViewModel({
+  OffWeeklyViewModel({
     required this.offDiaryUseCase,
     required this.offImageUseCase,
     required this.iconUseCase,
   });
 
-  OffListState get state => _state;
+  OffWeeklyState get state => _state;
 
-  void onEvent(OffListEvent event) {
+  void onEvent(OffWeeklyEvent event) {
     event.when(
       changeContents: _changeContents,
       addSelectedIconPaths: _addSelectedIconPaths,

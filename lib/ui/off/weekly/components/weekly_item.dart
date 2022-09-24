@@ -1,35 +1,27 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:on_off/constants/constants_text_style.dart';
 import 'package:on_off/domain/model/content.dart';
 import 'package:on_off/ui/components/build_selected_icons.dart';
 import 'package:on_off/ui/components/plus_button.dart';
-import 'package:on_off/ui/off/list/off_list_event.dart';
-import 'package:on_off/ui/off/list/off_list_state.dart';
-import 'package:on_off/ui/off/list/off_list_view_model.dart';
-import 'package:on_off/ui/provider/ui_provider.dart';
-import 'package:on_off/ui/provider/ui_state.dart';
+import 'package:on_off/ui/off/weekly/off_weekly_event.dart';
+import 'package:on_off/ui/off/weekly/off_weekly_state.dart';
+import 'package:on_off/ui/off/weekly/off_weekly_view_model.dart';
 import 'package:provider/provider.dart';
 
-class ListItem extends StatelessWidget {
+class WeeklyItem extends StatelessWidget {
   final Content content;
   final LayerLink selectIconSheetLink = LayerLink();
 
-  ListItem({
+  WeeklyItem({
     Key? key,
     required this.content,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    OffListViewModel viewModel = context.watch<OffListViewModel>();
-    OffListState state = viewModel.state;
-
-    UiProvider uiProvider = context.watch<UiProvider>();
-    UiState uiState = uiProvider.state;
+    OffWeeklyViewModel viewModel = context.watch<OffWeeklyViewModel>();
+    OffWeeklyState state = viewModel.state;
 
     return Container(
       height: 177,
@@ -45,13 +37,13 @@ class ListItem extends StatelessWidget {
                 ),
               ),
               const SizedBox(width: 8,),
-              if (state.iconPathMap![content.time.day] != null)
-                ...buildSelectedIcons(state.iconPathMap![content.time.day]!) ,
+              if (state.iconPathMap[content.time.day] != null)
+                ...buildSelectedIcons(state.iconPathMap[content.time.day]!) ,
               SizedBox(
                 child: PlusButton(
                   layerLink: selectIconSheetLink,
                   actionAfterSelect: (path) => viewModel
-                      .onEvent(OffListEvent.addSelectedIconPaths(content.time, path)),
+                      .onEvent(OffWeeklyEvent.addSelectedIconPaths(content.time, path)),
                 ),
               ),
               const SizedBox(width: 8),

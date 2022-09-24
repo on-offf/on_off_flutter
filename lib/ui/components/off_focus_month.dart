@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:on_off/constants/constants_text_style.dart';
-import 'package:on_off/ui/off/home/off_home_event.dart';
-import 'package:on_off/ui/off/home/off_home_state.dart';
-import 'package:on_off/ui/off/home/off_home_view_model.dart';
+import 'package:on_off/ui/off/monthly/off_monthly_event.dart';
+import 'package:on_off/ui/off/monthly/off_monthly_state.dart';
+import 'package:on_off/ui/off/monthly/off_monthly_view_model.dart';
 import 'package:on_off/ui/provider/ui_event.dart';
 import 'package:on_off/ui/provider/ui_provider.dart';
 import 'package:on_off/ui/provider/ui_state.dart';
@@ -18,8 +18,8 @@ class OffFocusMonth extends StatefulWidget {
 
 class _OffFocusMonthState extends State<OffFocusMonth> {
   final LayerLink layerLink = LayerLink();
-  late OffHomeViewModel? viewModel;
-  late OffHomeState? state;
+  late OffMonthlyViewModel? viewModel;
+  late OffMonthlyState? state;
   late UiProvider? uiProvider;
   late UiState? uiState;
 
@@ -28,7 +28,7 @@ class _OffFocusMonthState extends State<OffFocusMonth> {
     uiProvider = context.watch<UiProvider>();
     uiState = uiProvider!.state;
 
-    viewModel = context.watch<OffHomeViewModel>();
+    viewModel = context.watch<OffMonthlyViewModel>();
     state = viewModel!.state;
 
     return Padding(
@@ -38,14 +38,14 @@ class _OffFocusMonthState extends State<OffFocusMonth> {
         children: [
           GestureDetector(
             onTap: () {
-              viewModel!.onEvent(const OffHomeEvent.offFocusMonthSelected());
+              viewModel!.onEvent(const OffMonthlyEvent.offFocusMonthSelected());
               if (state!.offFocusMonthSelected) {
                 OverlayEntry overlayEntry = _createOverlay();
                 Navigator.of(context).overlay?.insert(overlayEntry);
                 viewModel!
-                    .onEvent(OffHomeEvent.showOverlay(context, overlayEntry));
+                    .onEvent(OffMonthlyEvent.showOverlay(context, overlayEntry));
               } else {
-                viewModel!.onEvent(const OffHomeEvent.removeOverlay());
+                viewModel!.onEvent(const OffMonthlyEvent.removeOverlay());
               }
             },
             child: Row(
@@ -108,7 +108,7 @@ class _OffFocusMonthState extends State<OffFocusMonth> {
                           DateTime date = DateTime(uiState!.changeCalendarPage.year, month, 1);
                           uiProvider?.onEvent(UiEvent.changeCalendarPage(date));
                           uiProvider?.onEvent(UiEvent.changeFocusedDay(date));
-                          viewModel!.onEvent(const OffHomeEvent.removeOverlay());
+                          viewModel!.onEvent(const OffMonthlyEvent.removeOverlay());
                         },
                         child: Container(
                           padding: const EdgeInsets.all(6),
@@ -140,7 +140,7 @@ class _OffFocusMonthState extends State<OffFocusMonth> {
   @override
   void dispose() async {
     Future.delayed(Duration.zero, () {
-      viewModel!.onEvent(const OffHomeEvent.removeOverlay());
+      viewModel!.onEvent(const OffMonthlyEvent.removeOverlay());
     });
     super.dispose();
   }

@@ -9,20 +9,20 @@ import 'package:on_off/ui/components/build_selected_icons.dart';
 import 'package:on_off/ui/components/common_floating_action_button.dart';
 import 'package:on_off/ui/components/off_appbar.dart';
 import 'package:on_off/ui/components/plus_button.dart';
-import 'package:on_off/ui/off/detail/off_detail_event.dart';
-import 'package:on_off/ui/off/detail/off_detail_state.dart';
-import 'package:on_off/ui/off/detail/off_detail_view_model.dart';
+import 'package:on_off/ui/off/daily/off_daily_event.dart';
+import 'package:on_off/ui/off/daily/off_daily_state.dart';
+import 'package:on_off/ui/off/daily/off_daily_view_model.dart';
 import 'package:provider/provider.dart';
 
-class OffDetailScreen extends StatelessWidget {
-  static const routeName = '/off/detail';
+class OffDailyScreen extends StatelessWidget {
+  static const routeName = '/off/daily';
 
-  const OffDetailScreen({Key? key}) : super(key: key);
+  const OffDailyScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    OffDetailViewModel viewModel = context.watch<OffDetailViewModel>();
-    OffDetailState state = viewModel.state;
+    OffDailyViewModel viewModel = context.watch<OffDailyViewModel>();
+    OffDailyState state = viewModel.state;
     LayerLink layerLink = LayerLink();
 
     final routeArgs =
@@ -30,7 +30,7 @@ class OffDetailScreen extends StatelessWidget {
     final Content content = routeArgs['content']! as Content;
     final List<String> iconPaths = routeArgs['iconPaths']! as List<String>;
 
-    viewModel.onEvent(OffDetailEvent.getIconPaths(iconPaths));
+    viewModel.onEvent(OffDailyEvent.getIconPaths(iconPaths));
 
     return Scaffold(
       appBar: offAppBar(
@@ -91,7 +91,7 @@ class OffDetailScreen extends StatelessWidget {
                           aspectRatio: 313 / 240,
                           onPageChanged: (index, reason) {
                             viewModel.onEvent(
-                                OffDetailEvent.changeCurrentIndex(index));
+                                OffDailyEvent.changeCurrentIndex(index));
                           },
                         ),
                         items: content.imageList.map((offImage) {

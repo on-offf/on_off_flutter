@@ -1,12 +1,12 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:on_off/domain/model/content.dart';
 
-part 'off_list_state.freezed.dart';
+part 'off_weekly_state.freezed.dart';
 
 @freezed
-class OffListState with _$OffListState {
-  factory OffListState({
+class OffWeeklyState with _$OffWeeklyState {
+  factory OffWeeklyState({
     required List<Content> contents,
     required Map<int, List<String>> iconPathMap,
-  }) = _OffListState;
+  }) = _OffWeeklyState;
 }

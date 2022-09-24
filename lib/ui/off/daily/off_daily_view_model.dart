@@ -1,14 +1,13 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:on_off/domain/entity/icon_entity.dart';
 import 'package:on_off/domain/use_case/data_source/icon_use_case.dart';
-import 'package:on_off/ui/off/detail/off_detail_event.dart';
-import 'package:on_off/ui/off/detail/off_detail_state.dart';
+import 'package:on_off/ui/off/daily/off_daily_event.dart';
+import 'package:on_off/ui/off/daily/off_daily_state.dart';
 import 'package:on_off/ui/provider/ui_provider_observe.dart';
 import 'package:on_off/ui/provider/ui_state.dart';
-import 'package:on_off/util/date_util.dart';
 
-class OffDetailViewModel extends UiProviderObserve {
-  OffDetailState _state = OffDetailState(
+class OffDailyViewModel extends UiProviderObserve {
+  OffDailyState _state = OffDailyState(
     currentIndex: 0,
     carouselController: CarouselController(),
     iconPaths: [],
@@ -16,13 +15,13 @@ class OffDetailViewModel extends UiProviderObserve {
 
   final IconUseCase iconUseCase;
 
-  OffDetailViewModel({
+  OffDailyViewModel({
     required this.iconUseCase,
   });
 
-  OffDetailState get state => _state;
+  OffDailyState get state => _state;
 
-  void onEvent(OffDetailEvent event) {
+  void onEvent(OffDailyEvent event) {
     event.when(
       changeCurrentIndex: _changeCurrentIndex,
       getIconPaths: _getIconPaths,
