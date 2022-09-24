@@ -1,4 +1,5 @@
 enum IconPath {
+  appbarPreviousButton,
   plus,
   minus,
   expressionNormal,
@@ -25,6 +26,8 @@ enum IconPath {
 extension IconExtension on IconPath {
   String get name {
     switch (this) {
+      case IconPath.appbarPreviousButton:
+        return "assets/icons/appbar_previous_button.png";
       case IconPath.plus:
         return "assets/icons/plus.png";
       case IconPath.minus:

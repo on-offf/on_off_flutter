@@ -54,7 +54,7 @@ class _OffWriteScreenState extends State<OffWriteScreen> {
   void dispose() {
     _focus.dispose();
     bodyController.dispose();
-    Future.delayed(Duration.zero, (){
+    Future.delayed(Duration.zero, () {
       viewModel!.onEvent(const OffWriteEvent.resetState());
     });
     super.dispose();
@@ -69,7 +69,10 @@ class _OffWriteScreenState extends State<OffWriteScreen> {
     UiState uiState = uiProvider.state;
 
     return Scaffold(
-      appBar: offAppBar(context),
+      appBar: offAppBar(
+        context,
+        isPrevButton: true,
+      ),
       body: Stack(
         children: [
           Padding(
@@ -86,9 +89,10 @@ class _OffWriteScreenState extends State<OffWriteScreen> {
                     CompositedTransformTarget(
                       link: selectIconSheetLink,
                       child: Text(
-                        DateFormat.MMMMEEEEd('ko_KR').format(uiState.focusedDay),
+                        DateFormat.MMMMEEEEd('ko_KR')
+                            .format(uiState.focusedDay),
                         style: kSubtitle2,
-                       ),
+                      ),
                     ),
                     const SizedBox(
                       width: 8,
@@ -96,10 +100,9 @@ class _OffWriteScreenState extends State<OffWriteScreen> {
                     ...buildSelectedIcons(state.iconPaths),
                     SizedBox(
                       child: PlusButton(
-                        layerLink: selectIconSheetLink,
-                        actionAfterSelect: (path) => viewModel!
-                            .onEvent(OffWriteEvent.addSelectedIconPaths(path))
-                      ),
+                          layerLink: selectIconSheetLink,
+                          actionAfterSelect: (path) => viewModel!.onEvent(
+                              OffWriteEvent.addSelectedIconPaths(path))),
                     ),
                     const SizedBox(
                       width: 8,
@@ -127,23 +130,25 @@ class _OffWriteScreenState extends State<OffWriteScreen> {
                 const SizedBox(
                   height: 5,
                 ),
-                state.imagePaths.isNotEmpty ?
-                SizedBox(
-                  height: 100,
-                  child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: state.imagePaths.length,
-                    itemBuilder: (ctx, index) {
-                      return Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 3.0),
-                        child: Image.file(
-                          state.imagePaths[index],
-                          height: 40,
+                state.imagePaths.isNotEmpty
+                    ? SizedBox(
+                        height: 100,
+                        child: ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          itemCount: state.imagePaths.length,
+                          itemBuilder: (ctx, index) {
+                            return Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 3.0),
+                              child: Image.file(
+                                state.imagePaths[index],
+                                height: 40,
+                              ),
+                            );
+                          },
                         ),
-                      );
-                    },
-                  ),
-                ) : Container(),
+                      )
+                    : Container(),
                 const SizedBox(
                   height: 5,
                 ),

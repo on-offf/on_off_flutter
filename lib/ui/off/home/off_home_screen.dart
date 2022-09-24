@@ -10,7 +10,6 @@ import 'package:on_off/ui/provider/ui_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 
-
 class OffHomeScreen extends StatelessWidget {
   static const routeName = '/off/home';
   final ScrollController _scrollController = ScrollController();
@@ -22,7 +21,10 @@ class OffHomeScreen extends StatelessWidget {
     final uiProvider = context.watch<UiProvider>();
 
     return Scaffold(
-      appBar: offAppBar(context),
+      appBar: offAppBar(
+        context,
+        isPrevButton: false,
+      ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.pushNamed(context, OffListScreen.routeName);
@@ -35,9 +37,11 @@ class OffHomeScreen extends StatelessWidget {
             var position = _scrollController.position;
 
             if (position.pixels <= 0) {
-              uiProvider.onEvent(const UiEvent.changeCalendarFormat(CalendarFormat.month));
+              uiProvider.onEvent(
+                  const UiEvent.changeCalendarFormat(CalendarFormat.month));
             } else if (position.pixels > 0) {
-              uiProvider.onEvent(const UiEvent.changeCalendarFormat(CalendarFormat.week));
+              uiProvider.onEvent(
+                  const UiEvent.changeCalendarFormat(CalendarFormat.week));
             }
 
             return false;

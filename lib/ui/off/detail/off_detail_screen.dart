@@ -32,7 +32,10 @@ class OffDetailScreen extends StatelessWidget {
     viewModel.onEvent(OffDetailEvent.getIconPaths(iconPaths));
 
     return Scaffold(
-      appBar: offAppBar(context),
+      appBar: offAppBar(
+        context,
+        isPrevButton: true,
+      ),
       body: Container(
         padding: const EdgeInsets.symmetric(
           horizontal: 37,
@@ -80,7 +83,8 @@ class OffDetailScreen extends StatelessWidget {
                           viewportFraction: 1.0,
                           aspectRatio: 313 / 240,
                           onPageChanged: (index, reason) {
-                            viewModel.onEvent(OffDetailEvent.changeCurrentIndex(index));
+                            viewModel.onEvent(
+                                OffDetailEvent.changeCurrentIndex(index));
                           },
                         ),
                         items: content.imageList.map((offImage) {
@@ -126,7 +130,9 @@ class OffDetailScreen extends StatelessWidget {
                     ],
                   ),
                 ),
-          content.imageList.isEmpty ? const SizedBox() : const SizedBox(height: 15),
+          content.imageList.isEmpty
+              ? const SizedBox()
+              : const SizedBox(height: 15),
           Row(
             children: [
               SizedBox(width: 10),

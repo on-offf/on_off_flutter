@@ -39,7 +39,7 @@ class MyApp extends StatelessWidget {
         title: 'ON & OFF',
         theme: ThemeData(
           primaryColor: state.colorConst.getPrimary(),
-          canvasColor: Color(0xffebebeb),
+          canvasColor: state.colorConst.canvas,
         ),
         initialRoute: '/',
         routes: Routes.routes,

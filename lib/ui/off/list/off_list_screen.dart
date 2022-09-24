@@ -11,6 +11,7 @@ import 'package:provider/provider.dart';
 
 class OffListScreen extends StatelessWidget {
   static const routeName = '/off/list';
+
   const OffListScreen({Key? key}) : super(key: key);
 
   @override
@@ -21,7 +22,10 @@ class OffListScreen extends StatelessWidget {
     UiState uiState = uiProvider.state;
 
     return Scaffold(
-      appBar: offAppBar(context),
+      appBar: offAppBar(
+        context,
+        isPrevButton: true,
+      ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.pop(context);
@@ -49,7 +53,8 @@ class OffListScreen extends StatelessWidget {
                       OffDetailScreen.routeName,
                       arguments: {
                         'content': state.contents[index - 1],
-                        'iconPaths': state.iconPathMap![state.contents[index - 1].time.day],
+                        'iconPaths': state
+                            .iconPathMap![state.contents[index - 1].time.day],
                       },
                     );
                   },
