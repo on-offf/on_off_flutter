@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:on_off/ui/off/detail/off_detail_screen.dart';
-import 'package:on_off/ui/off/home/off_home_screen.dart';
-import 'package:on_off/ui/off/list/off_list_screen.dart';
+import 'package:on_off/ui/off/daily/off_daily_screen.dart';
+import 'package:on_off/ui/off/monthly/off_monthly_screen.dart';
+import 'package:on_off/ui/off/weekly/off_weekly_screen.dart';
 import 'package:on_off/ui/off/write/off_write_screen.dart';
-import 'package:on_off/ui/on/home/on_home_screen.dart';
+import 'package:on_off/ui/on/home/on_monthly_screen.dart';
 
 class Routes {
   Routes._();
 
   static final routes = <String, WidgetBuilder>{
-    OnHomeScreen.routeName: (ctx) => OnHomeScreen(),
+    OnMonthlyScreen.routeName: (ctx) => OnMonthlyScreen(),
 
-    OffHomeScreen.routeName: (ctx) => OffHomeScreen(),
+    OffMonthlyScreen.routeName: (ctx) => OffMonthlyScreen(),
     OffWriteScreen.routeName: (ctx) => OffWriteScreen(),
-    OffListScreen.routeName: (ctx) => OffListScreen(),
-    OffDetailScreen.routeName: (ctx) => OffDetailScreen(),
+    OffWeeklyScreen.routeName: (ctx) => OffWeeklyScreen(),
+    OffDailyScreen.routeName: (ctx) => OffDailyScreen(),
   };
 }

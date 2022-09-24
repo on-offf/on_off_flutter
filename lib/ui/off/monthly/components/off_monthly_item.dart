@@ -6,22 +6,22 @@ import 'package:intl/intl.dart';
 import 'package:on_off/constants/constants_text_style.dart';
 import 'package:on_off/ui/components/build_selected_icons.dart';
 import 'package:on_off/ui/components/plus_button.dart';
-import 'package:on_off/ui/off/home/off_home_event.dart';
-import 'package:on_off/ui/off/home/off_home_state.dart';
-import 'package:on_off/ui/off/home/off_home_view_model.dart';
+import 'package:on_off/ui/off/monthly/off_monthly_event.dart';
+import 'package:on_off/ui/off/monthly/off_monthly_state.dart';
+import 'package:on_off/ui/off/monthly/off_monthly_view_model.dart';
 import 'package:on_off/ui/off/write/off_write_screen.dart';
 import 'package:on_off/ui/provider/ui_event.dart';
 import 'package:on_off/ui/provider/ui_provider.dart';
 import 'package:provider/provider.dart';
 
-class OffHomeItem extends StatelessWidget {
+class OffMonthlyItem extends StatelessWidget {
   CarouselController carouselController = CarouselController();
-  OffHomeItem({Key? key}) : super(key: key);
+  OffMonthlyItem({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    OffHomeViewModel viewModel = context.watch<OffHomeViewModel>();
-    OffHomeState state = viewModel.state;
+    OffMonthlyViewModel viewModel = context.watch<OffMonthlyViewModel>();
+    OffMonthlyState state = viewModel.state;
     UiProvider uiProvider = context.watch<UiProvider>();
     LayerLink layerLink = LayerLink();
 
@@ -49,7 +49,7 @@ class OffHomeItem extends StatelessWidget {
             SizedBox(
               child: PlusButton(
                   layerLink: layerLink,
-                  actionAfterSelect: (path) => viewModel.onEvent(OffHomeEvent.addSelectedIconPaths(path))
+                  actionAfterSelect: (path) => viewModel.onEvent(OffMonthlyEvent.addSelectedIconPaths(path))
               ),
             ),
             const SizedBox(width: 8),

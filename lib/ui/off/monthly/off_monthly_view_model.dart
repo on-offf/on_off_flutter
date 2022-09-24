@@ -6,30 +6,30 @@ import 'package:on_off/domain/model/content.dart';
 import 'package:on_off/domain/use_case/data_source/off/off_diary_use_case.dart';
 import 'package:on_off/domain/use_case/data_source/icon_use_case.dart';
 import 'package:on_off/domain/use_case/data_source/off/off_image_use_case.dart';
-import 'package:on_off/ui/off/home/off_home_event.dart';
-import 'package:on_off/ui/off/home/off_home_state.dart';
+import 'package:on_off/ui/off/monthly/off_monthly_event.dart';
+import 'package:on_off/ui/off/monthly/off_monthly_state.dart';
 import 'package:on_off/ui/provider/ui_provider_observe.dart';
 import 'package:on_off/ui/provider/ui_state.dart';
 import 'package:on_off/util/date_util.dart';
 
-class OffHomeViewModel extends UiProviderObserve {
+class OffMonthlyViewModel extends UiProviderObserve {
   final OffDiaryUseCase offDiaryUseCase;
   final IconUseCase iconUseCase;
   final OffImageUseCase offImageUseCase;
 
-  OffHomeViewModel({
+  OffMonthlyViewModel({
     required this.offDiaryUseCase,
     required this.offImageUseCase,
     required this.iconUseCase,
   });
 
-  OffHomeState _state = OffHomeState(
+  OffMonthlyState _state = OffMonthlyState(
     offFocusMonthSelected: false,
   );
 
-  OffHomeState get state => _state;
+  OffMonthlyState get state => _state;
 
-  void onEvent(OffHomeEvent event) {
+  void onEvent(OffMonthlyEvent event) {
     event.when(
       offFocusMonthSelected: _offFocusMonthSelected,
       showOverlay: _showOverlay,

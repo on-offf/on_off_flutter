@@ -4,11 +4,11 @@ import 'package:on_off/data/data_source/db/off/off_image_dao.dart';
 import 'package:on_off/domain/use_case/data_source/icon_use_case.dart';
 import 'package:on_off/domain/use_case/data_source/off/off_diary_use_case.dart';
 import 'package:on_off/domain/use_case/data_source/off/off_image_use_case.dart';
-import 'package:on_off/ui/off/detail/off_detail_view_model.dart';
-import 'package:on_off/ui/off/home/off_home_view_model.dart';
-import 'package:on_off/ui/off/list/off_list_view_model.dart';
+import 'package:on_off/ui/off/daily/off_daily_view_model.dart';
+import 'package:on_off/ui/off/monthly/off_monthly_view_model.dart';
+import 'package:on_off/ui/off/weekly/off_weekly_view_model.dart';
 import 'package:on_off/ui/off/write/off_write_view_model.dart';
-import 'package:on_off/ui/on/home/on_home_view_model.dart';
+import 'package:on_off/ui/on/home/on_monthly_view_model.dart';
 import 'package:on_off/ui/provider/ui_provider.dart';
 import 'package:on_off/ui/provider/ui_provider_observe.dart';
 import 'package:provider/provider.dart';
@@ -40,7 +40,7 @@ Future<List<SingleChildWidget>> getProviders() async {
   IconUseCase iconUseCase = IconUseCase(iconDAO);
 
   // Off View Model
-  OffHomeViewModel offHomeViewModel = OffHomeViewModel(
+  OffMonthlyViewModel offHomeViewModel = OffMonthlyViewModel(
     offDiaryUseCase: offDiaryUseCase,
     offImageUseCase: offImageUseCase,
     iconUseCase: iconUseCase,
@@ -52,18 +52,18 @@ Future<List<SingleChildWidget>> getProviders() async {
     iconUseCase: iconUseCase,
   );
 
-  OffListViewModel offListViewModel = OffListViewModel(
+  OffWeeklyViewModel offListViewModel = OffWeeklyViewModel(
     offDiaryUseCase: offDiaryUseCase,
     offImageUseCase: offImageUseCase,
     iconUseCase: iconUseCase,
   );
 
-  OffDetailViewModel offDetailViewModel = OffDetailViewModel(
+  OffDailyViewModel offDetailViewModel = OffDailyViewModel(
     iconUseCase: iconUseCase,
   );
 
   // On View Model
-  OnHomeViewModel onHomeViewModel = OnHomeViewModel();
+  OnMonthlyViewModel onHomeViewModel = OnMonthlyViewModel();
 
   // Ui Provider ( common provider )
   List<UiProviderObserve> viewModelList = [];
