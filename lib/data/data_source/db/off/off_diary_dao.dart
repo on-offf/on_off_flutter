@@ -3,6 +3,7 @@ import 'package:sqflite/sqflite.dart';
 
 class OffDiaryDAO {
   static const table = 'off_diary';
+  static const ddl = 'CREATE TABLE ${OffDiaryDAO.table} (id INTEGER PRIMARY KEY AUTOINCREMENT, content TEXT, dateTime INTEGER)';
 
   final Database database;
 
@@ -29,7 +30,7 @@ class OffDiaryDAO {
 
     final List<Map<String, dynamic>> maps = await database.query(
       table,
-      where: 'dateTime > ? and dateTime < ?',
+      where: 'dateTime >= ? and dateTime < ?',
       whereArgs: [startUnixTime, endUnixTime],
     );
 

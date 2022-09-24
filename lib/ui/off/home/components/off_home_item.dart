@@ -56,7 +56,7 @@ class OffHomeItem extends StatelessWidget {
           ],
         ),
         const SizedBox(height: 23),
-        state.content!.imagePaths.isEmpty
+        state.content!.imageList.isEmpty
             ? SizedBox()
             : SizedBox(
           width: 313,
@@ -71,10 +71,10 @@ class OffHomeItem extends StatelessWidget {
                   viewportFraction: 1.0,
                   aspectRatio: 313 / 240,
                 ),
-                items: state.content!.imagePaths.map((img) {
+                items: state.content!.imageList.map((offImage) {
                   return Container(
-                    child: Image.asset(
-                      img,
+                    child: Image.memory(
+                      offImage.imageFile,
                       fit: BoxFit.fill,
                     ),
                   );
@@ -112,7 +112,7 @@ class OffHomeItem extends StatelessWidget {
             ],
           ),
         ),
-        state.content!.imagePaths.isEmpty ? SizedBox() : SizedBox(height: 15),
+        state.content!.imageList.isEmpty ? SizedBox() : SizedBox(height: 15),
         Row(
           children: [
             const Text(

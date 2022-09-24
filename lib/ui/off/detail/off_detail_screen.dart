@@ -65,7 +65,7 @@ class OffDetailScreen extends StatelessWidget {
             ],
           ),
           SizedBox(height: 23),
-          content.imagePaths.isEmpty
+          content.imageList.isEmpty
               ? SizedBox()
               : SizedBox(
                   width: 313,
@@ -83,10 +83,10 @@ class OffDetailScreen extends StatelessWidget {
                             viewModel.onEvent(OffDetailEvent.changeCurrentIndex(index));
                           },
                         ),
-                        items: content.imagePaths.map((img) {
+                        items: content.imageList.map((offImage) {
                           return Container(
-                            child: Image.asset(
-                              img,
+                            child: Image.memory(
+                              offImage.imageFile,
                               fit: BoxFit.fill,
                             ),
                           );
@@ -109,7 +109,7 @@ class OffDetailScreen extends StatelessWidget {
                               ),
                             )
                           : SizedBox(),
-                      state.currentIndex < content.imagePaths.length - 1
+                      state.currentIndex < content.imageList.length - 1
                           ? Align(
                               alignment: Alignment.centerRight,
                               child: IconButton(
@@ -126,7 +126,7 @@ class OffDetailScreen extends StatelessWidget {
                     ],
                   ),
                 ),
-          content.imagePaths.isEmpty ? SizedBox() : SizedBox(height: 15),
+          content.imageList.isEmpty ? const SizedBox() : const SizedBox(height: 15),
           Row(
             children: [
               SizedBox(width: 10),

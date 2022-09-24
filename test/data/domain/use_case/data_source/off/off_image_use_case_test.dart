@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:on_off/data/data_source/db/off/off_diary_dao.dart';
 import 'package:on_off/data/data_source/db/off/off_image_dao.dart';
@@ -11,10 +13,8 @@ import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 void main() async {
   final database = await databaseFactoryFfi.openDatabase(inMemoryDatabasePath);
 
-  await database.execute(
-      'CREATE TABLE off_diary (id INTEGER PRIMARY KEY AUTOINCREMENT, content TEXT, dateTime INTEGER)');
-  await database.execute(
-      'CREATE TABLE off_image (id INTEGER PRIMARY KEY AUTOINCREMENT, dateTime Integer, offDiaryId Integer, path TEXT)');
+  await database.execute(OffDiaryDAO.ddl);
+  await database.execute(OffImageDAO.ddl);
 
   OffDiaryDAO offDiaryDAO = OffDiaryDAO(database);
   OffImageDAO offImageDAO = OffImageDAO(database);
@@ -28,10 +28,10 @@ void main() async {
   await offDiaryDAO.insertOffDiary(offDiary);
 
   List<OffImage> offImageList = [];
-  offImageList.add(OffImage(offDiaryId: offDiary.id!, path: 'image/image01.png'));
-  offImageList.add(OffImage(offDiaryId: offDiary.id!, path: 'image/image02.png'));
-  offImageList.add(OffImage(offDiaryId: offDiary.id!, path: 'image/image03.png'));
-  offImageList.add(OffImage(offDiaryId: offDiary.id!, path: 'image/image04.png'));
+  offImageList.add(OffImage(offDiaryId: offDiary.id!, imageFile: Uint8List.fromList([1])));
+  offImageList.add(OffImage(offDiaryId: offDiary.id!, imageFile: Uint8List.fromList([1, 2])));
+  offImageList.add(OffImage(offDiaryId: offDiary.id!, imageFile: Uint8List.fromList([1, 2, 3])));
+  offImageList.add(OffImage(offDiaryId: offDiary.id!, imageFile: Uint8List.fromList([1, 2, 3, 4])));
 
   test('off_image_use_case_test', () async {
     await offImageUseCase.insertAll(offImageList);
@@ -40,15 +40,7 @@ void main() async {
 
     expect(offImageList.length, 4);
 
-    OffImage? offImage = offImageList.first.copyWith(path: 'path change');
-
-    await offImageUseCase.update(offImage);
-
-    offImage = await offImageUseCase.selectOfImage(offImage.id!);
-
-    for (var element in offImageList) { expect(element.path, isNot(offImage!.path)); }
-
-    offImageUseCase.delete(offImage!);
+    offImageUseCase.delete(offImageList.first.id!);
 
     offImageList = await offImageUseCase.selectOffImageList(offDiary.id!);
 

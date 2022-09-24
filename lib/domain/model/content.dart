@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -10,7 +12,7 @@ class Content with _$Content {
     int? id,
     required DateTime time,
     required String content,
-    required List<String> imagePaths,
+    required List<dynamic> imageList,
     @Default([]) List<String> icons,
   }) = _Content;
 

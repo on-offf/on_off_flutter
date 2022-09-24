@@ -69,23 +69,24 @@ class OffWriteViewModel extends UiProviderObserve {
   }
 
   void _saveTextContent(String text) async {
-    print(this.uiState);
+    print(uiState);
 
     OffDiary? offDiary = OffDiary(
-      dateTime: dateTimeToUnixTime(this.uiState!.focusedDay),
+      dateTime: dateTimeToUnixTime(uiState!.focusedDay),
       content: text,
     );
 
     await offDiaryUseCase.insert(offDiary);
 
-    offDiary = await offDiaryUseCase.selectByDateTime(this.uiState!.focusedDay);
+    offDiary = await offDiaryUseCase.selectByDateTime(uiState!.focusedDay);
+    print(offDiary);
 
     List<OffImage> offImageList = [];
 
     for (var imageFile in state.imagePaths) {
       OffImage offImage = OffImage(
         offDiaryId: offDiary!.id!,
-        path: imageFile.path,
+        imageFile: imageFile.readAsBytesSync(),
       );
       offImageList.add(offImage);
     }

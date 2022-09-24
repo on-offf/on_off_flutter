@@ -13,20 +13,13 @@ class OffImageUseCase {
     await offImageDAO.insertOffImageList(offImageList);
   }
 
-  Future<void> delete(OffImage offImage) async {
-    await offImageDAO.deleteOffImage(offImage);
-  }
-
-  Future<void> update(OffImage offImage) async {
-    await offImageDAO.updateOffImage(offImage);
-  }
-
-  Future<OffImage?> selectOfImage(int id) async {
-    return offImageDAO.selectOffImage(id);
+  Future<void> delete(int id) async {
+    await offImageDAO.deleteOffImage(id);
   }
 
   Future<List<OffImage>> selectOffImageList(int diaryId) async {
-    return await offImageDAO.selectOffImageListByOffDiaryId(diaryId);
+    List<OffImage> list = await offImageDAO.selectOffImageListByOffDiaryId(diaryId);
+    return list;
   }
 
 }

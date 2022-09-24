@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:on_off/data/data_source/db/off/off_diary_dao.dart';
 import 'package:on_off/data/data_source/db/off/off_image_dao.dart';
@@ -10,10 +12,8 @@ import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 void main() async {
   final database = await databaseFactoryFfi.openDatabase(inMemoryDatabasePath);
 
-  await database.execute(
-      'CREATE TABLE off_diary (id INTEGER PRIMARY KEY AUTOINCREMENT, content TEXT, dateTime INTEGER)');
-  await database.execute(
-      'CREATE TABLE off_image (id INTEGER PRIMARY KEY AUTOINCREMENT, dateTime Integer, offDiaryId Integer, path TEXT)');
+  await database.execute(OffDiaryDAO.ddl);
+  await database.execute(OffImageDAO.ddl);
 
   final offDiaryDAO = OffDiaryDAO(database);
   final offImageDAO = OffImageDAO(database);
@@ -25,7 +25,7 @@ void main() async {
 
   DateTime todayStartDate = DateTime(now.year, now.month, now.day);
   DateTime todayEndDate = todayStartDate.add(const Duration(days: 1));
-  DateTime yesterdayStartDate = todayStartDate.add(Duration(days: -1));
+  DateTime yesterdayStartDate = todayStartDate.add(const Duration(days: -1));
 
   int todayUnixStartDate = dateTimeToUnixTime(todayStartDate);
   int todayUnixEndDate = dateTimeToUnixTime(todayEndDate);
@@ -41,15 +41,16 @@ void main() async {
   yesterdayOffDiary = (await offDiaryDAO.selectOffDiaryList(yesterdayUnixStartDate, todayUnixStartDate)).first;
 
   List<OffImage> offImageList = [];
-  offImageList.add(OffImage(offDiaryId: offDiary.id!, path: 'image/image01.png'));
-  offImageList.add(OffImage(offDiaryId: offDiary.id!, path: 'image/image02.png'));
-  offImageList.add(OffImage(offDiaryId: offDiary.id!, path: 'image/image03.png'));
-  offImageList.add(OffImage(offDiaryId: offDiary.id!, path: 'image/image04.png'));
 
-  offImageList.add(OffImage(offDiaryId: yesterdayOffDiary.id!, path: 'image/yesterdayImage01.png'));
-  offImageList.add(OffImage(offDiaryId: yesterdayOffDiary.id!, path: 'image/yesterdayImage02.png'));
-  offImageList.add(OffImage(offDiaryId: yesterdayOffDiary.id!, path: 'image/yesterdayImage03.png'));
-  offImageList.add(OffImage(offDiaryId: yesterdayOffDiary.id!, path: 'image/yesterdayImage04.png'));
+  offImageList.add(OffImage(offDiaryId: offDiary.id!, imageFile: Uint8List.fromList([1])));
+  offImageList.add(OffImage(offDiaryId: offDiary.id!, imageFile: Uint8List.fromList([1, 2])));
+  offImageList.add(OffImage(offDiaryId: offDiary.id!, imageFile: Uint8List.fromList([1, 2, 3])));
+  offImageList.add(OffImage(offDiaryId: offDiary.id!, imageFile: Uint8List.fromList([1, 2, 3, 4])));
+
+  offImageList.add(OffImage(offDiaryId: yesterdayOffDiary.id!, imageFile: Uint8List.fromList([4])));
+  offImageList.add(OffImage(offDiaryId: yesterdayOffDiary.id!, imageFile: Uint8List.fromList([4, 3])));
+  offImageList.add(OffImage(offDiaryId: yesterdayOffDiary.id!, imageFile: Uint8List.fromList([4, 3, 2])));
+  offImageList.add(OffImage(offDiaryId: yesterdayOffDiary.id!, imageFile: Uint8List.fromList([4, 3, 2, 1])));
 
   test('off_image_dao_test', () async {
     await offImageDAO.insertOffImageList(offImageList);
@@ -58,23 +59,11 @@ void main() async {
 
     expect(offImageList.length, 4);
 
-    await offImageDAO.deleteOffImage(offImageList.first);
+    await offImageDAO.deleteOffImage(offImageList.first.id!);
 
     offImageList = await offImageDAO.selectOffImageListByOffDiaryId(offDiary.id!);
 
     expect(offImageList.length, 3);
-
-    OffImage? offImage = offImageList.first;
-
-    offImage = offImage.copyWith(path: 'image/imageimagepath.png');
-
-    offImageDAO.updateOffImage(offImage);
-
-    offImage = await offImageDAO.selectOffImage(offImage.id!);
-
-    expect(offImage!.path, 'image/imageimagepath.png');
-
-    expect(offImage.path, isNot(offImageList.first.path));
 
     await database.close();
   });

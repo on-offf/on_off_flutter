@@ -76,19 +76,19 @@ class ListItem extends StatelessWidget {
             ],
           ),
           SizedBox(height: 3),
-          content.imagePaths.isNotEmpty
+          content.imageList.isNotEmpty
               ? SizedBox(
                   height: 40,
                   child: ListView.builder(
                     scrollDirection: Axis.horizontal,
-                    itemCount: content.imagePaths.length,
+                    itemCount: content.imageList.length,
                     itemBuilder: (ctx, index) {
                       return Padding(
                         padding: EdgeInsets.symmetric(
                           horizontal: 3.0,
                         ),
-                        child: Image.file(
-                          File(content.imagePaths[index]),
+                        child: Image.memory(
+                          content.imageList[index].imageFile,
                           height: 40,
                         ),
                       );

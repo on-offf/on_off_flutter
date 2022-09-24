@@ -3,6 +3,7 @@ import 'package:sqflite/sqflite.dart';
 
 class OffImageDAO {
   static const table = 'off_image';
+  static const ddl = 'CREATE TABLE ${OffImageDAO.table} (id INTEGER PRIMARY KEY AUTOINCREMENT, offDiaryId Integer, imageFile BLOB)';
 
   final Database database;
 
@@ -16,28 +17,8 @@ class OffImageDAO {
     await database.insert(table, offImage.toJson());
   }
 
-  Future<void> deleteOffImage(OffImage offImage) async {
-    await database.delete(table, where: 'id = ?', whereArgs: [offImage.id]);
-  }
-
-  Future<void> updateOffImage(OffImage offImage) async {
-    await database.update(
-      table,
-      offImage.toJson(),
-      where: 'id = ?',
-      whereArgs: [offImage.id],
-    );
-  }
-
-  Future<OffImage?> selectOffImage(int id) async {
-    final List<Map<String, dynamic>> maps = await database.query(
-      table,
-      where: 'id = ?',
-      whereArgs: [id],
-    );
-
-    if (maps.isNotEmpty) return OffImage.fromJson(maps.first);
-    return null;
+  Future<void> deleteOffImage(int id) async {
+    await database.delete(table, where: 'id = ?', whereArgs: [id]);
   }
 
   Future<List<OffImage>> selectOffImageListByOffDiaryId(int diaryId) async {

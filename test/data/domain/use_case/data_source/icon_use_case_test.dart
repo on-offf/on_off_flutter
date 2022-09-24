@@ -9,8 +9,7 @@ import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 void main() async {
   final database = await databaseFactoryFfi.openDatabase(inMemoryDatabasePath);
 
-  await database.execute(
-      'CREATE TABLE icon (id INTEGER PRIMARY KEY AUTOINCREMENT, dateTime Integer, name TEXT)');
+  await database.execute(IconDAO.ddl);
 
   IconDAO offIconDAO = IconDAO(database);
   IconUseCase iconUseCase = IconUseCase(offIconDAO);

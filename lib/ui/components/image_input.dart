@@ -5,19 +5,18 @@ import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart' as syspaths;
 
 //mode = 0 : 카메라, 1 : 갤러리
-Future<void> inputImage(int mode, onSelectImage,
-    {double maxHeight = 600}) async {
+Future<File?> inputImage(int mode, {double maxHeight = 600}) async {
   final picker = ImagePicker();
   final imageFile = await picker.pickImage(
     source: mode == 0 ? ImageSource.camera : ImageSource.gallery,
     maxHeight: maxHeight,
   );
   if (imageFile == null) {
-    return;
+    return null;
   }
 
   final appDir = await syspaths.getApplicationDocumentsDirectory();
   final fileName = path.basename(imageFile.path);
   final savedImage = File(imageFile.path).copy('${appDir.path}/$fileName');
-  onSelectImage(await savedImage);
+  return await savedImage;
 }

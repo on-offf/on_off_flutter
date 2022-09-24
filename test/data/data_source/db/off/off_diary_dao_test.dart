@@ -8,8 +8,7 @@ import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 void main() async {
   final database = await databaseFactoryFfi.openDatabase(inMemoryDatabasePath);
 
-  await database.execute(
-      'CREATE TABLE off_diary (id INTEGER PRIMARY KEY AUTOINCREMENT, content TEXT, dateTime INTEGER)');
+  await database.execute(OffDiaryDAO.ddl);
 
   final offDiaryDAO = OffDiaryDAO(database);
 

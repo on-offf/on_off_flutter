@@ -3,6 +3,7 @@ import 'package:sqflite/sqflite.dart';
 
 class IconDAO {
   static const table = 'icon';
+  static const ddl = 'CREATE TABLE ${IconDAO.table} (id INTEGER PRIMARY KEY AUTOINCREMENT, dateTime Integer, name TEXT)';
 
   final Database database;
 

@@ -84,12 +84,12 @@ class OffListViewModel extends UiProviderObserve {
     List<Content> contentList = [];
 
     for (var offDiary in offDiaryList) {
-      List<String> imagePathList = await _getImagePathByDiaryId(offDiary.id!);
+      List<OffImage> imageList = await offImageUseCase.selectOffImageList(offDiary.id!);
 
       var content = Content(
         time: unixToDateTime(offDiary.dateTime),
         content: offDiary.content,
-        imagePaths: imagePathList,
+        imageList: imageList,
       );
 
       contentList.add(content);
@@ -121,18 +121,6 @@ class OffListViewModel extends UiProviderObserve {
     _state = _state.copyWith(iconPathMap: iconPathMap);
 
     notifyListeners();
-  }
-
-  Future<List<String>> _getImagePathByDiaryId(int diaryId) async {
-    List<OffImage> offImageList = await offImageUseCase.selectOffImageList(
-        diaryId);
-    List<String> imagePathList = [];
-
-    for (var value in offImageList) {
-      imagePathList.add(value.path);
-    }
-
-    return imagePathList;
   }
 
   @override

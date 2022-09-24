@@ -81,26 +81,15 @@ class OffHomeViewModel extends UiProviderObserve {
     notifyListeners();
   }
 
-  Future<List<String>> _findImagePathListByDiaryId(int diaryId) async {
-    List<String> imagePathList = [];
-
-    List<OffImage> imageList =
-        await offImageUseCase.selectOffImageList(diaryId);
-    for (var image in imageList) {
-      imagePathList.add(image.path);
-    }
-    return imagePathList;
-  }
-
   void _changeFocusedDay(DateTime focusedDay) async {
     OffDiary? offDiary = await offDiaryUseCase.selectByDateTime(focusedDay);
 
     if (offDiary != null) {
-      List<String> imagePathList =
-          await _findImagePathListByDiaryId(offDiary.id!);
+      List<OffImage> imageList = await offImageUseCase.selectOffImageList(offDiary.id!);
+
       Content content = Content(
         time: unixToDateTime(offDiary.dateTime),
-        imagePaths: imagePathList,
+        imageList: imageList,
         content: offDiary.content,
       );
 

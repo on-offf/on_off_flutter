@@ -7,7 +7,7 @@ part 'off_image.g.dart';
 class OffImage with _$OffImage{
   factory OffImage({
     required int offDiaryId,
-    required String path,
+    required dynamic imageFile,
     int? id,
   }) = _OffImage;
 

@@ -26,10 +26,6 @@ class IconsAboveKeyboard extends StatefulWidget {
 class _IconsAboveKeyboardState extends State<IconsAboveKeyboard> {
   File? _pickedImage;
 
-  void _selectImage(File pickedImage) {
-    _pickedImage = pickedImage;
-  }
-
   @override
   Widget build(BuildContext context) {
     return Positioned(
@@ -67,7 +63,7 @@ class _IconsAboveKeyboardState extends State<IconsAboveKeyboard> {
             const SizedBox(width: 20),
             IconButton(
               onPressed: () async {
-                await inputImage(0, _selectImage);
+                _pickedImage = await inputImage(0);
                 if (_pickedImage != null) {
                   widget.viewModel.onEvent(
                     OffWriteEvent.addSelectedImagePaths(_pickedImage!),
@@ -85,7 +81,7 @@ class _IconsAboveKeyboardState extends State<IconsAboveKeyboard> {
             const SizedBox(width: 20),
             IconButton(
               onPressed: () async {
-                await inputImage(1, _selectImage);
+                _pickedImage = await inputImage(1);
                 if (_pickedImage != null) {
                   widget.viewModel.onEvent(
                     OffWriteEvent.addSelectedImagePaths(_pickedImage!),
