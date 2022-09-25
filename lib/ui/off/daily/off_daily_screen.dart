@@ -6,9 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:on_off/constants/constants_text_style.dart';
 import 'package:on_off/domain/model/content.dart';
 import 'package:on_off/ui/components/build_selected_icons.dart';
-import 'package:on_off/ui/components/common_floating_action_button.dart';
 import 'package:on_off/ui/components/off_appbar.dart';
-import 'package:on_off/ui/components/plus_button.dart';
 import 'package:on_off/ui/off/daily/off_daily_event.dart';
 import 'package:on_off/ui/off/daily/off_daily_state.dart';
 import 'package:on_off/ui/off/daily/off_daily_view_model.dart';
@@ -30,18 +28,12 @@ class OffDailyScreen extends StatelessWidget {
     final Content content = routeArgs['content']! as Content;
     final List<String> iconPaths = routeArgs['iconPaths']! as List<String>;
 
-    viewModel.onEvent(OffDailyEvent.getIconPaths(iconPaths));
+    Future.delayed(Duration.zero, () => viewModel.onEvent(OffDailyEvent.getIconPaths(iconPaths)));
 
     return Scaffold(
       appBar: offAppBar(
         context,
         isPrevButton: true,
-      ),
-      floatingActionButton: CommonFloatingActionButton(
-        montlyWeeklyButtonNavigator: () {
-          Navigator.pop(context);
-        },
-        onOffButtonNavigator: () {},
       ),
       body: Container(
         padding: const EdgeInsets.symmetric(
@@ -59,13 +51,6 @@ class OffDailyScreen extends StatelessWidget {
               ),
               const SizedBox(width: 8),
               ...buildSelectedIcons(state.iconPaths),
-              SizedBox(
-                child: PlusButton(
-                  layerLink: layerLink,
-                  actionAfterSelect: () {},
-                ),
-              ),
-              SizedBox(width: 8),
               Expanded(
                 child: Container(
                   height: 2,
@@ -74,9 +59,9 @@ class OffDailyScreen extends StatelessWidget {
               ),
             ],
           ),
-          SizedBox(height: 23),
+          const SizedBox(height: 23),
           content.imageList.isEmpty
-              ? SizedBox()
+              ? const SizedBox()
               : SizedBox(
                   width: 313,
                   height: 240,
@@ -95,11 +80,9 @@ class OffDailyScreen extends StatelessWidget {
                           },
                         ),
                         items: content.imageList.map((offImage) {
-                          return Container(
-                            child: Image.memory(
-                              offImage.imageFile,
-                              fit: BoxFit.fill,
-                            ),
+                          return Image.memory(
+                            offImage.imageFile,
+                            fit: BoxFit.fill,
                           );
                         }).toList(),
                       ),
@@ -112,14 +95,14 @@ class OffDailyScreen extends StatelessWidget {
                                 },
                                 icon: Transform.rotate(
                                   angle: 180 * math.pi / 180,
-                                  child: Icon(
+                                  child: const Icon(
                                     Icons.double_arrow_sharp,
                                     color: Colors.white,
                                   ),
                                 ),
                               ),
                             )
-                          : SizedBox(),
+                          : const SizedBox(),
                       state.currentIndex < content.imageList.length - 1
                           ? Align(
                               alignment: Alignment.centerRight,
@@ -127,38 +110,32 @@ class OffDailyScreen extends StatelessWidget {
                                 onPressed: () {
                                   state.carouselController.nextPage();
                                 },
-                                icon: Icon(
+                                icon: const Icon(
                                   Icons.double_arrow_sharp,
                                   color: Colors.white,
                                 ),
                               ),
                             )
-                          : SizedBox(),
+                          : const SizedBox(),
                     ],
                   ),
                 ),
           content.imageList.isEmpty
               ? const SizedBox()
               : const SizedBox(height: 15),
-          Row(
-            children: [
-              SizedBox(width: 10),
-              Text(
-                DateFormat('오후 HH:MM', 'ko_KR').format(content.time),
-                style: kSubtitle2,
-              ),
-            ],
-          ),
-          SizedBox(height: 7),
           Expanded(
             child: SingleChildScrollView(
-              child: Text(
-                content.content,
-                softWrap: true,
+              child: SizedBox(
+                width: MediaQuery.of(context).size.width - 74,
+                child: Text(
+                  content.content,
+                  softWrap: true,
+                  textAlign: TextAlign.start,
+                ),
               ),
             ),
           ),
-          SizedBox(height: 41),
+          const SizedBox(height: 41),
         ]),
       ),
     );

@@ -52,7 +52,7 @@ class OffWeeklyScreen extends StatelessWidget {
                       arguments: {
                         'content': state.contents[index - 1],
                         'iconPaths': state
-                            .iconPathMap[state.contents[index - 1].time.day],
+                            .iconPathMap[state.contents[index - 1].time.weekday],
                       },
                     );
                   },

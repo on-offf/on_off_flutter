@@ -41,7 +41,7 @@ class OffWeeklyViewModel extends UiProviderObserve {
   void _addSelectedIconPaths(DateTime selectedDate, String path) async {
     selectedDate = DateTime(selectedDate.year, selectedDate.month, selectedDate.day);
 
-    List<String>? iconPathList = _state.iconPathMap[selectedDate.day];
+    List<String>? iconPathList = _state.iconPathMap[selectedDate.weekday];
 
     bool saveIcon = true;
 
@@ -103,18 +103,19 @@ class OffWeeklyViewModel extends UiProviderObserve {
 
     var iconPathMap = HashMap<int, List<String>>();
 
-    for (int index = startDateTime.day; index <= endDateTime.day; index++) {
+    // flutter dateTime의 weekday는 1(월)부터 7(일)까지
+    for (int index = 1; index <= 7; index++) {
       iconPathMap[index] = [];
     }
 
     for (var iconEntity in iconEntityList) {
       DateTime dateTime = unixToDateTime(iconEntity.dateTime);
 
-      if (iconPathMap[dateTime.day] == null) {
-        iconPathMap.putIfAbsent(dateTime.day, () => []);
-        iconPathMap[dateTime.day]?.add(iconEntity.name);
+      if (iconPathMap[dateTime.weekday] == null) {
+        iconPathMap.putIfAbsent(dateTime.weekday, () => []);
+        iconPathMap[dateTime.weekday]?.add(iconEntity.name);
       } else {
-        iconPathMap[dateTime.day]?.add(iconEntity.name);
+        iconPathMap[dateTime.weekday]?.add(iconEntity.name);
       }
     }
     _state = _state.copyWith(iconPathMap: iconPathMap);
