@@ -8,7 +8,7 @@ import 'package:on_off/ui/off/daily/off_daily_view_model.dart';
 import 'package:on_off/ui/off/monthly/off_monthly_view_model.dart';
 import 'package:on_off/ui/off/weekly/off_weekly_view_model.dart';
 import 'package:on_off/ui/off/write/off_write_view_model.dart';
-import 'package:on_off/ui/on/home/on_monthly_view_model.dart';
+import 'package:on_off/ui/on/monthly/on_monthly_view_model.dart';
 import 'package:on_off/ui/provider/ui_provider.dart';
 import 'package:on_off/ui/provider/ui_provider_observe.dart';
 import 'package:provider/provider.dart';

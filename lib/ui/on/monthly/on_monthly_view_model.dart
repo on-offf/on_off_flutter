@@ -1,5 +1,5 @@
-import 'package:on_off/ui/on/home/on_monthly_event.dart';
-import 'package:on_off/ui/on/home/on_monthly_state.dart';
+import 'package:on_off/ui/on/monthly/on_monthly_event.dart';
+import 'package:on_off/ui/on/monthly/on_monthly_state.dart';
 import 'package:on_off/ui/provider/ui_provider_observe.dart';
 import 'package:on_off/ui/provider/ui_state.dart';
 
