@@ -2,20 +2,22 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:on_off/constants/constants_text_style.dart';
 
 import 'package:on_off/domain/icon/icon_path.dart';
 import 'package:on_off/ui/components/image_input.dart';
 import 'package:on_off/ui/off/write/off_write_event.dart';
+import 'package:on_off/ui/off/write/off_write_state.dart';
 import 'package:on_off/ui/off/write/off_write_view_model.dart';
+import 'package:provider/provider.dart';
 
 class IconsAboveKeyboard extends StatefulWidget {
   BuildContext context;
-  OffWriteViewModel viewModel;
   TextEditingController bodyController;
+
   IconsAboveKeyboard({
     Key? key,
     required this.context,
-    required this.viewModel,
     required this.bodyController,
   }) : super(key: key);
 
@@ -28,6 +30,9 @@ class _IconsAboveKeyboardState extends State<IconsAboveKeyboard> {
 
   @override
   Widget build(BuildContext context) {
+    OffWriteViewModel viewModel = context.watch<OffWriteViewModel>();
+    OffWriteState state = viewModel.state;
+
     return Positioned(
       bottom: 0,
       width: MediaQuery.of(context).size.width,
@@ -47,7 +52,11 @@ class _IconsAboveKeyboardState extends State<IconsAboveKeyboard> {
             const SizedBox(width: 38),
             IconButton(
               onPressed: () {
-                widget.viewModel.onEvent(
+                if (state.imagePaths.isEmpty) {
+                  showImageRegistryDialog();
+                  return;
+                }
+                viewModel.onEvent(
                   //TODO 글 입력하지 않고 저장하고 싶을때 수정해야 함.
                   OffWriteEvent.saveTextContent(widget.bodyController.text),
                 );
@@ -65,7 +74,7 @@ class _IconsAboveKeyboardState extends State<IconsAboveKeyboard> {
               onPressed: () async {
                 _pickedImage = await inputImage(0);
                 if (_pickedImage != null) {
-                  widget.viewModel.onEvent(
+                  viewModel.onEvent(
                     OffWriteEvent.addSelectedImagePaths(_pickedImage!),
                   );
                   _pickedImage = null;
@@ -83,7 +92,7 @@ class _IconsAboveKeyboardState extends State<IconsAboveKeyboard> {
               onPressed: () async {
                 _pickedImage = await inputImage(1);
                 if (_pickedImage != null) {
-                  widget.viewModel.onEvent(
+                  viewModel.onEvent(
                     OffWriteEvent.addSelectedImagePaths(_pickedImage!),
                   );
                   _pickedImage = null;
@@ -107,6 +116,18 @@ class _IconsAboveKeyboardState extends State<IconsAboveKeyboard> {
               ),
             ),
           ],
+        ),
+      ),
+    );
+  }
+
+  void showImageRegistryDialog() {
+    showDialog(
+      context: context,
+      builder: (_) => const AlertDialog(
+        title: Text(
+          '사진을 1장 이상 등록해주세요.',
+          style: kBody1,
         ),
       ),
     );

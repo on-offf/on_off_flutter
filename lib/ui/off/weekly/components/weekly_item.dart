@@ -36,14 +36,16 @@ class WeeklyItem extends StatelessWidget {
                   style: kSubtitle2,
                 ),
               ),
-              const SizedBox(width: 8,),
+              const SizedBox(
+                width: 8,
+              ),
               if (state.iconPathMap[content.time.day] != null)
-                ...buildSelectedIcons(state.iconPathMap[content.time.day]!) ,
+                ...buildSelectedIcons(state.iconPathMap[content.time.day]!),
               SizedBox(
                 child: PlusButton(
                   layerLink: selectIconSheetLink,
-                  actionAfterSelect: (path) => viewModel
-                      .onEvent(OffWeeklyEvent.addSelectedIconPaths(content.time, path)),
+                  actionAfterSelect: (path) => viewModel.onEvent(
+                      OffWeeklyEvent.addSelectedIconPaths(content.time, path)),
                 ),
               ),
               const SizedBox(width: 8),

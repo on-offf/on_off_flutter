@@ -69,8 +69,6 @@ class OffWriteViewModel extends UiProviderObserve {
   }
 
   void _saveTextContent(String text) async {
-    print(uiState);
-
     OffDiary? offDiary = OffDiary(
       dateTime: dateTimeToUnixTime(uiState!.focusedDay),
       content: text,
