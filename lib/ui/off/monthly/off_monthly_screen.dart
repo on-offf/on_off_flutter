@@ -15,10 +15,11 @@ class OffMonthlyScreen extends StatelessWidget {
   final ScrollController _scrollController = ScrollController();
 
   OffMonthlyScreen({Key? key}) : super(key: key);
-
+  
   @override
   Widget build(BuildContext context) {
     final uiProvider = context.watch<UiProvider>();
+    final uiState = uiProvider.state;
 
     return Scaffold(
       appBar: offAppBar(
@@ -29,38 +30,55 @@ class OffMonthlyScreen extends StatelessWidget {
         montlyWeeklyButtonNavigator: () {
           Navigator.pushNamed(context, OffWeeklyScreen.routeName);
         },
-        onOffButtonNavigator: () { },
+        onOffButtonNavigator: () {},
       ),
-      body: Padding(
-        padding: const EdgeInsets.only(left: 37, right: 37, bottom: 41),
-        child: NotificationListener(
-          onNotification: (ScrollNotification scrollNotification) {
-            var position = _scrollController.position;
-
-            if (position.pixels <= 0) {
-              uiProvider.onEvent(
-                  const UiEvent.changeCalendarFormat(CalendarFormat.month));
-            } else if (position.pixels > 0) {
-              uiProvider.onEvent(
-                  const UiEvent.changeCalendarFormat(CalendarFormat.week));
-            }
-
-            return false;
-          },
-          child: ListView(
-            controller: _scrollController,
-            children: [
-              const OffFocusMonth(),
-              const OffMonthlyCalendar(),
-              const SizedBox(
-                height: 47.5,
-              ),
-              OffMonthlyItem(),
-              const SizedBox(height: 41),
-            ],
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(
+              left: 37,
+              right: 37,
+            ),
+            child: Column(
+              children: [
+                const OffFocusMonth(),
+                const OffMonthlyCalendar(),
+                uiState.calendarFormat == CalendarFormat.month
+                    ? const SizedBox(
+                        height: 47.5,
+                      )
+                    : Container(),
+              ],
+            ),
           ),
-        ),
+          Expanded(
+            child: NotificationListener(
+              onNotification: (ScrollNotification scrollNotification) {
+                var position = _scrollController.position;
+                positionChange(uiProvider, position);
+                return uiState.calendarFormat == CalendarFormat.month;
+              },
+              child: ListView(
+                controller: _scrollController,
+                children: const [
+                  OffMonthlyItem(),
+                  SizedBox(height: 41),
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
     );
+  }
+
+  Future<void> positionChange(uiProvider, position) async {
+    if (position.pixels < 0) {
+      uiProvider
+          .onEvent(const UiEvent.changeCalendarFormat(CalendarFormat.month));
+    } else if (position.pixels > 0) {
+      uiProvider
+          .onEvent(const UiEvent.changeCalendarFormat(CalendarFormat.week));
+    }
   }
 }

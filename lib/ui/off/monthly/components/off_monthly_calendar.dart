@@ -90,6 +90,12 @@ class OffMonthlyCalendar extends StatelessWidget {
         color: Color(0xFF219EBC),
         shape: BoxShape.circle,
       ),
+      outsideTextStyle: TextStyle(
+        fontWeight: FontWeight.w400,
+        fontSize: 11,
+        height: 1.21,
+        color: Color(0xffB3B3B3),
+      ),
     );
   }
 }

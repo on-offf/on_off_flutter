@@ -47,7 +47,7 @@ class UiProvider with ChangeNotifier {
 
   void _changeFloatingActionButtonSwitch(bool? floatingActionButtonSwitch) {
     floatingActionButtonSwitch = floatingActionButtonSwitch ?? !_state.floatingActionButtonSwitch;
-    _state = _state.copyWith(floatingActionButtonSwitch: floatingActionButtonSwitch!);
+    _state = _state.copyWith(floatingActionButtonSwitch: floatingActionButtonSwitch);
     _notifyListeners();
   }
 
