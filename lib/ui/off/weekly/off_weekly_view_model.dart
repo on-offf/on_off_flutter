@@ -70,9 +70,8 @@ class OffWeeklyViewModel extends UiProviderObserve {
   }
 
   void _changeContents(DateTime selectedDate) async {
-    DateTime startDateTime = DateTime(selectedDate.year, selectedDate.month, 1);
-    DateTime endDateTime = DateTime(
-        selectedDate.year, selectedDate.month + 1, 0);
+    DateTime startDateTime = weekStartDate(selectedDate);
+    DateTime endDateTime = weekEndDate(selectedDate);
 
     _selectContents(startDateTime, endDateTime);
     _selectIcons(startDateTime, endDateTime);
