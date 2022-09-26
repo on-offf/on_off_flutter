@@ -1,3 +1,4 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:on_off/constants/constants_text_style.dart';
@@ -50,15 +51,20 @@ class WeeklyItem extends StatelessWidget {
         content.imageList.isNotEmpty
             ? SizedBox(
                 height: 200,
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: content.imageList.length,
-                  itemBuilder: (ctx, index) {
+                child: CarouselSlider(
+                  items: content.imageList.map((offImage) {
                     return Image.memory(
-                      content.imageList[index].imageFile,
+                      offImage.imageFile,
+                      fit: BoxFit.cover,
                       width: MediaQuery.of(context).size.width - 74,
                     );
-                  },
+                  }).toList(),
+                  options: CarouselOptions(
+                    initialPage: 0,
+                    enableInfiniteScroll: false,
+                    viewportFraction: 1.0,
+                    aspectRatio: 313 / 240,
+                  ),
                 ),
               )
             : Container(),

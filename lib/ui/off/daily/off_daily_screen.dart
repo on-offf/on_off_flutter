@@ -82,7 +82,8 @@ class OffDailyScreen extends StatelessWidget {
                         items: content.imageList.map((offImage) {
                           return Image.memory(
                             offImage.imageFile,
-                            fit: BoxFit.fill,
+                            fit: BoxFit.cover,
+                            width: MediaQuery.of(context).size.width - 74,
                           );
                         }).toList(),
                       ),

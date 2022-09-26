@@ -36,30 +36,32 @@ class OffMonthlyItem extends StatelessWidget {
             child: const Text('다이어리 추가'),
           )
         : Container(
-            decoration: uiState.calendarFormat == CalendarFormat.week ?
-            const BoxDecoration(
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(22),
-                topRight: Radius.circular(22),
-              ),
-              boxShadow: [
-                BoxShadow(
-                  offset: Offset(-3, -3),
-                  blurRadius: 1,
-                  spreadRadius: 1,
-                  color: Color.fromRGBO(0, 0, 0, .1),
-                ),
-              ],
-            ) : const BoxDecoration(),
+            decoration: uiState.calendarFormat == CalendarFormat.week
+                ? const BoxDecoration(
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(22),
+                      topRight: Radius.circular(22),
+                    ),
+                    boxShadow: [
+                      BoxShadow(
+                        offset: Offset(-3, -3),
+                        blurRadius: 1,
+                        spreadRadius: 1,
+                        color: Color.fromRGBO(0, 0, 0, .1),
+                      ),
+                    ],
+                  )
+                : const BoxDecoration(),
             child: Container(
-              decoration: uiState.calendarFormat == CalendarFormat.week ?
-              BoxDecoration(
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(22),
-                  topRight: Radius.circular(22),
-                ),
-                color: uiProvider.state.colorConst.canvas,
-              ) : const BoxDecoration(),
+              decoration: uiState.calendarFormat == CalendarFormat.week
+                  ? BoxDecoration(
+                      borderRadius: const BorderRadius.only(
+                        topLeft: Radius.circular(22),
+                        topRight: Radius.circular(22),
+                      ),
+                      color: uiProvider.state.colorConst.canvas,
+                    )
+                  : const BoxDecoration(),
               padding: const EdgeInsets.only(
                 left: 37,
                 right: 37,
@@ -90,7 +92,7 @@ class OffMonthlyItem extends StatelessWidget {
                   state.content!.imageList.isEmpty
                       ? const SizedBox()
                       : SizedBox(
-                          width: 313,
+                          width: MediaQuery.of(context).size.width - 74,
                           height: 240,
                           child: Stack(
                             children: [
@@ -105,7 +107,8 @@ class OffMonthlyItem extends StatelessWidget {
                                 items: state.content!.imageList.map((offImage) {
                                   return Image.memory(
                                     offImage.imageFile,
-                                    fit: BoxFit.fill,
+                                    fit: BoxFit.cover,
+                                    width: MediaQuery.of(context).size.width - 74,
                                   );
                                 }).toList(),
                               ),
