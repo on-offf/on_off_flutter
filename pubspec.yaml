@@ -39,4 +39,4 @@ flutter:
   assets:
     - assets/icons/
     - assets/images/
-    - lib/ui/off/list/
+    - lib/ui/off/weekly/
