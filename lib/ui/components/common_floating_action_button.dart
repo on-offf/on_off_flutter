@@ -21,10 +21,11 @@ class CommonFloatingActionButton extends StatelessWidget {
     final state = uiProvier.state;
     return state.floatingActionButtonSwitch
         ? FloatingActionButton(
+            backgroundColor: Theme.of(context).primaryColor,
             heroTag: 'showFloatingActionButtons',
             onPressed: () {
-              uiProvier
-                  .onEvent(const UiEvent.changeFloatingActionButtonSwitch(null));
+              uiProvier.onEvent(
+                  const UiEvent.changeFloatingActionButtonSwitch(null));
             },
             child: const Icon(Icons.add),
           )
@@ -79,6 +80,7 @@ class CommonFloatingActionButton extends StatelessWidget {
                 height: 10,
               ),
               FloatingActionButton(
+                backgroundColor: Theme.of(context).primaryColorLight,
                 heroTag: 'hideFloatingActionButtons',
                 onPressed: () {
                   uiProvier.onEvent(

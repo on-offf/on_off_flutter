@@ -40,6 +40,7 @@ class MyApp extends StatelessWidget {
         title: 'ON & OFF',
         theme: ThemeData(
           primaryColor: state.colorConst.getPrimary(),
+          primaryColorLight: state.colorConst.getPrimaryLight(),
           canvasColor: state.colorConst.canvas,
         ),
         initialRoute: OffMonthlyScreen.routeName,
