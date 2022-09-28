@@ -50,13 +50,17 @@ class WeeklyItem extends StatelessWidget {
         const SizedBox(height: 10),
         content.imageList.isNotEmpty
             ? SizedBox(
-                height: 200,
+                height: 188,
+                width: MediaQuery.of(context).size.width - 74,
                 child: CarouselSlider(
                   items: content.imageList.map((offImage) {
-                    return Image.memory(
-                      offImage.imageFile,
-                      fit: BoxFit.cover,
-                      width: MediaQuery.of(context).size.width - 74,
+                    return ClipRRect(
+                      borderRadius: BorderRadius.circular(12),
+                      child: Image.memory(
+                        offImage.imageFile,
+                        fit: BoxFit.cover,
+                        width: MediaQuery.of(context).size.width - 74,
+                      ),
                     );
                   }).toList(),
                   options: CarouselOptions(
@@ -69,7 +73,7 @@ class WeeklyItem extends StatelessWidget {
               )
             : Container(),
         const SizedBox(
-          height: 5,
+          height: 15,
         ),
       ],
     );

@@ -27,7 +27,7 @@ class OffWeeklyScreen extends StatelessWidget {
         montlyWeeklyButtonNavigator: () {
           Navigator.pop(context);
         },
-        onOffButtonNavigator: () { },
+        onOffButtonNavigator: () {},
       ),
       body: Container(
         padding: const EdgeInsets.only(
@@ -51,8 +51,8 @@ class OffWeeklyScreen extends StatelessWidget {
                       OffDailyScreen.routeName,
                       arguments: {
                         'content': state.contents[index - 1],
-                        'iconPaths': state
-                            .iconPathMap[state.contents[index - 1].time.weekday],
+                        'iconPaths': state.iconPathMap[
+                            state.contents[index - 1].time.weekday],
                       },
                     );
                   },
