@@ -41,7 +41,7 @@ class OffMonthlyScreen extends StatelessWidget {
             ),
             child: Column(
               children: [
-                const OffFocusMonth(),
+                OffFocusMonth(),
                 const OffMonthlyCalendar(),
                 uiState.calendarFormat == CalendarFormat.month
                     ? const SizedBox(

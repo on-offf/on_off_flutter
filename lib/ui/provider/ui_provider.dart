@@ -27,6 +27,10 @@ class UiProvider with ChangeNotifier {
 
     // floating action button
     floatingActionButtonSwitch: true,
+
+    // focus month overlay
+    overlayEntry: null,
+    focusMonthSelected: false,
   );
 
   UiState get state => _state;
@@ -42,7 +46,29 @@ class UiProvider with ChangeNotifier {
       changeCalendarPage: _changeCalendarPage,
       changeCalendarFormat: _changeCalendarFormat,
       changeFloatingActionButtonSwitch: _changeFloatingActionButtonSwitch,
+
+      // focus month overlay
+      showOverlay: _showOverlay,
+      removeOverlay: _removeOverlay,
+      focusMonthSelected: _focusMonthSelected,
     );
+  }
+
+  void _focusMonthSelected() {
+    _state =
+        _state.copyWith(focusMonthSelected: !_state.focusMonthSelected);
+    notifyListeners();
+  }
+
+  void _showOverlay(BuildContext context, OverlayEntry changeOverlayEntry) {
+    _state = state.copyWith(overlayEntry: changeOverlayEntry);
+    notifyListeners();
+  }
+
+  void _removeOverlay() {
+    _state.overlayEntry?.remove();
+    _state = state.copyWith(overlayEntry: null);
+    notifyListeners();
   }
 
   void _changeFloatingActionButtonSwitch(bool? floatingActionButtonSwitch) {

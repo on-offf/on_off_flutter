@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:on_off/domain/entity/icon_entity.dart';
 import 'package:on_off/domain/entity/off/off_diary.dart';
 import 'package:on_off/domain/entity/off/off_image.dart';
@@ -24,17 +23,12 @@ class OffMonthlyViewModel extends UiProviderObserve {
   });
 
   OffMonthlyState _state = OffMonthlyState(
-    offFocusMonthSelected: false,
   );
 
   OffMonthlyState get state => _state;
 
   void onEvent(OffMonthlyEvent event) {
     event.when(
-      offFocusMonthSelected: _offFocusMonthSelected,
-      showOverlay: _showOverlay,
-      removeOverlay: _removeOverlay,
-
       // Icon
       addSelectedIconPaths: _addSelectedIconPaths,
     );
@@ -62,23 +56,6 @@ class OffMonthlyViewModel extends UiProviderObserve {
     iconPathList.addAll(_state.iconPaths);
     iconPathList.add(path);
     _state = _state.copyWith(iconPaths: iconPathList);
-  }
-
-  void _showOverlay(BuildContext context, OverlayEntry changeOverlayEntry) {
-    _state = state.copyWith(overlayEntry: changeOverlayEntry);
-    notifyListeners();
-  }
-
-  void _removeOverlay() {
-    _state.overlayEntry?.remove();
-    _state = state.copyWith(overlayEntry: null);
-    notifyListeners();
-  }
-
-  void _offFocusMonthSelected() {
-    _state =
-        _state.copyWith(offFocusMonthSelected: !_state.offFocusMonthSelected);
-    notifyListeners();
   }
 
   void _changeFocusedDay(DateTime focusedDay) async {

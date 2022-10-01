@@ -1,35 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:on_off/constants/constants_text_style.dart';
-import 'package:on_off/ui/off/monthly/off_monthly_event.dart';
-import 'package:on_off/ui/off/monthly/off_monthly_state.dart';
-import 'package:on_off/ui/off/monthly/off_monthly_view_model.dart';
 import 'package:on_off/ui/provider/ui_event.dart';
 import 'package:on_off/ui/provider/ui_provider.dart';
 import 'package:on_off/ui/provider/ui_state.dart';
 import 'package:provider/provider.dart';
 
-class OffFocusMonth extends StatefulWidget {
-  const OffFocusMonth({Key? key}) : super(key: key);
-
-  @override
-  State<OffFocusMonth> createState() => _OffFocusMonthState();
-}
-
-class _OffFocusMonthState extends State<OffFocusMonth> {
-  final LayerLink layerLink = LayerLink();
-  late OffMonthlyViewModel? viewModel;
-  late OffMonthlyState? state;
-  late UiProvider? uiProvider;
-  late UiState? uiState;
+class OffFocusMonth extends StatelessWidget {
+  OffFocusMonth({Key? key}) : super(key: key);
+  final GlobalKey _globalKey = GlobalKey();
+  late UiProvider uiProvider;
+  late UiState uiState;
 
   @override
   Widget build(BuildContext context) {
     uiProvider = context.watch<UiProvider>();
-    uiState = uiProvider!.state;
-
-    viewModel = context.watch<OffMonthlyViewModel>();
-    state = viewModel!.state;
+    uiState = uiProvider.state;
 
     return Padding(
       padding: const EdgeInsets.only(left: 5, bottom: 17),
@@ -38,23 +24,22 @@ class _OffFocusMonthState extends State<OffFocusMonth> {
         children: [
           GestureDetector(
             onTap: () {
-              viewModel!.onEvent(const OffMonthlyEvent.offFocusMonthSelected());
-              if (state!.offFocusMonthSelected) {
+              uiProvider.onEvent(const UiEvent.focusMonthSelected());
+              if (uiState.focusMonthSelected) {
                 OverlayEntry overlayEntry = _createOverlay();
                 Navigator.of(context).overlay?.insert(overlayEntry);
-                viewModel!
-                    .onEvent(OffMonthlyEvent.showOverlay(context, overlayEntry));
+                uiProvider.onEvent(UiEvent.showOverlay(context, overlayEntry));
               } else {
-                viewModel!.onEvent(const OffMonthlyEvent.removeOverlay());
+                uiProvider.onEvent(const UiEvent.removeOverlay());
               }
             },
             child: Row(
               children: [
-                CompositedTransformTarget(
-                  link: layerLink,
+                Container(
+                  key: _globalKey,
                   child: Text(
                     DateFormat('yyyy년 MM월', 'ko_KR')
-                        .format(uiState!.changeCalendarPage),
+                        .format(uiState.changeCalendarPage),
                     style: kSubtitle2,
                   ),
                 ),
@@ -77,71 +62,50 @@ class _OffFocusMonthState extends State<OffFocusMonth> {
   OverlayEntry _createOverlay() {
     return OverlayEntry(
       builder: (context) {
-        return Positioned(
-          width: 101,
-          height: 132,
-          child: CompositedTransformFollower(
-            followerAnchor: Alignment.topLeft,
-            targetAnchor: Alignment.bottomLeft,
-            link: layerLink,
-            child: Material(
-              child: Container(
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: const BorderRadius.all(
-                      Radius.circular(4),
-                    ),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.withOpacity(0.2),
-                        blurRadius: 5,
-                      )
-                    ]),
-                child: Scrollbar(
-                  child: ListView.builder(
-                    itemCount: 12,
-                    padding: const EdgeInsets.only(top: 0),
-                    itemBuilder: (context, index) {
-                      int month = index + 1;
-                      return GestureDetector(
-                        onTap: () {
-                          DateTime date = DateTime(uiState!.changeCalendarPage.year, month, 1);
-                          uiProvider?.onEvent(UiEvent.changeCalendarPage(date));
-                          uiProvider?.onEvent(UiEvent.changeFocusedDay(date));
-                          viewModel!.onEvent(const OffMonthlyEvent.removeOverlay());
-                        },
-                        child: Container(
-                          padding: const EdgeInsets.all(6),
-                          decoration: BoxDecoration(
-                            border: Border(
-                              bottom: BorderSide(
-                                width: 1.0,
-                                color: Colors.grey.withOpacity(0.08),
-                              ),
-                            ),
-                          ),
-                          child: Text(
-                            "$month 월",
-                            style: kMonth,
-                          ),
-                        ),
-                      );
-                    },
-                  ),
+        final RenderBox renderBox = _globalKey.currentContext?.findRenderObject() as RenderBox;
+        final Size size = renderBox.size;
+        final Offset offset = renderBox.localToGlobal(Offset.zero);
+
+        return Stack(
+          children: [
+            GestureDetector(
+              onTap: () => uiProvider.onEvent(const UiEvent.removeOverlay()),
+            ),
+            Positioned(
+              left: offset.dx,
+              top: offset.dy + size.height,
+              width: 162,
+              height: 171,
+              child: Material(
+                child: Container(
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: const BorderRadius.all(
+                        Radius.circular(30),
+                      ),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.2),
+                          blurRadius: 5,
+                        )
+                      ]),
+                  // child: Column(
+                  //   children: [
+                  //     Row(
+                  //       mainAxisAlignment: MainAxisAlignment.center,
+                  //       children: [
+                  //
+                  //
+                  //       ],
+                  //     )
+                  //   ],
+                  // ),
                 ),
               ),
             ),
-          ),
+          ],
         );
       },
     );
-  }
-
-  @override
-  void dispose() async {
-    Future.delayed(Duration.zero, () {
-      viewModel!.onEvent(const OffMonthlyEvent.removeOverlay());
-    });
-    super.dispose();
   }
 }

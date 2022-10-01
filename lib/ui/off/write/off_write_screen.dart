@@ -80,7 +80,7 @@ class _OffWriteScreenState extends State<OffWriteScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const OffFocusMonth(),
+                OffFocusMonth(),
                 const SizedBox(
                   height: 20,
                 ),
@@ -122,13 +122,6 @@ class _OffWriteScreenState extends State<OffWriteScreen> {
                 ),
                 const SizedBox(
                   height: 10,
-                ),
-                Text(
-                  "오후 ${DateFormat('kk:mm').format(DateTime.now())}분",
-                  style: kSubtitle2,
-                ),
-                const SizedBox(
-                  height: 5,
                 ),
                 state.imagePaths.isNotEmpty
                     ? SizedBox(

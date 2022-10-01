@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:on_off/constants/color_constants.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -18,4 +19,9 @@ abstract class UiEvent with _$UiEvent {
 
   // floating action button
   const factory UiEvent.changeFloatingActionButtonSwitch(bool? floatingActionButtonSwitch) = ChangeFloatingActionButtonSwitch;
+
+  // off_focus_month
+  const factory UiEvent.focusMonthSelected() = FocusMonthSelected;
+  const factory UiEvent.showOverlay(BuildContext context, OverlayEntry overlayEntry) = ShowOverlay;
+  const factory UiEvent.removeOverlay() = RemoveOverlay;
 }

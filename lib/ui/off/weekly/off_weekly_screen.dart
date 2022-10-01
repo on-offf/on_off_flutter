@@ -3,6 +3,7 @@ import 'package:on_off/ui/components/common_floating_action_button.dart';
 import 'package:on_off/ui/off/daily/off_daily_screen.dart';
 import 'package:on_off/ui/components/off_focus_month.dart';
 import 'package:on_off/ui/components/off_appbar.dart';
+import 'package:on_off/ui/off/weekly/components/off_weekly_order_change_button.dart';
 import 'package:on_off/ui/off/weekly/components/weekly_item.dart';
 import 'package:on_off/ui/off/weekly/off_weekly_state.dart';
 import 'package:on_off/ui/off/weekly/off_weekly_view_model.dart';
@@ -41,7 +42,13 @@ class OffWeeklyScreen extends StatelessWidget {
           child: ListView.builder(
             itemBuilder: ((context, index) {
               if (index == 0) {
-                return OffFocusMonth();
+                return Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    OffFocusMonth(),
+                    OffWeeklyOrderChangeButton(),
+                  ],
+                );
               } else {
                 return GestureDetector(
                   child: WeeklyItem(content: state.contents[index - 1]),

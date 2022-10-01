@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:on_off/constants/color_constants.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -14,5 +15,9 @@ class UiState with _$UiState {
     required CalendarFormat calendarFormat,
     required bool daysOfWeekVisible,
     required bool floatingActionButtonSwitch,
+
+    // off focus month
+    required bool focusMonthSelected,
+    required OverlayEntry? overlayEntry,
   }) = _UiState;
 }
