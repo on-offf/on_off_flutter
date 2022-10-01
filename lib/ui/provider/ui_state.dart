@@ -16,7 +16,7 @@ class UiState with _$UiState {
     required bool daysOfWeekVisible,
     required bool floatingActionButtonSwitch,
 
-    // off focus month
+    // focus year & month
     required bool focusMonthSelected,
     required OverlayEntry? overlayEntry,
   }) = _UiState;

@@ -13,6 +13,11 @@ class FocusMonth extends StatelessWidget {
   late UiProvider uiProvider;
   late UiState uiState;
 
+  late RenderBox renderBox =
+  _globalKey.currentContext?.findRenderObject() as RenderBox;
+  late Size size = renderBox.size;
+  late Offset offset = renderBox.localToGlobal(Offset.zero);
+
   @override
   Widget build(BuildContext context) {
     uiProvider = context.watch<UiProvider>();
@@ -61,13 +66,9 @@ class FocusMonth extends StatelessWidget {
   }
 
   OverlayEntry _createOverlay() {
+    int year = uiState.focusedDay.year;
     return OverlayEntry(
       builder: (context) {
-        final RenderBox renderBox =
-            _globalKey.currentContext?.findRenderObject() as RenderBox;
-        final Size size = renderBox.size;
-        final Offset offset = renderBox.localToGlobal(Offset.zero);
-
         return Stack(
           children: [
             GestureDetector(
@@ -93,27 +94,85 @@ class FocusMonth extends StatelessWidget {
                       ]),
                   child: Column(
                     children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Image(
-                            image: AssetImage(
-                              IconPath.previousMonthButton.name,
+                      Expanded(
+                        child: Row(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(top: 4, bottom: 0, left: 0, right: 0 ),
+                              child: IconButton(
+                                onPressed: () {
+                                  year = year-1;
+                                  uiProvider.onEvent(const UiEvent.selfNotifyListeners());
+                                },
+                                icon: Image(
+                                  image: AssetImage(
+                                    IconPath.previousYearButton.name,
+                                  ),
+                                  height: 11,
+                                  width: 11,
+                                ),
+                              ),
                             ),
-                            width: 11,
-                            height: 11,
-                          ),
-                          Text(
-                            "${uiState.focusedDay.year}",
-                            style: kSubtitle3,
-                          ),
-                          Image(
-                            image: AssetImage(IconPath.nextMonthButton.name),
-                            width: 11,
-                            height: 11,
-                          ),
-                        ],
-                      )
+                            const SizedBox(
+                              width: 12,
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(top: 0.0, bottom: 0, left: 0, right: 0 ),
+                              child: Text(
+                                "$year",
+                                style: kSubtitle3,
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 12,
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(top: 4.0, bottom: 0, left: 0, right: 0 ),
+                              child: IconButton(
+                                onPressed: () {
+                                  year = year + 1;
+                                  uiProvider.onEvent(const UiEvent.selfNotifyListeners());
+                                },
+                                icon: Image(
+                                  image: AssetImage(IconPath.nextYearButton.name),
+                                  height: 11,
+                                  width: 11,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Expanded(
+                        child: Row(children: [
+                          const SizedBox(width: 16,),
+                          monthSelectButton(year, '1'),
+                          monthSelectButton(year, '2'),
+                          monthSelectButton(year, '3'),
+                          monthSelectButton(year, '4'),
+                          const SizedBox(width: 16,),
+                        ]),
+                      ),
+                      Expanded(
+                        child: Row(children: [
+                          const SizedBox(width: 16,),
+                          monthSelectButton(year, '5'),
+                          monthSelectButton(year, '6'),
+                          monthSelectButton(year, '7'),
+                          monthSelectButton(year, '8'),
+                          const SizedBox(width: 16,),
+                        ]),
+                      ),
+                      Expanded(
+                        child: Row(children: [
+                          const SizedBox(width: 16,),
+                          monthSelectButton(year, '9'),
+                          monthSelectButton(year, '10'),
+                          monthSelectButton(year, '11'),
+                          monthSelectButton(year, '12'),
+                          const SizedBox(width: 16,),
+                        ]),
+                      ),
                     ],
                   ),
                 ),
@@ -122,6 +181,29 @@ class FocusMonth extends StatelessWidget {
           ],
         );
       },
+    );
+  }
+
+  Widget monthSelectButton(year, month) {
+    return Expanded(
+      child: SizedBox(
+        height: 40,
+        child: TextButton(
+          onPressed: () {
+            uiProvider.onEvent(UiEvent.changeFocusedDay(DateTime.utc(year, int.parse(month), 1)));
+            uiProvider.onEvent(const UiEvent.removeOverlay());
+          },
+          child: Text(
+            month,
+            style: TextStyle(
+              fontWeight: FontWeight.w400,
+              fontSize: 13,
+              height: 1.9,
+              color: uiState.colorConst.getPrimary(),
+            ),
+          ),
+        ),
+      ),
     );
   }
 }

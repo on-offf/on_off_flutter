@@ -51,29 +51,33 @@ class UiProvider with ChangeNotifier {
       showOverlay: _showOverlay,
       removeOverlay: _removeOverlay,
       focusMonthSelected: _focusMonthSelected,
+
+      // notifyListeners
+      selfNotifyListeners: _selfNotifyListeners,
     );
   }
 
   void _focusMonthSelected() {
-    _state =
-        _state.copyWith(focusMonthSelected: !_state.focusMonthSelected);
-    notifyListeners();
+    _state = _state.copyWith(focusMonthSelected: !_state.focusMonthSelected);
+    _notifyListeners();
   }
 
   void _showOverlay(BuildContext context, OverlayEntry changeOverlayEntry) {
     _state = state.copyWith(overlayEntry: changeOverlayEntry);
-    notifyListeners();
+    _notifyListeners();
   }
 
   void _removeOverlay() {
     _state.overlayEntry?.remove();
     _state = state.copyWith(overlayEntry: null);
-    notifyListeners();
+    _notifyListeners();
   }
 
   void _changeFloatingActionButtonSwitch(bool? floatingActionButtonSwitch) {
-    floatingActionButtonSwitch = floatingActionButtonSwitch ?? !_state.floatingActionButtonSwitch;
-    _state = _state.copyWith(floatingActionButtonSwitch: floatingActionButtonSwitch);
+    floatingActionButtonSwitch =
+        floatingActionButtonSwitch ?? !_state.floatingActionButtonSwitch;
+    _state =
+        _state.copyWith(floatingActionButtonSwitch: floatingActionButtonSwitch);
     _notifyListeners();
   }
 
@@ -88,20 +92,24 @@ class UiProvider with ChangeNotifier {
   }
 
   void _changeCalendarPage(DateTime changeCalendarPage) {
-    changeCalendarPage = DateTime(changeCalendarPage.year, changeCalendarPage.month, changeCalendarPage.day);
+    changeCalendarPage = DateTime(changeCalendarPage.year,
+        changeCalendarPage.month, changeCalendarPage.day);
     _state = _state.copyWith(changeCalendarPage: changeCalendarPage);
     _notifyListeners();
   }
 
   void _changeSelectedDay(DateTime selectedDay) {
-    selectedDay = DateTime(selectedDay.year, selectedDay.month, selectedDay.day);
+    selectedDay =
+        DateTime(selectedDay.year, selectedDay.month, selectedDay.day);
     _state = _state.copyWith(selectedDay: selectedDay);
     _notifyListeners();
   }
 
   void _changeFocusedDay(DateTime focusedDay) {
     focusedDay = DateTime(focusedDay.year, focusedDay.month, focusedDay.day);
-    _state = _state.copyWith(focusedDay: focusedDay);
+    _state = _state.copyWith(
+      focusedDay: focusedDay,
+    );
     _notifyListeners();
   }
 
@@ -121,6 +129,10 @@ class UiProvider with ChangeNotifier {
     for (var viewModel in viewModelList) {
       viewModel.update(_state);
     }
+    notifyListeners();
+  }
+
+  void _selfNotifyListeners() {
     notifyListeners();
   }
 }

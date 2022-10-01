@@ -24,4 +24,7 @@ abstract class UiEvent with _$UiEvent {
   const factory UiEvent.focusMonthSelected() = FocusMonthSelected;
   const factory UiEvent.showOverlay(BuildContext context, OverlayEntry overlayEntry) = ShowOverlay;
   const factory UiEvent.removeOverlay() = RemoveOverlay;
+
+  // notifyListeners
+  const factory UiEvent.selfNotifyListeners() = SelfNotifyListeners;
 }

@@ -5,8 +5,8 @@ enum IconPath {
   setting,
 
   // calendar
-  nextMonthButton,
-  previousMonthButton,
+  nextYearButton,
+  previousYearButton,
 
   // floating_button
   floatingActionButtonOnOff,
@@ -46,10 +46,10 @@ extension IconExtension on IconPath {
       case IconPath.setting:
         return "assets/icons/appbar/setting.png";
 
-      case IconPath.nextMonthButton:
-        return "assets/icons/calendar/next_month_button.png";
-      case IconPath.previousMonthButton:
-        return "assets/icons/calendar/previous_month_button.png";
+      case IconPath.nextYearButton:
+        return "assets/icons/calendar/next_year_button.png";
+      case IconPath.previousYearButton:
+        return "assets/icons/calendar/previous_year_button.png";
 
       case IconPath.floatingActionButtonOnOff:
         return "assets/icons/floating_button/floating_action_button_on_off.png";
