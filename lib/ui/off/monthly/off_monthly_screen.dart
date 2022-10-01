@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:on_off/ui/components/common_floating_action_button.dart';
 import 'package:on_off/ui/components/off_appbar.dart';
-import 'package:on_off/ui/components/off_focus_month.dart';
+import 'package:on_off/ui/components/focus_month.dart';
 import 'package:on_off/ui/off/monthly/components/off_monthly_calendar.dart';
 import 'package:on_off/ui/off/monthly/components/off_monthly_item.dart';
 import 'package:on_off/ui/off/weekly/off_weekly_screen.dart';
@@ -41,7 +41,7 @@ class OffMonthlyScreen extends StatelessWidget {
             ),
             child: Column(
               children: [
-                OffFocusMonth(),
+                FocusMonth(),
                 const OffMonthlyCalendar(),
                 uiState.calendarFormat == CalendarFormat.month
                     ? const SizedBox(

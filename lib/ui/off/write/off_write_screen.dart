@@ -4,7 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:on_off/constants/constants_text_style.dart';
 import 'package:on_off/ui/components/build_selected_icons.dart';
 import 'package:on_off/ui/components/off_appbar.dart';
-import 'package:on_off/ui/components/off_focus_month.dart';
+import 'package:on_off/ui/components/focus_month.dart';
 import 'package:on_off/ui/components/plus_button.dart';
 import 'package:on_off/ui/off/write/components/icons_above_keyboard.dart';
 import 'package:on_off/ui/off/write/off_write_event.dart';
@@ -80,7 +80,7 @@ class _OffWriteScreenState extends State<OffWriteScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                OffFocusMonth(),
+                FocusMonth(),
                 const SizedBox(
                   height: 20,
                 ),

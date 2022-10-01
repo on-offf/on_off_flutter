@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:on_off/constants/constants_text_style.dart';
+import 'package:on_off/domain/icon/icon_path.dart';
 import 'package:on_off/ui/provider/ui_event.dart';
 import 'package:on_off/ui/provider/ui_provider.dart';
 import 'package:on_off/ui/provider/ui_state.dart';
 import 'package:provider/provider.dart';
 
-class OffFocusMonth extends StatelessWidget {
-  OffFocusMonth({Key? key}) : super(key: key);
+class FocusMonth extends StatelessWidget {
+  FocusMonth({Key? key}) : super(key: key);
   final GlobalKey _globalKey = GlobalKey();
   late UiProvider uiProvider;
   late UiState uiState;
@@ -46,8 +47,8 @@ class OffFocusMonth extends StatelessWidget {
                 const SizedBox(
                   width: 6.38,
                 ),
-                const Image(
-                  image: AssetImage("assets/icons/down_arrow.png"),
+                Image(
+                  image: AssetImage(IconPath.downArrow.name),
                   width: 4.29,
                   height: 6.32,
                 ),
@@ -62,7 +63,8 @@ class OffFocusMonth extends StatelessWidget {
   OverlayEntry _createOverlay() {
     return OverlayEntry(
       builder: (context) {
-        final RenderBox renderBox = _globalKey.currentContext?.findRenderObject() as RenderBox;
+        final RenderBox renderBox =
+            _globalKey.currentContext?.findRenderObject() as RenderBox;
         final Size size = renderBox.size;
         final Offset offset = renderBox.localToGlobal(Offset.zero);
 
@@ -89,17 +91,31 @@ class OffFocusMonth extends StatelessWidget {
                           blurRadius: 5,
                         )
                       ]),
-                  // child: Column(
-                  //   children: [
-                  //     Row(
-                  //       mainAxisAlignment: MainAxisAlignment.center,
-                  //       children: [
-                  //
-                  //
-                  //       ],
-                  //     )
-                  //   ],
-                  // ),
+                  child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Image(
+                            image: AssetImage(
+                              IconPath.previousMonthButton.name,
+                            ),
+                            width: 11,
+                            height: 11,
+                          ),
+                          Text(
+                            "${uiState.focusedDay.year}",
+                            style: kSubtitle3,
+                          ),
+                          Image(
+                            image: AssetImage(IconPath.nextMonthButton.name),
+                            width: 11,
+                            height: 11,
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
                 ),
               ),
             ),

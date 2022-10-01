@@ -4,7 +4,6 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:on_off/di/provider_setup.dart';
 import 'package:on_off/routes.dart';
 import 'package:on_off/ui/off/monthly/off_monthly_screen.dart';
-import 'package:on_off/ui/provider/ui_event.dart';
 import 'package:on_off/ui/provider/ui_provider.dart';
 import 'package:provider/provider.dart';
 

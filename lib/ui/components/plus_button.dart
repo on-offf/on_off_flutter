@@ -74,7 +74,6 @@ class _PlusButtonState extends State<PlusButton> {
     setState(() {
       isClicked = false;
       widget.actionAfterSelect(imagePath);
-      // widget.seletcedIconPaths.add(imagePath);
     });
   }
 

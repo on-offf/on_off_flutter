@@ -91,7 +91,7 @@ extension IconExtension on IconPath {
         return "assets/icons/stickers/weather_sunny.png";
 
       case IconPath.downArrow:
-        return "assets/icons/down_arrow.png ";
+        return "assets/icons/down_arrow.png";
       case IconPath.plus:
         return "assets/icons/plus.png";
       case IconPath.minus:
