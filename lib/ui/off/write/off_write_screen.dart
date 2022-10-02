@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 
 import 'package:on_off/constants/constants_text_style.dart';
 import 'package:on_off/ui/components/build_selected_icons.dart';
+import 'package:on_off/ui/components/image_input.dart';
 import 'package:on_off/ui/components/off_appbar.dart';
 import 'package:on_off/ui/components/focus_month.dart';
 import 'package:on_off/ui/components/plus_button.dart';
@@ -47,6 +48,15 @@ class _OffWriteScreenState extends State<OffWriteScreen> {
     super.initState();
     _focus.addListener(() {
       changeByFocus(_focus.hasFocus);
+    });
+
+    Future.delayed(Duration.zero, () async {
+      var file = await inputImage(1);
+      if (file == null) {
+        Navigator.pop(context);
+        return;
+      }
+      viewModel?.onEvent(OffWriteEvent.addSelectedImagePaths(file!));
     });
   }
 
