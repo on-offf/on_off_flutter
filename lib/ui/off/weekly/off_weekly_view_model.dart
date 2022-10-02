@@ -17,6 +17,7 @@ class OffWeeklyViewModel extends UiProviderObserve {
   OffWeeklyState _state = OffWeeklyState(
     contents: [],
     iconPathMap: HashMap(),
+    isAscending: true,
   );
 
   OffDiaryUseCase offDiaryUseCase;
@@ -35,11 +36,28 @@ class OffWeeklyViewModel extends UiProviderObserve {
     event.when(
       changeContents: _changeContents,
       addSelectedIconPaths: _addSelectedIconPaths,
+      changeDiaryOrderType: _changeDiaryOrderType,
     );
   }
 
+  void _changeDiaryOrderType() {
+    List<Content> contentList = [];
+
+    if (state.contents.isNotEmpty) {
+      contentList = state.contents.reversed.toList();
+    }
+
+    _state = _state.copyWith(
+      contents: contentList,
+      isAscending: !_state.isAscending,
+    );
+
+    notifyListeners();
+  }
+
   void _addSelectedIconPaths(DateTime selectedDate, String path) async {
-    selectedDate = DateTime(selectedDate.year, selectedDate.month, selectedDate.day);
+    selectedDate =
+        DateTime(selectedDate.year, selectedDate.month, selectedDate.day);
 
     List<String>? iconPathList = _state.iconPathMap[selectedDate.weekday];
 
@@ -70,20 +88,24 @@ class OffWeeklyViewModel extends UiProviderObserve {
   }
 
   void _changeContents(DateTime selectedDate) async {
-    DateTime startDateTime = weekStartDate(selectedDate);
-    DateTime endDateTime = weekEndDate(selectedDate);
+    // DateTime startDateTime = weekStartDate(selectedDate);
+    // DateTime endDateTime = weekEndDate(selectedDate);
+    DateTime startDateTime = DateTime(selectedDate.year, selectedDate.month, 1);
+    DateTime endDateTime =
+        DateTime(selectedDate.year, selectedDate.month + 1, 0);
 
     _selectContents(startDateTime, endDateTime);
     _selectIcons(startDateTime, endDateTime);
   }
 
   void _selectContents(DateTime startDateTime, DateTime endDateTime) async {
-    List<OffDiary> offDiaryList = await offDiaryUseCase.selectOffDiaryList(
-        startDateTime, endDateTime);
+    List<OffDiary> offDiaryList =
+        await offDiaryUseCase.selectOffDiaryList(startDateTime, endDateTime);
     List<Content> contentList = [];
 
     for (var offDiary in offDiaryList) {
-      List<OffImage> imageList = await offImageUseCase.selectOffImageList(offDiary.id!);
+      List<OffImage> imageList =
+          await offImageUseCase.selectOffImageList(offDiary.id!);
 
       var content = Content(
         time: unixToDateTime(offDiary.dateTime),
@@ -93,13 +115,19 @@ class OffWeeklyViewModel extends UiProviderObserve {
 
       contentList.add(content);
     }
+
+    if (contentList.isNotEmpty && !state.isAscending) {
+      contentList = contentList.reversed.toList();
+    }
+
     _state = _state.copyWith(contents: contentList);
 
     notifyListeners();
   }
 
   void _selectIcons(DateTime startDateTime, DateTime endDateTime) async {
-    List<IconEntity> iconEntityList = await iconUseCase.selectOffIconList(startDateTime, endDateTime);
+    List<IconEntity> iconEntityList =
+        await iconUseCase.selectOffIconList(startDateTime, endDateTime);
 
     var iconPathMap = HashMap<int, List<String>>();
 
@@ -137,5 +165,4 @@ class OffWeeklyViewModel extends UiProviderObserve {
 
     this.uiState = uiState;
   }
-
 }

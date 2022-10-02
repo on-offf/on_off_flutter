@@ -25,42 +25,37 @@ class FocusMonth extends StatelessWidget {
 
     return Padding(
       padding: const EdgeInsets.only(left: 5, bottom: 17),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          GestureDetector(
-            onTap: () {
-              uiProvider.onEvent(const UiEvent.focusMonthSelected());
-              if (uiState.focusMonthSelected) {
-                OverlayEntry overlayEntry = _createOverlay();
-                Navigator.of(context).overlay?.insert(overlayEntry);
-                uiProvider.onEvent(UiEvent.showOverlay(context, overlayEntry));
-              } else {
-                uiProvider.onEvent(const UiEvent.removeOverlay());
-              }
-            },
-            child: Row(
-              children: [
-                Container(
-                  key: _globalKey,
-                  child: Text(
-                    DateFormat('yyyy년 MM월', 'ko_KR')
-                        .format(uiState.changeCalendarPage),
-                    style: kSubtitle2,
-                  ),
-                ),
-                const SizedBox(
-                  width: 6.38,
-                ),
-                Image(
-                  image: AssetImage(IconPath.downArrow.name),
-                  width: 4.29,
-                  height: 6.32,
-                ),
-              ],
+      child: GestureDetector(
+        onTap: () {
+          uiProvider.onEvent(const UiEvent.focusMonthSelected());
+          if (uiState.focusMonthSelected) {
+            OverlayEntry overlayEntry = _createOverlay();
+            Navigator.of(context).overlay?.insert(overlayEntry);
+            uiProvider.onEvent(UiEvent.showOverlay(context, overlayEntry));
+          } else {
+            uiProvider.onEvent(const UiEvent.removeOverlay());
+          }
+        },
+        child: Row(
+          children: [
+            Container(
+              key: _globalKey,
+              child: Text(
+                DateFormat('yyyy년 MM월', 'ko_KR')
+                    .format(uiState.changeCalendarPage),
+                style: kSubtitle2,
+              ),
             ),
-          ),
-        ],
+            const SizedBox(
+              width: 6.38,
+            ),
+            Image(
+              image: AssetImage(IconPath.downArrow.name),
+              width: 4.29,
+              height: 6.32,
+            ),
+          ],
+        ),
       ),
     );
   }
