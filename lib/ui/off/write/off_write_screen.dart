@@ -82,6 +82,7 @@ class _OffWriteScreenState extends State<OffWriteScreen> {
       appBar: offAppBar(
         context,
         isPrevButton: true,
+        settingButton: false,
       ),
       body: Stack(
         children: [

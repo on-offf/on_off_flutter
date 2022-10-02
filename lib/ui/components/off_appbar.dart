@@ -4,7 +4,11 @@ import 'package:on_off/ui/provider/ui_event.dart';
 import 'package:on_off/ui/provider/ui_provider.dart';
 import 'package:provider/provider.dart';
 
-PreferredSize offAppBar(BuildContext context, {required bool isPrevButton}) {
+PreferredSize offAppBar(
+  BuildContext context, {
+  required bool isPrevButton,
+  bool settingButton = true,
+}) {
   final uiProvider = context.watch<UiProvider>();
   final uiState = uiProvider.state;
 
@@ -15,7 +19,8 @@ PreferredSize offAppBar(BuildContext context, {required bool isPrevButton}) {
       leading: isPrevButton
           ? ElevatedButton(
               onPressed: () {
-                uiProvider.onEvent(const UiEvent.changeFloatingActionButtonSwitch(true));
+                uiProvider.onEvent(
+                    const UiEvent.changeFloatingActionButtonSwitch(true));
                 Navigator.pop(context);
               },
               style: ButtonStyle(
@@ -30,7 +35,7 @@ PreferredSize offAppBar(BuildContext context, {required bool isPrevButton}) {
             )
           : Container(),
       actions: [
-        GestureDetector(
+        settingButton ? GestureDetector(
           onTap: () {
             print('click setting');
           },
@@ -39,7 +44,7 @@ PreferredSize offAppBar(BuildContext context, {required bool isPrevButton}) {
             width: 24.17,
             height: 24.76,
           ),
-        ),
+        ) : Container(),
         const SizedBox(
           width: 40,
         ),
