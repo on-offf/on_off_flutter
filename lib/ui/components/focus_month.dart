@@ -198,6 +198,8 @@ class FocusMonth extends StatelessWidget {
           onPressed: () {
             uiProvider.onEvent(UiEvent.changeFocusedDay(
                 DateTime.utc(year, int.parse(month), 1)));
+            uiProvider.onEvent(UiEvent.changeCalendarPage(
+                DateTime.utc(year, int.parse(month), 1)));
             uiProvider.onEvent(const UiEvent.removeOverlay());
           },
           style: !isFocusMonth
