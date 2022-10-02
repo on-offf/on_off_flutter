@@ -99,35 +99,47 @@ class _PlusButtonState extends State<PlusButton> {
 
   Widget _overlayEntryBuilder(BuildContext _) {
     LayerLink link = widget.layerLink;
-    return Positioned(
-      width: _dropdownWidth,
-      height: _dropdownHeight,
-      child: CompositedTransformFollower(
-        link: link,
-        // showWhenUnlinked: false,
-        offset: const Offset(0, 23),
-        child: Material(
-          child: Container(
-            decoration: BoxDecoration(
-              border: Border.all(
-                color: Theme.of(context).primaryColor,
-                width: 3,
-              ),
-              borderRadius: BorderRadius.circular(29),
-              color: Theme.of(context).canvasColor,
-            ),
-            child: GridView(
-              padding: const EdgeInsets.all(30),
-              children: [..._buildIconButtonList()],
-              gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                maxCrossAxisExtent: 60,
-                crossAxisSpacing: 20,
-                mainAxisSpacing: 20,
+    return Stack(
+      children: [
+        GestureDetector(
+          onTap: () {
+            setState(() {
+              isClicked = !isClicked;
+            });
+            overlayEntry.remove();
+          },
+        ),
+        Positioned(
+          width: _dropdownWidth,
+          height: _dropdownHeight,
+          child: CompositedTransformFollower(
+            link: link,
+            // showWhenUnlinked: false,
+            offset: const Offset(0, 23),
+            child: Material(
+              child: Container(
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color: Theme.of(context).primaryColor,
+                    width: 3,
+                  ),
+                  borderRadius: BorderRadius.circular(29),
+                  color: Theme.of(context).canvasColor,
+                ),
+                child: GridView(
+                  padding: const EdgeInsets.all(30),
+                  children: [..._buildIconButtonList()],
+                  gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                    maxCrossAxisExtent: 60,
+                    crossAxisSpacing: 20,
+                    mainAxisSpacing: 20,
+                  ),
+                ),
               ),
             ),
           ),
         ),
-      ),
+      ],
     );
   }
 

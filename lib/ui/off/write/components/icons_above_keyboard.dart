@@ -6,6 +6,7 @@ import 'package:on_off/constants/constants_text_style.dart';
 
 import 'package:on_off/domain/icon/icon_path.dart';
 import 'package:on_off/ui/components/image_input.dart';
+import 'package:on_off/ui/components/plus_button.dart';
 import 'package:on_off/ui/off/write/off_write_event.dart';
 import 'package:on_off/ui/off/write/off_write_state.dart';
 import 'package:on_off/ui/off/write/off_write_view_model.dart';
@@ -14,11 +15,13 @@ import 'package:provider/provider.dart';
 class IconsAboveKeyboard extends StatefulWidget {
   BuildContext context;
   TextEditingController bodyController;
+  LayerLink selectIconSheetLink;
 
   IconsAboveKeyboard({
     Key? key,
     required this.context,
     required this.bodyController,
+    required this.selectIconSheetLink,
   }) : super(key: key);
 
   @override
@@ -103,6 +106,13 @@ class _IconsAboveKeyboardState extends State<IconsAboveKeyboard> {
                 image: AssetImage(IconPath.clip.name),
                 width: 29,
                 height: 29,
+              ),
+            ),
+            const SizedBox(width: 20),
+            PlusButton(
+              layerLink: widget.selectIconSheetLink,
+              actionAfterSelect: (path) => viewModel.onEvent(
+                OffWriteEvent.addSelectedIconPaths(path),
               ),
             ),
             const SizedBox(width: 20),

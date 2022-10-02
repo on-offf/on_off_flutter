@@ -6,7 +6,6 @@ import 'package:on_off/ui/components/build_selected_icons.dart';
 import 'package:on_off/ui/components/image_input.dart';
 import 'package:on_off/ui/components/off_appbar.dart';
 import 'package:on_off/ui/components/focus_month.dart';
-import 'package:on_off/ui/components/plus_button.dart';
 import 'package:on_off/ui/off/write/components/icons_above_keyboard.dart';
 import 'package:on_off/ui/off/write/off_write_event.dart';
 import 'package:on_off/ui/off/write/off_write_state.dart';
@@ -109,12 +108,6 @@ class _OffWriteScreenState extends State<OffWriteScreen> {
                       width: 8,
                     ),
                     ...buildSelectedIcons(state.iconPaths),
-                    SizedBox(
-                      child: PlusButton(
-                          layerLink: selectIconSheetLink,
-                          actionAfterSelect: (path) => viewModel!.onEvent(
-                              OffWriteEvent.addSelectedIconPaths(path))),
-                    ),
                     const SizedBox(
                       width: 8,
                     ),
@@ -175,7 +168,9 @@ class _OffWriteScreenState extends State<OffWriteScreen> {
           isClicked
               ? IconsAboveKeyboard(
                   context: context,
-                  bodyController: bodyController)
+                  bodyController: bodyController,
+                  selectIconSheetLink: selectIconSheetLink,
+                )
               : const SizedBox(),
         ],
       ),
