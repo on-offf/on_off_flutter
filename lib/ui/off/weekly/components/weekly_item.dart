@@ -36,8 +36,8 @@ class WeeklyItem extends StatelessWidget {
             const SizedBox(
               width: 8,
             ),
-            if (state.iconPathMap[content.time.weekday] != null)
-              ...buildSelectedIcons(state.iconPathMap[content.time.weekday]!),
+            if (state.iconMap.containsKey(content.time.day))
+              buildSelectedIcon(state.iconMap[content.time.day]!.name),
             const SizedBox(width: 8),
             Expanded(
               child: Container(

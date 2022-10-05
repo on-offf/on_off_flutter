@@ -13,8 +13,9 @@ class OffImageDAO {
     for (var element in list) { insertOffImage(element); }
   }
 
-  Future<void> insertOffImage(OffImage offImage) async {
-    await database.insert(table, offImage.toJson());
+  Future<OffImage> insertOffImage(OffImage offImage) async {
+    int id = await database.insert(table, offImage.toJson());
+    return offImage.copyWith(id: id);
   }
 
   Future<void> deleteOffImage(int id) async {

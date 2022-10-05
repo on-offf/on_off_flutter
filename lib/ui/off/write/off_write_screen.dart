@@ -108,7 +108,8 @@ class _OffWriteScreenState extends State<OffWriteScreen> {
                     const SizedBox(
                       width: 8,
                     ),
-                    ...buildSelectedIcons(state.iconPaths),
+                    if (state.icon != null)
+                    buildSelectedIcon(state.icon!.name),
                     const SizedBox(
                       width: 8,
                     ),

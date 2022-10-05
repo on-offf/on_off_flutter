@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:on_off/data/data_source/db/icon_dao.dart';
-import 'package:on_off/domain/entity/icon_entity.dart';
+import 'package:on_off/data/data_source/db/off/off_icon_dao.dart';
+import 'package:on_off/domain/entity/off/off_icon_entity.dart';
 import 'package:on_off/util/date_util.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
@@ -8,46 +8,42 @@ import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 void main() async {
   final database = await databaseFactoryFfi.openDatabase(inMemoryDatabasePath);
 
-  await database.execute(IconDAO.ddl);
+  await database.execute(OffIconDAO.ddl);
 
-  final iconDAO = IconDAO(database);
+  final iconDAO = OffIconDAO(database);
 
   DateTime now = DateTime.now();
-  var unixTime = dateTimeToUnixTime(now);
 
   DateTime todayStartDate = DateTime(now.year, now.month, now.day);
   DateTime todayEndDate = todayStartDate.add(const Duration(days: 1));
 
-  int todayUnixStartDate = dateTimeToUnixTime(todayStartDate);
-  int todayUnixEndDate = dateTimeToUnixTime(todayEndDate);
+  int todayUnixDate = dateTimeToUnixTime(todayStartDate);
+  int tomorrowUnixDate = dateTimeToUnixTime(todayEndDate);
 
-  IconEntity firstOffIcon = IconEntity(dateTime: unixTime, name: 'icon01.png');
-  IconEntity secondOffIcon = IconEntity(dateTime: unixTime, name: 'icon02.png');
+  OffIconEntity todayOffIcon = OffIconEntity(dateTime: todayUnixDate, name: 'icon01.png');
+  OffIconEntity tomorrowOffIcon = OffIconEntity(dateTime: tomorrowUnixDate, name: 'icon02.png');
 
   test('off_icon_dao_test', () async {
-    await iconDAO.insertOffIcon(firstOffIcon);
-    await iconDAO.insertOffIcon(secondOffIcon);
+    await iconDAO.insertOffIcon(todayOffIcon);
+    await iconDAO.insertOffIcon(tomorrowOffIcon);
 
-    List<IconEntity> selectTodayOffIconList = await iconDAO.selectOffIconList(todayUnixStartDate, todayUnixEndDate);
+    OffIconEntity? offIconEntity = await iconDAO.selectOffIcon(todayUnixDate);
 
-    expect(selectTodayOffIconList.length, 2);
+    expect(offIconEntity!.dateTime, todayUnixDate);
 
-    IconEntity? selectedOffIcon = selectTodayOffIconList.first;
+    offIconEntity = offIconEntity.copyWith(name: 'icon03.png');
 
-    selectedOffIcon = selectedOffIcon.copyWith(name: 'icon03.png');
+    offIconEntity = await iconDAO.updateOffIcon(offIconEntity);
 
-    await iconDAO.updateOffIcon(selectedOffIcon);
+    expect(offIconEntity, await iconDAO.selectOffIcon(todayUnixDate));
 
-    selectTodayOffIconList = await iconDAO.selectOffIconList(todayUnixStartDate, todayUnixEndDate);
-    selectedOffIcon = selectTodayOffIconList.first;
+    expect(offIconEntity.name, 'icon03.png');
 
-    expect(selectedOffIcon.name, 'icon03.png');
+    await iconDAO.deleteOffIcon(offIconEntity.dateTime);
 
-    await iconDAO.deleteOffIcon(selectedOffIcon);
+    List<OffIconEntity> list = await iconDAO.selectOffIconList(todayUnixDate, tomorrowUnixDate);
 
-    selectTodayOffIconList = await iconDAO.selectOffIconList(todayUnixStartDate, todayUnixEndDate);
-
-    expect(selectTodayOffIconList.length, 1);
+    expect(list.length, 0);
 
     await database.close();
   });

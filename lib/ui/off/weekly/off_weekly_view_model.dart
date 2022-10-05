@@ -1,6 +1,6 @@
 import 'dart:collection';
 
-import 'package:on_off/domain/entity/icon_entity.dart';
+import 'package:on_off/domain/entity/off/off_icon_entity.dart';
 import 'package:on_off/domain/entity/off/off_diary.dart';
 import 'package:on_off/domain/entity/off/off_image.dart';
 import 'package:on_off/domain/model/content.dart';
@@ -16,13 +16,13 @@ import 'package:on_off/util/date_util.dart';
 class OffWeeklyViewModel extends UiProviderObserve {
   OffWeeklyState _state = OffWeeklyState(
     contents: [],
-    iconPathMap: HashMap(),
+    iconMap: HashMap(),
     isAscending: true,
   );
 
   OffDiaryUseCase offDiaryUseCase;
   OffImageUseCase offImageUseCase;
-  IconUseCase iconUseCase;
+  OffIconUseCase iconUseCase;
 
   OffWeeklyViewModel({
     required this.offDiaryUseCase,
@@ -35,7 +35,6 @@ class OffWeeklyViewModel extends UiProviderObserve {
   void onEvent(OffWeeklyEvent event) {
     event.when(
       changeContents: _changeContents,
-      addSelectedIconPaths: _addSelectedIconPaths,
       changeDiaryOrderType: _changeDiaryOrderType,
     );
   }
@@ -55,41 +54,7 @@ class OffWeeklyViewModel extends UiProviderObserve {
     notifyListeners();
   }
 
-  void _addSelectedIconPaths(DateTime selectedDate, String path) async {
-    selectedDate =
-        DateTime(selectedDate.year, selectedDate.month, selectedDate.day);
-
-    List<String>? iconPathList = _state.iconPathMap[selectedDate.weekday];
-
-    bool saveIcon = true;
-
-    for (var iconPath in iconPathList!) {
-      if (iconPath == path) saveIcon = false;
-    }
-
-    if (saveIcon) {
-      await iconUseCase.insert(selectedDate, path);
-      iconPathList.add(path);
-
-      Map<int, List<String>> iconPathMap = HashMap();
-
-      _state.iconPathMap.forEach((key, value) {
-        if (selectedDate.day == key) {
-          iconPathMap[key] = iconPathList;
-        } else {
-          iconPathMap[key] = _state.iconPathMap[key]!;
-        }
-      });
-
-      _state = _state.copyWith(iconPathMap: iconPathMap);
-
-      notifyListeners();
-    }
-  }
-
   void _changeContents(DateTime selectedDate) async {
-    // DateTime startDateTime = weekStartDate(selectedDate);
-    // DateTime endDateTime = weekEndDate(selectedDate);
     DateTime startDateTime = DateTime(selectedDate.year, selectedDate.month, 1);
     DateTime endDateTime =
         DateTime(selectedDate.year, selectedDate.month + 1, 0);
@@ -126,27 +91,16 @@ class OffWeeklyViewModel extends UiProviderObserve {
   }
 
   void _selectIcons(DateTime startDateTime, DateTime endDateTime) async {
-    List<IconEntity> iconEntityList =
+    List<OffIconEntity> iconEntityList =
         await iconUseCase.selectOffIconList(startDateTime, endDateTime);
 
-    var iconPathMap = HashMap<int, List<String>>();
-
-    // flutter dateTime의 weekday는 1(월)부터 7(일)까지
-    for (int index = 1; index <= 7; index++) {
-      iconPathMap[index] = [];
-    }
+    var iconMap = HashMap<int, OffIconEntity>();
 
     for (var iconEntity in iconEntityList) {
       DateTime dateTime = unixToDateTime(iconEntity.dateTime);
-
-      if (iconPathMap[dateTime.weekday] == null) {
-        iconPathMap.putIfAbsent(dateTime.weekday, () => []);
-        iconPathMap[dateTime.weekday]?.add(iconEntity.name);
-      } else {
-        iconPathMap[dateTime.weekday]?.add(iconEntity.name);
-      }
+      iconMap[dateTime.day] = iconEntity;
     }
-    _state = _state.copyWith(iconPathMap: iconPathMap);
+    _state = _state.copyWith(iconMap: iconMap);
 
     notifyListeners();
   }

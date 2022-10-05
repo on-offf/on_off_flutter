@@ -1,4 +1,4 @@
-import 'package:on_off/domain/entity/icon_entity.dart';
+import 'package:on_off/domain/entity/off/off_icon_entity.dart';
 import 'package:on_off/domain/entity/off/off_diary.dart';
 import 'package:on_off/domain/entity/off/off_image.dart';
 import 'package:on_off/domain/model/content.dart';
@@ -13,13 +13,13 @@ import 'package:on_off/util/date_util.dart';
 
 class OffMonthlyViewModel extends UiProviderObserve {
   final OffDiaryUseCase offDiaryUseCase;
-  final IconUseCase iconUseCase;
+  final OffIconUseCase offIconUseCase;
   final OffImageUseCase offImageUseCase;
 
   OffMonthlyViewModel({
     required this.offDiaryUseCase,
     required this.offImageUseCase,
-    required this.iconUseCase,
+    required this.offIconUseCase,
   });
 
   OffMonthlyState _state = OffMonthlyState(
@@ -29,34 +29,11 @@ class OffMonthlyViewModel extends UiProviderObserve {
 
   void onEvent(OffMonthlyEvent event) {
     event.when(
-      // Icon
-      addSelectedIconPaths: _addSelectedIconPaths,
+      init: _init,
     );
   }
 
-  void _addSelectedIconPaths(String path) async {
-    List<IconEntity> iconList =
-        await iconUseCase.selectListByDateTime(uiState!.focusedDay);
-    bool saveIcon = true;
-
-    for (var iconEntity in iconList) {
-      if (iconEntity.name == path) saveIcon = false;
-    }
-
-    if (saveIcon) {
-      await iconUseCase.insert(uiState!.focusedDay, path);
-      _addIconPathInState(path);
-
-      notifyListeners();
-    }
-  }
-
-  void _addIconPathInState(String path) {
-    List<String> iconPathList = [];
-    iconPathList.addAll(_state.iconPaths);
-    iconPathList.add(path);
-    _state = _state.copyWith(iconPaths: iconPathList);
-  }
+  void _init() { /* do nothing */ }
 
   void _changeFocusedDay(DateTime focusedDay) async {
     OffDiary? offDiary = await offDiaryUseCase.selectByDateTime(focusedDay);
@@ -75,14 +52,8 @@ class OffMonthlyViewModel extends UiProviderObserve {
       _state = _state.copyWith(content: null);
     }
 
-    List<IconEntity> list = await iconUseCase.selectListByDateTime(focusedDay);
-    List<String> iconPaths = [];
-
-    for (var iconEntity in list) {
-      iconPaths.add(iconEntity.name);
-    }
-
-    _state = _state.copyWith(iconPaths: iconPaths);
+    OffIconEntity? icon = await offIconUseCase.selectOffIcon(focusedDay);
+    _state = _state.copyWith(icon: icon);
 
     notifyListeners();
   }

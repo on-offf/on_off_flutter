@@ -4,5 +4,5 @@ part 'off_monthly_event.freezed.dart';
 
 @freezed
 abstract class OffMonthlyEvent with _$OffMonthlyEvent {
-  const factory OffMonthlyEvent.addSelectedIconPaths(String path) = AddSelectedIconPaths;
+  const factory OffMonthlyEvent.init() = Init;
 }

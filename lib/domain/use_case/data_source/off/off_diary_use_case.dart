@@ -6,8 +6,8 @@ class OffDiaryUseCase {
   final OffDiaryDAO offDiaryDAO;
   OffDiaryUseCase(this.offDiaryDAO);
 
-  Future<void> insert(OffDiary offDiary) async {
-    await offDiaryDAO.insertOffDiary(offDiary);
+  Future<OffDiary> insert(OffDiary offDiary) async {
+    return await offDiaryDAO.insertOffDiary(offDiary);
   }
 
   Future<void> delete(OffDiary offDiary) async {

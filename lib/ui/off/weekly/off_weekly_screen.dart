@@ -58,8 +58,7 @@ class OffWeeklyScreen extends StatelessWidget {
                       OffDailyScreen.routeName,
                       arguments: {
                         'content': state.contents[index - 1],
-                        'iconPaths': state.iconPathMap[
-                            state.contents[index - 1].time.weekday],
+                        'icon': state.iconMap[state.contents[index - 1].time.day],
                       },
                     );
                   },

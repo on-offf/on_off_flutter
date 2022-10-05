@@ -79,7 +79,7 @@ class OffMonthlyItem extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(width: 8),
-                      ...buildSelectedIcons(state.iconPaths),
+                      if (state.icon != null) buildSelectedIcon(state.icon!.name),
                       Expanded(
                         child: Container(
                           height: 2,

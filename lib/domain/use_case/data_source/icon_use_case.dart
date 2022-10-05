@@ -1,50 +1,53 @@
-import 'package:on_off/data/data_source/db/icon_dao.dart';
-import 'package:on_off/domain/entity/icon_entity.dart';
+import 'package:on_off/data/data_source/db/off/off_icon_dao.dart';
+import 'package:on_off/domain/entity/off/off_icon_entity.dart';
 import 'package:on_off/util/date_util.dart';
 
-class IconUseCase {
-  final IconDAO iconDAO;
+class OffIconUseCase {
+  final OffIconDAO offIconDAO;
 
-  IconUseCase(this.iconDAO);
+  OffIconUseCase(this.offIconDAO);
 
-  Future<void> insert(DateTime dateTime, String name) async {
+  Future<OffIconEntity> insert(DateTime dateTime, String name) async {
     dateTime = DateTime(dateTime.year, dateTime.month, dateTime.day);
-    await insertEntity(
-      IconEntity(
-        dateTime: dateTimeToUnixTime(dateTime),
+    int unixTime = dateTimeToUnixTime(dateTime);
+    await offIconDAO.deleteOffIcon(unixTime);
+    return await _insertEntity(
+      OffIconEntity(
+        dateTime: unixTime,
         name: name,
       ),
     );
   }
 
-  Future<void> insertEntity(IconEntity iconEntity) async {
-    await iconDAO.insertOffIcon(iconEntity);
+  Future<OffIconEntity> _insertEntity(OffIconEntity iconEntity) async {
+    await offIconDAO.insertOffIcon(iconEntity);
+    return iconEntity;
   }
 
-  Future<void> delete(IconEntity offIcon) async {
-    await iconDAO.deleteOffIcon(offIcon);
+  Future<void> delete(DateTime dateTime) async {
+    dateTime = DateTime(dateTime.year, dateTime.month, dateTime.day);
+    int unixTime = dateTimeToUnixTime(dateTime);
+    await offIconDAO.deleteOffIcon(unixTime);
   }
 
-  Future<void> update(IconEntity offIcon) async {
-    await iconDAO.updateOffIcon(offIcon);
+  Future<void> update(DateTime dateTime, String name) async {
+    dateTime = DateTime(dateTime.year, dateTime.month, dateTime.day);
+    int unixTime = dateTimeToUnixTime(dateTime);
+
+    var offIcon = OffIconEntity(
+      dateTime: unixTime,
+      name: name
+    );
+
+    await offIconDAO.updateOffIcon(offIcon);
   }
 
-  Future<IconEntity?> selectOffIcon(int id) async {
-    return await iconDAO.selectOffIcon(id);
+  Future<OffIconEntity?> selectOffIcon(DateTime dateTime) async {
+    int unixTime = dateTimeToUnixTime(DateTime(dateTime.year, dateTime.month, dateTime.day));
+    return await offIconDAO.selectOffIcon(unixTime);
   }
 
-  Future<List<IconEntity>> selectListByDateTime(DateTime dateTime) async {
-    DateTime startDate =
-        DateTime(dateTime.year, dateTime.month, dateTime.day, 0, 0, 0);
-    DateTime endDate = startDate.add(const Duration(days: 1));
-
-    int unixStartDate = dateTimeToUnixTime(startDate);
-    int unixEndDate = dateTimeToUnixTime(endDate);
-
-    return await iconDAO.selectOffIconList(unixStartDate, unixEndDate);
-  }
-
-  Future<List<IconEntity>> selectOffIconList(
+  Future<List<OffIconEntity>> selectOffIconList(
       DateTime startDateTime, DateTime endDateTime) async {
     startDateTime =
         DateTime(startDateTime.year, startDateTime.month, startDateTime.day);
@@ -55,6 +58,6 @@ class IconUseCase {
     int startUnixTime = dateTimeToUnixTime(startDateTime);
     int endUnixTime = dateTimeToUnixTime(endDateTime);
 
-    return await iconDAO.selectOffIconList(startUnixTime, endUnixTime);
+    return await offIconDAO.selectOffIconList(startUnixTime, endUnixTime);
   }
 }

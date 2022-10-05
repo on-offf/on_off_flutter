@@ -1,4 +1,4 @@
-import 'package:on_off/data/data_source/db/icon_dao.dart';
+import 'package:on_off/data/data_source/db/off/off_icon_dao.dart';
 import 'package:on_off/data/data_source/db/off/off_diary_dao.dart';
 import 'package:on_off/data/data_source/db/off/off_image_dao.dart';
 import 'package:on_off/domain/use_case/data_source/icon_use_case.dart';
@@ -16,50 +16,49 @@ import 'package:provider/single_child_widget.dart';
 import 'package:sqflite/sqflite.dart';
 
 Future<List<SingleChildWidget>> getProviders() async {
-  var databaseName = 'onoff.db';
+  var databaseName = 'on_off.db';
   var databaseVersion = 1;
 
   Database database = await openDatabase(
     databaseName,
     version: databaseVersion,
     onCreate: (db, version) async {
-
       // OFF
       await db.execute(OffDiaryDAO.ddl);
       await db.execute(OffImageDAO.ddl);
-      await db.execute(IconDAO.ddl);
+      await db.execute(OffIconDAO.ddl);
     },
   );
 
   OffDiaryDAO offDiaryDAO = OffDiaryDAO(database);
   OffImageDAO offImageDAO = OffImageDAO(database);
-  IconDAO iconDAO = IconDAO(database);
+  OffIconDAO iconDAO = OffIconDAO(database);
 
   OffDiaryUseCase offDiaryUseCase = OffDiaryUseCase(offDiaryDAO);
   OffImageUseCase offImageUseCase = OffImageUseCase(offImageDAO);
-  IconUseCase iconUseCase = IconUseCase(iconDAO);
+  OffIconUseCase offIconUseCase = OffIconUseCase(iconDAO);
 
   // Off View Model
   OffMonthlyViewModel offHomeViewModel = OffMonthlyViewModel(
     offDiaryUseCase: offDiaryUseCase,
     offImageUseCase: offImageUseCase,
-    iconUseCase: iconUseCase,
+    offIconUseCase: offIconUseCase,
   );
 
   OffWriteViewModel offWriteViewModel = OffWriteViewModel(
     offDiaryUseCase: offDiaryUseCase,
     offImageUseCase: offImageUseCase,
-    iconUseCase: iconUseCase,
+    iconUseCase: offIconUseCase,
   );
 
   OffWeeklyViewModel offListViewModel = OffWeeklyViewModel(
     offDiaryUseCase: offDiaryUseCase,
     offImageUseCase: offImageUseCase,
-    iconUseCase: iconUseCase,
+    iconUseCase: offIconUseCase,
   );
 
   OffDailyViewModel offDetailViewModel = OffDailyViewModel(
-    iconUseCase: iconUseCase,
+    offIconUseCase: offIconUseCase,
   );
 
   // On View Model

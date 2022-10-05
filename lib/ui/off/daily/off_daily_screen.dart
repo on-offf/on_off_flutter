@@ -4,6 +4,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:on_off/constants/constants_text_style.dart';
+import 'package:on_off/domain/entity/off/off_icon_entity.dart';
 import 'package:on_off/domain/model/content.dart';
 import 'package:on_off/ui/components/build_selected_icons.dart';
 import 'package:on_off/ui/components/off_appbar.dart';
@@ -26,10 +27,10 @@ class OffDailyScreen extends StatelessWidget {
     final routeArgs =
         ModalRoute.of(context)!.settings.arguments as Map<String, Object?>;
     final Content content = routeArgs['content']! as Content;
-    final List<String> iconPaths = routeArgs['iconPaths']! as List<String>;
+    final OffIconEntity? offIcon = routeArgs['icon'] as OffIconEntity?;
 
     Future.delayed(Duration.zero,
-        () => viewModel.onEvent(OffDailyEvent.getIconPaths(iconPaths)));
+        () => viewModel.onEvent(OffDailyEvent.getIcon(offIcon)));
 
     return Scaffold(
       appBar: offAppBar(
@@ -52,7 +53,7 @@ class OffDailyScreen extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(width: 8),
-                ...buildSelectedIcons(state.iconPaths),
+                if (state.icon != null) buildSelectedIcon(state.icon!.name),
                 Expanded(
                   child: Container(
                     height: 2,

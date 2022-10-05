@@ -43,5 +43,4 @@ flutter:
     - assets/icons/floating_button/
     - assets/icons/off_write/
     - assets/icons/stickers/
-    - assets/images/
     - lib/ui/off/weekly/

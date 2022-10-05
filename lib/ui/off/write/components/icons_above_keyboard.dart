@@ -63,7 +63,7 @@ class _IconsAboveKeyboardState extends State<IconsAboveKeyboard> {
                 }
                 viewModel.onEvent(
                   //TODO 글 입력하지 않고 저장하고 싶을때 수정해야 함.
-                  OffWriteEvent.saveTextContent(widget.bodyController.text),
+                  OffWriteEvent.saveContent(widget.bodyController.text),
                 );
                 Navigator.of(context).pop();
               },
@@ -114,7 +114,7 @@ class _IconsAboveKeyboardState extends State<IconsAboveKeyboard> {
             PlusButton(
               layerLink: widget.selectIconSheetLink,
               actionAfterSelect: (path) => viewModel.onEvent(
-                OffWriteEvent.addSelectedIconPaths(path),
+                OffWriteEvent.addIcon(path),
               ),
             ),
             const SizedBox(width: 20),

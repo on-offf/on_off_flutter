@@ -9,8 +9,9 @@ class OffDiaryDAO {
 
   OffDiaryDAO(this.database);
 
-  Future<void> insertOffDiary(OffDiary offDiary) async {
-    await database.insert(table, offDiary.toJson());
+  Future<OffDiary> insertOffDiary(OffDiary offDiary) async {
+    int id = await database.insert(table, offDiary.toJson());
+    return offDiary.copyWith(id: id);
   }
 
   Future<void> deleteOffDiary(OffDiary offDiary) async {

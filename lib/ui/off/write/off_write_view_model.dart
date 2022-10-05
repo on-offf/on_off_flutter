@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:on_off/domain/entity/icon_entity.dart';
+import 'package:on_off/domain/entity/off/off_icon_entity.dart';
 import 'package:on_off/domain/entity/off/off_diary.dart';
 import 'package:on_off/domain/entity/off/off_image.dart';
 import 'package:on_off/domain/use_case/data_source/icon_use_case.dart';
@@ -15,7 +15,7 @@ import 'package:on_off/util/date_util.dart';
 class OffWriteViewModel extends UiProviderObserve {
   final OffDiaryUseCase offDiaryUseCase;
   final OffImageUseCase offImageUseCase;
-  final IconUseCase iconUseCase;
+  final OffIconUseCase iconUseCase;
 
   OffWriteViewModel({
     required this.offDiaryUseCase,
@@ -29,35 +29,17 @@ class OffWriteViewModel extends UiProviderObserve {
 
   void onEvent(OffWriteEvent event) {
     event.when(
-      addSelectedIconPaths: _addSelectedIconPaths,
+      addIcon: _addIcon,
       addSelectedImagePaths: _addSelectedImagePaths,
-      saveTextContent: _saveTextContent,
+      saveContent: _saveContent,
       resetState: _resetState,
     );
   }
 
-  void _addSelectedIconPaths(String path) async {
-    List<IconEntity> iconList = await iconUseCase.selectListByDateTime(uiState!.focusedDay);
-
-    bool saveIcon = true;
-
-    for (var iconEntity in iconList) {
-      if (iconEntity.name == path) saveIcon = false;
-    }
-
-    if (saveIcon) {
-      await iconUseCase.insert(uiState!.focusedDay, path);
-      _addIconPathInState(path);
-
-      notifyListeners();
-    }
-  }
-
-  void _addIconPathInState(String path) {
-    List<String> iconPathList = [];
-    iconPathList.addAll(_state.iconPaths);
-    iconPathList.add(path);
-    _state = _state.copyWith(iconPaths: iconPathList);
+  void _addIcon(String path) async {
+    OffIconEntity icon = await iconUseCase.insert(uiState!.focusedDay, path);
+    _state = _state.copyWith(icon: icon);
+    notifyListeners();
   }
 
   void _addSelectedImagePaths(File path) {
@@ -68,41 +50,31 @@ class OffWriteViewModel extends UiProviderObserve {
     notifyListeners();
   }
 
-  void _saveTextContent(String text) async {
+  void _saveContent(String text) async {
     OffDiary? offDiary = OffDiary(
       dateTime: dateTimeToUnixTime(uiState!.focusedDay),
       content: text,
     );
+    offDiary = await offDiaryUseCase.insert(offDiary);
+    _saveDiaryImageList(offDiary.id!);
+    notifyListeners();
+  }
 
-    await offDiaryUseCase.insert(offDiary);
-
-    offDiary = await offDiaryUseCase.selectByDateTime(uiState!.focusedDay);
-    print(offDiary);
-
+  void _saveDiaryImageList(int id) async {
     List<OffImage> offImageList = [];
-
     for (var imageFile in state.imagePaths) {
       OffImage offImage = OffImage(
-        offDiaryId: offDiary!.id!,
+        offDiaryId: id,
         imageFile: imageFile.readAsBytesSync(),
       );
       offImageList.add(offImage);
     }
-
     await offImageUseCase.insertAll(offImageList);
-
-    notifyListeners();
   }
 
-  void _getIconList(DateTime focuesdDay) async {
-    List<String> iconPaths = [];
-
-    List<IconEntity> iconEntityList = await iconUseCase.selectListByDateTime(focuesdDay);
-
-    for (var iconEntity in iconEntityList) {
-      iconPaths.add(iconEntity.name);
-    }
-    _state = _state.copyWith(iconPaths: iconPaths);
+  void _getIcon(DateTime focuesdDay) async {
+    OffIconEntity? icon = await iconUseCase.selectOffIcon(focuesdDay);
+    _state = _state.copyWith(icon: icon);
   }
 
   void _resetState() {
@@ -121,7 +93,7 @@ class OffWriteViewModel extends UiProviderObserve {
   update(UiState uiState) {
 
     if (this.uiState?.focusedDay != uiState.focusedDay) {
-      _getIconList(uiState.focusedDay);
+      _getIcon(uiState.focusedDay);
     }
 
     this.uiState = uiState;
