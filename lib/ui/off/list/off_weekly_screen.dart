@@ -3,10 +3,10 @@ import 'package:on_off/ui/components/common_floating_action_button.dart';
 import 'package:on_off/ui/off/daily/off_daily_screen.dart';
 import 'package:on_off/ui/components/focus_month.dart';
 import 'package:on_off/ui/components/off_appbar.dart';
-import 'package:on_off/ui/off/weekly/components/off_list_order_change_button.dart';
-import 'package:on_off/ui/off/weekly/components/list_item.dart';
-import 'package:on_off/ui/off/weekly/off_list_state.dart';
-import 'package:on_off/ui/off/weekly/off_list_view_model.dart';
+import 'package:on_off/ui/off/list/components/off_list_order_change_button.dart';
+import 'package:on_off/ui/off/list/components/list_item.dart';
+import 'package:on_off/ui/off/list/off_list_state.dart';
+import 'package:on_off/ui/off/list/off_list_view_model.dart';
 import 'package:provider/provider.dart';
 
 class OffListScreen extends StatelessWidget {

@@ -6,7 +6,7 @@ import 'package:on_off/domain/use_case/data_source/off/off_diary_use_case.dart';
 import 'package:on_off/domain/use_case/data_source/off/off_image_use_case.dart';
 import 'package:on_off/ui/off/daily/off_daily_view_model.dart';
 import 'package:on_off/ui/off/monthly/off_monthly_view_model.dart';
-import 'package:on_off/ui/off/weekly/off_weekly_view_model.dart';
+import 'package:on_off/ui/off/list/off_list_view_model.dart';
 import 'package:on_off/ui/off/write/off_write_view_model.dart';
 import 'package:on_off/ui/on/monthly/on_monthly_view_model.dart';
 import 'package:on_off/ui/provider/ui_provider.dart';
@@ -51,7 +51,7 @@ Future<List<SingleChildWidget>> getProviders() async {
     iconUseCase: offIconUseCase,
   );
 
-  OffWeeklyViewModel offListViewModel = OffWeeklyViewModel(
+  OffListViewModel offListViewModel = OffListViewModel(
     offDiaryUseCase: offDiaryUseCase,
     offImageUseCase: offImageUseCase,
     iconUseCase: offIconUseCase,

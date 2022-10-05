@@ -8,11 +8,11 @@ import 'package:provider/provider.dart';
 class CommonFloatingActionButton extends StatelessWidget {
   CommonFloatingActionButton({
     Key? key,
-    required this.montlyWeeklyButtonNavigator,
+    required this.montlyListButtonNavigator,
     required this.onOffButtonNavigator,
   }) : super(key: key);
 
-  final VoidCallback montlyWeeklyButtonNavigator;
+  final VoidCallback montlyListButtonNavigator;
   final VoidCallback onOffButtonNavigator;
 
   @override
@@ -37,7 +37,7 @@ class CommonFloatingActionButton extends StatelessWidget {
                 onPressed: () {
                   uiProvier.onEvent(
                       const UiEvent.changeFloatingActionButtonSwitch(null));
-                  montlyWeeklyButtonNavigator.call();
+                  montlyListButtonNavigator.call();
                 },
                 backgroundColor: Colors.transparent,
                 elevation: 0,

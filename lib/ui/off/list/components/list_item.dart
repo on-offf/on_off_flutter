@@ -4,8 +4,8 @@ import 'package:intl/intl.dart';
 import 'package:on_off/constants/constants_text_style.dart';
 import 'package:on_off/domain/model/content.dart';
 import 'package:on_off/ui/components/build_selected_icons.dart';
-import 'package:on_off/ui/off/weekly/off_list_state.dart';
-import 'package:on_off/ui/off/weekly/off_list_view_model.dart';
+import 'package:on_off/ui/off/list/off_list_state.dart';
+import 'package:on_off/ui/off/list/off_list_view_model.dart';
 import 'package:provider/provider.dart';
 
 class ListItem extends StatelessWidget {

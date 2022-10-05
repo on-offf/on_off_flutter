@@ -4,7 +4,7 @@ import 'package:on_off/ui/components/off_appbar.dart';
 import 'package:on_off/ui/components/focus_month.dart';
 import 'package:on_off/ui/off/monthly/components/off_monthly_calendar.dart';
 import 'package:on_off/ui/off/monthly/components/off_monthly_item.dart';
-import 'package:on_off/ui/off/weekly/off_weekly_screen.dart';
+import 'package:on_off/ui/off/list/off_weekly_screen.dart';
 import 'package:on_off/ui/provider/ui_event.dart';
 import 'package:on_off/ui/provider/ui_provider.dart';
 import 'package:provider/provider.dart';
@@ -27,8 +27,8 @@ class OffMonthlyScreen extends StatelessWidget {
         isPrevButton: false,
       ),
       floatingActionButton: CommonFloatingActionButton(
-        montlyWeeklyButtonNavigator: () {
-          Navigator.pushNamed(context, OffWeeklyScreen.routeName);
+        montlyListButtonNavigator: () {
+          Navigator.pushNamed(context, OffListScreen.routeName);
         },
         onOffButtonNavigator: () {},
       ),

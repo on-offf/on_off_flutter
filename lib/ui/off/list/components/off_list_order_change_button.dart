@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:on_off/domain/icon/icon_path.dart';
-import 'package:on_off/ui/off/weekly/off_list_event.dart';
-import 'package:on_off/ui/off/weekly/off_list_state.dart';
-import 'package:on_off/ui/off/weekly/off_list_view_model.dart';
+import 'package:on_off/ui/off/list/off_list_event.dart';
+import 'package:on_off/ui/off/list/off_list_state.dart';
+import 'package:on_off/ui/off/list/off_list_view_model.dart';
 import 'package:provider/provider.dart';
 
 class OffListOrderChangeButton extends StatelessWidget {
