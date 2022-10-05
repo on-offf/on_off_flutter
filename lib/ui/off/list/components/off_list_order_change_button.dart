@@ -1,23 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:on_off/domain/icon/icon_path.dart';
-import 'package:on_off/ui/off/weekly/off_weekly_event.dart';
-import 'package:on_off/ui/off/weekly/off_weekly_state.dart';
-import 'package:on_off/ui/off/weekly/off_weekly_view_model.dart';
+import 'package:on_off/ui/off/weekly/off_list_event.dart';
+import 'package:on_off/ui/off/weekly/off_list_state.dart';
+import 'package:on_off/ui/off/weekly/off_list_view_model.dart';
 import 'package:provider/provider.dart';
 
-class OffWeeklyOrderChangeButton extends StatelessWidget {
-  const OffWeeklyOrderChangeButton({Key? key}) : super(key: key);
+class OffListOrderChangeButton extends StatelessWidget {
+  const OffListOrderChangeButton({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    OffWeeklyViewModel viewModel = context.watch<OffWeeklyViewModel>();
-    OffWeeklyState state = viewModel.state;
+    OffListViewModel viewModel = context.watch<OffListViewModel>();
+    OffListState state = viewModel.state;
 
     return Padding(
       padding: const EdgeInsets.only(bottom: 17),
       child: GestureDetector(
         onTap: () {
-          viewModel.onEvent(const OffWeeklyEvent.changeDiaryOrderType());
+          viewModel.onEvent(const OffListEvent.changeDiaryOrderType());
         },
         child: Row(
           children: [

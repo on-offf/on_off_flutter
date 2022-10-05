@@ -4,23 +4,23 @@ import 'package:intl/intl.dart';
 import 'package:on_off/constants/constants_text_style.dart';
 import 'package:on_off/domain/model/content.dart';
 import 'package:on_off/ui/components/build_selected_icons.dart';
-import 'package:on_off/ui/off/weekly/off_weekly_state.dart';
-import 'package:on_off/ui/off/weekly/off_weekly_view_model.dart';
+import 'package:on_off/ui/off/weekly/off_list_state.dart';
+import 'package:on_off/ui/off/weekly/off_list_view_model.dart';
 import 'package:provider/provider.dart';
 
-class WeeklyItem extends StatelessWidget {
+class ListItem extends StatelessWidget {
   final Content content;
   final LayerLink selectIconSheetLink = LayerLink();
 
-  WeeklyItem({
+  ListItem({
     Key? key,
     required this.content,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    OffWeeklyViewModel viewModel = context.watch<OffWeeklyViewModel>();
-    OffWeeklyState state = viewModel.state;
+    OffListViewModel viewModel = context.watch<OffListViewModel>();
+    OffListState state = viewModel.state;
 
     return Column(
       children: [

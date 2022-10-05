@@ -3,21 +3,21 @@ import 'package:on_off/ui/components/common_floating_action_button.dart';
 import 'package:on_off/ui/off/daily/off_daily_screen.dart';
 import 'package:on_off/ui/components/focus_month.dart';
 import 'package:on_off/ui/components/off_appbar.dart';
-import 'package:on_off/ui/off/weekly/components/off_weekly_order_change_button.dart';
-import 'package:on_off/ui/off/weekly/components/weekly_item.dart';
-import 'package:on_off/ui/off/weekly/off_weekly_state.dart';
-import 'package:on_off/ui/off/weekly/off_weekly_view_model.dart';
+import 'package:on_off/ui/off/weekly/components/off_list_order_change_button.dart';
+import 'package:on_off/ui/off/weekly/components/list_item.dart';
+import 'package:on_off/ui/off/weekly/off_list_state.dart';
+import 'package:on_off/ui/off/weekly/off_list_view_model.dart';
 import 'package:provider/provider.dart';
 
-class OffWeeklyScreen extends StatelessWidget {
-  static const routeName = '/off/weekly';
+class OffListScreen extends StatelessWidget {
+  static const routeName = '/off/list';
 
-  const OffWeeklyScreen({Key? key}) : super(key: key);
+  const OffListScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    OffWeeklyViewModel viewModel = context.watch<OffWeeklyViewModel>();
-    OffWeeklyState state = viewModel.state;
+    OffListViewModel viewModel = context.watch<OffListViewModel>();
+    OffListState state = viewModel.state;
 
     return Scaffold(
       appBar: offAppBar(
@@ -25,7 +25,7 @@ class OffWeeklyScreen extends StatelessWidget {
         isPrevButton: true,
       ),
       floatingActionButton: CommonFloatingActionButton(
-        montlyWeeklyButtonNavigator: () {
+        montlyListButtonNavigator: () {
           Navigator.pop(context);
         },
         onOffButtonNavigator: () {},
@@ -46,12 +46,12 @@ class OffWeeklyScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     FocusMonth(),
-                    OffWeeklyOrderChangeButton(),
+                    OffListOrderChangeButton(),
                   ],
                 );
               } else {
                 return GestureDetector(
-                  child: WeeklyItem(content: state.contents[index - 1]),
+                  child: ListItem(content: state.contents[index - 1]),
                   onTap: () {
                     Navigator.pushNamed(
                       context,
