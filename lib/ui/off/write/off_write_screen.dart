@@ -29,6 +29,7 @@ class _OffWriteScreenState extends State<OffWriteScreen> {
   final LayerLink selectIconSheetLink = LayerLink();
   bool isClicked = false;
   OffWriteViewModel? viewModel;
+  UiState? uiState;
 
   void changeByFocus(bool hasFocus) {
     if (hasFocus == true) {
@@ -75,7 +76,7 @@ class _OffWriteScreenState extends State<OffWriteScreen> {
     OffWriteState state = viewModel!.state;
 
     UiProvider uiProvider = context.watch<UiProvider>();
-    UiState uiState = uiProvider.state;
+    uiState = uiProvider.state;
 
     return Scaffold(
       appBar: offAppBar(
@@ -100,7 +101,7 @@ class _OffWriteScreenState extends State<OffWriteScreen> {
                       link: selectIconSheetLink,
                       child: Text(
                         DateFormat.MMMMEEEEd('ko_KR')
-                            .format(uiState.focusedDay),
+                            .format(uiState!.focusedDay),
                         style: kSubtitle2,
                       ),
                     ),
@@ -170,9 +171,110 @@ class _OffWriteScreenState extends State<OffWriteScreen> {
                   context: context,
                   bodyController: bodyController,
                   selectIconSheetLink: selectIconSheetLink,
+                  removeDialogFunction: removeDialogFunction,
                 )
               : const SizedBox(),
         ],
+      ),
+    );
+  }
+
+  void removeDialogFunction() async {
+    FocusManager.instance.primaryFocus?.unfocus();
+    bool remove = await removeDialog(uiState);
+    if (remove) {
+      Future.delayed(Duration.zero, () => Navigator.pop(context));
+    }
+  }
+
+
+  Future<dynamic> removeDialog(uiState) {
+    return showDialog(
+      barrierColor: Colors.transparent,
+      context: context,
+      builder: (_) => Dialog(
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(
+            Radius.circular(35.0),
+          ),
+        ),
+        backgroundColor: Colors.transparent,
+        child: Container(
+          width: 288,
+          height: 129,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(35.0),
+            border: Border.all(
+              width: 1,
+              color: uiState.colorConst.getPrimary(),
+            ),
+            color: uiState.colorConst.canvas,
+          ),
+          child: Column(
+            children: [
+              const SizedBox(
+                height: 18,
+              ),
+              Text(
+                '위 게시글을\n삭제하시습니까?',
+                style: kSubtitle3.copyWith(
+                  color: uiState.colorConst.getPrimary(),
+                ),
+                textAlign: TextAlign.center,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop(true);
+                    },
+                    style: TextButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(35.0),
+                        side: BorderSide(
+                          color: uiState.colorConst.getPrimary(),
+                          width: 1,
+                          style: BorderStyle.solid,
+                        ),
+                      ),
+                    ),
+                    child: Text(
+                      '예',
+                      style: kSubtitle3.copyWith(
+                        color: uiState.colorConst.getPrimary(),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context, rootNavigator: true).pop(false);
+                    },
+                    style: TextButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(35.0),
+                        side: BorderSide(
+                          color: uiState.colorConst.getPrimary(),
+                          width: 1,
+                          style: BorderStyle.solid,
+                        ),
+                      ),
+                    ),
+                    child: Text(
+                      '아니요',
+                      style: kSubtitle3.copyWith(
+                        color: uiState.colorConst.getPrimary(),
+                      ),
+                    ),
+                  ),
+                ],
+              )
+            ],
+          ),
+        ),
       ),
     );
   }

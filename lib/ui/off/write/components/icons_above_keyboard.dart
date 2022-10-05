@@ -16,12 +16,14 @@ class IconsAboveKeyboard extends StatefulWidget {
   BuildContext context;
   TextEditingController bodyController;
   LayerLink selectIconSheetLink;
+  VoidCallback removeDialogFunction;
 
   IconsAboveKeyboard({
     Key? key,
     required this.context,
     required this.bodyController,
     required this.selectIconSheetLink,
+    required this.removeDialogFunction,
   }) : super(key: key);
 
   @override
@@ -117,7 +119,7 @@ class _IconsAboveKeyboardState extends State<IconsAboveKeyboard> {
             ),
             const SizedBox(width: 20),
             IconButton(
-              onPressed: () {},
+              onPressed: widget.removeDialogFunction,
               padding: const EdgeInsets.all(0),
               icon: Image(
                 image: AssetImage(IconPath.trashCan.name),
@@ -130,6 +132,7 @@ class _IconsAboveKeyboardState extends State<IconsAboveKeyboard> {
       ),
     );
   }
+
 
   void showImageRegistryDialog() {
     showDialog(
