@@ -44,3 +44,9 @@ flutter:
     - assets/icons/off_write/
     - assets/icons/stickers/
     - lib/ui/off/list/
+
+flutter_native_splash:
+  color: "#219EBC"
+  image: "assets/splash.png"
+  android: true
+  ios: true

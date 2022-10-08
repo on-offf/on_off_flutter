@@ -14,8 +14,8 @@ class OffDiaryDAO {
     return offDiary.copyWith(id: id);
   }
 
-  Future<void> deleteOffDiary(OffDiary offDiary) async {
-    await database.delete(table, where: 'id = ?', whereArgs: [offDiary.id]);
+  Future<void> deleteOffDiary(int id) async {
+    await database.delete(table, where: 'id = ?', whereArgs: [id]);
   }
 
   Future<void> updateOffDiary(OffDiary offDiary) async {

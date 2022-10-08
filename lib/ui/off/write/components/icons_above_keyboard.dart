@@ -7,9 +7,12 @@ import 'package:on_off/constants/constants_text_style.dart';
 import 'package:on_off/domain/icon/icon_path.dart';
 import 'package:on_off/ui/components/image_input.dart';
 import 'package:on_off/ui/components/plus_button.dart';
+import 'package:on_off/ui/off/monthly/off_monthly_screen.dart';
 import 'package:on_off/ui/off/write/off_write_event.dart';
 import 'package:on_off/ui/off/write/off_write_state.dart';
 import 'package:on_off/ui/off/write/off_write_view_model.dart';
+import 'package:on_off/ui/provider/ui_event.dart';
+import 'package:on_off/ui/provider/ui_provider.dart';
 import 'package:provider/provider.dart';
 
 class IconsAboveKeyboard extends StatefulWidget {
@@ -38,6 +41,8 @@ class _IconsAboveKeyboardState extends State<IconsAboveKeyboard> {
     OffWriteViewModel viewModel = context.watch<OffWriteViewModel>();
     OffWriteState state = viewModel.state;
 
+    UiProvider uiProvider = context.watch<UiProvider>();
+
     return Positioned(
       bottom: 0,
       width: MediaQuery.of(context).size.width,
@@ -58,13 +63,14 @@ class _IconsAboveKeyboardState extends State<IconsAboveKeyboard> {
             IconButton(
               onPressed: () {
                 if (state.imagePaths.isEmpty) {
-                  showImageRegistryDialog();
+                  _showImageRegistryDialog();
                   return;
                 }
                 viewModel.onEvent(
                   //TODO 글 입력하지 않고 저장하고 싶을때 수정해야 함.
                   OffWriteEvent.saveContent(widget.bodyController.text),
                 );
+                uiProvider.onEvent(const UiEvent.initScreen(OffMonthlyScreen.routeName));
                 Navigator.of(context).pop();
               },
               padding: const EdgeInsets.all(0),
@@ -134,7 +140,7 @@ class _IconsAboveKeyboardState extends State<IconsAboveKeyboard> {
   }
 
 
-  void showImageRegistryDialog() {
+  void _showImageRegistryDialog() {
     showDialog(
       context: context,
       builder: (_) => const AlertDialog(

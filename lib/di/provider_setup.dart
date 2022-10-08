@@ -48,7 +48,7 @@ Future<List<SingleChildWidget>> getProviders() async {
   OffWriteViewModel offWriteViewModel = OffWriteViewModel(
     offDiaryUseCase: offDiaryUseCase,
     offImageUseCase: offImageUseCase,
-    iconUseCase: offIconUseCase,
+    offIconUseCase: offIconUseCase,
   );
 
   OffListViewModel offListViewModel = OffListViewModel(

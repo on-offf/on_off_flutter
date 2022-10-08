@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:on_off/domain/model/off_write_image.dart';
 
 part 'off_write_event.freezed.dart';
 
@@ -11,4 +12,7 @@ abstract class OffWriteEvent with _$OffWriteEvent {
       AddSelectedImagePaths;
   const factory OffWriteEvent.saveContent(String text) = SaveContent;
   const factory OffWriteEvent.resetState() = ResetState;
+  const factory OffWriteEvent.getFocusedDayDetail() = GetFocusedDayDetail;
+  const factory OffWriteEvent.removeImage(OffWriteImage offWriteImage) = RemoveEvent;
+  const factory OffWriteEvent.removeContent() = RemoveContent;
 }

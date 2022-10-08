@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:on_off/constants/color_constants.dart';
+import 'package:on_off/ui/off/monthly/off_monthly_screen.dart';
+import 'package:on_off/ui/off/monthly/off_monthly_view_model.dart';
 import 'package:on_off/ui/provider/ui_event.dart';
 import 'package:on_off/ui/provider/ui_provider_observe.dart';
 import 'package:on_off/ui/provider/ui_state.dart';
@@ -51,6 +53,9 @@ class UiProvider with ChangeNotifier {
       showOverlay: _showOverlay,
       removeOverlay: _removeOverlay,
       focusMonthSelected: _focusMonthSelected,
+
+      // initScreen
+      initScreen: _initScreen,
 
       // notifyListeners
       selfNotifyListeners: _selfNotifyListeners,
@@ -116,6 +121,14 @@ class UiProvider with ChangeNotifier {
   void _changeMainColor(ColorConst colorConst) {
     _state = _state.copyWith(colorConst: colorConst);
     _notifyListeners();
+  }
+
+  void _initScreen(String route) {
+    for (var viewModel in viewModelList) {
+      if (viewModel is OffMonthlyViewModel && route == OffMonthlyScreen.routeName) {
+        viewModel.initScreen();
+      }
+    }
   }
 
   void _init() {

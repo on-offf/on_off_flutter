@@ -10,8 +10,8 @@ class OffDiaryUseCase {
     return await offDiaryDAO.insertOffDiary(offDiary);
   }
 
-  Future<void> delete(OffDiary offDiary) async {
-    await offDiaryDAO.deleteOffDiary(offDiary);
+  Future<void> delete(int id) async {
+    await offDiaryDAO.deleteOffDiary(id);
   }
 
   Future<void> update(OffDiary offDiary) async {

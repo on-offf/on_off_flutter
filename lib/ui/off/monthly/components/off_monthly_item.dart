@@ -170,13 +170,19 @@ class OffMonthlyItem extends StatelessWidget {
                     ],
                   ),
                   const SizedBox(height: 7),
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width - 74,
-                    child: Text(
-                      state.content!.content,
-                      textAlign: TextAlign.start,
-                      softWrap: true,
-                      style: kBody1,
+                  GestureDetector(
+                    onTap: () {
+                      uiProvider.onEvent(const UiEvent.changeCalendarFormat(CalendarFormat.month));
+                      Navigator.pushNamed(context, OffWriteScreen.routeName);
+                    },
+                    child: SizedBox(
+                      width: MediaQuery.of(context).size.width - 74,
+                      child: Text(
+                        state.content!.content,
+                        textAlign: TextAlign.start,
+                        softWrap: true,
+                        style: kBody1,
+                      ),
                     ),
                   ),
                 ],

@@ -17,6 +17,10 @@ class OffImageUseCase {
     await offImageDAO.deleteOffImage(id);
   }
 
+  Future<void> deleteByDiaryId(int diaryId) async {
+    await offImageDAO.deleteByDiaryId(diaryId);
+  }
+
   Future<List<OffImage>> selectOffImageList(int diaryId) async {
     List<OffImage> list = await offImageDAO.selectOffImageListByOffDiaryId(diaryId);
     return list;

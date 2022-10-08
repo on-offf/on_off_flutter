@@ -29,11 +29,13 @@ class OffMonthlyViewModel extends UiProviderObserve {
 
   void onEvent(OffMonthlyEvent event) {
     event.when(
-      init: _init,
+      init: initScreen,
     );
   }
 
-  void _init() { /* do nothing */ }
+  void initScreen() {
+    _changeFocusedDay(uiState!.focusedDay);
+  }
 
   void _changeFocusedDay(DateTime focusedDay) async {
     OffDiary? offDiary = await offDiaryUseCase.selectByDateTime(focusedDay);

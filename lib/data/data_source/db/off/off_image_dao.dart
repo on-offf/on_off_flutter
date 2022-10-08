@@ -22,6 +22,10 @@ class OffImageDAO {
     await database.delete(table, where: 'id = ?', whereArgs: [id]);
   }
 
+  Future<void> deleteByDiaryId(int diaryId) async {
+    await database.delete(table, where: 'offDiaryId = ?', whereArgs: [diaryId]);
+  }
+
   Future<List<OffImage>> selectOffImageListByOffDiaryId(int diaryId) async {
     final List<Map<String, dynamic>> maps = await database.query(
       table,

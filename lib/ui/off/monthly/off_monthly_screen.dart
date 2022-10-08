@@ -22,12 +22,15 @@ class OffMonthlyScreen extends StatelessWidget {
     final uiState = uiProvider.state;
 
     return Scaffold(
+      // 작성 화면에서 바로 달력 화면으로 올 경우, 키보드가 늦게 내려가는 경우 키보드 사이즈가 위젯에 영향을 끼치지 못하도록 설정 (픽셀 초과 에러 방지)
+      resizeToAvoidBottomInset: false,
       appBar: offAppBar(
         context,
         isPrevButton: false,
       ),
       floatingActionButton: CommonFloatingActionButton(
         montlyListButtonNavigator: () {
+          uiProvider.onEvent(const UiEvent.changeCalendarFormat(CalendarFormat.month));
           Navigator.pushNamed(context, OffListScreen.routeName);
         },
         onOffButtonNavigator: () {},

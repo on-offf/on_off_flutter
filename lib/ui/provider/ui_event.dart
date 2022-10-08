@@ -25,6 +25,9 @@ abstract class UiEvent with _$UiEvent {
   const factory UiEvent.showOverlay(BuildContext context, OverlayEntry overlayEntry) = ShowOverlay;
   const factory UiEvent.removeOverlay() = RemoveOverlay;
 
+  // initScreen
+  const factory UiEvent.initScreen(String route) = InitScreen;
+
   // notifyListeners
   const factory UiEvent.selfNotifyListeners() = SelfNotifyListeners;
 }
