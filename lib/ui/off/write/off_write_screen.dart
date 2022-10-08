@@ -93,7 +93,12 @@ class _OffWriteScreenState extends State<OffWriteScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                FocusMonth(),
+                Align(
+                  child: SizedBox(
+                    width: 110,
+                    child: FocusMonth(showOverlay: false,),
+                  ),
+                ),
                 const SizedBox(
                   height: 20,
                 ),
@@ -110,7 +115,8 @@ class _OffWriteScreenState extends State<OffWriteScreen> {
                     const SizedBox(
                       width: 8,
                     ),
-                    if (state!.icon != null) buildSelectedIcon(state!.icon!.name),
+                    if (state!.icon != null)
+                      buildSelectedIcon(state!.icon!.name),
                     const SizedBox(
                       width: 8,
                     ),
@@ -208,7 +214,6 @@ class _OffWriteScreenState extends State<OffWriteScreen> {
         });
       }
     });
-
   }
 
   void removeDialogFunction() async {

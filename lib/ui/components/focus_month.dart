@@ -8,7 +8,7 @@ import 'package:on_off/ui/provider/ui_state.dart';
 import 'package:provider/provider.dart';
 
 class FocusMonth extends StatelessWidget {
-  FocusMonth({Key? key}) : super(key: key);
+  FocusMonth({Key? key, this.showOverlay = true}) : super(key: key);
   final GlobalKey _globalKey = GlobalKey();
   late UiProvider uiProvider;
   late UiState uiState;
@@ -17,6 +17,8 @@ class FocusMonth extends StatelessWidget {
       _globalKey.currentContext?.findRenderObject() as RenderBox;
   late Size size = renderBox.size;
   late Offset offset = renderBox.localToGlobal(Offset.zero);
+
+  bool showOverlay = true;
 
   @override
   Widget build(BuildContext context) {
@@ -27,6 +29,8 @@ class FocusMonth extends StatelessWidget {
       padding: const EdgeInsets.only(left: 5, bottom: 17),
       child: GestureDetector(
         onTap: () {
+          if (!showOverlay) return;
+
           uiProvider.onEvent(const UiEvent.focusMonthSelected());
           if (uiState.focusMonthSelected) {
             OverlayEntry overlayEntry = _createOverlay();
