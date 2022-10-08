@@ -6,6 +6,7 @@ import 'package:on_off/domain/icon/icon_path.dart';
 class StickerButton extends StatefulWidget {
   LayerLink layerLink;
   Function actionAfterSelect;
+
   StickerButton({
     Key? key,
     required this.layerLink,
@@ -39,6 +40,7 @@ class _StickerButtonState extends State<StickerButton> {
       OverlayEntry(builder: _overlayEntryBuilder);
   static const double _dropdownWidth = 314;
   static const double _dropdownHeight = 254;
+
   // static  LayerLink link = widget.layerLink;
 
   // 드롭다운 생성.
@@ -82,17 +84,11 @@ class _StickerButtonState extends State<StickerButton> {
       padding: EdgeInsets.zero,
       constraints: const BoxConstraints(),
       onPressed: () => clickAddIcon(),
-      icon: isClicked
-          ? Image(
-              image: AssetImage(IconPath.minus.name),
-              width: 14,
-              height: 14,
-            )
-          : Image(
-              image: AssetImage(IconPath.plus.name),
-              width: 14,
-              height: 14,
-            ),
+      icon: Image(
+        image: AssetImage(IconPath.expressionNormal.name),
+        width: 25,
+        height: 25,
+      ),
     );
   }
 

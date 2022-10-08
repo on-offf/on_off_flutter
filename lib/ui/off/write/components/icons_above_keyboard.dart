@@ -75,9 +75,9 @@ class _IconsAboveKeyboardState extends State<IconsAboveKeyboard> {
               },
               padding: const EdgeInsets.all(0),
               icon: Image(
-                image: AssetImage(IconPath.calendarAdd.name),
-                width: 37,
-                height: 35,
+                image: AssetImage(IconPath.submit.name),
+                width: 30,
+                height: 30,
               ),
             ),
             const SizedBox(width: 20),
