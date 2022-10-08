@@ -44,6 +44,7 @@ class OffMonthlyViewModel extends UiProviderObserve {
       List<OffImage> imageList = await offImageUseCase.selectOffImageList(offDiary.id!);
 
       Content content = Content(
+        id: offDiary.id,
         time: unixToDateTime(offDiary.dateTime),
         imageList: imageList,
         content: offDiary.content,

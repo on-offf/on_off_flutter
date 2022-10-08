@@ -1,4 +1,3 @@
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:on_off/constants/constants_text_style.dart';
@@ -19,7 +18,6 @@ class OffMonthlyItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final CarouselController carouselController = CarouselController();
     OffMonthlyViewModel viewModel = context.watch<OffMonthlyViewModel>();
     OffMonthlyState state = viewModel.state;
     UiProvider uiProvider = context.watch<UiProvider>();
@@ -95,10 +93,16 @@ class OffMonthlyItem extends StatelessWidget {
                       : GestureDetector(
                           onTap: () {
                             uiProvider.onEvent(
-                                const UiEvent.changeFloatingActionButtonSwitch(true));
-                            uiProvider.onEvent(const UiEvent.changeCalendarFormat(
-                                CalendarFormat.month));
-                            Navigator.pushNamed(context, OffGalleryScreen.routeName);
+                                const UiEvent.changeFloatingActionButtonSwitch(
+                                    true));
+                            uiProvider.onEvent(
+                                const UiEvent.changeCalendarFormat(
+                                    CalendarFormat.month));
+                            Navigator.pushNamed(
+                              context,
+                              OffGalleryScreen.routeName,
+                              arguments: {'offImageList': state.content?.imageList},
+                            );
                           },
                           child: SizedBox(
                               width: MediaQuery.of(context).size.width - 74,

@@ -1,4 +1,3 @@
-import 'package:on_off/domain/entity/off/off_diary.dart';
 import 'package:on_off/domain/entity/off/off_image.dart';
 import 'package:on_off/domain/use_case/data_source/off/off_diary_use_case.dart';
 import 'package:on_off/domain/use_case/data_source/off/off_image_use_case.dart';
@@ -30,12 +29,8 @@ class OffGalleryViewModel extends UiProviderObserve {
     );
   }
 
-  void _initScreen() async {
-    OffDiary? offDiary =
-        await offDiaryUseCase.selectByDateTime(uiState!.focusedDay);
-    List<OffImage> list =
-        await offImageUseCase.selectOffImageList(offDiary!.id!);
-    _state = _state.copyWith(offImageList: list);
+  void _initScreen(List<OffImage> offImageList) async {
+    _state = _state.copyWith(offImageList: offImageList);
     notifyListeners();
   }
 
@@ -47,15 +42,10 @@ class OffGalleryViewModel extends UiProviderObserve {
   @override
   init(UiState uiState) {
     this.uiState = uiState.copyWith();
-    _initScreen();
   }
 
   @override
   update(UiState uiState) {
-    if (this.uiState!.focusedDay != uiState.focusedDay) {
-      _initScreen();
-    }
-
     this.uiState = uiState.copyWith();
   }
 }

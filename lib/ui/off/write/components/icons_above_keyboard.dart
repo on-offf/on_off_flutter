@@ -6,7 +6,7 @@ import 'package:on_off/constants/constants_text_style.dart';
 
 import 'package:on_off/domain/icon/icon_path.dart';
 import 'package:on_off/ui/components/image_input.dart';
-import 'package:on_off/ui/components/plus_button.dart';
+import 'package:on_off/ui/components/sticker_button.dart';
 import 'package:on_off/ui/off/monthly/off_monthly_screen.dart';
 import 'package:on_off/ui/off/write/off_write_event.dart';
 import 'package:on_off/ui/off/write/off_write_state.dart';
@@ -117,7 +117,7 @@ class _IconsAboveKeyboardState extends State<IconsAboveKeyboard> {
               ),
             ),
             const SizedBox(width: 20),
-            PlusButton(
+            StickerButton(
               layerLink: widget.selectIconSheetLink,
               actionAfterSelect: (path) => viewModel.onEvent(
                 OffWriteEvent.addIcon(path),

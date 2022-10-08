@@ -7,13 +7,22 @@ import 'package:provider/provider.dart';
 
 class OffGalleryScreen extends StatelessWidget {
   static const routeName = '/off/gallery';
+  bool _isInit = false;
 
-  const OffGalleryScreen({Key? key}) : super(key: key);
+  OffGalleryScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final viewModel = context.watch<OffGalleryViewModel>();
     final state = viewModel.state;
+
+    final arguments = (ModalRoute.of(context)?.settings.arguments ?? <String, dynamic>{}) as Map;
+
+
+    if (!_isInit) {
+      _isInit = true;
+      Future.delayed(Duration.zero, () => viewModel.onEvent(OffGalleryEvent.init(arguments['offImageList'])));
+    }
 
     return Scaffold(
       appBar: offAppBar(
@@ -35,7 +44,7 @@ class OffGalleryScreen extends StatelessWidget {
                 return ClipRRect(
                   borderRadius: BorderRadius.circular(16.0),
                   child: Image.memory(
-                    state.offImageList[index].imageFile,
+                    state.offImageList[state.index].imageFile,
                     fit: BoxFit.fill,
                   ),
                 );
@@ -77,13 +86,16 @@ class OffGalleryScreen extends StatelessWidget {
                 scrollDirection: Axis.horizontal,
                 itemBuilder: (ctx, idx) {
                   return idx == state.index ? Container() :
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(16),
-                    child: Image.memory(
-                      state.offImageList[idx].imageFile,
-                      fit: BoxFit.fill,
-                      width: 70,
-                      height: 70,
+                  GestureDetector(
+                    onTap: () => viewModel.onEvent(OffGalleryEvent.changeIndex(idx)),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(16),
+                      child: Image.memory(
+                        state.offImageList[idx].imageFile,
+                        fit: BoxFit.fill,
+                        width: 70,
+                        height: 70,
+                      ),
                     ),
                   );
                 },

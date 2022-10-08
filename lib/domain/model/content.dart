@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:on_off/domain/entity/off/off_image.dart';
 
 part 'content.freezed.dart';
 part 'content.g.dart';
@@ -9,7 +10,7 @@ class Content with _$Content {
     int? id,
     required DateTime time,
     required String content,
-    required List<dynamic> imageList,
+    required List<OffImage> imageList,
     @Default([]) List<String> icons,
   }) = _Content;
 

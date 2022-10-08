@@ -3,34 +3,33 @@ import 'package:flutter/material.dart';
 
 import 'package:on_off/domain/icon/icon_path.dart';
 
-class PlusButton extends StatefulWidget {
+class StickerButton extends StatefulWidget {
   LayerLink layerLink;
   Function actionAfterSelect;
-  PlusButton({
+  StickerButton({
     Key? key,
     required this.layerLink,
     required this.actionAfterSelect,
   }) : super(key: key);
 
   @override
-  State<PlusButton> createState() => _PlusButtonState();
+  State<StickerButton> createState() => _StickerButtonState();
 }
 
-class _PlusButtonState extends State<PlusButton> {
+class _StickerButtonState extends State<StickerButton> {
   //off 화면의 아이콘 리스트
   List<String> iconPaths = [
     IconPath.expressionNormal.name,
     IconPath.expressionSmile.name,
     IconPath.expressionLittleSad.name,
-    IconPath.expressionSleep.name,
+    IconPath.expressionSmileEye.name,
     IconPath.expressionAngry.name,
     IconPath.expressionSmallEye.name,
-    IconPath.wineGlass.name,
-    IconPath.star.name,
-    IconPath.rice.name,
-    IconPath.note.name,
-    IconPath.weatherSnow.name,
-    IconPath.weatherSunny.name,
+    IconPath.expressionCry.name,
+    IconPath.expressionLine.name,
+    IconPath.expressionPairOfEye.name,
+    IconPath.expressionReverse.name,
+    IconPath.expressionSleep.name,
   ];
 
   bool isClicked = false;

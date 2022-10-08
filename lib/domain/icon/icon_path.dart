@@ -22,15 +22,14 @@ enum IconPath {
   expressionAngry,
   expressionLittleSad,
   expressionNormal,
-  expressionSleep,
+  expressionSmileEye,
   expressionSmallEye,
   expressionSmile,
-  note,
-  rice,
-  star,
-  weatherSnow,
-  weatherSunny,
-  wineGlass,
+  expressionCry,
+  expressionLine,
+  expressionPairOfEye,
+  expressionReverse,
+  expressionSleep,
 
   // etc
   plus,
@@ -71,24 +70,22 @@ extension IconExtension on IconPath {
         return "assets/icons/stickers/expression_smile.png";
       case IconPath.expressionLittleSad:
         return "assets/icons/stickers/expression_little_sad.png";
-      case IconPath.expressionSleep:
-        return "assets/icons/stickers/expression_sleep.png";
+      case IconPath.expressionSmileEye:
+        return "assets/icons/stickers/expression_smile_eye.png";
       case IconPath.expressionAngry:
         return "assets/icons/stickers/expression_angry.png";
       case IconPath.expressionSmallEye:
         return "assets/icons/stickers/expression_small_eye.png";
-      case IconPath.wineGlass:
-        return "assets/icons/stickers/wine_glass.png";
-      case IconPath.star:
-        return "assets/icons/stickers/star.png";
-      case IconPath.rice:
-        return "assets/icons/stickers/rice.png";
-      case IconPath.note:
-        return "assets/icons/stickers/note.png";
-      case IconPath.weatherSnow:
-        return "assets/icons/stickers/weather_snow.png";
-      case IconPath.weatherSunny:
-        return "assets/icons/stickers/weather_sunny.png";
+      case IconPath.expressionCry:
+        return "assets/icons/stickers/expression_cry.png";
+      case IconPath.expressionLine:
+        return "assets/icons/stickers/expression_line.png";
+      case IconPath.expressionPairOfEye:
+        return "assets/icons/stickers/expression_pair_of_eye.png";
+      case IconPath.expressionReverse:
+        return "assets/icons/stickers/expression_reverse.png";
+      case IconPath.expressionSleep:
+        return "assets/icons/stickers/expression_sleep.png";
 
       case IconPath.downArrow:
         return "assets/icons/down_arrow.png";
