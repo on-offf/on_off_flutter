@@ -32,6 +32,7 @@ class OffDiaryDAO {
     final List<Map<String, dynamic>> maps = await database.query(
       table,
       where: 'dateTime >= ? and dateTime < ?',
+      orderBy: 'dateTime ASC',
       whereArgs: [startUnixTime, endUnixTime],
     );
 

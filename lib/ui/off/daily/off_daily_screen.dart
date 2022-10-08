@@ -11,6 +11,7 @@ import 'package:on_off/ui/components/off_appbar.dart';
 import 'package:on_off/ui/off/daily/off_daily_event.dart';
 import 'package:on_off/ui/off/daily/off_daily_state.dart';
 import 'package:on_off/ui/off/daily/off_daily_view_model.dart';
+import 'package:on_off/ui/off/gallery/off_gallery_screen.dart';
 import 'package:provider/provider.dart';
 
 class OffDailyScreen extends StatelessWidget {
@@ -83,12 +84,17 @@ class OffDailyScreen extends StatelessWidget {
                             },
                           ),
                           items: content.imageList.map((offImage) {
-                            return ClipRRect(
-                              borderRadius: BorderRadius.circular(12),
-                              child: Image.memory(
-                                offImage.imageFile,
-                                fit: BoxFit.cover,
-                                width: MediaQuery.of(context).size.width - 74,
+                            return GestureDetector(
+                              onTap: () {
+                                Navigator.pushNamed(context, OffGalleryScreen.routeName, arguments: {'offImageList': content.imageList});
+                              },
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(12),
+                                child: Image.memory(
+                                  offImage.imageFile,
+                                  fit: BoxFit.cover,
+                                  width: MediaQuery.of(context).size.width - 74,
+                                ),
                               ),
                             );
                           }).toList(),

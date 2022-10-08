@@ -194,7 +194,7 @@ class _OffWriteScreenState extends State<OffWriteScreen> {
   void _init() async {
     viewModel!.onEvent(const OffWriteEvent.getFocusedDayDetail());
 
-    Future.delayed(const Duration(milliseconds: 100), () {
+    Future.delayed(const Duration(milliseconds: 200), () {
       if (state?.offDiary != null) {
         bodyController.text = state!.offDiary!.content;
       } else {

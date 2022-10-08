@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:on_off/constants/constants_text_style.dart';
-import 'package:on_off/domain/entity/off/off_image.dart';
 import 'package:on_off/ui/components/build_selected_icons.dart';
 import 'package:on_off/ui/off/gallery/off_gallery_screen.dart';
 import 'package:on_off/ui/off/monthly/off_monthly_state.dart';
@@ -76,7 +75,6 @@ class OffMonthlyItem extends StatelessWidget {
                           style: kSubtitle2,
                         ),
                       ),
-                      const SizedBox(width: 8),
                       if (state.icon != null)
                         buildSelectedIcon(state.icon!.name),
                       Expanded(
@@ -101,18 +99,20 @@ class OffMonthlyItem extends StatelessWidget {
                             Navigator.pushNamed(
                               context,
                               OffGalleryScreen.routeName,
-                              arguments: {'offImageList': state.content?.imageList},
+                              arguments: {
+                                'offImageList': state.content?.imageList
+                              },
                             );
                           },
                           child: SizedBox(
+                            width: MediaQuery.of(context).size.width - 74,
+                            height: 240,
+                            child: Image.memory(
+                              state.content!.imageList.first.imageFile,
+                              fit: BoxFit.fill,
                               width: MediaQuery.of(context).size.width - 74,
-                              height: 240,
-                              child: Image.memory(
-                                (state.content!.imageList.first as OffImage)
-                                    .imageFile,
-                                fit: BoxFit.cover,
-                                width: MediaQuery.of(context).size.width - 74,
-                              )),
+                            ),
+                          ),
                         ),
                   state.content!.imageList.isEmpty
                       ? const SizedBox()
