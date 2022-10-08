@@ -99,9 +99,6 @@ class _OffWriteScreenState extends State<OffWriteScreen> {
                     child: FocusMonth(showOverlay: false,),
                   ),
                 ),
-                const SizedBox(
-                  height: 20,
-                ),
                 Row(
                   children: [
                     CompositedTransformTarget(
@@ -173,10 +170,18 @@ class _OffWriteScreenState extends State<OffWriteScreen> {
                     focusNode: _focus,
                     controller: bodyController,
                     style: kBody2,
-                    decoration: const InputDecoration(
+                    decoration: InputDecoration(
                       hintText: '일기를 입력해주세요...',
                       focusedBorder: InputBorder.none,
-                      border: InputBorder.none,
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8.0),
+                        borderSide: const BorderSide(
+                          width: 0,
+                          style: BorderStyle.none,
+                        ),
+                      ),
+                      filled: true,
+                      fillColor: uiState!.colorConst.getLightGray(),
                     ),
                     maxLines: null,
                   ),
