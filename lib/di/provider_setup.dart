@@ -5,6 +5,7 @@ import 'package:on_off/domain/use_case/data_source/icon_use_case.dart';
 import 'package:on_off/domain/use_case/data_source/off/off_diary_use_case.dart';
 import 'package:on_off/domain/use_case/data_source/off/off_image_use_case.dart';
 import 'package:on_off/ui/off/daily/off_daily_view_model.dart';
+import 'package:on_off/ui/off/gallery/off_gallery_view_model.dart';
 import 'package:on_off/ui/off/monthly/off_monthly_view_model.dart';
 import 'package:on_off/ui/off/list/off_list_view_model.dart';
 import 'package:on_off/ui/off/write/off_write_view_model.dart';
@@ -61,6 +62,11 @@ Future<List<SingleChildWidget>> getProviders() async {
     offIconUseCase: offIconUseCase,
   );
 
+  OffGalleryViewModel offGalleryViewModel = OffGalleryViewModel(
+    offDiaryUseCase: offDiaryUseCase,
+    offImageUseCase: offImageUseCase,
+  );
+
   // On View Model
   OnMonthlyViewModel onHomeViewModel = OnMonthlyViewModel();
 
@@ -71,6 +77,7 @@ Future<List<SingleChildWidget>> getProviders() async {
   viewModelList.add(offListViewModel);
   viewModelList.add(offDetailViewModel);
   viewModelList.add(offWriteViewModel);
+  viewModelList.add(offGalleryViewModel);
 
   viewModelList.add(onHomeViewModel);
 
@@ -84,10 +91,9 @@ Future<List<SingleChildWidget>> getProviders() async {
     ChangeNotifierProvider(create: (_) => offHomeViewModel),
     ChangeNotifierProvider(create: (_) => offListViewModel),
     ChangeNotifierProvider(create: (_) => offDetailViewModel),
+    ChangeNotifierProvider(create: (_) => offGalleryViewModel),
 
     // on
     ChangeNotifierProvider(create: (_) => onHomeViewModel),
-
-
   ];
 }

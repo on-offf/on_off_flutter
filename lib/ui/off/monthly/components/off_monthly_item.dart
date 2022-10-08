@@ -1,10 +1,10 @@
-import 'dart:math' as math;
-
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:on_off/constants/constants_text_style.dart';
+import 'package:on_off/domain/entity/off/off_image.dart';
 import 'package:on_off/ui/components/build_selected_icons.dart';
+import 'package:on_off/ui/off/gallery/off_gallery_screen.dart';
 import 'package:on_off/ui/off/monthly/off_monthly_state.dart';
 import 'package:on_off/ui/off/monthly/off_monthly_view_model.dart';
 import 'package:on_off/ui/off/write/off_write_screen.dart';
@@ -79,7 +79,8 @@ class OffMonthlyItem extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(width: 8),
-                      if (state.icon != null) buildSelectedIcon(state.icon!.name),
+                      if (state.icon != null)
+                        buildSelectedIcon(state.icon!.name),
                       Expanded(
                         child: Container(
                           height: 2,
@@ -91,58 +92,23 @@ class OffMonthlyItem extends StatelessWidget {
                   const SizedBox(height: 23),
                   state.content!.imageList.isEmpty
                       ? const SizedBox()
-                      : SizedBox(
-                          width: MediaQuery.of(context).size.width - 74,
-                          height: 240,
-                          child: Stack(
-                            children: [
-                              CarouselSlider(
-                                carouselController: carouselController,
-                                options: CarouselOptions(
-                                  initialPage: 0,
-                                  enableInfiniteScroll: false,
-                                  viewportFraction: 1.0,
-                                  aspectRatio: 313 / 240,
-                                ),
-                                items: state.content!.imageList.map((offImage) {
-                                  return Image.memory(
-                                    offImage.imageFile,
-                                    fit: BoxFit.cover,
-                                    width: MediaQuery.of(context).size.width - 74,
-                                  );
-                                }).toList(),
-                              ),
-                              Align(
-                                alignment: Alignment.centerLeft,
-                                child: IconButton(
-                                  onPressed: () {
-                                    // Use the controller to change the current page
-                                    carouselController.previousPage();
-                                  },
-                                  icon: Transform.rotate(
-                                    angle: 180 * math.pi / 180,
-                                    child: const Icon(
-                                      Icons.double_arrow_sharp,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Align(
-                                alignment: Alignment.centerRight,
-                                child: IconButton(
-                                  onPressed: () {
-                                    // Use the controller to change the current page
-                                    carouselController.nextPage();
-                                  },
-                                  icon: const Icon(
-                                    Icons.double_arrow_sharp,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
+                      : GestureDetector(
+                          onTap: () {
+                            uiProvider.onEvent(
+                                const UiEvent.changeFloatingActionButtonSwitch(true));
+                            uiProvider.onEvent(const UiEvent.changeCalendarFormat(
+                                CalendarFormat.month));
+                            Navigator.pushNamed(context, OffGalleryScreen.routeName);
+                          },
+                          child: SizedBox(
+                              width: MediaQuery.of(context).size.width - 74,
+                              height: 240,
+                              child: Image.memory(
+                                (state.content!.imageList.first as OffImage)
+                                    .imageFile,
+                                fit: BoxFit.cover,
+                                width: MediaQuery.of(context).size.width - 74,
+                              )),
                         ),
                   state.content!.imageList.isEmpty
                       ? const SizedBox()
@@ -172,7 +138,8 @@ class OffMonthlyItem extends StatelessWidget {
                   const SizedBox(height: 7),
                   GestureDetector(
                     onTap: () {
-                      uiProvider.onEvent(const UiEvent.changeCalendarFormat(CalendarFormat.month));
+                      uiProvider.onEvent(const UiEvent.changeCalendarFormat(
+                          CalendarFormat.month));
                       Navigator.pushNamed(context, OffWriteScreen.routeName);
                     },
                     child: SizedBox(
