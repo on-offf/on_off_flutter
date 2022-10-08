@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:on_off/domain/icon/icon_path.dart';
 import 'package:on_off/ui/provider/ui_event.dart';
 import 'package:on_off/ui/provider/ui_provider.dart';
+import 'package:on_off/ui/setting/setting_screen.dart';
 import 'package:provider/provider.dart';
+import 'package:table_calendar/table_calendar.dart';
 
 PreferredSize offAppBar(
   BuildContext context, {
@@ -37,7 +39,8 @@ PreferredSize offAppBar(
       actions: [
         settingButton ? GestureDetector(
           onTap: () {
-            print('click setting');
+            uiProvider.onEvent(const UiEvent.changeCalendarFormat(CalendarFormat.month));
+            Navigator.pushNamed(context, SettingScreen.routeName);
           },
           child: Image(
             image: AssetImage(IconPath.setting.name),
