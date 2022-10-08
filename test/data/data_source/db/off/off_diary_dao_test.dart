@@ -50,7 +50,7 @@ void main() async {
 
     expect(offDiaryList.length, 2);
 
-    await offDiaryDAO.deleteOffDiary(selectOffDiary);
+    await offDiaryDAO.deleteOffDiary(selectOffDiary.id!);
 
     offDiaryList = await offDiaryDAO.selectOffDiaryList(yesterdayUnixStartDate, todayUnixEndDate);
 

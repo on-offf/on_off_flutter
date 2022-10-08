@@ -40,7 +40,7 @@ void main() async {
 
     for (var element in offDiaryList) { expect(element.content, isNot(entity!.content)); }
 
-    offDiaryUseCase.delete(entity!);
+    offDiaryUseCase.delete(entity!.id!);
 
     offDiaryList = await offDiaryUseCase.selectOffDiaryList(yesterday, now);
 
