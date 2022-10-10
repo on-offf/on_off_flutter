@@ -74,6 +74,8 @@ class FocusMonth extends StatelessWidget {
           children: [
             GestureDetector(
               onTap: () => uiProvider.onEvent(const UiEvent.removeOverlay()),
+              onHorizontalDragDown: (_) =>
+                  uiProvider.onEvent(const UiEvent.removeOverlay()),
             ),
             Positioned(
               left: offset.dx,
@@ -81,18 +83,20 @@ class FocusMonth extends StatelessWidget {
               width: 162,
               height: 171,
               child: Material(
+                color: Colors.transparent,
                 child: Container(
                   decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: const BorderRadius.all(
-                        Radius.circular(30),
-                      ),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.2),
-                          blurRadius: 5,
-                        )
-                      ]),
+                    color: Colors.white,
+                    borderRadius: const BorderRadius.all(
+                      Radius.circular(30),
+                    ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.2),
+                        blurRadius: 5,
+                      )
+                    ],
+                  ),
                   child: Column(
                     children: [
                       Row(
@@ -134,8 +138,7 @@ class FocusMonth extends StatelessWidget {
                                     const UiEvent.selfNotifyListeners());
                               },
                               icon: Image(
-                                image:
-                                    AssetImage(IconPath.nextYearButton.name),
+                                image: AssetImage(IconPath.nextYearButton.name),
                                 height: 11,
                                 width: 11,
                               ),
@@ -222,7 +225,9 @@ class FocusMonth extends StatelessWidget {
             style: TextStyle(
               fontWeight: FontWeight.w400,
               fontSize: 13,
-              color: !isFocusMonth ? uiState.colorConst.getPrimary() : Colors.white,
+              color: !isFocusMonth
+                  ? uiState.colorConst.getPrimary()
+                  : Colors.white,
             ),
           ),
         ),
