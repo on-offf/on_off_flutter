@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:on_off/domain/icon/icon_path.dart';
+import 'package:on_off/ui/components/simple_dialog.dart';
 import 'package:on_off/ui/provider/ui_event.dart';
 import 'package:on_off/ui/provider/ui_provider.dart';
 import 'package:on_off/ui/setting/home/setting_screen.dart';
@@ -52,6 +53,7 @@ PreferredSize offAppBar(
                       context,
                       settingState.setting.password!,
                       uiState.colorConst.getPrimary(),
+                      uiState.colorConst.canvas,
                     );
                   } else {
                     Navigator.pushNamed(context, SettingScreen.routeName);
@@ -75,44 +77,22 @@ PreferredSize offAppBar(
 }
 
 void _checkPassword(
-    BuildContext context, String password, Color primaryColor) async {
+  BuildContext context,
+  String password,
+  Color primaryColor,
+  Color canvasColor,
+) async {
   var result =
       await Navigator.pushNamed(context, PasswordConfirmScreen.routeName);
 
   if (result == password) {
     Navigator.pushNamed(context, SettingScreen.routeName);
   } else {
-    _passwordWrongDialog(context, primaryColor);
+    simpleTextDialog(
+      context,
+      primaryColor: primaryColor,
+      canvasColor: canvasColor,
+      message: '비밀번호가 일치하지 않습니다.',
+    );
   }
-}
-
-void _passwordWrongDialog(BuildContext context, Color primaryColor) {
-  showDialog(
-    barrierColor: Colors.transparent,
-    context: context,
-    builder: (_) => Dialog(
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(
-          Radius.circular(35.0),
-        ),
-      ),
-      backgroundColor: Colors.transparent,
-      child: Container(
-        width: 200,
-        height: 100,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(35.0),
-          border: Border.all(
-            width: 1,
-            color: primaryColor,
-          ),
-          color: Colors.white,
-        ),
-        child: const Align(
-          alignment: Alignment.center,
-          child: Text('비밀번호가 일치하지 않습니다.'),
-        ),
-      ),
-    ),
-  );
 }

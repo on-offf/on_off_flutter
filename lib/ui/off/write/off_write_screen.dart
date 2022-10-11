@@ -6,6 +6,7 @@ import 'package:on_off/ui/components/build_selected_icons.dart';
 import 'package:on_off/ui/components/image_input.dart';
 import 'package:on_off/ui/components/off_appbar.dart';
 import 'package:on_off/ui/components/focus_month.dart';
+import 'package:on_off/ui/components/simple_dialog.dart';
 import 'package:on_off/ui/off/monthly/off_monthly_screen.dart';
 import 'package:on_off/ui/off/write/components/icons_above_keyboard.dart';
 import 'package:on_off/ui/off/write/off_write_event.dart';
@@ -96,7 +97,9 @@ class _OffWriteScreenState extends State<OffWriteScreen> {
                 Align(
                   child: SizedBox(
                     width: 110,
-                    child: FocusMonth(showOverlay: false,),
+                    child: FocusMonth(
+                      showOverlay: false,
+                    ),
                   ),
                 ),
                 Row(
@@ -146,7 +149,7 @@ class _OffWriteScreenState extends State<OffWriteScreen> {
                                   viewModel?.onEvent(OffWriteEvent.removeImage(
                                       state!.imagePaths[index]));
                                 } else {
-                                  _imageRemoveFailDialog(uiState);
+                                  _imageRemoveFailDialog(uiState!);
                                 }
                               },
                               child: Padding(
@@ -223,7 +226,7 @@ class _OffWriteScreenState extends State<OffWriteScreen> {
 
   void removeDialogFunction() async {
     FocusManager.instance.primaryFocus?.unfocus();
-    bool remove = await _removeDialog(uiState);
+    bool remove = await _removeDialog(uiState!);
     if (remove) {
       viewModel?.onEvent(const OffWriteEvent.removeContent());
       uiProvider?.onEvent(const UiEvent.initScreen(OffMonthlyScreen.routeName));
@@ -231,130 +234,23 @@ class _OffWriteScreenState extends State<OffWriteScreen> {
     }
   }
 
-  Future<dynamic> _imageRemoveFailDialog(uiState) {
-    return showDialog(
-      context: context,
-      builder: (_) => Dialog(
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(
-            Radius.circular(35.0),
-          ),
-        ),
-        backgroundColor: Colors.transparent,
-        child: Container(
-          width: 288,
-          height: 100,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(35.0),
-            border: Border.all(
-              width: 1,
-              color: uiState.colorConst.getPrimary(),
-            ),
-            color: uiState.colorConst.canvas,
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(
-              '하나 이상의 이미지를 등록해야 합니다.',
-              style: kSubtitle3.copyWith(
-                color: uiState.colorConst.getPrimary(),
-              ),
-              textAlign: TextAlign.center,
-            ),
-          ),
-        ),
-      ),
+  Future<dynamic> _removeDialog(UiState uiState) {
+    return simpleConfirmButtonDialog(
+      context,
+      primaryColor: uiState.colorConst.getPrimary(),
+      canvasColor: uiState.colorConst.canvas,
+      message: '위 게시글을\n삭제하시습니까?',
+      width: 288,
+      height: 129,
     );
   }
 
-  Future<dynamic> _removeDialog(uiState) {
-    return showDialog(
-      barrierColor: Colors.transparent,
-      context: context,
-      builder: (_) => Dialog(
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(
-            Radius.circular(35.0),
-          ),
-        ),
-        backgroundColor: Colors.transparent,
-        child: Container(
-          width: 288,
-          height: 129,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(35.0),
-            border: Border.all(
-              width: 1,
-              color: uiState.colorConst.getPrimary(),
-            ),
-            color: uiState.colorConst.canvas,
-          ),
-          child: Column(
-            children: [
-              const SizedBox(
-                height: 18,
-              ),
-              Text(
-                '위 게시글을\n삭제하시습니까?',
-                style: kSubtitle3.copyWith(
-                  color: uiState.colorConst.getPrimary(),
-                ),
-                textAlign: TextAlign.center,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  TextButton(
-                    onPressed: () {
-                      Navigator.of(context).pop(true);
-                    },
-                    style: TextButton.styleFrom(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(35.0),
-                        side: BorderSide(
-                          color: uiState.colorConst.getPrimary(),
-                          width: 1,
-                          style: BorderStyle.solid,
-                        ),
-                      ),
-                    ),
-                    child: Text(
-                      '예',
-                      style: kSubtitle3.copyWith(
-                        color: uiState.colorConst.getPrimary(),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  TextButton(
-                    onPressed: () {
-                      Navigator.of(context, rootNavigator: true).pop(false);
-                    },
-                    style: TextButton.styleFrom(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(35.0),
-                        side: BorderSide(
-                          color: uiState.colorConst.getPrimary(),
-                          width: 1,
-                          style: BorderStyle.solid,
-                        ),
-                      ),
-                    ),
-                    child: Text(
-                      '아니요',
-                      style: kSubtitle3.copyWith(
-                        color: uiState.colorConst.getPrimary(),
-                      ),
-                    ),
-                  ),
-                ],
-              )
-            ],
-          ),
-        ),
-      ),
+  void _imageRemoveFailDialog(UiState uiState) {
+    simpleTextDialog(
+      context,
+      primaryColor: uiState.colorConst.getPrimary(),
+      canvasColor: uiState.colorConst.canvas,
+      message: '하나 이상의 사진을 등록해야 합니다.',
     );
   }
 }
