@@ -24,6 +24,7 @@ dependencies:
   provider: ^6.0.3
   sqflite: ^2.0.3
   table_calendar: ^3.0.6
+  flutter_local_notifications: ^12.0.1+1
 
 dev_dependencies:
   flutter_lints: ^2.0.0
@@ -43,6 +44,7 @@ flutter:
     - assets/icons/floating_button/
     - assets/icons/off_write/
     - assets/icons/stickers/
+    - assets/icons/setting/
     - lib/ui/off/list/
 
 flutter_native_splash:

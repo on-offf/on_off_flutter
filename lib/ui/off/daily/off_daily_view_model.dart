@@ -1,6 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:on_off/domain/entity/off/off_icon_entity.dart';
-import 'package:on_off/domain/use_case/data_source/icon_use_case.dart';
+import 'package:on_off/domain/use_case/data_source/off/off_icon_use_case.dart';
 import 'package:on_off/ui/off/daily/off_daily_event.dart';
 import 'package:on_off/ui/off/daily/off_daily_state.dart';
 import 'package:on_off/ui/provider/ui_provider_observe.dart';

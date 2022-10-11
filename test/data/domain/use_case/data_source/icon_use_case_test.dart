@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:on_off/data/data_source/db/off/off_icon_dao.dart';
 import 'package:on_off/domain/entity/off/off_icon_entity.dart';
-import 'package:on_off/domain/use_case/data_source/icon_use_case.dart';
+import 'package:on_off/domain/use_case/data_source/off/off_icon_use_case.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 

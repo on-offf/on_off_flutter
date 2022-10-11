@@ -1,9 +1,11 @@
 import 'package:on_off/data/data_source/db/off/off_icon_dao.dart';
 import 'package:on_off/data/data_source/db/off/off_diary_dao.dart';
 import 'package:on_off/data/data_source/db/off/off_image_dao.dart';
-import 'package:on_off/domain/use_case/data_source/icon_use_case.dart';
+import 'package:on_off/data/data_source/db/setting/setting_dao.dart';
+import 'package:on_off/domain/use_case/data_source/off/off_icon_use_case.dart';
 import 'package:on_off/domain/use_case/data_source/off/off_diary_use_case.dart';
 import 'package:on_off/domain/use_case/data_source/off/off_image_use_case.dart';
+import 'package:on_off/domain/use_case/data_source/setting/setting_use_case.dart';
 import 'package:on_off/ui/off/daily/off_daily_view_model.dart';
 import 'package:on_off/ui/off/gallery/off_gallery_view_model.dart';
 import 'package:on_off/ui/off/monthly/off_monthly_view_model.dart';
@@ -12,6 +14,7 @@ import 'package:on_off/ui/off/write/off_write_view_model.dart';
 import 'package:on_off/ui/on/monthly/on_monthly_view_model.dart';
 import 'package:on_off/ui/provider/ui_provider.dart';
 import 'package:on_off/ui/provider/ui_provider_observe.dart';
+import 'package:on_off/ui/setting/home/setting_view_model.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
 import 'package:sqflite/sqflite.dart';
@@ -28,15 +31,23 @@ Future<List<SingleChildWidget>> getProviders() async {
       await db.execute(OffDiaryDAO.ddl);
       await db.execute(OffImageDAO.ddl);
       await db.execute(OffIconDAO.ddl);
+
+      // SETTING
+      await db.execute(SettingDAO.ddl);
     },
   );
+
   OffDiaryDAO offDiaryDAO = OffDiaryDAO(database);
   OffImageDAO offImageDAO = OffImageDAO(database);
   OffIconDAO iconDAO = OffIconDAO(database);
 
+  SettingDAO settingDAO = SettingDAO(database);
+
   OffDiaryUseCase offDiaryUseCase = OffDiaryUseCase(offDiaryDAO);
   OffImageUseCase offImageUseCase = OffImageUseCase(offImageDAO);
   OffIconUseCase offIconUseCase = OffIconUseCase(iconDAO);
+
+  SettingUseCase settingUseCase = SettingUseCase(settingDAO);
 
   // Off View Model
   OffMonthlyViewModel offHomeViewModel = OffMonthlyViewModel(
@@ -69,6 +80,11 @@ Future<List<SingleChildWidget>> getProviders() async {
   // On View Model
   OnMonthlyViewModel onHomeViewModel = OnMonthlyViewModel();
 
+  // Setting View Model
+  SettingViewModel settingViewModel = SettingViewModel(
+    settingUseCase: settingUseCase,
+  );
+
   // Ui Provider ( common provider )
   List<UiProviderObserve> viewModelList = [];
 
@@ -79,6 +95,8 @@ Future<List<SingleChildWidget>> getProviders() async {
   viewModelList.add(offGalleryViewModel);
 
   viewModelList.add(onHomeViewModel);
+
+  viewModelList.add(settingViewModel);
 
   UiProvider uiProvider = UiProvider(viewModelList: viewModelList);
 
@@ -94,5 +112,8 @@ Future<List<SingleChildWidget>> getProviders() async {
 
     // on
     ChangeNotifierProvider(create: (_) => onHomeViewModel),
+
+    // setting
+    ChangeNotifierProvider(create: (_) => settingViewModel),
   ];
 }

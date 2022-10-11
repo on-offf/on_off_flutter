@@ -31,6 +31,9 @@ enum IconPath {
   expressionReverse,
   expressionSleep,
 
+  // setting
+  settingArrowButton,
+
   // etc
   plus,
   minus,
@@ -87,6 +90,9 @@ extension IconExtension on IconPath {
         return "assets/icons/stickers/expression_reverse.png";
       case IconPath.expressionSleep:
         return "assets/icons/stickers/expression_sleep.png";
+
+      case IconPath.settingArrowButton:
+        return "assets/icons/setting/setting_arrow_button.png";
 
       case IconPath.downArrow:
         return "assets/icons/down_arrow.png";
