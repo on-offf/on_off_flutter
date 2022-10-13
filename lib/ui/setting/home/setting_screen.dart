@@ -178,60 +178,83 @@ class SettingScreen extends StatelessWidget {
                   ],
                 ),
                 if (state.setting.isAlert == 1)
-                  const SizedBox(
-                    height: 10,
-                  ),
-                if (state.setting.isAlert == 1)
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      SizedBox(
-                        height: 20,
-                        width: 50,
-                        child: TextButton(
-                          onPressed: () async {
-                            AlertTime? time = await alertTimeDialog(
-                              context,
-                              viewModel,
-                              state,
-                              uiProvider,
-                              uiState,
-                              uiState.colorConst.getPrimary(),
+                  Container(
+                    padding: const EdgeInsets.only(
+                      top: 0,
+                      bottom: 0,
+                      left: 10,
+                      right: 0,
+                    ),
+                    height: 20,
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: TextButton(
+                        onPressed: () async {
+                          AlertTime? time = await alertTimeDialog(
+                            context,
+                            viewModel,
+                            state,
+                            uiProvider,
+                            uiState,
+                            uiState.colorConst.getPrimary(),
+                          );
+                          if (time != null) {
+                            viewModel.onEvent(
+                              SettingEvent.changeAlertTime(
+                                time.hour,
+                                time.minutes,
+                              ),
                             );
-
-                            if (time != null) {
-                              viewModel.onEvent(
-                                SettingEvent.changeAlertTime(
-                                  time.hour,
-                                  time.minutes,
+                          }
+                        },
+                        style: TextButton.styleFrom(
+                          padding: const EdgeInsets.all(0),
+                        ),
+                        child: RichText(
+                          text: TextSpan(
+                            style: messageTextStyle(),
+                            children: [
+                              const TextSpan(text: '매일 '),
+                              TextSpan(
+                                text: state.setting.alertHour! < 12
+                                    ? 'AM '
+                                    : 'PM ',
+                                style: messageTextStyle().copyWith(
+                                  color: uiState.colorConst.getPrimary(),
+                                  fontWeight: FontWeight.w500,
                                 ),
-                              );
-                            }
-                          },
-                          style: TextButton.styleFrom(
-                            padding: const EdgeInsets.only(left: 0, right: 20),
-                          ),
-                          child: const Text(
-                            '시간',
-                            style: TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.w100,
-                                letterSpacing: .25,
-                                height: 1.666),
+                              ),
+                              TextSpan(
+                                text: state.setting.alertHour! == 0
+                                    ? '12'
+                                    : state.setting.alertHour! <= 12
+                                        ? '${state.setting.alertHour!}'
+                                        : '${state.setting.alertHour! - 12}',
+                                style: messageTextStyle().copyWith(
+                                  color: uiState.colorConst.getPrimary(),
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                              TextSpan(
+                                text: ':',
+                                style: messageTextStyle().copyWith(
+                                  color: uiState.colorConst.getPrimary(),
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                              TextSpan(
+                                text: '${state.setting.alertMinutes!}',
+                                style: messageTextStyle().copyWith(
+                                  color: uiState.colorConst.getPrimary(),
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                              const TextSpan(text: ' 에 나의 일상을 기록해보세요.'),
+                            ],
                           ),
                         ),
                       ),
-                      Text(
-                        state.setting.alertHour == null
-                            ? ''
-                            : '${state.setting.alertHour}:${state.setting.alertMinutes}',
-                        style: const TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w100,
-                            letterSpacing: .25,
-                            height: 1.666),
-                      ),
-                    ],
+                    ),
                   ),
                 if (state.setting.isAlert == 1)
                   const SizedBox(
@@ -494,6 +517,16 @@ class SettingScreen extends StatelessWidget {
     );
   }
 
+  TextStyle messageTextStyle() {
+    return const TextStyle(
+      fontSize: 12,
+      fontWeight: FontWeight.w100,
+      letterSpacing: .25,
+      height: 1.666,
+      color: Colors.black,
+    );
+  }
+
   EdgeInsets titleEdgeInsets() {
     return const EdgeInsets.only(
       top: 30,
@@ -524,12 +557,10 @@ class SettingScreen extends StatelessWidget {
             as String?;
 
     if (secondPassword == null) {
-      simpleTextDialog(
-        context,
-        primaryColor: primaryColor,
-        canvasColor: Colors.white,
-        message: '비밀번호를 다시 한번 확인해주세요.'
-      );
+      simpleTextDialog(context,
+          primaryColor: primaryColor,
+          canvasColor: Colors.white,
+          message: '비밀번호를 다시 한번 확인해주세요.');
       return false;
     } else if (password != secondPassword) {
       simpleTextDialog(

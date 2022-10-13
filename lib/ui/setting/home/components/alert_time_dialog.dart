@@ -18,12 +18,17 @@ Future<AlertTime?> alertTimeDialog(
 ) {
   DateTime dateTime = DateTime.now();
 
-  bool meridiem = dateTime.hour < 12;
-  int hour = dateTime.hour;
+  /* TRUE : AM & FALSE : PM */
+  bool meridiem = DateTime.now().hour < 12;
+  int hour = dateTime.hour < 12
+          ? dateTime.hour
+          : dateTime.hour - 12;
   int minutes = dateTime.minute;
 
-  FixedExtentScrollController hourController = FixedExtentScrollController(initialItem: hour);
-  FixedExtentScrollController minuteController = FixedExtentScrollController(initialItem: minutes);
+  FixedExtentScrollController hourController =
+      FixedExtentScrollController(initialItem: dateTime.hour < 12 ? dateTime.hour : dateTime.hour - 12);
+  FixedExtentScrollController minuteController =
+      FixedExtentScrollController(initialItem: minutes);
 
   return showDialog(
     barrierColor: Colors.transparent,
@@ -64,7 +69,6 @@ Future<AlertTime?> alertTimeDialog(
                         child: TextButton(
                           onPressed: () {
                             meridiem = true;
-                            if (hour >= 12) hourController.jumpToItem(0);
                             uiProvider
                                 .onEvent(const UiEvent.selfNotifyListeners());
                           },
@@ -77,13 +81,11 @@ Future<AlertTime?> alertTimeDialog(
                           ),
                         ),
                       ),
-                      const SizedBox(height: 10),
                       SizedBox(
                         height: 30,
                         child: TextButton(
                           onPressed: () {
                             meridiem = false;
-                            if (hour < 12) hourController.jumpToItem(12);
                             uiProvider
                                 .onEvent(const UiEvent.selfNotifyListeners());
                           },
@@ -104,17 +106,21 @@ Future<AlertTime?> alertTimeDialog(
                     padding: timePadding(),
                     child: CupertinoPicker.builder(
                       scrollController: hourController,
+                      selectionOverlay:
+                          const CupertinoPickerDefaultSelectionOverlay(
+                        background: Colors.transparent,
+                      ),
                       itemExtent: 52,
                       onSelectedItemChanged: (int value) {
                         hour = value;
-                        meridiem = value < 12;
                         uiProvider.onEvent(const UiEvent.selfNotifyListeners());
                       },
-                      backgroundColor: Colors.transparent,
-                      childCount: 24,
+                      childCount: 12,
                       itemBuilder: (context, index) {
+                        int h = index;
+                        if (index == 0) h = 12;
                         return Text(
-                          '${index < 10 ? '0' : ''}$index',
+                          '${h < 10 ? '0' : ''}$h',
                           style: timeTextStyle(),
                         );
                       },
@@ -136,6 +142,10 @@ Future<AlertTime?> alertTimeDialog(
                     child: CupertinoPicker.builder(
                       scrollController: minuteController,
                       itemExtent: 52,
+                      selectionOverlay:
+                          const CupertinoPickerDefaultSelectionOverlay(
+                        background: Colors.transparent,
+                      ),
                       onSelectedItemChanged: (int value) {
                         minutes = value;
                       },
@@ -157,11 +167,12 @@ Future<AlertTime?> alertTimeDialog(
               children: [
                 TextButton(
                   onPressed: () {
+                    var time = AlertTime(
+                      hour: meridiem ? hour : hour + 12,
+                      minutes: minutes,
+                    );
                     Navigator.of(context).pop(
-                      AlertTime(
-                        hour: hour,
-                        minutes: minutes,
-                      ),
+                      time,
                     );
                   },
                   style: TextButton.styleFrom(
