@@ -11,10 +11,11 @@ class SettingViewModel extends UiProviderObserve {
   SettingViewModel({required this.settingUseCase});
 
   SettingState _state = SettingState(
-      setting: SettingEntity(
-    isAlert: 0,
-    isScreenLock: 0,
-  ));
+    setting: SettingEntity(
+      isAlert: 0,
+      isScreenLock: 0,
+    ),
+  );
 
   SettingState get state => _state;
 
@@ -23,18 +24,32 @@ class SettingViewModel extends UiProviderObserve {
       changeIsScreenLock: _changeIsScreenLock,
       changeIsAlert: _changeIsAlert,
       changePassword: _changePassword,
+      changeAlertTime: _changeAlertTime,
+      changeAlertMessage: _changeAlertMessage,
     );
+  }
+
+  void _changeAlertTime(int hour, int minutes) async {
+    SettingEntity entity = _state.setting;
+    entity = entity.copyWith(
+      alertHour: hour,
+      alertMinutes: minutes,
+    );
+    _updateSettingEntityAndNotifyListeners(entity);
+  }
+
+  void _changeAlertMessage(String message) async {
+    SettingEntity entity = _state.setting;
+    entity = entity.copyWith(
+      alertMessage: message,
+    );
+    _updateSettingEntityAndNotifyListeners(entity);
   }
 
   void _changePassword(String password) async {
     SettingEntity entity = _state.setting;
-    entity = entity.copyWith(
-      password: password
-    );
-    entity = await settingUseCase.updateSettingEntity(entity);
-
-    _state = _state.copyWith(setting: entity);
-    notifyListeners();
+    entity = entity.copyWith(password: password);
+    _updateSettingEntityAndNotifyListeners(entity);
   }
 
   void _changeIsScreenLock(bool? isScreenLock) async {
@@ -44,10 +59,7 @@ class SettingViewModel extends UiProviderObserve {
     entity = entity.copyWith(
       isScreenLock: isScreenLock ? 1 : 0,
     );
-    entity = await settingUseCase.updateSettingEntity(entity);
-
-    _state = _state.copyWith(setting: entity);
-    notifyListeners();
+    _updateSettingEntityAndNotifyListeners(entity);
   }
 
   void _changeIsAlert(bool? isAlert) async {
@@ -57,8 +69,11 @@ class SettingViewModel extends UiProviderObserve {
     entity = entity.copyWith(
       isAlert: isAlert ? 1 : 0,
     );
-    entity = await settingUseCase.updateSettingEntity(entity);
+    _updateSettingEntityAndNotifyListeners(entity);
+  }
 
+  void _updateSettingEntityAndNotifyListeners(SettingEntity entity) async {
+    entity = await settingUseCase.updateSettingEntity(entity);
     _state = _state.copyWith(setting: entity);
     notifyListeners();
   }

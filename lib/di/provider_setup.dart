@@ -37,6 +37,8 @@ Future<List<SingleChildWidget>> getProviders() async {
     },
   );
 
+  database.delete(SettingDAO.table);
+
   OffDiaryDAO offDiaryDAO = OffDiaryDAO(database);
   OffImageDAO offImageDAO = OffImageDAO(database);
   OffIconDAO iconDAO = OffIconDAO(database);

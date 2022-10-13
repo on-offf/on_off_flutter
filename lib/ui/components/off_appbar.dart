@@ -85,7 +85,9 @@ void _checkPassword(
   var result =
       await Navigator.pushNamed(context, PasswordConfirmScreen.routeName);
 
-  if (result == password) {
+  if (result == null) {
+    /* do nothing */
+  } else if (result == password) {
     Navigator.pushNamed(context, SettingScreen.routeName);
   } else {
     simpleTextDialog(

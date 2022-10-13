@@ -4,7 +4,7 @@ import 'package:sqflite/sqflite.dart';
 class SettingDAO {
   static const table = 'setting';
   static const ddl =
-      'CREATE TABLE ${SettingDAO.table} (isScreenLock Integer, isAlert Integer, password TEXT, alertTime TEXT, alertMessage TEXT)';
+      'CREATE TABLE ${SettingDAO.table} (isScreenLock Integer, isAlert Integer, password TEXT, alertMessage TEXT, alertMeridiem TEXT, alertHour Integer, alertMinutes Integer)';
 
   final Database database;
 

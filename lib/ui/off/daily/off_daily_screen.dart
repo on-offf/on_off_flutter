@@ -67,7 +67,7 @@ class OffDailyScreen extends StatelessWidget {
             content.imageList.isEmpty
                 ? const SizedBox()
                 : SizedBox(
-                    width: 313,
+                    width: MediaQuery.of(context).size.width - 74,
                     height: 240,
                     child: Stack(
                       children: [
@@ -77,7 +77,7 @@ class OffDailyScreen extends StatelessWidget {
                             initialPage: 0,
                             enableInfiniteScroll: false,
                             viewportFraction: 1.0,
-                            aspectRatio: 313 / 240,
+                            aspectRatio: 313 / (MediaQuery.of(context).size.width - 74),
                             onPageChanged: (index, reason) {
                               viewModel.onEvent(
                                   OffDailyEvent.changeCurrentIndex(index));

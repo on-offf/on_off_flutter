@@ -9,8 +9,9 @@ class SettingEntity with _$SettingEntity {
     required int isScreenLock,
     required int isAlert,
     String? password,
-    String? alertTime,
     String? alertMessage,
+    int? alertHour,
+    int? alertMinutes,
   }) = _SettingEntity;
 
   factory SettingEntity.fromJson(Map<String, dynamic> json) => _$SettingEntityFromJson(json);

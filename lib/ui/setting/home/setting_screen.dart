@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:on_off/constants/constants_text_style.dart';
 import 'package:on_off/domain/icon/icon_path.dart';
+import 'package:on_off/domain/model/alert_time.dart';
+import 'package:on_off/ui/components/simple_dialog.dart';
 import 'package:on_off/ui/provider/ui_provider.dart';
 import 'package:on_off/ui/provider/ui_state.dart';
+import 'package:on_off/ui/setting/home/components/alert_time_dialog.dart';
 import 'package:on_off/ui/setting/password/password_confirm_screen.dart';
 import 'package:on_off/ui/setting/home/setting_event.dart';
 import 'package:on_off/ui/setting/home/setting_view_model.dart';
@@ -72,29 +75,50 @@ class SettingScreen extends StatelessWidget {
                       viewModel,
                       uiState,
                       state.setting.isScreenLock == 1,
-                      const SettingEvent.changeIsScreenLock(),
+                      () async {
+                        if (state.setting.isScreenLock == 0 &&
+                            state.setting.password == null) {
+                          bool initPassword = await _initPassword(context,
+                              viewModel, uiState.colorConst.getPrimary());
+
+                          if (!initPassword) return;
+                        }
+
+                        viewModel
+                            .onEvent(const SettingEvent.changeIsScreenLock());
+                      },
                     ),
                   ],
                 ),
                 if (state.setting.isScreenLock == 1)
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: TextButton(
-                    onPressed: () async {
-                      String? password = await Navigator.pushNamed(context, PasswordConfirmScreen.routeName) as String?;
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    heightFactor: .5,
+                    child: TextButton(
+                      onPressed: () async {
+                        String? password = await Navigator.pushNamed(
+                                context, PasswordConfirmScreen.routeName)
+                            as String?;
 
-                      if (password != null) {
-                        viewModel.onEvent(SettingEvent.changePassword(password));
-                      }
-                    },
-                    child: Text(
-                      '비밀번호 변경',
-                      style: kBody1.copyWith(
-                        color: const Color(0xffff0000),
+                        if (password != null) {
+                          viewModel
+                              .onEvent(SettingEvent.changePassword(password));
+                          simpleTextDialog(
+                            context,
+                            primaryColor: uiState.colorConst.getPrimary(),
+                            canvasColor: Colors.white,
+                            message: "비밀번호가 변경되었습니다.",
+                          );
+                        }
+                      },
+                      child: Text(
+                        '비밀번호 변경',
+                        style: kBody1.copyWith(
+                          color: const Color(0xffff0000),
+                        ),
                       ),
                     ),
                   ),
-                ),
               ],
             ),
           ),
@@ -115,7 +139,39 @@ class SettingScreen extends StatelessWidget {
                       viewModel,
                       uiState,
                       state.setting.isAlert == 1,
-                      const SettingEvent.changeIsAlert(),
+                      () async {
+                        if (state.setting.isAlert == 0 &&
+                            state.setting.alertHour == null) {
+                          AlertTime? alertTime = await alertTimeDialog(
+                            context,
+                            viewModel,
+                            state,
+                            uiProvider,
+                            uiState,
+                            uiState.colorConst.getPrimary(),
+                          ) as AlertTime?;
+
+                          if (alertTime == null) {
+                            simpleTextDialog(
+                              context,
+                              primaryColor: uiState.colorConst.getPrimary(),
+                              canvasColor: Colors.white,
+                              message: '시간을 선택해주세요.',
+                            );
+                            return;
+                          }
+                          Future.delayed(
+                            const Duration(milliseconds: 100),
+                            () => viewModel.onEvent(
+                              SettingEvent.changeAlertTime(
+                                alertTime.hour,
+                                alertTime.minutes,
+                              ),
+                            ),
+                          );
+                        }
+                        viewModel.onEvent(const SettingEvent.changeIsAlert());
+                      },
                     ),
                   ],
                 ),
@@ -126,18 +182,47 @@ class SettingScreen extends StatelessWidget {
                 if (state.setting.isAlert == 1)
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: const [
-                      const Text(
-                        '시간',
-                        style: TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w100,
-                            letterSpacing: .25,
-                            height: 1.666),
+                    children: [
+                      SizedBox(
+                        height: 20,
+                        width: 50,
+                        child: TextButton(
+                          onPressed: () async {
+                            AlertTime? time = await alertTimeDialog(
+                              context,
+                              viewModel,
+                              state,
+                              uiProvider,
+                              uiState,
+                              uiState.colorConst.getPrimary(),
+                            );
+
+                            if (time != null) {
+                              viewModel.onEvent(
+                                SettingEvent.changeAlertTime(
+                                  time.hour,
+                                  time.minutes,
+                                ),
+                              );
+                            }
+                          },
+                          style: TextButton.styleFrom(
+                            padding: const EdgeInsets.only(left: 0, right: 20),
+                          ),
+                          child: const Text(
+                            '시간',
+                            style: TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w100,
+                                letterSpacing: .25,
+                                height: 1.666),
+                          ),
+                        ),
                       ),
                       Text(
-                        'PM 10:00',
-                        style: TextStyle(
+                        state.setting.alertHour == null ? '' :
+                        '${state.setting.alertHour}:${state.setting.alertMinutes}',
+                        style: const TextStyle(
                             fontSize: 12,
                             fontWeight: FontWeight.w100,
                             letterSpacing: .25,
@@ -151,8 +236,27 @@ class SettingScreen extends StatelessWidget {
                   ),
                 if (state.setting.isAlert == 1)
                   GestureDetector(
-                    onTap: () {
-                      print('click!!!');
+                    onTap: () async {
+                      String? message = await simpleInputDialog(
+                        context,
+                        primaryColor: uiState.colorConst.getPrimary(),
+                        canvasColor: uiState.colorConst.canvas,
+                        width: 215,
+                        height: 150,
+                        message: "알림 메시지 내용을 입력해주세요!",
+                        initMessage: state.setting.alertMessage,
+                      ) as String?;
+
+                      if (message != null) {
+                        viewModel
+                            .onEvent(SettingEvent.changeAlertMessage(message));
+                        simpleTextDialog(
+                          context,
+                          primaryColor: uiState.colorConst.getPrimary(),
+                          canvasColor: Colors.white,
+                          message: "알림 메시지가 변경되었습니다.",
+                        );
+                      }
                     },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -191,33 +295,34 @@ class SettingScreen extends StatelessWidget {
               ),
             ),
           ),
-          GestureDetector(
-            onTap: () {},
-            child: Container(
-              padding: buttonEdgeInsets(),
-              color: Colors.white,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    '리뷰는 큰 힘이 됩니다!',
-                    style: buttonTextStyle(),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(right: 15.0),
-                    child: Image(
-                      width: 9,
-                      height: 14,
-                      image: AssetImage(
-                        IconPath.settingArrowButton.name,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          divide(),
+          // 2차 출시 이후에 반영.
+          // GestureDetector(
+          //   onTap: () {},
+          //   child: Container(
+          //     padding: buttonEdgeInsets(),
+          //     color: Colors.white,
+          //     child: Row(
+          //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //       children: [
+          //         Text(
+          //           '리뷰는 큰 힘이 됩니다!',
+          //           style: buttonTextStyle(),
+          //         ),
+          //         Padding(
+          //           padding: const EdgeInsets.only(right: 15.0),
+          //           child: Image(
+          //             width: 9,
+          //             height: 14,
+          //             image: AssetImage(
+          //               IconPath.settingArrowButton.name,
+          //             ),
+          //           ),
+          //         ),
+          //       ],
+          //     ),
+          //   ),
+          // ),
+          // divide(),
           GestureDetector(
             onTap: () {
               print('click!');
@@ -286,14 +391,12 @@ class SettingScreen extends StatelessWidget {
   }
 
   Widget buttonWidget(SettingViewModel viewModel, UiState uiState, bool isLock,
-      SettingEvent event) {
+      VoidCallback onPressed) {
     return SizedBox(
       width: 44,
       height: 22,
       child: ElevatedButton(
-        onPressed: () {
-          viewModel.onEvent(event);
-        },
+        onPressed: () => onPressed.call(),
         style: ElevatedButton.styleFrom(
           padding: const EdgeInsets.symmetric(
             horizontal: 4,
@@ -367,5 +470,24 @@ class SettingScreen extends StatelessWidget {
       left: 40,
       right: 40,
     );
+  }
+
+  Future<bool> _initPassword(BuildContext context, SettingViewModel viewModel,
+      Color primaryColor) async {
+    String? password =
+        await Navigator.pushNamed(context, PasswordConfirmScreen.routeName)
+            as String?;
+
+    if (password == null) {
+      simpleTextDialog(
+        context,
+        primaryColor: primaryColor,
+        canvasColor: Colors.white,
+        message: '비밀번호를 설정해주세요.',
+      );
+      return false;
+    }
+    viewModel.onEvent(const SettingEvent.changePassword("0000"));
+    return true;
   }
 }
