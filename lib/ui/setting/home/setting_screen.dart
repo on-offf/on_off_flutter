@@ -96,20 +96,22 @@ class SettingScreen extends StatelessWidget {
                     heightFactor: .5,
                     child: TextButton(
                       onPressed: () async {
-                        String? password = await Navigator.pushNamed(
-                                context, PasswordConfirmScreen.routeName)
-                            as String?;
+                        String? password = await _changePassword(
+                          context: context,
+                          primaryColor: uiState.colorConst.getPrimary(),
+                        );
 
-                        if (password != null) {
-                          viewModel
-                              .onEvent(SettingEvent.changePassword(password));
-                          simpleTextDialog(
-                            context,
-                            primaryColor: uiState.colorConst.getPrimary(),
-                            canvasColor: Colors.white,
-                            message: "비밀번호가 변경되었습니다.",
-                          );
-                        }
+                        if (password == null) return;
+
+                        viewModel
+                            .onEvent(SettingEvent.changePassword(password));
+
+                        simpleTextDialog(
+                          context,
+                          primaryColor: uiState.colorConst.getPrimary(),
+                          canvasColor: Colors.white,
+                          message: "비밀번호가 변경되었습니다.",
+                        );
                       },
                       child: Text(
                         '비밀번호 변경',
@@ -220,8 +222,9 @@ class SettingScreen extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        state.setting.alertHour == null ? '' :
-                        '${state.setting.alertHour}:${state.setting.alertMinutes}',
+                        state.setting.alertHour == null
+                            ? ''
+                            : '${state.setting.alertHour}:${state.setting.alertMinutes}',
                         style: const TextStyle(
                             fontSize: 12,
                             fontWeight: FontWeight.w100,
@@ -390,6 +393,34 @@ class SettingScreen extends StatelessWidget {
     );
   }
 
+  Future<String?> _changePassword({
+    required BuildContext context,
+    required Color primaryColor,
+  }) async {
+    String? firstPassword = await Navigator.pushNamed(
+        context, PasswordConfirmScreen.routeName,
+        arguments: '변경할 비밀번호를 입력해주세요.') as String?;
+
+    if (firstPassword == null) return null;
+
+    String? secondPassword = await Navigator.pushNamed(
+        context, PasswordConfirmScreen.routeName,
+        arguments: '비밀번호를 다시 한번 확인해주세요.') as String?;
+
+    if (secondPassword == null) return null;
+
+    if (firstPassword != secondPassword) {
+      simpleTextDialog(
+        context,
+        primaryColor: primaryColor,
+        canvasColor: Colors.white,
+        message: "비밀번호가 일치하지 않습니다.",
+      );
+      return null;
+    }
+    return secondPassword;
+  }
+
   Widget buttonWidget(SettingViewModel viewModel, UiState uiState, bool isLock,
       VoidCallback onPressed) {
     return SizedBox(
@@ -483,11 +514,34 @@ class SettingScreen extends StatelessWidget {
         context,
         primaryColor: primaryColor,
         canvasColor: Colors.white,
-        message: '비밀번호를 설정해주세요.',
+        message: '변경할 비밀번호를 입력해주세요.',
       );
       return false;
     }
-    viewModel.onEvent(const SettingEvent.changePassword("0000"));
+
+    String? secondPassword =
+        await Navigator.pushNamed(context, PasswordConfirmScreen.routeName)
+            as String?;
+
+    if (secondPassword == null) {
+      simpleTextDialog(
+        context,
+        primaryColor: primaryColor,
+        canvasColor: Colors.white,
+        message: '비밀번호를 다시 한번 확인해주세요.'
+      );
+      return false;
+    } else if (password != secondPassword) {
+      simpleTextDialog(
+        context,
+        primaryColor: primaryColor,
+        canvasColor: Colors.white,
+        message: '비밀번호가 일치하지 않습니다.',
+      );
+      return false;
+    }
+
+    viewModel.onEvent(SettingEvent.changePassword(password));
     return true;
   }
 }

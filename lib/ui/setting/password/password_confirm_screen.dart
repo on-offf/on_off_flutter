@@ -34,24 +34,27 @@ class _PasswordConfirmScreenState extends State<PasswordConfirmScreen> {
   Widget build(BuildContext context) {
     final uiProvider = context.watch<UiProvider>();
     final uiState = uiProvider.state;
+    String? title = ModalRoute.of(context)!.settings.arguments as String?;
 
     return Scaffold(
       appBar: AppBar(
         backgroundColor: uiState.colorConst.getPrimary(),
         elevation: 0,
-        leading: ElevatedButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          style: ElevatedButton.styleFrom(
-            backgroundColor: uiState.colorConst.getPrimary(),
-            elevation: 0,
+        actions: [
+          ElevatedButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: uiState.colorConst.getPrimary(),
+              elevation: 0,
+            ),
+            child: const Icon(
+              Icons.close,
+            ),
           ),
-          child: Image(
-            image: AssetImage(IconPath.appbarPreviousButton.name),
-            color: Colors.white,
-          ),
-        ),
+        ],
+        leading: Container(),
         centerTitle: true,
         title: const Text(
           '설정',
@@ -67,7 +70,7 @@ class _PasswordConfirmScreenState extends State<PasswordConfirmScreen> {
         child: Column(
           children: [
             Text(
-              '비밀번호를 입력해 주세요!',
+              title ?? '비밀번호를 입력해 주세요!',
               style: kBody2.copyWith(
                 color: uiState.colorConst.getPrimary(),
               ),
