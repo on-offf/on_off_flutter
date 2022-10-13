@@ -39,6 +39,46 @@ void simpleTextDialog(
   );
 }
 
+void simpleHighlightTextDialog(
+  BuildContext context, {
+  required Color primaryColor,
+  required Color canvasColor,
+  required TextSpan text,
+  double width = 200,
+  double height = 100,
+}) {
+  showDialog(
+    barrierColor: Colors.transparent,
+    context: context,
+    builder: (_) => Dialog(
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(
+          Radius.circular(35.0),
+        ),
+      ),
+      backgroundColor: Colors.transparent,
+      child: Container(
+        width: width,
+        height: height,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(35.0),
+          border: Border.all(
+            width: 1,
+            color: primaryColor,
+          ),
+          color: canvasColor,
+        ),
+        child: Align(
+          alignment: Alignment.center,
+          child: RichText(
+            text: text,
+          ),
+        ),
+      ),
+    ),
+  );
+}
+
 Future<dynamic> simpleConfirmButtonDialog(
   BuildContext context, {
   required Color primaryColor,
@@ -213,7 +253,6 @@ Future<dynamic> simpleInputDialog(
                   fillColor: Color(0xffe5e5e5),
                 ),
                 style: kBody2,
-
               ),
             ),
             const SizedBox(height: 10),

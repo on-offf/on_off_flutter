@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:on_off/constants/constants_text_style.dart';
 import 'package:on_off/domain/icon/icon_path.dart';
+import 'package:on_off/ui/components/simple_dialog.dart';
 import 'package:on_off/ui/provider/ui_event.dart';
 import 'package:on_off/ui/provider/ui_provider.dart';
 import 'package:provider/provider.dart';
@@ -55,13 +56,25 @@ class CommonFloatingActionButton extends StatelessWidget {
               FloatingActionButton(
                 heroTag: 'moveOnOffScreen',
                 onPressed: () {
-                  showDialog(
-                    context: context,
-                    builder: (_) => const AlertDialog(
-                      title: Text(
-                        '불편을 드려 죄송합니다.\non 화면은 업데이트 예정입니다.',
-                        style: kBody1,
+                  simpleHighlightTextDialog(
+                    context,
+                    primaryColor: state.colorConst.getPrimary(),
+                    canvasColor: Colors.white,
+                    text: TextSpan(
+                      style: const TextStyle(
+                        color: Colors.black,
                       ),
+                      children: [
+                        const TextSpan(text: '아직 준비 중인 기능이에요.\n'),
+                        TextSpan(
+                          text: 'ON ',
+                          style: TextStyle(
+                            color: state.colorConst.getPrimary(),
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                        const TextSpan(text: '페이지 많이 기대해주세요!'),
+                      ],
                     ),
                   );
                   onOffButtonNavigator.call();
