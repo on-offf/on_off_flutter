@@ -25,7 +25,6 @@ class OffMonthlyCalendar extends StatelessWidget {
       },
       calendarFormat: uiState.calendarFormat,
       onPageChanged: (dateTime) {
-        uiProvider.onEvent(const UiEvent.changeCalendarFormat(CalendarFormat.month));
         uiProvider.onEvent(UiEvent.changeFocusedDay(dateTime));
         uiProvider.onEvent(UiEvent.changeCalendarPage(dateTime));
       },
@@ -36,7 +35,6 @@ class OffMonthlyCalendar extends StatelessWidget {
 
   OnDaySelected _onDaySelected(UiProvider uiProvider) {
     return (selectedDay, focusedDay) {
-      uiProvider.onEvent(const UiEvent.changeCalendarFormat(CalendarFormat.month));
       uiProvider.onEvent(UiEvent.changeSelectedDay(selectedDay));
       uiProvider.onEvent(UiEvent.changeFocusedDay(focusedDay));
     };

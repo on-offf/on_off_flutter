@@ -4,7 +4,7 @@ import 'package:on_off/ui/components/off_appbar.dart';
 import 'package:on_off/ui/components/focus_month.dart';
 import 'package:on_off/ui/off/monthly/components/off_monthly_calendar.dart';
 import 'package:on_off/ui/off/monthly/components/off_monthly_item.dart';
-import 'package:on_off/ui/off/list/off_weekly_screen.dart';
+import 'package:on_off/ui/off/list/off_list_screen.dart';
 import 'package:on_off/ui/provider/ui_event.dart';
 import 'package:on_off/ui/provider/ui_provider.dart';
 import 'package:provider/provider.dart';
@@ -15,7 +15,7 @@ class OffMonthlyScreen extends StatelessWidget {
   final ScrollController _scrollController = ScrollController();
 
   OffMonthlyScreen({Key? key}) : super(key: key);
-  
+
   @override
   Widget build(BuildContext context) {
     final uiProvider = context.watch<UiProvider>();
@@ -30,7 +30,8 @@ class OffMonthlyScreen extends StatelessWidget {
       ),
       floatingActionButton: CommonFloatingActionButton(
         montlyListButtonNavigator: () {
-          uiProvider.onEvent(const UiEvent.changeCalendarFormat(CalendarFormat.month));
+          uiProvider.onEvent(
+              const UiEvent.changeCalendarFormat(CalendarFormat.month));
           Navigator.pushNamed(context, OffListScreen.routeName);
         },
         onOffButtonNavigator: () {},
@@ -55,21 +56,35 @@ class OffMonthlyScreen extends StatelessWidget {
             ),
           ),
           Expanded(
-            child: NotificationListener(
-              onNotification: (ScrollNotification scrollNotification) {
-                var position = _scrollController.position;
-                positionChange(uiProvider, position);
-                return uiState.calendarFormat == CalendarFormat.month;
+            child: GestureDetector(
+              onVerticalDragEnd: (details) {
+                if (details.primaryVelocity! > 0) {
+                  uiProvider.onEvent(
+                      const UiEvent.changeCalendarFormat(CalendarFormat.month));
+                } else if (details.primaryVelocity! < 0) {
+                  uiProvider.onEvent(
+                      const UiEvent.changeCalendarFormat(CalendarFormat.week));
+                }
               },
-              child: ListView(
-                controller: _scrollController,
-                children: const [
-                  OffMonthlyItem(),
-                  SizedBox(height: 41),
-                ],
-              ),
+              child: const OffMonthlyItem(),
             ),
           ),
+          // Expanded(
+          //   child: NotificationListener(
+          //     onNotification: (ScrollNotification scrollNotification) {
+          //       var position = _scrollController.position;
+          //       positionChange(uiProvider, position);
+          //       return uiState.calendarFormat == CalendarFormat.month;
+          //     },
+          //     child: ListView(
+          //       controller: _scrollController,
+          //       children: const [
+          //         OffMonthlyItem(),
+          //         SizedBox(height: 41),
+          //       ],
+          //     ),
+          //   ),
+          // ),
         ],
       ),
     );
