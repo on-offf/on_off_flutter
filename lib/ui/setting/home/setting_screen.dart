@@ -32,7 +32,7 @@ class SettingScreen extends StatelessWidget {
             Navigator.pop(context);
           },
           style: ElevatedButton.styleFrom(
-            backgroundColor: uiState.colorConst.getPrimary(),
+            primary: uiState.colorConst.getPrimary(),
             elevation: 0,
           ),
           child: Image(
@@ -456,8 +456,7 @@ class SettingScreen extends StatelessWidget {
             horizontal: 4,
             vertical: 3,
           ),
-          backgroundColor:
-              isLock ? uiState.colorConst.getPrimary() : Colors.grey,
+          primary: isLock ? uiState.colorConst.getPrimary() : Colors.grey,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20.0),
           ),

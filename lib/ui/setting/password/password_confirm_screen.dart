@@ -46,7 +46,7 @@ class _PasswordConfirmScreenState extends State<PasswordConfirmScreen> {
               Navigator.pop(context);
             },
             style: ElevatedButton.styleFrom(
-              backgroundColor: uiState.colorConst.getPrimary(),
+              primary: uiState.colorConst.getPrimary(),
               elevation: 0,
             ),
             child: const Icon(
@@ -131,7 +131,7 @@ class _PasswordConfirmScreenState extends State<PasswordConfirmScreen> {
                         setState(() {});
                       },
                       style: OutlinedButton.styleFrom(
-                        foregroundColor: uiState.colorConst.getPrimary(),
+                        primary: uiState.colorConst.getPrimary(),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(50),
                         ),
