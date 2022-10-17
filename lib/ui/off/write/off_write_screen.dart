@@ -155,9 +155,23 @@ class _OffWriteScreenState extends State<OffWriteScreen> {
                               child: Padding(
                                 padding:
                                     const EdgeInsets.symmetric(horizontal: 3.0),
-                                child: Image.file(
-                                  state!.imagePaths[index].file,
-                                  height: 40,
+                                child: Stack(
+                                  children: [
+                                    ClipRRect(
+                                      borderRadius: const BorderRadius.all(
+                                        Radius.circular(10),
+                                      ),
+                                      child: Image.file(
+                                        state!.imagePaths[index].file,
+                                        height: 140,
+                                      ),
+                                    ),
+                                    Positioned(
+                                      top: 5,
+                                      right: 5,
+                                      child: Icon(Icons.cancel),
+                                    ),
+                                  ],
                                 ),
                               ),
                             );
