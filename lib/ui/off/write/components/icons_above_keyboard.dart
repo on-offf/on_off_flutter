@@ -6,6 +6,7 @@ import 'package:on_off/constants/constants_text_style.dart';
 
 import 'package:on_off/domain/icon/icon_path.dart';
 import 'package:on_off/ui/components/image_input.dart';
+import 'package:on_off/ui/components/simple_dialog.dart';
 import 'package:on_off/ui/components/sticker_button.dart';
 import 'package:on_off/ui/off/monthly/off_monthly_screen.dart';
 import 'package:on_off/ui/off/write/off_write_event.dart';
@@ -13,6 +14,7 @@ import 'package:on_off/ui/off/write/off_write_state.dart';
 import 'package:on_off/ui/off/write/off_write_view_model.dart';
 import 'package:on_off/ui/provider/ui_event.dart';
 import 'package:on_off/ui/provider/ui_provider.dart';
+import 'package:on_off/ui/provider/ui_state.dart';
 import 'package:provider/provider.dart';
 
 class IconsAboveKeyboard extends StatefulWidget {
@@ -35,13 +37,17 @@ class IconsAboveKeyboard extends StatefulWidget {
 
 class _IconsAboveKeyboardState extends State<IconsAboveKeyboard> {
   File? _pickedImage;
+  UiProvider? uiProvider;
+  UiState? uiState;
+  final int imageLimitNumber = 10;
 
   @override
   Widget build(BuildContext context) {
     OffWriteViewModel viewModel = context.watch<OffWriteViewModel>();
     OffWriteState state = viewModel.state;
 
-    UiProvider uiProvider = context.watch<UiProvider>();
+    uiProvider = context.watch<UiProvider>();
+    uiState = uiProvider!.state;
 
     return Positioned(
       bottom: 0,
@@ -70,7 +76,8 @@ class _IconsAboveKeyboardState extends State<IconsAboveKeyboard> {
                   //TODO 글 입력하지 않고 저장하고 싶을때 수정해야 함.
                   OffWriteEvent.saveContent(widget.bodyController.text),
                 );
-                uiProvider.onEvent(const UiEvent.initScreen(OffMonthlyScreen.routeName));
+                uiProvider?.onEvent(
+                    const UiEvent.initScreen(OffMonthlyScreen.routeName));
                 Navigator.of(context).pop();
               },
               padding: const EdgeInsets.all(0),
@@ -101,12 +108,17 @@ class _IconsAboveKeyboardState extends State<IconsAboveKeyboard> {
             const SizedBox(width: 20),
             IconButton(
               onPressed: () async {
-                _pickedImage = await inputImage(1);
-                if (_pickedImage != null) {
-                  viewModel.onEvent(
-                    OffWriteEvent.addSelectedImagePaths(_pickedImage!),
-                  );
-                  _pickedImage = null;
+                if (state.imagePaths.length >= imageLimitNumber) {
+                  //TODO 질문 : > 사용해서 +1, -1을 하면 왜 안됨?
+                  _imageLimitTenDialog(uiState!);
+                } else {
+                  _pickedImage = await inputImage(1);
+                  if (_pickedImage != null) {
+                    viewModel.onEvent(
+                      OffWriteEvent.addSelectedImagePaths(_pickedImage!),
+                    );
+                    _pickedImage = null;
+                  }
                 }
               },
               padding: const EdgeInsets.all(0),
@@ -139,7 +151,6 @@ class _IconsAboveKeyboardState extends State<IconsAboveKeyboard> {
     );
   }
 
-
   void _showImageRegistryDialog() {
     showDialog(
       context: context,
@@ -149,6 +160,16 @@ class _IconsAboveKeyboardState extends State<IconsAboveKeyboard> {
           style: kBody1,
         ),
       ),
+    );
+  }
+
+  void _imageLimitTenDialog(UiState uiState) {
+    simpleTextDialog(
+      context,
+      primaryColor: uiState.colorConst.getPrimary(),
+      canvasColor: uiState.colorConst.canvas,
+      message: '사진은 최대 $imageLimitNumber장까지 등록 가능합니다.',
+      // message: '사진은 최대 3장까지 등록 가능합니다.',
     );
   }
 }
