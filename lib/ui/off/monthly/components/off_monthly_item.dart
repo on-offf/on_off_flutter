@@ -147,10 +147,13 @@ class OffMonthlyItem extends StatelessWidget {
                             child: SizedBox(
                               width: MediaQuery.of(context).size.width - 74,
                               height: 240,
-                              child: Image.memory(
-                                state.content!.imageList.first.imageFile,
-                                fit: BoxFit.fill,
-                                width: MediaQuery.of(context).size.width - 74,
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(16),
+                                child: Image.memory(
+                                  state.content!.imageList.first.imageFile,
+                                  fit: BoxFit.fill,
+                                  width: MediaQuery.of(context).size.width - 74,
+                                ),
                               ),
                             ),
                           ),
