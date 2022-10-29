@@ -8,7 +8,12 @@ import 'package:on_off/ui/provider/ui_state.dart';
 import 'package:provider/provider.dart';
 
 class FocusMonth extends StatelessWidget {
-  FocusMonth({Key? key, this.showOverlay = true}) : super(key: key);
+  FocusMonth({
+    Key? key,
+    this.showOverlay = true,
+    this.isAccent = false,
+  }) : super(key: key);
+
   final GlobalKey _globalKey = GlobalKey();
   late UiProvider uiProvider;
   late UiState uiState;
@@ -19,6 +24,7 @@ class FocusMonth extends StatelessWidget {
   late Offset offset = renderBox.localToGlobal(Offset.zero);
 
   bool showOverlay = true;
+  bool isAccent = false;
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +53,9 @@ class FocusMonth extends StatelessWidget {
               child: Text(
                 DateFormat('yyyy년 MM월', 'ko_KR')
                     .format(uiState.changeCalendarPage),
-                style: kSubtitle2,
+                style: isAccent
+                    ? kSubtitle2.copyWith(color: Colors.grey, fontWeight: FontWeight.w500,)
+                    : kSubtitle2,
               ),
             ),
             const SizedBox(

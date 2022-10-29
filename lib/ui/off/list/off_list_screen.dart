@@ -50,7 +50,7 @@ class OffListScreen extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        FocusMonth(),
+                        FocusMonth(isAccent: true,),
                         const OffListOrderChangeButton(),
                       ],
                     ),
@@ -145,7 +145,7 @@ class OffListScreen extends StatelessWidget {
                 return Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    FocusMonth(),
+                    FocusMonth(isAccent: true,),
                     const OffListOrderChangeButton(),
                   ],
                 );
