@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:on_off/constants/constants_text_style.dart';
 import 'package:on_off/domain/icon/icon_path.dart';
-import 'package:on_off/ui/components/common_floating_action_button.dart';
 import 'package:on_off/ui/off/daily/off_daily_screen.dart';
 import 'package:on_off/ui/components/focus_month.dart';
 import 'package:on_off/ui/components/off_appbar.dart';
@@ -32,6 +31,7 @@ class OffListScreen extends StatelessWidget {
       appBar: offAppBar(
         context,
         isPrevButton: true,
+        settingButton: false,
       ),
       body: Container(
         padding: const EdgeInsets.only(

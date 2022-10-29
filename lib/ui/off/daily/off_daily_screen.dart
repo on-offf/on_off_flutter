@@ -38,6 +38,7 @@ class OffDailyScreen extends StatelessWidget {
       appBar: offAppBar(
         context,
         isPrevButton: true,
+        settingButton: false,
       ),
       body: Container(
         padding: const EdgeInsets.symmetric(
