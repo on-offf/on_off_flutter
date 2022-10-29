@@ -12,6 +12,7 @@ import 'package:on_off/ui/off/daily/off_daily_event.dart';
 import 'package:on_off/ui/off/daily/off_daily_state.dart';
 import 'package:on_off/ui/off/daily/off_daily_view_model.dart';
 import 'package:on_off/ui/off/gallery/off_gallery_screen.dart';
+import 'package:on_off/ui/off/write/off_write_screen.dart';
 import 'package:provider/provider.dart';
 
 class OffDailyScreen extends StatelessWidget {
@@ -74,10 +75,12 @@ class OffDailyScreen extends StatelessWidget {
                         CarouselSlider(
                           carouselController: state.carouselController,
                           options: CarouselOptions(
+                            autoPlay: true,
+                            autoPlayInterval: const Duration(seconds: 3),
+                            autoPlayAnimationDuration: const Duration(milliseconds: 500),
                             initialPage: 0,
                             enableInfiniteScroll: false,
                             viewportFraction: 1.0,
-                            aspectRatio: 313 / (MediaQuery.of(context).size.width - 74),
                             onPageChanged: (index, reason) {
                               viewModel.onEvent(
                                   OffDailyEvent.changeCurrentIndex(index));
@@ -99,37 +102,6 @@ class OffDailyScreen extends StatelessWidget {
                             );
                           }).toList(),
                         ),
-                        state.currentIndex > 0
-                            ? Align(
-                                alignment: Alignment.centerLeft,
-                                child: IconButton(
-                                  onPressed: () {
-                                    state.carouselController.previousPage();
-                                  },
-                                  icon: Transform.rotate(
-                                    angle: 180 * math.pi / 180,
-                                    child: const Icon(
-                                      Icons.double_arrow_sharp,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                ),
-                              )
-                            : const SizedBox(),
-                        state.currentIndex < content.imageList.length - 1
-                            ? Align(
-                                alignment: Alignment.centerRight,
-                                child: IconButton(
-                                  onPressed: () {
-                                    state.carouselController.nextPage();
-                                  },
-                                  icon: const Icon(
-                                    Icons.double_arrow_sharp,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              )
-                            : const SizedBox(),
                       ],
                     ),
                   ),
@@ -137,13 +109,21 @@ class OffDailyScreen extends StatelessWidget {
                 ? const SizedBox()
                 : const SizedBox(height: 15),
             Expanded(
-              child: SingleChildScrollView(
-                child: SizedBox(
-                  width: MediaQuery.of(context).size.width - 74,
-                  child: Text(
-                    content.content,
-                    softWrap: true,
-                    textAlign: TextAlign.start,
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.pushNamed(
+                    context,
+                    OffWriteScreen.routeName,
+                  );
+                },
+                child: SingleChildScrollView(
+                  child: SizedBox(
+                    width: MediaQuery.of(context).size.width - 74,
+                    child: Text(
+                      content.content,
+                      softWrap: true,
+                      textAlign: TextAlign.start,
+                    ),
                   ),
                 ),
               ),

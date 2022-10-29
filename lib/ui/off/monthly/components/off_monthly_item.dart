@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:on_off/constants/constants_text_style.dart';
 import 'package:on_off/domain/icon/icon_path.dart';
+import 'package:on_off/ui/off/daily/off_daily_screen.dart';
 import 'package:on_off/ui/off/gallery/off_gallery_screen.dart';
 import 'package:on_off/ui/off/monthly/off_monthly_state.dart';
 import 'package:on_off/ui/off/monthly/off_monthly_view_model.dart';
@@ -183,7 +184,14 @@ class OffMonthlyItem extends StatelessWidget {
                       onTap: () {
                         uiProvider.onEvent(const UiEvent.changeCalendarFormat(
                             CalendarFormat.month));
-                        Navigator.pushNamed(context, OffWriteScreen.routeName);
+                        Navigator.pushNamed(
+                          context,
+                          OffDailyScreen.routeName,
+                          arguments: {
+                            'content': state.content,
+                            'icon': state.icon,
+                          },
+                        );
                       },
                       child: SizedBox(
                         width: MediaQuery.of(context).size.width - 74,
