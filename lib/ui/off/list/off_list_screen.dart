@@ -33,12 +33,6 @@ class OffListScreen extends StatelessWidget {
         context,
         isPrevButton: true,
       ),
-      floatingActionButton: CommonFloatingActionButton(
-        montlyListButtonNavigator: () {
-          Navigator.pop(context);
-        },
-        onOffButtonNavigator: () {},
-      ),
       body: Container(
         padding: const EdgeInsets.only(
           left: 37,
