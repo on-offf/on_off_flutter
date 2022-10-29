@@ -17,6 +17,7 @@ enum IconPath {
   camera,
   clip,
   trashCan,
+  noHaveContent,
 
   // stickers
   expressionAngry,
@@ -67,6 +68,8 @@ extension IconExtension on IconPath {
         return "assets/icons/off_write/clip.png";
       case IconPath.trashCan:
         return "assets/icons/off_write/trash_can.png";
+      case IconPath.noHaveContent:
+        return "assets/icons/off_write/no_have_content.png";
 
       case IconPath.expressionNormal:
         return "assets/icons/stickers/expression_normal.png";

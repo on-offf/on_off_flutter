@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:on_off/constants/constants_text_style.dart';
-import 'package:on_off/ui/components/build_selected_icons.dart';
+import 'package:on_off/domain/icon/icon_path.dart';
 import 'package:on_off/ui/off/gallery/off_gallery_screen.dart';
 import 'package:on_off/ui/off/monthly/off_monthly_state.dart';
 import 'package:on_off/ui/off/monthly/off_monthly_view_model.dart';
@@ -24,13 +24,53 @@ class OffMonthlyItem extends StatelessWidget {
     LayerLink layerLink = LayerLink();
 
     return state.content == null
-        ? TextButton(
-            onPressed: () {
-              uiProvider.onEvent(
-                  const UiEvent.changeFloatingActionButtonSwitch(true));
-              Navigator.pushNamed(context, OffWriteScreen.routeName);
-            },
-            child: const Text('다이어리 추가'),
+        ? Container(
+            child: Column(
+              children: [
+                Image(
+                  image: AssetImage(IconPath.noHaveContent.name),
+                  width: 130,
+                  height: 130,
+                ),
+                const SizedBox(
+                  height: 15,
+                ),
+                Text(
+                  '이날은 아직 \n게시글이 없습니다!',
+                  style: kSubtitle3.copyWith(
+                    color: uiState.colorConst.getPrimary(),
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                TextButton(
+                  onPressed: () {
+                    uiProvider.onEvent(
+                        const UiEvent.changeFloatingActionButtonSwitch(true));
+                    Navigator.pushNamed(context, OffWriteScreen.routeName);
+                  },
+                  style: ButtonStyle(
+                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(
+                          18.0,
+                        ),
+                        side: BorderSide(
+                          color: uiState.colorConst.getPrimary(),
+                        ),
+                      ),
+                    ),
+                  ),
+                  child: const Text(
+                    '글쓰러 가기',
+                    style: TextStyle(
+                      fontWeight: FontWeight.w700,
+                      fontSize: 14,
+                      letterSpacing: 0.1,
+                    ),
+                  ),
+                ),
+              ],
+            ),
           )
         : Container(
             decoration: uiState.calendarFormat == CalendarFormat.week
@@ -90,9 +130,8 @@ class OffMonthlyItem extends StatelessWidget {
                         ? const SizedBox()
                         : GestureDetector(
                             onTap: () {
-                              uiProvider.onEvent(
-                                  const UiEvent.changeFloatingActionButtonSwitch(
-                                      true));
+                              uiProvider.onEvent(const UiEvent
+                                  .changeFloatingActionButtonSwitch(true));
                               uiProvider.onEvent(
                                   const UiEvent.changeCalendarFormat(
                                       CalendarFormat.month));
