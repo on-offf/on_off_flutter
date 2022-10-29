@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:on_off/ui/components/off_appbar.dart';
 import 'package:on_off/ui/off/gallery/off_gallery_event.dart';
 import 'package:on_off/ui/off/gallery/off_gallery_view_model.dart';
+import 'package:on_off/ui/provider/ui_provider.dart';
 import 'package:provider/provider.dart';
 
 class OffGalleryScreen extends StatelessWidget {
@@ -16,19 +17,44 @@ class OffGalleryScreen extends StatelessWidget {
     final viewModel = context.watch<OffGalleryViewModel>();
     final state = viewModel.state;
 
-    final arguments = (ModalRoute.of(context)?.settings.arguments ?? <String, dynamic>{}) as Map;
+    final uiState = context.watch<UiProvider>().state;
 
+    final arguments = (ModalRoute.of(context)?.settings.arguments ??
+        <String, dynamic>{}) as Map;
+
+    double aspectRatioWidth = MediaQuery.of(context).size.width - 76;
+    double aspectRatioHeight = MediaQuery.of(context).size.height - 307;
 
     if (!_isInit) {
       _isInit = true;
-      Future.delayed(Duration.zero, () => viewModel.onEvent(OffGalleryEvent.init(arguments['offImageList'])));
+      Future.delayed(
+          Duration.zero,
+          () => viewModel
+              .onEvent(OffGalleryEvent.init(arguments['offImageList'])));
     }
 
     return Scaffold(
-      appBar: offAppBar(
-        context,
-        isPrevButton: true,
-        settingButton: false,
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(77),
+        child: AppBar(
+          toolbarHeight: 77,
+          elevation: 0.0,
+          backgroundColor: uiState.colorConst.canvas,
+          leading: Container(),
+          actions: [
+            IconButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              icon: Icon(
+                Icons.close,
+                size: 25,
+                color: uiState.colorConst.getPrimary(),
+              ),
+            ),
+            const SizedBox(width: 40),
+          ],
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.only(
@@ -52,7 +78,7 @@ class OffGalleryScreen extends StatelessWidget {
               options: CarouselOptions(
                   initialPage: 0,
                   viewportFraction: 1.0,
-                  aspectRatio: 3 / 4,
+                  aspectRatio: aspectRatioWidth / aspectRatioHeight,
                   onPageChanged: (index, reason) {
                     viewModel.onEvent(OffGalleryEvent.changeIndex(index));
                   }),
@@ -85,16 +111,26 @@ class OffGalleryScreen extends StatelessWidget {
               child: ListView.separated(
                 scrollDirection: Axis.horizontal,
                 itemBuilder: (ctx, idx) {
-                  return idx == state.index ? Container() :
-                  GestureDetector(
-                    onTap: () => viewModel.onEvent(OffGalleryEvent.changeIndex(idx)),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(16),
-                      child: Image.memory(
-                        state.offImageList[idx].imageFile,
-                        fit: BoxFit.fill,
-                        width: 70,
-                        height: 70,
+                  // idx == state.index
+                  return GestureDetector(
+                    onTap: () =>
+                        viewModel.onEvent(OffGalleryEvent.changeIndex(idx)),
+                    child: Container(
+                      decoration: idx == state.index ? BoxDecoration(
+                        border: Border.all(width: 2),
+                        borderRadius: BorderRadius.circular(16),
+                        shape: BoxShape.rectangle,
+                        color: Colors.grey,
+                      ) : const BoxDecoration(),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(16),
+
+                        child: Image.memory(
+                          state.offImageList[idx].imageFile,
+                          fit: BoxFit.fill,
+                          width: 70,
+                          height: 70,
+                        ),
                       ),
                     ),
                   );
