@@ -72,6 +72,8 @@ Future<List<SingleChildWidget>> getProviders() async {
 
   OffDailyViewModel offDetailViewModel = OffDailyViewModel(
     offIconUseCase: offIconUseCase,
+    offDiaryUseCase: offDiaryUseCase,
+    offImageUseCase: offImageUseCase,
   );
 
   OffGalleryViewModel offGalleryViewModel = OffGalleryViewModel(

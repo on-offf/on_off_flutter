@@ -39,4 +39,16 @@ class OffDiaryDAO {
     return maps.map((e) => OffDiary.fromJson(e)).toList();
   }
 
+  Future<OffDiary?> selectOffDiaryByUnixTimeLimit(int unixTime, bool isBefore) async {
+    final List<Map<String, dynamic>> maps = await database.query(
+      table,
+      where: isBefore ? 'dateTime < ?' : 'dateTime > ?',
+      orderBy: isBefore ? 'dateTime DESC' : 'dateTime ASC',
+      whereArgs: [unixTime],
+      limit: 1,
+    );
+    if (maps.isNotEmpty) return OffDiary.fromJson(maps.first);
+    return null;
+  }
+
 }

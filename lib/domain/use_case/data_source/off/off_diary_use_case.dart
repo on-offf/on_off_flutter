@@ -42,4 +42,12 @@ class OffDiaryUseCase {
     return await offDiaryDAO.selectOffDiaryList(startUnixTime, endUnixTime);
   }
 
+  Future<OffDiary?> selectOffDiaryByUnixTimeLimit(DateTime dateTime, bool isBefore) async {
+    dateTime = DateTime(dateTime.year, dateTime.month, dateTime.day);
+
+    int unixTime = dateTimeToUnixTime(dateTime);
+
+    return await offDiaryDAO.selectOffDiaryByUnixTimeLimit(unixTime, isBefore);
+  }
+
 }

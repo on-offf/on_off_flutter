@@ -9,5 +9,6 @@ class OffMonthlyState with _$OffMonthlyState {
   factory OffMonthlyState({
     OffIconEntity? icon,
     Content? content,
+
   }) = _OffMonthlyState;
 }
