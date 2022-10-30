@@ -13,6 +13,8 @@ import 'package:on_off/ui/off/daily/off_daily_state.dart';
 import 'package:on_off/ui/off/daily/off_daily_view_model.dart';
 import 'package:on_off/ui/off/gallery/off_gallery_screen.dart';
 import 'package:on_off/ui/off/write/off_write_screen.dart';
+import 'package:on_off/ui/provider/ui_event.dart';
+import 'package:on_off/ui/provider/ui_provider.dart';
 import 'package:provider/provider.dart';
 
 class OffDailyScreen extends StatelessWidget {
@@ -25,6 +27,8 @@ class OffDailyScreen extends StatelessWidget {
     OffDailyViewModel viewModel = context.watch<OffDailyViewModel>();
     OffDailyState state = viewModel.state;
     LayerLink layerLink = LayerLink();
+
+    UiProvider uiProvider = context.watch<UiProvider>();
 
     final routeArgs =
         ModalRoute.of(context)!.settings.arguments as Map<String, Object?>;
@@ -112,6 +116,7 @@ class OffDailyScreen extends StatelessWidget {
             Expanded(
               child: GestureDetector(
                 onTap: () {
+                  uiProvider.onEvent(UiEvent.changeFocusedDay(content.time));
                   Navigator.pushNamed(
                     context,
                     OffWriteScreen.routeName,

@@ -136,7 +136,7 @@ class _IconsAboveKeyboardState extends State<IconsAboveKeyboard> {
                   indent: 10,
                   endIndent: 10,
                 ),
-                SizedBox(width: 10,),
+                const SizedBox(width: 10,),
                 IconButton(
                   onPressed: () {
                     if (state.imagePaths.isEmpty) {
