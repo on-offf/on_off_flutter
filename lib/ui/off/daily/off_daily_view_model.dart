@@ -33,40 +33,42 @@ class OffDailyViewModel extends UiProviderObserve {
   void onEvent(OffDailyEvent event) {
     event.when(
       changeCurrentIndex: _changeCurrentIndex,
-      setIcon: _setIcon,
       addIcon: _addIcon,
-      setContent: _setContent,
       changeDay: _changeDay,
     );
   }
 
+  //이전 게시글로 이동하는거면 isBefore를 true, 다음 게시글은 false
   void _changeDay(bool isBefore) async {
     OffDiary? offDiary = await offDiaryUseCase.selectOffDiaryByUnixTimeLimit(
         state.content!.time, isBefore);
     if (offDiary == null) return;
 
-    List<OffImage> imageList =
-        await offImageUseCase.selectOffImageList(offDiary.id!);
-
-    Content content = Content(
-      time: unixToDateTime(offDiary.dateTime),
-      content: offDiary.content,
-      imageList: imageList,
-    );
-
-    OffIconEntity? offIcon = await offIconUseCase.selectOffIcon(content.time);
-
-    _state = _state.copyWith(
-      currentIndex: 0,
-      content: content,
-      icon: offIcon,
-    );
-
-    notifyListeners();
+    _changedByFocusedDay(uiState!.focusedDay);
   }
 
-  void _setContent(Content content) {
-    _state = _state.copyWith(content: content);
+  void _changedByFocusedDay(DateTime focusedDay) async {
+    OffDiary? offDiary = await offDiaryUseCase.selectByDateTime(focusedDay);
+
+    if (offDiary != null) {
+      List<OffImage> imageList =
+          await offImageUseCase.selectOffImageList(offDiary.id!);
+
+      Content content = Content(
+        id: offDiary.id,
+        time: unixToDateTime(offDiary.dateTime),
+        imageList: imageList,
+        content: offDiary.content,
+      );
+
+      _state = _state.copyWith(content: content);
+    } else {
+      _state = _state.copyWith(content: null);
+    }
+
+    OffIconEntity? icon = await offIconUseCase.selectOffIcon(focusedDay);
+    _state = _state.copyWith(icon: icon);
+
     notifyListeners();
   }
 
@@ -79,11 +81,6 @@ class OffDailyViewModel extends UiProviderObserve {
     notifyListeners();
   }
 
-  void _setIcon(OffIconEntity? offIcon) async {
-    _state = _state.copyWith(icon: offIcon);
-    notifyListeners();
-  }
-
   void _changeCurrentIndex(int currentIndex) {
     _state = _state.copyWith(currentIndex: currentIndex);
     notifyListeners();
@@ -91,11 +88,16 @@ class OffDailyViewModel extends UiProviderObserve {
 
   @override
   init(UiState uiState) {
-    this.uiState = uiState;
+    this.uiState = uiState.copyWith();
   }
 
+  //daily는 항상 list 스크린에서 focusedDay가 바뀐 후 호출되서 update만 됨.
   @override
   update(UiState uiState) {
-    this.uiState = uiState;
+    if (this.uiState!.focusedDay != uiState.focusedDay) {
+      _changedByFocusedDay(uiState.focusedDay);
+    }
+
+    this.uiState = uiState.copyWith();
   }
 }

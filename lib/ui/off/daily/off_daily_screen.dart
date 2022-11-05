@@ -13,6 +13,7 @@ import 'package:on_off/ui/off/gallery/off_gallery_screen.dart';
 import 'package:on_off/ui/off/write/off_write_screen.dart';
 import 'package:on_off/ui/provider/ui_event.dart';
 import 'package:on_off/ui/provider/ui_provider.dart';
+import 'package:on_off/ui/provider/ui_state.dart';
 import 'package:provider/provider.dart';
 
 class OffDailyScreen extends StatelessWidget {
@@ -29,18 +30,21 @@ class OffDailyScreen extends StatelessWidget {
 
     UiProvider uiProvider = context.watch<UiProvider>();
 
-    if (initScreen) {
-      initScreen = false;
-      Future.delayed(Duration.zero, () {
-        final routeArgs =
-        ModalRoute.of(context)!.settings.arguments as Map<String, Object?>;
-        final content = routeArgs['content']! as Content;
-        final offIcon = routeArgs['icon'] as OffIconEntity?;
+    UiState uiState = uiProvider.state;
 
-        viewModel.onEvent(OffDailyEvent.setIcon(offIcon));
-        viewModel.onEvent(OffDailyEvent.setContent(content));
-      });
-    }
+    // print("init screen : $initScreen");
+    // if (initScreen) {
+    //   initScreen = false;
+    //   Future.delayed(Duration.zero, () {
+    //     // final routeArgs =
+    //     // ModalRoute.of(context)!.settings.arguments as Map<String, Object?>;
+    //     // final content = routeArgs['content']! as Content;
+    //     // final offIcon = routeArgs['icon'] as OffIconEntity?;
+
+    //     // viewModel.onEvent(OffDailyEvent.setIcon(offIcon));
+    //     // viewModel.onEvent(OffDailyEvent.setContent(content));
+    //   });
+    // }
 
     return Scaffold(
       appBar: offAppBar(
@@ -52,8 +56,19 @@ class OffDailyScreen extends StatelessWidget {
         onVerticalDragEnd: (details) {
           if (details.primaryVelocity! > 0) {
             viewModel.onEvent(const OffDailyEvent.changeDay(true));
+            Future.delayed(Duration(seconds: 1), () {
+              uiProvider
+                  .onEvent(UiEvent.changeSelectedDay(state.content!.time));
+              uiProvider.onEvent(UiEvent.changeFocusedDay(state.content!.time));
+            });
           } else if (details.primaryVelocity! < 0) {
             viewModel.onEvent(const OffDailyEvent.changeDay(false));
+
+            Future.delayed(Duration(seconds: 1), () {
+              uiProvider
+                  .onEvent(UiEvent.changeSelectedDay(state.content!.time));
+              uiProvider.onEvent(UiEvent.changeFocusedDay(state.content!.time));
+            });
           }
         },
         child: Container(

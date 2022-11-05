@@ -22,8 +22,7 @@ class OffMonthlyViewModel extends UiProviderObserve {
     required this.offIconUseCase,
   });
 
-  OffMonthlyState _state = OffMonthlyState(
-  );
+  OffMonthlyState _state = OffMonthlyState();
 
   OffMonthlyState get state => _state;
 
@@ -41,7 +40,8 @@ class OffMonthlyViewModel extends UiProviderObserve {
     OffDiary? offDiary = await offDiaryUseCase.selectByDateTime(focusedDay);
 
     if (offDiary != null) {
-      List<OffImage> imageList = await offImageUseCase.selectOffImageList(offDiary.id!);
+      List<OffImage> imageList =
+          await offImageUseCase.selectOffImageList(offDiary.id!);
 
       Content content = Content(
         id: offDiary.id,
@@ -66,6 +66,7 @@ class OffMonthlyViewModel extends UiProviderObserve {
     this.uiState = uiState.copyWith();
 
     _changeFocusedDay(uiState.focusedDay);
+    // initScreen();
   }
 
   @override

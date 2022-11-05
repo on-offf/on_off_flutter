@@ -6,9 +6,9 @@ part 'off_daily_event.freezed.dart';
 
 @freezed
 abstract class OffDailyEvent with _$OffDailyEvent {
-  const factory OffDailyEvent.changeCurrentIndex(int currentIndex) = ChangeCurrentIndex;
-  const factory OffDailyEvent.setIcon(OffIconEntity? icon) = SetIcon;
-  const factory OffDailyEvent.setContent(Content content) = SetContent;
-  const factory OffDailyEvent.addIcon(DateTime selectedDate, String path) = AddIcon;
+  const factory OffDailyEvent.changeCurrentIndex(int currentIndex) =
+      ChangeCurrentIndex;
+  const factory OffDailyEvent.addIcon(DateTime selectedDate, String path) =
+      AddIcon;
   const factory OffDailyEvent.changeDay(bool isBefore) = ChangeDay;
 }

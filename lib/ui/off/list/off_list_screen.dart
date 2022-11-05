@@ -159,15 +159,13 @@ class OffListScreen extends StatelessWidget {
                       return GestureDetector(
                         child: ListItem(content: state.contents[index - 1]),
                         onTap: () {
+                          //daily 스크린으로 이동
+                          uiProvider.onEvent(UiEvent.changeSelectedDay(
+                              state.contents[index - 1].time));
+                          uiProvider.onEvent(UiEvent.changeFocusedDay(
+                              state.contents[index - 1].time));
                           Navigator.pushNamed(
-                            context,
-                            OffDailyScreen.routeName,
-                            arguments: {
-                              'content': state.contents[index - 1],
-                              'icon': state
-                                  .iconMap[state.contents[index - 1].time.day],
-                            },
-                          );
+                              context, OffDailyScreen.routeName);
                         },
                       );
                     }
