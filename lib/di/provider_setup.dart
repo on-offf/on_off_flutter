@@ -69,6 +69,11 @@ Future<List<SingleChildWidget>> getProviders() async {
     offImageUseCase: offImageUseCase,
     iconUseCase: offIconUseCase,
   );
+  OffDailyViewModel offDailyViewModel = OffDailyViewModel(
+    offDiaryUseCase: offDiaryUseCase,
+    offImageUseCase: offImageUseCase,
+    offIconUseCase: offIconUseCase,
+  );
 
   OffDailyViewModel offDetailViewModel = OffDailyViewModel(
     offIconUseCase: offIconUseCase,
@@ -94,6 +99,7 @@ Future<List<SingleChildWidget>> getProviders() async {
 
   viewModelList.add(offHomeViewModel);
   viewModelList.add(offListViewModel);
+  viewModelList.add(offDailyViewModel);
   viewModelList.add(offDetailViewModel);
   viewModelList.add(offWriteViewModel);
   viewModelList.add(offGalleryViewModel);
@@ -111,6 +117,7 @@ Future<List<SingleChildWidget>> getProviders() async {
     ChangeNotifierProvider(create: (_) => offWriteViewModel),
     ChangeNotifierProvider(create: (_) => offHomeViewModel),
     ChangeNotifierProvider(create: (_) => offListViewModel),
+    ChangeNotifierProvider(create: (_) => offDailyViewModel),
     ChangeNotifierProvider(create: (_) => offDetailViewModel),
     ChangeNotifierProvider(create: (_) => offGalleryViewModel),
 
