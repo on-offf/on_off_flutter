@@ -157,19 +157,19 @@ class _OffWriteScreenState extends State<OffWriteScreen> {
                                       height: 140,
                                     ),
                                   ),
-                                  GestureDetector(
-                                    onTap: () {
-                                      if (state!.imagePaths.length > 1) {
-                                        viewModel?.onEvent(OffWriteEvent.removeImage(
-                                            state!.imagePaths[index]));
-                                      } else {
-                                        _imageRemoveFailDialog(uiState!);
-                                      }
-                                    },
-                                    child: const Positioned(
-                                      top: 5,
-                                      right: 5,
-                                      child: Icon(Icons.cancel),
+                                  Positioned(
+                                    top: 5,
+                                    right: 5,
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        if (state!.imagePaths.length > 1) {
+                                          viewModel?.onEvent(OffWriteEvent.removeImage(
+                                              state!.imagePaths[index]));
+                                        } else {
+                                          _imageRemoveFailDialog(uiState!);
+                                        }
+                                      },
+                                      child: const Icon(Icons.cancel),
                                     ),
                                   ),
                                 ],
