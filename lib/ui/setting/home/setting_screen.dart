@@ -54,7 +54,7 @@ class SettingScreen extends StatelessWidget {
             child: Align(
               alignment: Alignment.bottomLeft,
               child: Text(
-                '알림설정',
+                '설정',
                 style: titleTextStyle(),
               ),
             ),

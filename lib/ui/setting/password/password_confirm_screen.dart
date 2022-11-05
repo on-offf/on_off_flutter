@@ -68,6 +68,7 @@ class _PasswordConfirmScreenState extends State<PasswordConfirmScreen> {
           right: 30,
         ),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
               title ?? '비밀번호를 입력해 주세요!',
@@ -100,7 +101,8 @@ class _PasswordConfirmScreenState extends State<PasswordConfirmScreen> {
                 ),
               ],
             ),
-            Expanded(
+            SizedBox(
+              height: 450,
               child: GridView.builder(
                 physics: const NeverScrollableScrollPhysics(),
                 itemCount: keypadList.length,
@@ -149,6 +151,9 @@ class _PasswordConfirmScreenState extends State<PasswordConfirmScreen> {
                   );
                 },
               ),
+            ),
+            const SizedBox(
+              height: 100,
             ),
           ],
         ),
