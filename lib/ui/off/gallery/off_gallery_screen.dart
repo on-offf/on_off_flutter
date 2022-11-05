@@ -71,7 +71,7 @@ class OffGalleryScreen extends StatelessWidget {
                   borderRadius: BorderRadius.circular(16.0),
                   child: Image.memory(
                     state.offImageList[state.index].imageFile,
-                    fit: BoxFit.fill,
+                    fit: BoxFit.fitWidth,
                   ),
                 );
               },

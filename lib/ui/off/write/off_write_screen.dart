@@ -143,36 +143,36 @@ class _OffWriteScreenState extends State<OffWriteScreen> {
                           scrollDirection: Axis.horizontal,
                           itemCount: state!.imagePaths.length,
                           itemBuilder: (ctx, index) {
-                            return GestureDetector(
-                              onTap: () {
-                                if (state!.imagePaths.length > 1) {
-                                  viewModel?.onEvent(OffWriteEvent.removeImage(
-                                      state!.imagePaths[index]));
-                                } else {
-                                  _imageRemoveFailDialog(uiState!);
-                                }
-                              },
-                              child: Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 3.0),
-                                child: Stack(
-                                  children: [
-                                    ClipRRect(
-                                      borderRadius: const BorderRadius.all(
-                                        Radius.circular(10),
-                                      ),
-                                      child: Image.file(
-                                        state!.imagePaths[index].file,
-                                        height: 140,
-                                      ),
+                            return Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 3.0),
+                              child: Stack(
+                                children: [
+                                  ClipRRect(
+                                    borderRadius: const BorderRadius.all(
+                                      Radius.circular(10),
                                     ),
-                                    Positioned(
+                                    child: Image.file(
+                                      state!.imagePaths[index].file,
+                                      height: 140,
+                                    ),
+                                  ),
+                                  GestureDetector(
+                                    onTap: () {
+                                      if (state!.imagePaths.length > 1) {
+                                        viewModel?.onEvent(OffWriteEvent.removeImage(
+                                            state!.imagePaths[index]));
+                                      } else {
+                                        _imageRemoveFailDialog(uiState!);
+                                      }
+                                    },
+                                    child: const Positioned(
                                       top: 5,
                                       right: 5,
                                       child: Icon(Icons.cancel),
                                     ),
-                                  ],
-                                ),
+                                  ),
+                                ],
                               ),
                             );
                           },
