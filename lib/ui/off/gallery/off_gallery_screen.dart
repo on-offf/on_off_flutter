@@ -1,6 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:on_off/ui/components/off_appbar.dart';
+import 'package:on_off/constants/constants_text_style.dart';
 import 'package:on_off/ui/off/gallery/off_gallery_event.dart';
 import 'package:on_off/ui/off/gallery/off_gallery_view_model.dart';
 import 'package:on_off/ui/provider/ui_provider.dart';
@@ -41,6 +41,16 @@ class OffGalleryScreen extends StatelessWidget {
           elevation: 0.0,
           backgroundColor: uiState.colorConst.canvas,
           leading: Container(),
+          title: Center(
+            child: Text(
+              '${state.index + 1} / ${state.offImageList.length}',
+              style: kTitle1.copyWith(
+                color: Colors.black,
+                fontSize: 18,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+          ),
           actions: [
             IconButton(
               onPressed: () {
@@ -72,16 +82,19 @@ class OffGalleryScreen extends StatelessWidget {
                   child: Image.memory(
                     state.offImageList[state.index].imageFile,
                     fit: BoxFit.fitWidth,
+                    colorBlendMode: BlendMode.hardLight,
+                    color: Colors.grey,
                   ),
                 );
               },
               options: CarouselOptions(
-                  initialPage: 0,
-                  viewportFraction: 1.0,
-                  aspectRatio: aspectRatioWidth / aspectRatioHeight,
-                  onPageChanged: (index, reason) {
-                    viewModel.onEvent(OffGalleryEvent.changeIndex(index));
-                  }),
+                initialPage: 0,
+                viewportFraction: 1.0,
+                aspectRatio: aspectRatioWidth / aspectRatioHeight,
+                onPageChanged: (index, reason) {
+                  viewModel.onEvent(OffGalleryEvent.changeIndex(index));
+                },
+              ),
             ),
             SizedBox(
               height: 60,
@@ -115,22 +128,17 @@ class OffGalleryScreen extends StatelessWidget {
                   return GestureDetector(
                     onTap: () =>
                         viewModel.onEvent(OffGalleryEvent.changeIndex(idx)),
-                    child: Container(
-                      decoration: idx == state.index ? BoxDecoration(
-                        border: Border.all(width: 2),
-                        borderRadius: BorderRadius.circular(16),
-                        shape: BoxShape.rectangle,
-                        color: Colors.grey,
-                      ) : const BoxDecoration(),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(16),
-
-                        child: Image.memory(
-                          state.offImageList[idx].imageFile,
-                          fit: BoxFit.fill,
-                          width: 70,
-                          height: 70,
-                        ),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(16),
+                      child: Image.memory(
+                        state.offImageList[idx].imageFile,
+                        fit: BoxFit.fill,
+                        color: idx == state.index
+                            ? Colors.transparent
+                            : Colors.grey,
+                        colorBlendMode: BlendMode.screen,
+                        width: 70,
+                        height: 70,
                       ),
                     ),
                   );
