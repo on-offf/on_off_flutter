@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:on_off/constants/constants_text_style.dart';
-import 'package:on_off/domain/icon/icon_path.dart';
 import 'package:on_off/ui/provider/ui_provider.dart';
 import 'package:provider/provider.dart';
 

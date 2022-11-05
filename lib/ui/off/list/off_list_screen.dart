@@ -28,145 +28,154 @@ class OffListScreen extends StatelessWidget {
     UiState uiState = uiProvider.state;
 
     return Scaffold(
-      appBar: offAppBar(
-        context,
-        isPrevButton: true,
-        settingButton: false,
-      ),
-      body: Container(
-        padding: const EdgeInsets.only(
-          left: 37,
-          right: 37,
-          bottom: 41,
-        ),
-        child: MediaQuery.removePadding(
-          context: context,
-          removeTop: true,
-          child: ListView.builder(
-            itemBuilder: ((context, index) {
-              if (index == 0 && state.contents.isEmpty) {
-                return Column(
+      body: SafeArea(
+        child: Container(
+          padding: const EdgeInsets.only(
+            left: 37,
+            right: 37,
+          ),
+          child: Column(
+            children: [
+              SizedBox(
+                height: 80,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        FocusMonth(isAccent: true,),
-                        const OffListOrderChangeButton(),
-                      ],
-                    ),
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height / 5,
-                    ),
-                    Image(
-                      image: AssetImage(IconPath.noHaveContent.name),
-                      width: 130,
-                      height: 130,
-                    ),
-                    const SizedBox(
-                      height: 15,
-                    ),
-                    Text(
-                      '이번 달은 아직 \n게시글이 없습니다!',
-                      style: kSubtitle3.copyWith(
-                        color: uiState.colorConst.getPrimary(),
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        TextButton(
-                          onPressed: () {
-                            uiProvider.onEvent(
-                                const UiEvent.changeFloatingActionButtonSwitch(
-                                    true));
-                            Navigator.pushNamed(
-                                context, OffWriteScreen.routeName);
-                          },
-                          style: ButtonStyle(
-                            shape: MaterialStateProperty.all<
-                                RoundedRectangleBorder>(
-                              RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(
-                                  18.0,
-                                ),
-                                side: BorderSide(
-                                  color: uiState.colorConst.getPrimary(),
-                                ),
-                              ),
-                            ),
-                          ),
-                          child: const Text(
-                            '글쓰러가기',
-                            style: TextStyle(
-                              fontWeight: FontWeight.w700,
-                              fontSize: 14,
-                              letterSpacing: 0.1,
-                            ),
-                          ),
-                        ),
-                        const SizedBox(
-                          width: 20,
-                        ),
-                        TextButton(
-                          onPressed: () {
-                            uiProvider.onEvent(
-                                const UiEvent.changeFloatingActionButtonSwitch(
-                                    true));
-                            Navigator.pop(context);
-                          },
-                          style: ButtonStyle(
-                            shape: MaterialStateProperty.all<
-                                RoundedRectangleBorder>(
-                              RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(
-                                  18.0,
-                                ),
-                                side: BorderSide(
-                                  color: uiState.colorConst.getPrimary(),
-                                ),
-                              ),
-                            ),
-                          ),
-                          child: const Text(
-                            '뒤로 가기',
-                            style: TextStyle(
-                              fontWeight: FontWeight.w700,
-                              fontSize: 14,
-                              letterSpacing: 0.1,
-                            ),
-                          ),
-                        )
-                      ],
+                    FocusMonth(
+                      isAccent: true,
                     ),
                   ],
-                );
-              } else if (index == 0) {
-                return Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    FocusMonth(isAccent: true,),
-                    const OffListOrderChangeButton(),
-                  ],
-                );
-              } else {
-                return GestureDetector(
-                  child: ListItem(content: state.contents[index - 1]),
-                  onTap: () {
-                    Navigator.pushNamed(
-                      context,
-                      OffDailyScreen.routeName,
-                      arguments: {
-                        'content': state.contents[index - 1],
-                        'icon':
-                            state.iconMap[state.contents[index - 1].time.day],
-                      },
-                    );
-                  },
-                );
-              }
-            }),
-            itemCount: state.contents.length + 1,
+                ),
+              ),
+              SizedBox(
+                height: MediaQuery.of(context).size.height - 173,
+                child: ListView.builder(
+                  itemBuilder: ((context, index) {
+                    if (index == 0 && state.contents.isEmpty) {
+                      return Column(
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              FocusMonth(
+                                isAccent: true,
+                              ),
+                              const OffListOrderChangeButton(),
+                            ],
+                          ),
+                          SizedBox(
+                            height: MediaQuery.of(context).size.height / 5,
+                          ),
+                          Image(
+                            image: AssetImage(IconPath.noHaveContent.name),
+                            width: 130,
+                            height: 130,
+                          ),
+                          const SizedBox(
+                            height: 15,
+                          ),
+                          Text(
+                            '이번 달은 아직 \n게시글이 없습니다!',
+                            style: kSubtitle3.copyWith(
+                              color: uiState.colorConst.getPrimary(),
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              TextButton(
+                                onPressed: () {
+                                  uiProvider.onEvent(const UiEvent
+                                      .changeFloatingActionButtonSwitch(true));
+                                  Navigator.pushNamed(
+                                      context, OffWriteScreen.routeName);
+                                },
+                                style: ButtonStyle(
+                                  shape: MaterialStateProperty.all<
+                                      RoundedRectangleBorder>(
+                                    RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(
+                                        18.0,
+                                      ),
+                                      side: BorderSide(
+                                        color: uiState.colorConst.getPrimary(),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                child: const Text(
+                                  '글쓰러가기',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w700,
+                                    fontSize: 14,
+                                    letterSpacing: 0.1,
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(
+                                width: 20,
+                              ),
+                              TextButton(
+                                onPressed: () {
+                                  uiProvider.onEvent(const UiEvent
+                                      .changeFloatingActionButtonSwitch(true));
+                                  Navigator.pop(context);
+                                },
+                                style: ButtonStyle(
+                                  shape: MaterialStateProperty.all<
+                                      RoundedRectangleBorder>(
+                                    RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(
+                                        18.0,
+                                      ),
+                                      side: BorderSide(
+                                        color: uiState.colorConst.getPrimary(),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                child: const Text(
+                                  '뒤로 가기',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w700,
+                                    fontSize: 14,
+                                    letterSpacing: 0.1,
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                        ],
+                      );
+                    } else if (index == 0) {
+                      return Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: const [
+                          OffListOrderChangeButton(),
+                        ],
+                      );
+                    } else {
+                      return GestureDetector(
+                        child: ListItem(content: state.contents[index - 1]),
+                        onTap: () {
+                          Navigator.pushNamed(
+                            context,
+                            OffDailyScreen.routeName,
+                            arguments: {
+                              'content': state.contents[index - 1],
+                              'icon': state
+                                  .iconMap[state.contents[index - 1].time.day],
+                            },
+                          );
+                        },
+                      );
+                    }
+                  }),
+                  itemCount: state.contents.length + 1,
+                ),
+              ),
+            ],
           ),
         ),
       ),

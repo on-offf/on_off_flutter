@@ -54,7 +54,11 @@ class FocusMonth extends StatelessWidget {
                 DateFormat('yyyy년 MM월', 'ko_KR')
                     .format(uiState.changeCalendarPage),
                 style: isAccent
-                    ? kSubtitle2.copyWith(color: Colors.grey, fontWeight: FontWeight.w500,)
+                    ? kSubtitle2.copyWith(
+                        color: Colors.black,
+                        fontWeight: FontWeight.w700,
+                        fontSize: 16,
+                      )
                     : kSubtitle2,
               ),
             ),
@@ -86,7 +90,7 @@ class FocusMonth extends StatelessWidget {
                   uiProvider.onEvent(const UiEvent.removeOverlay()),
             ),
             Positioned(
-              left: offset.dx,
+              left: isAccent ? offset.dx - 26 : offset.dx,
               top: offset.dy + size.height,
               width: 162,
               height: 171,
