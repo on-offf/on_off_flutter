@@ -25,54 +25,52 @@ class OffMonthlyItem extends StatelessWidget {
     LayerLink layerLink = LayerLink();
 
     return state.content == null
-        ? Container(
-            child: Column(
-              children: [
-                Image(
-                  image: AssetImage(IconPath.noHaveContent.name),
-                  width: 130,
-                  height: 130,
-                ),
-                const SizedBox(
-                  height: 15,
-                ),
-                Text(
-                  '이날은 아직 \n게시글이 없습니다!',
-                  style: kSubtitle3.copyWith(
-                    color: uiState.colorConst.getPrimary(),
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-                TextButton(
-                  onPressed: () {
-                    uiProvider.onEvent(
-                        const UiEvent.changeFloatingActionButtonSwitch(true));
-                    Navigator.pushNamed(context, OffWriteScreen.routeName);
-                  },
-                  style: ButtonStyle(
-                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                      RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(
-                          18.0,
-                        ),
-                        side: BorderSide(
-                          color: uiState.colorConst.getPrimary(),
-                        ),
-                      ),
-                    ),
-                  ),
-                  child: const Text(
-                    '글쓰러 가기',
-                    style: TextStyle(
-                      fontWeight: FontWeight.w700,
-                      fontSize: 14,
-                      letterSpacing: 0.1,
-                    ),
-                  ),
-                ),
-              ],
+        ? Column(
+          children: [
+            Image(
+              image: AssetImage(IconPath.noHaveContent.name),
+              width: 130,
+              height: 130,
             ),
-          )
+            const SizedBox(
+              height: 15,
+            ),
+            Text(
+              '이날은 아직 \n게시글이 없습니다!',
+              style: kSubtitle3.copyWith(
+                color: uiState.colorConst.getPrimary(),
+              ),
+              textAlign: TextAlign.center,
+            ),
+            TextButton(
+              onPressed: () {
+                uiProvider.onEvent(
+                    const UiEvent.changeFloatingActionButtonSwitch(true));
+                Navigator.pushNamed(context, OffWriteScreen.routeName);
+              },
+              style: ButtonStyle(
+                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(
+                      18.0,
+                    ),
+                    side: BorderSide(
+                      color: uiState.colorConst.getPrimary(),
+                    ),
+                  ),
+                ),
+              ),
+              child: const Text(
+                '글쓰러 가기',
+                style: TextStyle(
+                  fontWeight: FontWeight.w700,
+                  fontSize: 14,
+                  letterSpacing: 0.1,
+                ),
+              ),
+            ),
+          ],
+        )
         : Container(
             decoration: uiState.calendarFormat == CalendarFormat.week
                 ? const BoxDecoration(
@@ -105,31 +103,34 @@ class OffMonthlyItem extends StatelessWidget {
                 left: 37,
                 right: 37,
               ),
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    Row(
-                      children: [
-                        CompositedTransformTarget(
-                          link: layerLink,
-                          child: Text(
-                            DateFormat.MMMMEEEEd('ko_KR')
-                                .format(state.content!.time),
-                            style: kSubtitle2,
-                          ),
+              child: Column(
+                children: [
+                  Row(
+                    children: [
+                      CompositedTransformTarget(
+                        link: layerLink,
+                        child: Text(
+                          DateFormat.MMMMEEEEd('ko_KR')
+                              .format(state.content!.time),
+                          style: kSubtitle2,
                         ),
-                        Expanded(
-                          child: Container(
-                            height: 2,
-                            color: Theme.of(context).primaryColor,
-                          ),
+                      ),
+                      Expanded(
+                        child: Container(
+                          height: 2,
+                          color: Theme.of(context).primaryColor,
                         ),
-                      ],
-                    ),
-                    const SizedBox(height: 23),
-                    state.content!.imageList.isEmpty
-                        ? const SizedBox()
-                        : GestureDetector(
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 23),
+                  Expanded(
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          state.content!.imageList.isEmpty
+                              ? const SizedBox()
+                              : GestureDetector(
                             onTap: () {
                               uiProvider.onEvent(const UiEvent
                                   .changeFloatingActionButtonSwitch(true));
@@ -157,57 +158,60 @@ class OffMonthlyItem extends StatelessWidget {
                               ),
                             ),
                           ),
-                    state.content!.imageList.isEmpty
-                        ? const SizedBox()
-                        : const SizedBox(height: 15),
-                    Row(
-                      children: [
-                        const Text(
-                          "오늘의 일기",
-                          style: kSubtitle2,
-                        ),
-                        const SizedBox(
-                          width: 40.5,
-                        ),
-                        Expanded(
-                          child: Container(
-                            height: 2,
-                            decoration: const BoxDecoration(
-                              color: Color(0xff219EBC),
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(2.0),
+                          state.content!.imageList.isEmpty
+                              ? const SizedBox()
+                              : const SizedBox(height: 15),
+                          Row(
+                            children: [
+                              const Text(
+                                "오늘의 일기",
+                                style: kSubtitle2,
+                              ),
+                              const SizedBox(
+                                width: 40.5,
+                              ),
+                              Expanded(
+                                child: Container(
+                                  height: 2,
+                                  decoration: const BoxDecoration(
+                                    color: Color(0xff219EBC),
+                                    borderRadius: BorderRadius.all(
+                                      Radius.circular(2.0),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 7),
+                          GestureDetector(
+                            onTap: () {
+                              uiProvider.onEvent(const UiEvent.changeCalendarFormat(
+                                  CalendarFormat.month));
+                              Navigator.pushNamed(
+                                context,
+                                OffDailyScreen.routeName,
+                                arguments: {
+                                  'content': state.content,
+                                  'icon': state.icon,
+                                },
+                              );
+                            },
+                            child: SizedBox(
+                              width: MediaQuery.of(context).size.width - 74,
+                              child: Text(
+                                state.content!.content,
+                                textAlign: TextAlign.start,
+                                softWrap: true,
+                                style: kBody1,
                               ),
                             ),
                           ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 7),
-                    GestureDetector(
-                      onTap: () {
-                        uiProvider.onEvent(const UiEvent.changeCalendarFormat(
-                            CalendarFormat.month));
-                        Navigator.pushNamed(
-                          context,
-                          OffDailyScreen.routeName,
-                          arguments: {
-                            'content': state.content,
-                            'icon': state.icon,
-                          },
-                        );
-                      },
-                      child: SizedBox(
-                        width: MediaQuery.of(context).size.width - 74,
-                        child: Text(
-                          state.content!.content,
-                          textAlign: TextAlign.start,
-                          softWrap: true,
-                          style: kBody1,
-                        ),
+                        ],
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
           );

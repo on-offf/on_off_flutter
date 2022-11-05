@@ -12,7 +12,6 @@ import 'package:table_calendar/table_calendar.dart';
 
 class OffMonthlyScreen extends StatelessWidget {
   static const routeName = '/off/monthly';
-  final ScrollController _scrollController = ScrollController();
 
   OffMonthlyScreen({Key? key}) : super(key: key);
 
@@ -58,43 +57,21 @@ class OffMonthlyScreen extends StatelessWidget {
           Expanded(
             child: GestureDetector(
               onVerticalDragEnd: (details) {
-                if (details.primaryVelocity! > 0) {
-                  uiProvider.onEvent(
-                      const UiEvent.changeCalendarFormat(CalendarFormat.month));
-                } else if (details.primaryVelocity! < 0) {
-                  uiProvider.onEvent(
-                      const UiEvent.changeCalendarFormat(CalendarFormat.week));
-                }
+                _positionChange(uiProvider, details);
               },
               child: const OffMonthlyItem(),
             ),
           ),
-          // Expanded(
-          //   child: NotificationListener(
-          //     onNotification: (ScrollNotification scrollNotification) {
-          //       var position = _scrollController.position;
-          //       positionChange(uiProvider, position);
-          //       return uiState.calendarFormat == CalendarFormat.month;
-          //     },
-          //     child: ListView(
-          //       controller: _scrollController,
-          //       children: const [
-          //         OffMonthlyItem(),
-          //         SizedBox(height: 41),
-          //       ],
-          //     ),
-          //   ),
-          // ),
         ],
       ),
     );
   }
 
-  Future<void> positionChange(uiProvider, position) async {
-    if (position.pixels < 0) {
+  Future<void> _positionChange(uiProvider, details) async {
+    if (details.primaryVelocity! > 0) {
       uiProvider
           .onEvent(const UiEvent.changeCalendarFormat(CalendarFormat.month));
-    } else if (position.pixels > 0) {
+    } else if (details.primaryVelocity! < 0) {
       uiProvider
           .onEvent(const UiEvent.changeCalendarFormat(CalendarFormat.week));
     }
