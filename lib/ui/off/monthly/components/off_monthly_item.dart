@@ -124,7 +124,90 @@ class OffMonthlyItem extends StatelessWidget {
                     ],
                   ),
                   const SizedBox(height: 23),
-                  Expanded(
+                  uiState.calendarFormat == CalendarFormat.month ? Column(
+                    children: [
+                      state.content!.imageList.isEmpty
+                          ? const SizedBox()
+                          : GestureDetector(
+                        onTap: () {
+                          uiProvider.onEvent(const UiEvent
+                              .changeFloatingActionButtonSwitch(true));
+                          uiProvider.onEvent(
+                              const UiEvent.changeCalendarFormat(
+                                  CalendarFormat.month));
+                          Navigator.pushNamed(
+                            context,
+                            OffGalleryScreen.routeName,
+                            arguments: {
+                              'offImageList': state.content?.imageList
+                            },
+                          );
+                        },
+                        child: SizedBox(
+                          width: MediaQuery.of(context).size.width - 74,
+                          height: 240,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(16),
+                            child: Image.memory(
+                              state.content!.imageList.first.imageFile,
+                              fit: BoxFit.fill,
+                              width: MediaQuery.of(context).size.width - 74,
+                            ),
+                          ),
+                        ),
+                      ),
+                      state.content!.imageList.isEmpty
+                          ? const SizedBox()
+                          : const SizedBox(height: 15),
+                      Row(
+                        children: [
+                          const Text(
+                            "오늘의 일기",
+                            style: kSubtitle2,
+                          ),
+                          const SizedBox(
+                            width: 40.5,
+                          ),
+                          Expanded(
+                            child: Container(
+                              height: 2,
+                              decoration: const BoxDecoration(
+                                color: Color(0xff219EBC),
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(2.0),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 7),
+                      GestureDetector(
+                        onTap: () {
+                          uiProvider.onEvent(const UiEvent.changeCalendarFormat(
+                              CalendarFormat.month));
+                          Navigator.pushNamed(
+                            context,
+                            OffDailyScreen.routeName,
+                            arguments: {
+                              'content': state.content,
+                              'icon': state.icon,
+                            },
+                          );
+                        },
+                        child: SizedBox(
+                          width: MediaQuery.of(context).size.width - 74,
+                          child: Text(
+                            state.content!.content,
+                            textAlign: TextAlign.start,
+                            softWrap: true,
+                            style: kBody1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ) : Expanded(
                     child: SingleChildScrollView(
                       child: Column(
                         children: [

@@ -29,7 +29,7 @@ class ListItem extends StatelessWidget {
             CompositedTransformTarget(
               link: selectIconSheetLink,
               child: Text(
-                DateFormat('M월 d일 E', 'ko_KR').format(content.time),
+                DateFormat.MMMEd('ko_kr').format(content.time),
                 style: kSubtitle2,
               ),
             ),
