@@ -158,6 +158,7 @@ class OffListScreen extends StatelessWidget {
                   child: ListItem(content: state.contents[index - 1]),
                   onTap: () {
                     //daily 스크린으로 이동
+                    print("온 탭 클릭됨");
                     uiProvider.onEvent(UiEvent.changeSelectedDay(
                         state.contents[index - 1].time));
                     uiProvider.onEvent(UiEvent.changeFocusedDay(

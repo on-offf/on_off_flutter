@@ -44,24 +44,40 @@ class OffDailyViewModel extends UiProviderObserve {
         state.content!.time, isBefore);
     if (offDiary == null) return;
 
-    _changedByFocusedDay(uiState!.focusedDay);
+    List<OffImage> imageList =
+        await offImageUseCase.selectOffImageList(offDiary.id!);
+
+    Content content = Content(
+      id: offDiary.id,
+      time: unixToDateTime(offDiary.dateTime),
+      imageList: imageList,
+      content: offDiary.content,
+    );
+
+    _state = _state.copyWith(content: content);
   }
 
+  //Ui state에서 focused day가 변경되면 update 함수에 의해 실행됨.
   void _changedByFocusedDay(DateTime focusedDay) async {
     OffDiary? offDiary = await offDiaryUseCase.selectByDateTime(focusedDay);
 
+    print("널체크 전");
     if (offDiary != null) {
+      print("널체크 시작");
       List<OffImage> imageList =
           await offImageUseCase.selectOffImageList(offDiary.id!);
 
       Content content = Content(
         id: offDiary.id,
-        time: unixToDateTime(offDiary.dateTime),
+        time:
+            unixToDateTime(offDiary.dateTime), //데이터에는 int 타입이라서 datetime으로 형변환
         imageList: imageList,
         content: offDiary.content,
       );
 
       _state = _state.copyWith(content: content);
+
+      print("state 변경완료");
     } else {
       _state = _state.copyWith(content: null);
     }
@@ -96,6 +112,7 @@ class OffDailyViewModel extends UiProviderObserve {
   update(UiState uiState) {
     if (this.uiState!.focusedDay != uiState.focusedDay) {
       _changedByFocusedDay(uiState.focusedDay);
+      print("_changedByFocusedDay 호출됨");
     }
 
     this.uiState = uiState.copyWith();
