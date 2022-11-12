@@ -419,8 +419,10 @@ class SettingScreen extends StatelessWidget {
     required Color primaryColor,
   }) async {
     String? firstPassword = await Navigator.pushNamed(
-        context, PasswordConfirmScreen.routeName,
-        arguments: '변경할 비밀번호를 입력해주세요.') as String?;
+      context,
+      PasswordConfirmScreen.routeName,
+      arguments: '변경할 비밀번호를 입력해주세요.',
+    );
 
     if (firstPassword == null) return null;
 
