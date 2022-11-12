@@ -32,20 +32,6 @@ class OffDailyScreen extends StatelessWidget {
 
     UiState uiState = uiProvider.state;
 
-    // print("init screen : $initScreen");
-    // if (initScreen) {
-    //   initScreen = false;
-    //   Future.delayed(Duration.zero, () {
-    //     // final routeArgs =
-    //     // ModalRoute.of(context)!.settings.arguments as Map<String, Object?>;
-    //     // final content = routeArgs['content']! as Content;
-    //     // final offIcon = routeArgs['icon'] as OffIconEntity?;
-
-    //     // viewModel.onEvent(OffDailyEvent.setIcon(offIcon));
-    //     // viewModel.onEvent(OffDailyEvent.setContent(content));
-    //   });
-    // }
-
     return Scaffold(
       appBar: offAppBar(
         context,
@@ -54,17 +40,21 @@ class OffDailyScreen extends StatelessWidget {
       ),
       body: GestureDetector(
         onVerticalDragEnd: (details) {
+          //down
           if (details.primaryVelocity! > 0) {
+            print("아래로 드래그");
             viewModel.onEvent(const OffDailyEvent.changeDay(true));
-            Future.delayed(Duration(seconds: 1), () {
+            Future.delayed(Duration(seconds: 2), () {
               uiProvider
                   .onEvent(UiEvent.changeSelectedDay(state.content!.time));
               uiProvider.onEvent(UiEvent.changeFocusedDay(state.content!.time));
             });
-          } else if (details.primaryVelocity! < 0) {
+          }
+          //up
+          else if (details.primaryVelocity! < 0) {
+            print("위로 드래그");
             viewModel.onEvent(const OffDailyEvent.changeDay(false));
-
-            Future.delayed(Duration(seconds: 1), () {
+            Future.delayed(Duration(seconds: 2), () {
               uiProvider
                   .onEvent(UiEvent.changeSelectedDay(state.content!.time));
               uiProvider.onEvent(UiEvent.changeFocusedDay(state.content!.time));
