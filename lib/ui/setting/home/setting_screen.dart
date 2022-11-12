@@ -72,23 +72,6 @@ class SettingScreen extends StatelessWidget {
                       '화면잠금',
                       style: buttonTextStyle(),
                     ),
-                    // buttonWidget(
-                    //   viewModel,
-                    //   uiState,
-                    // state.setting.isScreenLock == 1,
-                    // () async {
-                    //   if (state.setting.isScreenLock == 0 &&
-                    //       state.setting.password == null) {
-                    //     bool initPassword = await _initPassword(context,
-                    //         viewModel, uiState.colorConst.getPrimary());
-
-                    //     if (!initPassword) return;
-                    //   }
-
-                    //   viewModel
-                    //       .onEvent(const SettingEvent.changeIsScreenLock());
-                    // },
-                    // ),
                     AnimatedSwitch(
                       uiState: uiState,
                       isLock: state.setting.isScreenLock == 1,
@@ -153,11 +136,10 @@ class SettingScreen extends StatelessWidget {
                       '알림',
                       style: buttonTextStyle(),
                     ),
-                    buttonWidget(
-                      viewModel,
-                      uiState,
-                      state.setting.isAlert == 1,
-                      () async {
+                    AnimatedSwitch(
+                      uiState: uiState,
+                      isLock: state.setting.isAlert == 1,
+                      onPressed: () async {
                         if (state.setting.isAlert == 0 &&
                             state.setting.alertHour == null) {
                           AlertTime? alertTime = await alertTimeDialog(
