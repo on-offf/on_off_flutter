@@ -46,6 +46,7 @@ class OffMonthlyViewModel extends UiProviderObserve {
       Content content = Content(
         id: offDiary.id,
         time: unixToDateTime(offDiary.dateTime),
+        title: offDiary.title,
         imageList: imageList,
         content: offDiary.content,
       );

@@ -49,6 +49,7 @@ class OffDailyViewModel extends UiProviderObserve {
 
     Content content = Content(
       id: offDiary.id,
+      title: offDiary.title,
       time: unixToDateTime(offDiary.dateTime),
       imageList: imageList,
       content: offDiary.content,
@@ -69,8 +70,8 @@ class OffDailyViewModel extends UiProviderObserve {
 
       Content content = Content(
         id: offDiary.id,
-        time:
-            unixToDateTime(offDiary.dateTime), //데이터에는 int 타입이라서 datetime으로 형변환
+        time: unixToDateTime(offDiary.dateTime), //데이터에는 int 타입이라서 datetime으로 형변환
+        title: offDiary.title,
         imageList: imageList,
         content: offDiary.content,
       );

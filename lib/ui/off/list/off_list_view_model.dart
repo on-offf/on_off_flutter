@@ -75,6 +75,7 @@ class OffListViewModel extends UiProviderObserve {
       var content = Content(
         time: unixToDateTime(offDiary.dateTime),
         content: offDiary.content,
+        title: offDiary.title,
         imageList: imageList,
       );
 

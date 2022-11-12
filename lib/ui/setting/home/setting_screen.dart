@@ -6,7 +6,7 @@ import 'package:on_off/ui/components/simple_dialog.dart';
 import 'package:on_off/ui/provider/ui_provider.dart';
 import 'package:on_off/ui/provider/ui_state.dart';
 import 'package:on_off/ui/setting/home/components/alert_time_dialog.dart';
-import 'package:on_off/ui/setting/home/components/animated_switch.dart';
+// import 'package:on_off/ui/setting/home/components/animated_switch.dart';
 import 'package:on_off/ui/setting/password/password_confirm_screen.dart';
 import 'package:on_off/ui/setting/home/setting_event.dart';
 import 'package:on_off/ui/setting/home/setting_view_model.dart';
@@ -72,21 +72,21 @@ class SettingScreen extends StatelessWidget {
                       '화면잠금',
                       style: buttonTextStyle(),
                     ),
-                    AnimatedSwitch(
-                      uiState: uiState,
-                      isLock: state.setting.isScreenLock == 1,
-                      onPressed: () async {
-                        if (state.setting.isScreenLock == 0 &&
-                            state.setting.password == null) {
-                          bool initPassword = await _initPassword(context,
-                              viewModel, uiState.colorConst.getPrimary());
-
-                          if (!initPassword) return;
-                        }
-                        viewModel
-                            .onEvent(const SettingEvent.changeIsScreenLock());
-                      },
-                    ),
+                    // AnimatedSwitch(
+                    //   uiState: uiState,
+                    //   isLock: state.setting.isScreenLock == 1,
+                    //   onPressed: () async {
+                    //     if (state.setting.isScreenLock == 0 &&
+                    //         state.setting.password == null) {
+                    //       bool initPassword = await _initPassword(context,
+                    //           viewModel, uiState.colorConst.getPrimary());
+                    //
+                    //       if (!initPassword) return;
+                    //     }
+                    //     viewModel
+                    //         .onEvent(const SettingEvent.changeIsScreenLock());
+                    //   },
+                    // ),
                   ],
                 ),
                 if (state.setting.isScreenLock == 1)
@@ -136,43 +136,43 @@ class SettingScreen extends StatelessWidget {
                       '알림',
                       style: buttonTextStyle(),
                     ),
-                    AnimatedSwitch(
-                      uiState: uiState,
-                      isLock: state.setting.isAlert == 1,
-                      onPressed: () async {
-                        if (state.setting.isAlert == 0 &&
-                            state.setting.alertHour == null) {
-                          AlertTime? alertTime = await alertTimeDialog(
-                            context,
-                            viewModel,
-                            state,
-                            uiProvider,
-                            uiState,
-                            uiState.colorConst.getPrimary(),
-                          ) as AlertTime?;
-
-                          if (alertTime == null) {
-                            simpleTextDialog(
-                              context,
-                              primaryColor: uiState.colorConst.getPrimary(),
-                              canvasColor: Colors.white,
-                              message: '시간을 선택해주세요.',
-                            );
-                            return;
-                          }
-                          Future.delayed(
-                            const Duration(milliseconds: 100),
-                            () => viewModel.onEvent(
-                              SettingEvent.changeAlertTime(
-                                alertTime.hour,
-                                alertTime.minutes,
-                              ),
-                            ),
-                          );
-                        }
-                        viewModel.onEvent(const SettingEvent.changeIsAlert());
-                      },
-                    ),
+                    // AnimatedSwitch(
+                    //   uiState: uiState,
+                    //   isLock: state.setting.isAlert == 1,
+                    //   onPressed: () async {
+                    //     if (state.setting.isAlert == 0 &&
+                    //         state.setting.alertHour == null) {
+                    //       AlertTime? alertTime = await alertTimeDialog(
+                    //         context,
+                    //         viewModel,
+                    //         state,
+                    //         uiProvider,
+                    //         uiState,
+                    //         uiState.colorConst.getPrimary(),
+                    //       ) as AlertTime?;
+                    //
+                    //       if (alertTime == null) {
+                    //         simpleTextDialog(
+                    //           context,
+                    //           primaryColor: uiState.colorConst.getPrimary(),
+                    //           canvasColor: Colors.white,
+                    //           message: '시간을 선택해주세요.',
+                    //         );
+                    //         return;
+                    //       }
+                    //       Future.delayed(
+                    //         const Duration(milliseconds: 100),
+                    //         () => viewModel.onEvent(
+                    //           SettingEvent.changeAlertTime(
+                    //             alertTime.hour,
+                    //             alertTime.minutes,
+                    //           ),
+                    //         ),
+                    //       );
+                    //     }
+                    //     viewModel.onEvent(const SettingEvent.changeIsAlert());
+                    //   },
+                    // ),
                   ],
                 ),
                 if (state.setting.isAlert == 1)

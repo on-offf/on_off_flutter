@@ -1,4 +1,3 @@
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:on_off/constants/constants_text_style.dart';
@@ -48,30 +47,42 @@ class ListItem extends StatelessWidget {
           ],
         ),
         const SizedBox(height: 10),
-        content.imageList.isNotEmpty
-            ? SizedBox(
-                height: 188,
+        Container(
+          height: 41,
+          padding: const EdgeInsets.only(left: 8),
+          alignment: Alignment.centerLeft,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(7),
+            color: const Color.fromRGBO(230, 247, 252, .59),
+          ),
+          child: Text(
+            content.title,
+            style: kSubtitle3,
+          ),
+        ),
+        Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(7),
+            color: const Color.fromRGBO(230, 247, 252, 0.3),
+          ),
+          child: Column(
+            children: [
+              const SizedBox(height: 15),
+              SizedBox(
+                height: 145,
                 width: MediaQuery.of(context).size.width - 74,
-                child: CarouselSlider(
-                  items: content.imageList.map((offImage) {
-                    return ClipRRect(
-                      borderRadius: BorderRadius.circular(12),
-                      child: Image.memory(
-                        offImage.imageFile,
-                        fit: BoxFit.cover,
-                        width: MediaQuery.of(context).size.width - 74,
-                      ),
-                    );
-                  }).toList(),
-                  options: CarouselOptions(
-                    initialPage: 0,
-                    enableInfiniteScroll: false,
-                    viewportFraction: 1.0,
-                    aspectRatio: 313 / 240,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(12),
+                  child: Image.memory(
+                    content.imageList[0].imageFile,
+                    fit: BoxFit.cover,
+                    width: MediaQuery.of(context).size.width - 74,
                   ),
                 ),
-              )
-            : Container(),
+              ),
+            ],
+          ),
+        ),
         const SizedBox(
           height: 15,
         ),

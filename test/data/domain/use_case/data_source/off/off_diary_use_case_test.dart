@@ -19,8 +19,8 @@ void main() async {
   var unixTime = dateTimeToUnixTime(now);
   var yesterdayUnixTime = dateTimeToUnixTime(yesterday);
 
-  OffDiary offDiary = OffDiary(dateTime: unixTime, content: 'content test');
-  OffDiary yesterdayOffDiary = OffDiary(dateTime: yesterdayUnixTime, content: 'yesterday content test');
+  OffDiary offDiary = OffDiary(title: 'title1', dateTime: unixTime, content: 'content test');
+  OffDiary yesterdayOffDiary = OffDiary(title: 'title2', dateTime: yesterdayUnixTime, content: 'yesterday content test');
 
   test('off_diary_use_case_test', () async {
     await offDiaryUseCase.insert(offDiary);

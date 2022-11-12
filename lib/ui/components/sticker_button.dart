@@ -80,20 +80,21 @@ class _StickerButtonState extends State<StickerButton> {
 
   @override
   Widget build(BuildContext context) {
-    return IconButton(
-      padding: EdgeInsets.zero,
-      constraints: const BoxConstraints(),
+    return TextButton(
       onPressed: () => clickAddIcon(),
-      icon: Image(
-        image: AssetImage(IconPath.expressionNormal.name),
-        width: 25,
-        height: 25,
+      child: const Text(
+        '오늘의 기분은?',
+        style: TextStyle(
+          fontSize: 12,
+          fontWeight: FontWeight.w400,
+          letterSpacing: .25,
+          height: 1.66,
+        ),
       ),
     );
   }
 
   Widget _overlayEntryBuilder(BuildContext _) {
-    LayerLink link = widget.layerLink;
     return Stack(
       children: [
         GestureDetector(
@@ -107,29 +108,27 @@ class _StickerButtonState extends State<StickerButton> {
         Positioned(
           width: _dropdownWidth,
           height: _dropdownHeight,
-          child: CompositedTransformFollower(
-            link: link,
-            // showWhenUnlinked: false,
-            offset: const Offset(0, 23),
-            child: Material(
-              child: Container(
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    color: Theme.of(context).primaryColor,
-                    width: 3,
-                  ),
-                  borderRadius: BorderRadius.circular(29),
-                  color: Theme.of(context).canvasColor,
+          left: (MediaQuery.of(context).size.width / 2) - (_dropdownWidth / 2),
+          top: (MediaQuery.of(context).size.height / 2) - (_dropdownHeight / 2),
+          child: Material(
+            color: Colors.transparent,
+            child: Container(
+              decoration: BoxDecoration(
+                border: Border.all(
+                  color: Theme.of(context).primaryColor,
+                  width: 3,
                 ),
-                child: GridView(
-                  padding: const EdgeInsets.all(30),
-                  children: [..._buildIconButtonList()],
-                  gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                    maxCrossAxisExtent: 60,
-                    crossAxisSpacing: 20,
-                    mainAxisSpacing: 20,
-                  ),
+                borderRadius: BorderRadius.circular(29),
+                color: Theme.of(context).canvasColor,
+              ),
+              child: GridView(
+                padding: const EdgeInsets.all(30),
+                gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                  maxCrossAxisExtent: 60,
+                  crossAxisSpacing: 20,
+                  mainAxisSpacing: 20,
                 ),
+                children: [..._buildIconButtonList()],
               ),
             ),
           ),

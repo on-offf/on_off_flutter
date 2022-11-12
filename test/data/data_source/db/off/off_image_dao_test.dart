@@ -31,8 +31,8 @@ void main() async {
   int todayUnixEndDate = dateTimeToUnixTime(todayEndDate);
   int yesterdayUnixStartDate = dateTimeToUnixTime(yesterdayStartDate);
 
-  OffDiary? offDiary = OffDiary(dateTime: unixTime, content: 'content test');
-  OffDiary? yesterdayOffDiary = OffDiary(dateTime: yesterdayUnixTime, content: 'yesterday content test');
+  OffDiary? offDiary = OffDiary(title: 'title1', dateTime: unixTime, content: 'content test');
+  OffDiary? yesterdayOffDiary = OffDiary(title: 'title2', dateTime: yesterdayUnixTime, content: 'yesterday content test');
 
   await offDiaryDAO.insertOffDiary(offDiary);
   await offDiaryDAO.insertOffDiary(yesterdayOffDiary);
