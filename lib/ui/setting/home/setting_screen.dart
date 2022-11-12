@@ -6,6 +6,7 @@ import 'package:on_off/ui/components/simple_dialog.dart';
 import 'package:on_off/ui/provider/ui_provider.dart';
 import 'package:on_off/ui/provider/ui_state.dart';
 import 'package:on_off/ui/setting/home/components/alert_time_dialog.dart';
+import 'package:on_off/ui/setting/home/components/animated_switch.dart';
 import 'package:on_off/ui/setting/password/password_confirm_screen.dart';
 import 'package:on_off/ui/setting/home/setting_event.dart';
 import 'package:on_off/ui/setting/home/setting_view_model.dart';
@@ -71,11 +72,27 @@ class SettingScreen extends StatelessWidget {
                       '화면잠금',
                       style: buttonTextStyle(),
                     ),
-                    buttonWidget(
-                      viewModel,
-                      uiState,
-                      state.setting.isScreenLock == 1,
-                      () async {
+                    // buttonWidget(
+                    //   viewModel,
+                    //   uiState,
+                    // state.setting.isScreenLock == 1,
+                    // () async {
+                    //   if (state.setting.isScreenLock == 0 &&
+                    //       state.setting.password == null) {
+                    //     bool initPassword = await _initPassword(context,
+                    //         viewModel, uiState.colorConst.getPrimary());
+
+                    //     if (!initPassword) return;
+                    //   }
+
+                    //   viewModel
+                    //       .onEvent(const SettingEvent.changeIsScreenLock());
+                    // },
+                    // ),
+                    AnimatedSwitch(
+                      uiState: uiState,
+                      isLock: state.setting.isScreenLock == 1,
+                      onPressed: () async {
                         if (state.setting.isScreenLock == 0 &&
                             state.setting.password == null) {
                           bool initPassword = await _initPassword(context,
@@ -83,7 +100,6 @@ class SettingScreen extends StatelessWidget {
 
                           if (!initPassword) return;
                         }
-
                         viewModel
                             .onEvent(const SettingEvent.changeIsScreenLock());
                       },
