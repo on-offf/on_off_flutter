@@ -159,7 +159,7 @@ class SettingScreen extends StatelessWidget {
                               message: '시간을 선택해주세요.',
                             );
                             return;
-                          }s
+                          }
                           Future.delayed(
                             const Duration(milliseconds: 100),
                             () => viewModel.onEvent(
