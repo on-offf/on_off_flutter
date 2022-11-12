@@ -9,6 +9,7 @@ class Content with _$Content {
   factory Content({
     int? id,
     required DateTime time,
+    required String title,
     required String content,
     required List<OffImage> imageList,
     @Default([]) List<String> icons,

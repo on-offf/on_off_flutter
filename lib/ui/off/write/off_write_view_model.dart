@@ -132,20 +132,22 @@ class OffWriteViewModel extends UiProviderObserve {
     notifyListeners();
   }
 
-  void _saveContent(String text) async {
+  void _saveContent(String title, String content) async {
     int offDiaryId;
     if (_state.offDiary != null) {
       OffDiary offDiary = OffDiary(
         id: _state.offDiary!.id,
         dateTime: _state.offDiary!.dateTime,
-        content: text,
+        title: title,
+        content: content,
       );
       await offDiaryUseCase.update(offDiary);
       offDiaryId = _state.offDiary!.id!;
     } else {
       OffDiary? offDiary = OffDiary(
         dateTime: dateTimeToUnixTime(uiState!.focusedDay),
-        content: text,
+        title: title,
+        content: content,
       );
       offDiary = await offDiaryUseCase.insert(offDiary);
       offDiaryId = offDiary.id!;

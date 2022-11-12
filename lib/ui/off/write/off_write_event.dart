@@ -10,7 +10,7 @@ abstract class OffWriteEvent with _$OffWriteEvent {
   const factory OffWriteEvent.addIcon(String path) = AddIcon;
   const factory OffWriteEvent.addSelectedImagePaths(File path) =
       AddSelectedImagePaths;
-  const factory OffWriteEvent.saveContent(String text) = SaveContent;
+  const factory OffWriteEvent.saveContent(String title, String content) = SaveContent;
   const factory OffWriteEvent.resetState() = ResetState;
   const factory OffWriteEvent.getFocusedDayDetail() = GetFocusedDayDetail;
   const factory OffWriteEvent.removeImage(OffWriteImage offWriteImage) = RemoveEvent;

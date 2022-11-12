@@ -7,6 +7,7 @@ part 'off_diary.g.dart';
 class OffDiary with _$OffDiary{
   factory OffDiary({
     required int dateTime,
+    required String title,
     required String content,
     int? id,
   }) = _OffDiary;

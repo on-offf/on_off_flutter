@@ -23,7 +23,7 @@ void main() async {
   DateTime now = DateTime.now();
   var unixTime = dateTimeToUnixTime(now);
 
-  OffDiary offDiary = OffDiary(id: 1, dateTime: unixTime, content: 'content test');
+  OffDiary offDiary = OffDiary(id: 1, title: 'title1', dateTime: unixTime, content: 'content test');
 
   await offDiaryDAO.insertOffDiary(offDiary);
 
