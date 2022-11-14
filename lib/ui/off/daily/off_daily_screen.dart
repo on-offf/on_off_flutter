@@ -43,12 +43,13 @@ class OffDailyScreen extends StatelessWidget {
           //down
           if (details.primaryVelocity! > 0) {
             print("아래로 드래그");
-            viewModel.onEvent(const OffDailyEvent.changeDay(true));
-            Future.delayed(Duration(seconds: 2), () {
-              uiProvider
+            () async {
+              await viewModel.onEvent(const OffDailyEvent.changeDay(true));
+              await uiProvider
                   .onEvent(UiEvent.changeSelectedDay(state.content!.time));
-              uiProvider.onEvent(UiEvent.changeFocusedDay(state.content!.time));
-            });
+              await uiProvider
+                  .onEvent(UiEvent.changeFocusedDay(state.content!.time));
+            };
           }
           //up
           else if (details.primaryVelocity! < 0) {
