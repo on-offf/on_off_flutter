@@ -30,12 +30,13 @@ class OffDailyViewModel extends UiProviderObserve {
 
   OffDailyState get state => _state;
 
-  void onEvent(OffDailyEvent event) {
+  Future<void> onEvent(OffDailyEvent event) {
     event.when(
       changeCurrentIndex: _changeCurrentIndex,
       addIcon: _addIcon,
       changeDay: _changeDay,
     );
+    return Future.value();
   }
 
   //이전 게시글로 이동하는거면 isBefore를 true, 다음 게시글은 false

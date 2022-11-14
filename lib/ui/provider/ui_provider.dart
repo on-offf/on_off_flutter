@@ -37,7 +37,7 @@ class UiProvider with ChangeNotifier {
 
   UiState get state => _state;
 
-  void onEvent(UiEvent event) {
+  Future<void> onEvent(UiEvent event) {
     event.when(
       // setting
       changeMainColor: _changeMainColor,
@@ -60,6 +60,7 @@ class UiProvider with ChangeNotifier {
       // notifyListeners
       selfNotifyListeners: _selfNotifyListeners,
     );
+    return Future.value();
   }
 
   void _focusMonthSelected() {
@@ -125,7 +126,8 @@ class UiProvider with ChangeNotifier {
 
   void _initScreen(String route) {
     for (var viewModel in viewModelList) {
-      if (viewModel is OffMonthlyViewModel && route == OffMonthlyScreen.routeName) {
+      if (viewModel is OffMonthlyViewModel &&
+          route == OffMonthlyScreen.routeName) {
         viewModel.initScreen();
       }
     }
