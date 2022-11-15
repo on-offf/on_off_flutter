@@ -37,7 +37,7 @@ class UiProvider with ChangeNotifier {
 
   UiState get state => _state;
 
-  Future<void> onEvent(UiEvent event) {
+  void onEvent(UiEvent event) {
     event.when(
       // setting
       changeMainColor: _changeMainColor,
@@ -60,7 +60,6 @@ class UiProvider with ChangeNotifier {
       // notifyListeners
       selfNotifyListeners: _selfNotifyListeners,
     );
-    return Future.value();
   }
 
   void _focusMonthSelected() {
