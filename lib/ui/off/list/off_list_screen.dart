@@ -165,7 +165,7 @@ class OffListScreen extends StatelessWidget {
                           print("list - uiprovider 1");
                           uiProvider.onEvent(UiEvent.changeFocusedDay(
                               state.contents[index - 1].time));
-                          print("list - uiprovider 2");
+                          print("list - uiprovider 2 ${uiState.focusedDay}");
                           Navigator.pushNamed(
                               context, OffDailyScreen.routeName);
                           print("데일리로 이동");
