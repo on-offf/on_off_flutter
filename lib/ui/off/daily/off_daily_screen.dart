@@ -39,27 +39,24 @@ class OffDailyScreen extends StatelessWidget {
         settingButton: false,
       ),
       body: GestureDetector(
-        onVerticalDragEnd: (details) {
+        onVerticalDragEnd: (details) async {
           //down
           if (details.primaryVelocity! > 0) {
-            print("아래로 드래그");
-            () async {
-              await viewModel.onEvent(const OffDailyEvent.changeDay(true));
-              await uiProvider
-                  .onEvent(UiEvent.changeSelectedDay(state.content!.time));
-              await uiProvider
-                  .onEvent(UiEvent.changeFocusedDay(state.content!.time));
-            };
+            print("아래로 드래그 ${uiState.focusedDay}");
+            viewModel.onEvent(const OffDailyEvent.changeDay(true));
+            print("daily - vm 끝 ${uiState.focusedDay}");
+            uiProvider.onEvent(UiEvent.changeSelectedDay(state.content!.time));
+            uiProvider.onEvent(UiEvent.changeFocusedDay(state.content!.time));
+            print("daily - ui provider 끝 ${uiState.focusedDay}");
           }
           //up
           else if (details.primaryVelocity! < 0) {
-            print("위로 드래그");
+            print("위로 드래그 ${uiState.focusedDay}");
             viewModel.onEvent(const OffDailyEvent.changeDay(false));
-            Future.delayed(Duration(seconds: 2), () {
-              uiProvider
-                  .onEvent(UiEvent.changeSelectedDay(state.content!.time));
-              uiProvider.onEvent(UiEvent.changeFocusedDay(state.content!.time));
-            });
+            print("daily - vm 끝 ${uiState.focusedDay}");
+            uiProvider.onEvent(UiEvent.changeSelectedDay(state.content!.time));
+            uiProvider.onEvent(UiEvent.changeFocusedDay(state.content!.time));
+            print("daily - ui provider 끝 ${uiState.focusedDay}");
           }
         },
         child: Container(
