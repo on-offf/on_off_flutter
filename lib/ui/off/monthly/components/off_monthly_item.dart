@@ -145,7 +145,7 @@ class OffMonthlyItem extends StatelessWidget {
                         },
                         child: SizedBox(
                           width: MediaQuery.of(context).size.width - 74,
-                          height: 240,
+                          height: 230,
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(16),
                             child: Image.memory(
