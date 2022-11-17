@@ -53,7 +53,7 @@ class ListItem extends StatelessWidget {
           alignment: Alignment.centerLeft,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(7),
-            color: const Color.fromRGBO(230, 247, 252, .59),
+            color: const Color.fromRGBO(18, 112, 176, 0.24),
           ),
           child: Text(
             content.title,

@@ -89,6 +89,9 @@ class _StickerButtonState extends State<StickerButton> {
           fontWeight: FontWeight.w400,
           letterSpacing: .25,
           height: 1.66,
+          color: Colors.black87,
+          fontStyle: FontStyle.italic,
+          decoration: TextDecoration.underline,
         ),
       ),
     );

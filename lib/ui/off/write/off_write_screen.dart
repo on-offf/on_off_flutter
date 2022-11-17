@@ -138,7 +138,7 @@ class _OffWriteScreenState extends State<OffWriteScreen> {
                         ),
                       ),
                       filled: true,
-                      fillColor: const Color.fromRGBO(230, 247, 252, .59),
+                      fillColor: const Color.fromRGBO(18, 112, 176, 0.24),
                     ),
                     maxLines: null,
                   ),
@@ -153,47 +153,51 @@ class _OffWriteScreenState extends State<OffWriteScreen> {
                         ),
                         state!.imagePaths.isNotEmpty
                             ? SizedBox(
-                          height: 150,
-                          child: ListView.builder(
-                            scrollDirection: Axis.horizontal,
-                            itemCount: state!.imagePaths.length,
-                            itemBuilder: (ctx, index) {
-                              return Padding(
-                                padding:
-                                const EdgeInsets.symmetric(horizontal: 3.0),
-                                child: Stack(
-                                  children: [
-                                    ClipRRect(
-                                      borderRadius: const BorderRadius.all(
-                                        Radius.circular(10),
+                                height: 150,
+                                child: ListView.builder(
+                                  scrollDirection: Axis.horizontal,
+                                  itemCount: state!.imagePaths.length,
+                                  itemBuilder: (ctx, index) {
+                                    return Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 3.0),
+                                      child: Stack(
+                                        children: [
+                                          ClipRRect(
+                                            borderRadius:
+                                                const BorderRadius.all(
+                                              Radius.circular(10),
+                                            ),
+                                            child: Image.file(
+                                              state!.imagePaths[index].file,
+                                              height: 140,
+                                            ),
+                                          ),
+                                          Positioned(
+                                            top: 5,
+                                            right: 5,
+                                            child: GestureDetector(
+                                              onTap: () {
+                                                if (state!.imagePaths.length >
+                                                    1) {
+                                                  viewModel?.onEvent(
+                                                      OffWriteEvent.removeImage(
+                                                          state!.imagePaths[
+                                                              index]));
+                                                } else {
+                                                  _imageRemoveFailDialog(
+                                                      uiState!);
+                                                }
+                                              },
+                                              child: const Icon(Icons.cancel),
+                                            ),
+                                          ),
+                                        ],
                                       ),
-                                      child: Image.file(
-                                        state!.imagePaths[index].file,
-                                        height: 140,
-                                      ),
-                                    ),
-                                    Positioned(
-                                      top: 5,
-                                      right: 5,
-                                      child: GestureDetector(
-                                        onTap: () {
-                                          if (state!.imagePaths.length > 1) {
-                                            viewModel?.onEvent(
-                                                OffWriteEvent.removeImage(
-                                                    state!.imagePaths[index]));
-                                          } else {
-                                            _imageRemoveFailDialog(uiState!);
-                                          }
-                                        },
-                                        child: const Icon(Icons.cancel),
-                                      ),
-                                    ),
-                                  ],
+                                    );
+                                  },
                                 ),
-                              );
-                            },
-                          ),
-                        )
+                              )
                             : Container(),
                         const SizedBox(
                           height: 5,
@@ -204,11 +208,11 @@ class _OffWriteScreenState extends State<OffWriteScreen> {
                           alignment: Alignment.centerLeft,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(7),
-                            color: const Color.fromRGBO(230, 247, 252, .59),
                           ),
                           child: StickerButton(
                             layerLink: selectIconSheetLink,
-                            actionAfterSelect: (path) => viewModel?.onEvent(OffWriteEvent.addIcon(path)),
+                            actionAfterSelect: (path) =>
+                                viewModel?.onEvent(OffWriteEvent.addIcon(path)),
                           ),
                         ),
                         Padding(
