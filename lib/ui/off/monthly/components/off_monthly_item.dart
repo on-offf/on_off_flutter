@@ -26,51 +26,51 @@ class OffMonthlyItem extends StatelessWidget {
 
     return state.content == null
         ? Column(
-          children: [
-            Image(
-              image: AssetImage(IconPath.noHaveContent.name),
-              width: 130,
-              height: 130,
-            ),
-            const SizedBox(
-              height: 15,
-            ),
-            Text(
-              '이날은 아직 \n게시글이 없습니다!',
-              style: kSubtitle3.copyWith(
-                color: uiState.colorConst.getPrimary(),
+            children: [
+              Image(
+                image: AssetImage(IconPath.noHaveContent.name),
+                width: 130,
+                height: 130,
               ),
-              textAlign: TextAlign.center,
-            ),
-            TextButton(
-              onPressed: () {
-                uiProvider.onEvent(
-                    const UiEvent.changeFloatingActionButtonSwitch(true));
-                Navigator.pushNamed(context, OffWriteScreen.routeName);
-              },
-              style: ButtonStyle(
-                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                  RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(
-                      18.0,
-                    ),
-                    side: BorderSide(
-                      color: uiState.colorConst.getPrimary(),
+              const SizedBox(
+                height: 15,
+              ),
+              Text(
+                '이날은 아직 \n게시글이 없습니다!',
+                style: kSubtitle3.copyWith(
+                  color: uiState.colorConst.getPrimary(),
+                ),
+                textAlign: TextAlign.center,
+              ),
+              TextButton(
+                onPressed: () {
+                  uiProvider.onEvent(
+                      const UiEvent.changeFloatingActionButtonSwitch(true));
+                  Navigator.pushNamed(context, OffWriteScreen.routeName);
+                },
+                style: ButtonStyle(
+                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(
+                        18.0,
+                      ),
+                      side: BorderSide(
+                        color: uiState.colorConst.getPrimary(),
+                      ),
                     ),
                   ),
                 ),
-              ),
-              child: const Text(
-                '글쓰러 가기',
-                style: TextStyle(
-                  fontWeight: FontWeight.w700,
-                  fontSize: 14,
-                  letterSpacing: 0.1,
+                child: const Text(
+                  '글쓰러 가기',
+                  style: TextStyle(
+                    fontWeight: FontWeight.w700,
+                    fontSize: 14,
+                    letterSpacing: 0.1,
+                  ),
                 ),
               ),
-            ),
-          ],
-        )
+            ],
+          )
         : Container(
             decoration: uiState.calendarFormat == CalendarFormat.week
                 ? const BoxDecoration(
@@ -112,9 +112,10 @@ class OffMonthlyItem extends StatelessWidget {
                         child: Text(
                           DateFormat.MMMMEEEEd('ko_KR')
                               .format(state.content!.time),
-                          style: kSubtitle2,
+                          style: kSubtitle3,
                         ),
                       ),
+                      SizedBox(width: 10),
                       Expanded(
                         child: Container(
                           height: 2,
@@ -124,176 +125,218 @@ class OffMonthlyItem extends StatelessWidget {
                     ],
                   ),
                   const SizedBox(height: 23),
-                  uiState.calendarFormat == CalendarFormat.month ? Column(
-                    children: [
-                      state.content!.imageList.isEmpty
-                          ? const SizedBox()
-                          : GestureDetector(
-                        onTap: () {
-                          uiProvider.onEvent(const UiEvent
-                              .changeFloatingActionButtonSwitch(true));
-                          uiProvider.onEvent(
-                              const UiEvent.changeCalendarFormat(
-                                  CalendarFormat.month));
-                          Navigator.pushNamed(
-                            context,
-                            OffGalleryScreen.routeName,
-                            arguments: {
-                              'offImageList': state.content?.imageList
-                            },
-                          );
-                        },
-                        child: SizedBox(
-                          width: MediaQuery.of(context).size.width - 74,
-                          height: 240,
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(16),
-                            child: Image.memory(
-                              state.content!.imageList.first.imageFile,
-                              fit: BoxFit.fill,
-                              width: MediaQuery.of(context).size.width - 74,
-                            ),
-                          ),
-                        ),
-                      ),
-                      state.content!.imageList.isEmpty
-                          ? const SizedBox()
-                          : const SizedBox(height: 15),
-                      Row(
-                        children: [
-                          const Text(
-                            "오늘의 일기",
-                            style: kSubtitle2,
-                          ),
-                          const SizedBox(
-                            width: 40.5,
-                          ),
-                          Expanded(
-                            child: Container(
-                              height: 2,
-                              decoration: const BoxDecoration(
-                                color: Color(0xff219EBC),
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(2.0),
+                  Container(
+                    height: 41,
+                    padding: const EdgeInsets.only(left: 8),
+                    alignment: Alignment.centerLeft,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(7),
+                      color: const Color.fromRGBO(18, 112, 176, 0.24),
+                    ),
+                    child: Text(
+                      state.content!.title,
+                      style: kSubtitle3,
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  uiState.calendarFormat == CalendarFormat.month
+                      ? Column(
+                          children: [
+                            state.content!.imageList.isEmpty
+                                ? const SizedBox()
+                                : GestureDetector(
+                                    onTap: () {
+                                      uiProvider.onEvent(const UiEvent
+                                              .changeFloatingActionButtonSwitch(
+                                          true));
+                                      uiProvider.onEvent(
+                                          const UiEvent.changeCalendarFormat(
+                                              CalendarFormat.month));
+                                      Navigator.pushNamed(
+                                        context,
+                                        OffGalleryScreen.routeName,
+                                        arguments: {
+                                          'offImageList':
+                                              state.content?.imageList
+                                        },
+                                      );
+                                    },
+                                    child: SizedBox(
+                                      width: MediaQuery.of(context).size.width -
+                                          74,
+                                      height: 240,
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(16),
+                                        child: Image.memory(
+                                          state.content!.imageList.first
+                                              .imageFile,
+                                          fit: BoxFit.fill,
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width -
+                                              74,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                            state.content!.imageList.isEmpty
+                                ? const SizedBox()
+                                : const SizedBox(height: 15),
+                            Row(
+                              children: [
+                                const Text(
+                                  "오늘의 일기",
+                                  style: kSubtitle2,
                                 ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 7),
-                      GestureDetector(
-                        onTap: () {
-                          uiProvider.onEvent(const UiEvent.changeCalendarFormat(
-                              CalendarFormat.month));
-                          Navigator.pushNamed(
-                            context,
-                            OffDailyScreen.routeName,
-                            arguments: {
-                              'content': state.content,
-                              'icon': state.icon,
-                            },
-                          );
-                        },
-                        child: SizedBox(
-                          width: MediaQuery.of(context).size.width - 74,
-                          child: Text(
-                            state.content!.content,
-                            textAlign: TextAlign.start,
-                            softWrap: true,
-                            style: kBody1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ) : Expanded(
-                    child: SingleChildScrollView(
-                      child: Column(
-                        children: [
-                          state.content!.imageList.isEmpty
-                              ? const SizedBox()
-                              : GestureDetector(
-                            onTap: () {
-                              uiProvider.onEvent(const UiEvent
-                                  .changeFloatingActionButtonSwitch(true));
-                              uiProvider.onEvent(
-                                  const UiEvent.changeCalendarFormat(
-                                      CalendarFormat.month));
-                              Navigator.pushNamed(
-                                context,
-                                OffGalleryScreen.routeName,
-                                arguments: {
-                                  'offImageList': state.content?.imageList
-                                },
-                              );
-                            },
-                            child: SizedBox(
-                              width: MediaQuery.of(context).size.width - 74,
-                              height: 240,
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(16),
-                                child: Image.memory(
-                                  state.content!.imageList.first.imageFile,
-                                  fit: BoxFit.fill,
-                                  width: MediaQuery.of(context).size.width - 74,
+                                const SizedBox(
+                                  width: 40.5,
                                 ),
-                              ),
-                            ),
-                          ),
-                          state.content!.imageList.isEmpty
-                              ? const SizedBox()
-                              : const SizedBox(height: 15),
-                          Row(
-                            children: [
-                              const Text(
-                                "오늘의 일기",
-                                style: kSubtitle2,
-                              ),
-                              const SizedBox(
-                                width: 40.5,
-                              ),
-                              Expanded(
-                                child: Container(
-                                  height: 2,
-                                  decoration: const BoxDecoration(
-                                    color: Color(0xff219EBC),
-                                    borderRadius: BorderRadius.all(
-                                      Radius.circular(2.0),
+                                Expanded(
+                                  child: Container(
+                                    height: 2,
+                                    decoration: const BoxDecoration(
+                                      color: Color(0xff219EBC),
+                                      borderRadius: BorderRadius.all(
+                                        Radius.circular(2.0),
+                                      ),
                                     ),
                                   ),
                                 ),
+                              ],
+                            ),
+                            const SizedBox(height: 7),
+                            GestureDetector(
+                              onTap: () {
+                                uiProvider.onEvent(
+                                    const UiEvent.changeCalendarFormat(
+                                        CalendarFormat.month));
+                                Navigator.pushNamed(
+                                  context,
+                                  OffDailyScreen.routeName,
+                                  arguments: {
+                                    'content': state.content,
+                                    'icon': state.icon,
+                                  },
+                                );
+                              },
+                              child: SizedBox(
+                                width: MediaQuery.of(context).size.width - 74,
+                                child: Text(
+                                  state.content!.content,
+                                  textAlign: TextAlign.start,
+                                  softWrap: true,
+                                  style: kBody1,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
                               ),
-                            ],
-                          ),
-                          const SizedBox(height: 7),
-                          GestureDetector(
-                            onTap: () {
-                              uiProvider.onEvent(const UiEvent.changeCalendarFormat(
-                                  CalendarFormat.month));
-                              Navigator.pushNamed(
-                                context,
-                                OffDailyScreen.routeName,
-                                arguments: {
-                                  'content': state.content,
-                                  'icon': state.icon,
-                                },
-                              );
-                            },
-                            child: SizedBox(
-                              width: MediaQuery.of(context).size.width - 74,
-                              child: Text(
-                                state.content!.content,
-                                textAlign: TextAlign.start,
-                                softWrap: true,
-                                style: kBody1,
+                            ),
+                          ],
+                        )
+                      : Expanded(
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(7),
+                              color: const Color.fromRGBO(230, 247, 252, 0.3),
+                            ),
+                            child: SingleChildScrollView(
+                              child: Column(
+                                children: [
+                                  state.content!.imageList.isEmpty
+                                      ? const SizedBox()
+                                      : GestureDetector(
+                                          onTap: () {
+                                            uiProvider.onEvent(const UiEvent
+                                                    .changeFloatingActionButtonSwitch(
+                                                true));
+                                            uiProvider.onEvent(const UiEvent
+                                                    .changeCalendarFormat(
+                                                CalendarFormat.month));
+                                            Navigator.pushNamed(
+                                              context,
+                                              OffGalleryScreen.routeName,
+                                              arguments: {
+                                                'offImageList':
+                                                    state.content?.imageList
+                                              },
+                                            );
+                                          },
+                                          child: SizedBox(
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width -
+                                                74,
+                                            height: 240,
+                                            child: ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(16),
+                                              child: Image.memory(
+                                                state.content!.imageList.first
+                                                    .imageFile,
+                                                fit: BoxFit.fill,
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width -
+                                                    74,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                  state.content!.imageList.isEmpty
+                                      ? const SizedBox()
+                                      : const SizedBox(height: 15),
+                                  Row(
+                                    children: [
+                                      const Text(
+                                        "오늘의 일기",
+                                        style: kSubtitle2,
+                                      ),
+                                      const SizedBox(
+                                        width: 40.5,
+                                      ),
+                                      Expanded(
+                                        child: Container(
+                                          height: 2,
+                                          decoration: const BoxDecoration(
+                                            color: Color(0xff219EBC),
+                                            borderRadius: BorderRadius.all(
+                                              Radius.circular(2.0),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(height: 7),
+                                  GestureDetector(
+                                    onTap: () {
+                                      uiProvider.onEvent(
+                                          const UiEvent.changeCalendarFormat(
+                                              CalendarFormat.month));
+                                      Navigator.pushNamed(
+                                        context,
+                                        OffDailyScreen.routeName,
+                                        arguments: {
+                                          'content': state.content,
+                                          'icon': state.icon,
+                                        },
+                                      );
+                                    },
+                                    child: SizedBox(
+                                      width: MediaQuery.of(context).size.width -
+                                          74,
+                                      child: Text(
+                                        state.content!.content,
+                                        textAlign: TextAlign.start,
+                                        softWrap: true,
+                                        style: kBody1,
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
                           ),
-                        ],
-                      ),
-                    ),
-                  ),
+                        ),
                 ],
               ),
             ),
