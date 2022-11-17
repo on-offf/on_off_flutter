@@ -85,72 +85,86 @@ class OffDailyScreen extends StatelessWidget {
                 ],
               ),
               const SizedBox(height: 23),
-              state.content!.imageList.isEmpty
-                  ? const SizedBox()
-                  : SizedBox(
-                      width: MediaQuery.of(context).size.width - 74,
-                      height: 240,
-                      child: Stack(
-                        children: [
-                          CarouselSlider(
-                            carouselController: state.carouselController,
-                            options: CarouselOptions(
-                              autoPlay: true,
-                              autoPlayInterval: const Duration(seconds: 3),
-                              autoPlayAnimationDuration:
-                                  const Duration(milliseconds: 500),
-                              initialPage: 0,
-                              enableInfiniteScroll: false,
-                              viewportFraction: 1.0,
-                              onPageChanged: (index, reason) {
-                                viewModel.onEvent(
-                                    OffDailyEvent.changeCurrentIndex(index));
-                              },
-                            ),
-                            items: state.content!.imageList.map((offImage) {
-                              return GestureDetector(
-                                onTap: () {
-                                  Navigator.pushNamed(
-                                      context, OffGalleryScreen.routeName,
-                                      arguments: {
-                                        'offImageList': state.content!.imageList
-                                      });
-                                },
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(12),
-                                  child: Image.memory(
-                                    offImage.imageFile,
-                                    fit: BoxFit.cover,
-                                    width:
-                                        MediaQuery.of(context).size.width - 74,
-                                  ),
-                                ),
-                              );
-                            }).toList(),
-                          ),
-                        ],
+              Container(
+                height: 41,
+                padding: const EdgeInsets.only(left: 8),
+                alignment: Alignment.centerLeft,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(7),
+                  color: const Color.fromRGBO(18, 112, 176, 0.24),
+                ),
+                child: Text(
+                  state.content!.title,
+                  style: kSubtitle3,
+                ),
+              ),
+              const SizedBox(height: 14),
+              SizedBox(
+                width: MediaQuery.of(context).size.width - 74,
+                // height: 240,
+                child: Stack(
+                  children: [
+                    CarouselSlider(
+                      carouselController: state.carouselController,
+                      options: CarouselOptions(
+                        autoPlay: true,
+                        autoPlayInterval: const Duration(seconds: 3),
+                        autoPlayAnimationDuration:
+                            const Duration(milliseconds: 500),
+                        initialPage: 0,
+                        enableInfiniteScroll: false,
+                        viewportFraction: 1.0,
+                        onPageChanged: (index, reason) {
+                          viewModel
+                              .onEvent(OffDailyEvent.changeCurrentIndex(index));
+                        },
                       ),
+                      items: state.content!.imageList.map((offImage) {
+                        return GestureDetector(
+                          onTap: () {
+                            Navigator.pushNamed(
+                                context, OffGalleryScreen.routeName,
+                                arguments: {
+                                  'offImageList': state.content!.imageList
+                                });
+                          },
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(12),
+                            child: Image.memory(
+                              offImage.imageFile,
+                              fit: BoxFit.cover,
+                              width: MediaQuery.of(context).size.width - 74,
+                            ),
+                          ),
+                        );
+                      }).toList(),
                     ),
-              state.content!.imageList.isEmpty
-                  ? const SizedBox()
-                  : const SizedBox(height: 15),
+                  ],
+                ),
+              ),
               Expanded(
-                child: GestureDetector(
-                  onTap: () {
-                    uiProvider
-                        .onEvent(UiEvent.changeFocusedDay(state.content!.time));
-                    Navigator.pushNamed(
-                      context,
-                      OffWriteScreen.routeName,
-                    );
-                  },
-                  child: SingleChildScrollView(
-                    child: SizedBox(
-                      width: MediaQuery.of(context).size.width - 74,
-                      child: Text(
-                        state.content!.content,
-                        softWrap: true,
-                        textAlign: TextAlign.start,
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(7),
+                    color: const Color.fromRGBO(230, 247, 252, 0.3),
+                  ),
+                  child: GestureDetector(
+                    onTap: () {
+                      uiProvider.onEvent(
+                          UiEvent.changeFocusedDay(state.content!.time));
+                      Navigator.pushNamed(
+                        context,
+                        OffWriteScreen.routeName,
+                      );
+                    },
+                    child: SingleChildScrollView(
+                      child: SizedBox(
+                        width: MediaQuery.of(context).size.width - 74,
+                        child: Text(
+                          state.content!.content,
+                          softWrap: true,
+                          textAlign: TextAlign.start,
+                        ),
                       ),
                     ),
                   ),
