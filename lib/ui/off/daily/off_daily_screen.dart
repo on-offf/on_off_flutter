@@ -142,6 +142,7 @@ class OffDailyScreen extends StatelessWidget {
                   ],
                 ),
               ),
+              const SizedBox(height: 14),
               Expanded(
                 child: Container(
                   decoration: BoxDecoration(
