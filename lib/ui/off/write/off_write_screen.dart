@@ -129,7 +129,6 @@ class _OffWriteScreenState extends State<OffWriteScreen> {
                     ),
                     decoration: InputDecoration(
                       hintText: '제목을 입력해주세요.',
-                      focusedBorder: InputBorder.none,
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8.0),
                         borderSide: const BorderSide(
@@ -137,10 +136,16 @@ class _OffWriteScreenState extends State<OffWriteScreen> {
                           style: BorderStyle.none,
                         ),
                       ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8.0),
+                        borderSide: const BorderSide(
+                          width: 0,
+                          style: BorderStyle.none,
+                        ),
+                      ),
                       filled: true,
-                      fillColor: const Color.fromRGBO(18, 112, 176, 0.24),
+                      fillColor: const Color.fromRGBO(18, 112, 176, 0.24)
                     ),
-                    maxLines: null,
                   ),
                 ),
                 Expanded(
