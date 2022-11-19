@@ -429,7 +429,7 @@ class SettingScreen extends StatelessWidget {
       context,
       PasswordConfirmScreen.routeName,
       arguments: '변경할 비밀번호를 입력해주세요.',
-    );
+    ) as String?;
 
     if (firstPassword == null) return null;
 

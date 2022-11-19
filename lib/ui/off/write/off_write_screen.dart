@@ -129,6 +129,7 @@ class _OffWriteScreenState extends State<OffWriteScreen> {
                     ),
                     decoration: InputDecoration(
                       hintText: '제목을 입력해주세요.',
+                      contentPadding: const EdgeInsets.only(left: 10),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8.0),
                         borderSide: const BorderSide(
