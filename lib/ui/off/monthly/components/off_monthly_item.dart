@@ -4,12 +4,9 @@ import 'package:on_off/constants/constants_text_style.dart';
 import 'package:on_off/domain/icon/icon_path.dart';
 import 'package:on_off/ui/off/daily/off_daily_screen.dart';
 import 'package:on_off/ui/off/gallery/off_gallery_screen.dart';
-import 'package:on_off/ui/off/monthly/off_monthly_state.dart';
 import 'package:on_off/ui/off/monthly/off_monthly_view_model.dart';
 import 'package:on_off/ui/off/write/off_write_screen.dart';
-import 'package:on_off/ui/provider/ui_event.dart';
 import 'package:on_off/ui/provider/ui_provider.dart';
-import 'package:on_off/ui/provider/ui_state.dart';
 import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 
@@ -19,12 +16,10 @@ class OffMonthlyItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     OffMonthlyViewModel viewModel = context.watch<OffMonthlyViewModel>();
-    OffMonthlyState state = viewModel.state;
     UiProvider uiProvider = context.watch<UiProvider>();
-    UiState uiState = uiProvider.state;
     LayerLink layerLink = LayerLink();
 
-    return state.content == null
+    return viewModel.state.content == null
         ? Column(
             children: [
               Image(
@@ -38,14 +33,13 @@ class OffMonthlyItem extends StatelessWidget {
               Text(
                 '이날은 아직 \n게시글이 없습니다!',
                 style: kSubtitle3.copyWith(
-                  color: uiState.colorConst.getPrimary(),
+                  color: uiProvider.state.colorConst.getPrimary(),
                 ),
                 textAlign: TextAlign.center,
               ),
               TextButton(
                 onPressed: () {
-                  uiProvider.onEvent(
-                      const UiEvent.changeFloatingActionButtonSwitch(true));
+                  uiProvider.changeFloatingActionButtonSwitch(true);
                   Navigator.pushNamed(context, OffWriteScreen.routeName);
                 },
                 style: ButtonStyle(
@@ -55,7 +49,7 @@ class OffMonthlyItem extends StatelessWidget {
                         18.0,
                       ),
                       side: BorderSide(
-                        color: uiState.colorConst.getPrimary(),
+                        color: uiProvider.state.colorConst.getPrimary(),
                       ),
                     ),
                   ),
@@ -72,7 +66,7 @@ class OffMonthlyItem extends StatelessWidget {
             ],
           )
         : Container(
-            decoration: uiState.calendarFormat == CalendarFormat.week
+            decoration: uiProvider.state.calendarFormat == CalendarFormat.week
                 ? const BoxDecoration(
                     borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(22),
@@ -89,7 +83,7 @@ class OffMonthlyItem extends StatelessWidget {
                   )
                 : const BoxDecoration(),
             child: Container(
-              decoration: uiState.calendarFormat == CalendarFormat.week
+              decoration: uiProvider.state.calendarFormat == CalendarFormat.week
                   ? BoxDecoration(
                       borderRadius: const BorderRadius.only(
                         topLeft: Radius.circular(22),
@@ -99,7 +93,7 @@ class OffMonthlyItem extends StatelessWidget {
                     )
                   : const BoxDecoration(),
               padding: EdgeInsets.only(
-                top: uiState.calendarFormat == CalendarFormat.month ? 0 : 25,
+                top: uiProvider.state.calendarFormat == CalendarFormat.month ? 0 : 25,
                 left: 37,
                 right: 37,
               ),
@@ -111,7 +105,7 @@ class OffMonthlyItem extends StatelessWidget {
                         link: layerLink,
                         child: Text(
                           DateFormat.MMMMEEEEd('ko_KR')
-                              .format(state.content!.time),
+                              .format(viewModel.state.content!.time),
                           style: kSubtitle3,
                         ),
                       ),
@@ -134,30 +128,26 @@ class OffMonthlyItem extends StatelessWidget {
                       color: const Color.fromRGBO(18, 112, 176, 0.24),
                     ),
                     child: Text(
-                      state.content!.title,
+                      viewModel.state.content!.title,
                       style: kSubtitle3,
                     ),
                   ),
                   const SizedBox(height: 10),
-                  uiState.calendarFormat == CalendarFormat.month
+                  uiProvider.state.calendarFormat == CalendarFormat.month
                       ? Column(
                           children: [
-                            state.content!.imageList.isEmpty
+                            viewModel.state.content!.imageList.isEmpty
                                 ? const SizedBox()
                                 : GestureDetector(
                                     onTap: () {
-                                      uiProvider.onEvent(const UiEvent
-                                              .changeFloatingActionButtonSwitch(
-                                          true));
-                                      uiProvider.onEvent(
-                                          const UiEvent.changeCalendarFormat(
-                                              CalendarFormat.month));
+                                      uiProvider.changeFloatingActionButtonSwitch(true);
+                                      uiProvider.changeCalendarFormat(CalendarFormat.month);
                                       Navigator.pushNamed(
                                         context,
                                         OffGalleryScreen.routeName,
                                         arguments: {
                                           'offImageList':
-                                              state.content?.imageList
+                                              viewModel.state.content?.imageList
                                         },
                                       );
                                     },
@@ -168,7 +158,7 @@ class OffMonthlyItem extends StatelessWidget {
                                       child: ClipRRect(
                                         borderRadius: BorderRadius.circular(16),
                                         child: Image.memory(
-                                          state.content!.imageList.first
+                                          viewModel.state.content!.imageList.first
                                               .imageFile,
                                           fit: BoxFit.fill,
                                           width: MediaQuery.of(context)
@@ -179,7 +169,7 @@ class OffMonthlyItem extends StatelessWidget {
                                       ),
                                     ),
                                   ),
-                            state.content!.imageList.isEmpty
+                            viewModel.state.content!.imageList.isEmpty
                                 ? const SizedBox()
                                 : const SizedBox(height: 15),
                             Row(
@@ -207,22 +197,20 @@ class OffMonthlyItem extends StatelessWidget {
                             const SizedBox(height: 7),
                             GestureDetector(
                               onTap: () {
-                                uiProvider.onEvent(
-                                    const UiEvent.changeCalendarFormat(
-                                        CalendarFormat.month));
+                                uiProvider.changeCalendarFormat(CalendarFormat.month);
                                 Navigator.pushNamed(
                                   context,
                                   OffDailyScreen.routeName,
                                   arguments: {
-                                    'content': state.content,
-                                    'icon': state.icon,
+                                    'content': viewModel.state.content,
+                                    'icon': viewModel.state.icon,
                                   },
                                 );
                               },
                               child: SizedBox(
                                 width: MediaQuery.of(context).size.width - 74,
                                 child: Text(
-                                  state.content!.content,
+                                  viewModel.state.content!.content,
                                   textAlign: TextAlign.start,
                                   softWrap: true,
                                   style: kBody1,
@@ -241,22 +229,18 @@ class OffMonthlyItem extends StatelessWidget {
                             child: SingleChildScrollView(
                               child: Column(
                                 children: [
-                                  state.content!.imageList.isEmpty
+                                  viewModel.state.content!.imageList.isEmpty
                                       ? const SizedBox()
                                       : GestureDetector(
                                           onTap: () {
-                                            uiProvider.onEvent(const UiEvent
-                                                    .changeFloatingActionButtonSwitch(
-                                                true));
-                                            uiProvider.onEvent(const UiEvent
-                                                    .changeCalendarFormat(
-                                                CalendarFormat.month));
+                                            uiProvider.changeFloatingActionButtonSwitch(true);
+                                            uiProvider.changeCalendarFormat(CalendarFormat.month);
                                             Navigator.pushNamed(
                                               context,
                                               OffGalleryScreen.routeName,
                                               arguments: {
                                                 'offImageList':
-                                                    state.content?.imageList
+                                                    viewModel.state.content?.imageList
                                               },
                                             );
                                           },
@@ -270,7 +254,7 @@ class OffMonthlyItem extends StatelessWidget {
                                               borderRadius:
                                                   BorderRadius.circular(16),
                                               child: Image.memory(
-                                                state.content!.imageList.first
+                                                viewModel.state.content!.imageList.first
                                                     .imageFile,
                                                 fit: BoxFit.fill,
                                                 width: MediaQuery.of(context)
@@ -281,7 +265,7 @@ class OffMonthlyItem extends StatelessWidget {
                                             ),
                                           ),
                                         ),
-                                  state.content!.imageList.isEmpty
+                                  viewModel.state.content!.imageList.isEmpty
                                       ? const SizedBox()
                                       : const SizedBox(height: 15),
                                   Row(
@@ -309,15 +293,13 @@ class OffMonthlyItem extends StatelessWidget {
                                   const SizedBox(height: 7),
                                   GestureDetector(
                                     onTap: () {
-                                      uiProvider.onEvent(
-                                          const UiEvent.changeCalendarFormat(
-                                              CalendarFormat.month));
+                                      uiProvider.changeCalendarFormat(CalendarFormat.month);
                                       Navigator.pushNamed(
                                         context,
                                         OffDailyScreen.routeName,
                                         arguments: {
-                                          'content': state.content,
-                                          'icon': state.icon,
+                                          'content': viewModel.state.content,
+                                          'icon': viewModel.state.icon,
                                         },
                                       );
                                     },
@@ -325,7 +307,7 @@ class OffMonthlyItem extends StatelessWidget {
                                       width: MediaQuery.of(context).size.width -
                                           74,
                                       child: Text(
-                                        state.content!.content,
+                                        viewModel.state.content!.content,
                                         textAlign: TextAlign.start,
                                         softWrap: true,
                                         style: kBody1,

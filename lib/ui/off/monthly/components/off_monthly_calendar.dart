@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:on_off/ui/provider/ui_event.dart';
 import 'package:on_off/ui/provider/ui_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -10,23 +9,22 @@ class OffMonthlyCalendar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final uiProvider = context.watch<UiProvider>();
-    final uiState = uiProvider.state;
 
     return TableCalendar(
       locale: 'ko-KR',
       headerVisible: false,
-      focusedDay: uiState.focusedDay,
+      focusedDay: uiProvider.state.focusedDay,
       firstDay: DateTime.utc(1900, 1, 1),
       lastDay: DateTime.utc(2099, 12, 31),
       onDaySelected: _onDaySelected(uiProvider),
-      daysOfWeekVisible: uiState.daysOfWeekVisible,
+      daysOfWeekVisible: uiProvider.state.daysOfWeekVisible,
       selectedDayPredicate: (day) {
-        return isSameDay(uiState.selectedDay, day);
+        return isSameDay(uiProvider.state.selectedDay, day);
       },
-      calendarFormat: uiState.calendarFormat,
+      calendarFormat: uiProvider.state.calendarFormat,
       onPageChanged: (dateTime) {
-        uiProvider.onEvent(UiEvent.changeFocusedDay(dateTime));
-        uiProvider.onEvent(UiEvent.changeCalendarPage(dateTime));
+        uiProvider.changeFocusedDay(dateTime);
+        uiProvider.changeCalendarPage(dateTime);
       },
       daysOfWeekStyle: _daysOfWeekStyle(),
       calendarStyle: _calendarStyle(),
@@ -35,8 +33,8 @@ class OffMonthlyCalendar extends StatelessWidget {
 
   OnDaySelected _onDaySelected(UiProvider uiProvider) {
     return (selectedDay, focusedDay) {
-      uiProvider.onEvent(UiEvent.changeSelectedDay(selectedDay));
-      uiProvider.onEvent(UiEvent.changeFocusedDay(focusedDay));
+      uiProvider.changeSelectedDay(selectedDay);
+      uiProvider.changeFocusedDay(focusedDay);
     };
   }
 

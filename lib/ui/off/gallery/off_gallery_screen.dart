@@ -1,7 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:on_off/constants/constants_text_style.dart';
-import 'package:on_off/ui/off/gallery/off_gallery_event.dart';
 import 'package:on_off/ui/off/gallery/off_gallery_view_model.dart';
 import 'package:on_off/ui/provider/ui_provider.dart';
 import 'package:provider/provider.dart';
@@ -15,9 +14,8 @@ class OffGalleryScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final viewModel = context.watch<OffGalleryViewModel>();
-    final state = viewModel.state;
 
-    final uiState = context.watch<UiProvider>().state;
+    final uiProvider = context.watch<UiProvider>();
 
     final arguments = (ModalRoute.of(context)?.settings.arguments ??
         <String, dynamic>{}) as Map;
@@ -27,10 +25,7 @@ class OffGalleryScreen extends StatelessWidget {
 
     if (!_isInit) {
       _isInit = true;
-      Future.delayed(
-          Duration.zero,
-          () => viewModel
-              .onEvent(OffGalleryEvent.init(arguments['offImageList'])));
+      viewModel.initScreen(arguments['offImageList']);
     }
 
     return Scaffold(
@@ -39,11 +34,11 @@ class OffGalleryScreen extends StatelessWidget {
         child: AppBar(
           toolbarHeight: 77,
           elevation: 0.0,
-          backgroundColor: uiState.colorConst.canvas,
+          backgroundColor: uiProvider.state.colorConst.canvas,
           leading: Container(),
           title: Center(
             child: Text(
-              '${state.index + 1} / ${state.offImageList.length}',
+              '${viewModel.state.index + 1} / ${viewModel.state.offImageList.length}',
               style: kTitle1.copyWith(
                 color: Colors.black,
                 fontSize: 18,
@@ -59,7 +54,7 @@ class OffGalleryScreen extends StatelessWidget {
               icon: Icon(
                 Icons.close,
                 size: 25,
-                color: uiState.colorConst.getPrimary(),
+                color: uiProvider.state.colorConst.getPrimary(),
               ),
             ),
             const SizedBox(width: 40),
@@ -75,12 +70,12 @@ class OffGalleryScreen extends StatelessWidget {
         child: Column(
           children: [
             CarouselSlider.builder(
-              itemCount: state.offImageList.length,
+              itemCount: viewModel.state.offImageList.length,
               itemBuilder: (BuildContext context, int index, int realIndex) {
                 return ClipRRect(
                   borderRadius: BorderRadius.circular(16.0),
                   child: Image.memory(
-                    state.offImageList[state.index].imageFile,
+                    viewModel.state.offImageList[viewModel.state.index].imageFile,
                     fit: BoxFit.fitWidth,
                     colorBlendMode: BlendMode.hardLight,
                     color: Colors.grey,
@@ -92,7 +87,7 @@ class OffGalleryScreen extends StatelessWidget {
                 viewportFraction: 1.0,
                 aspectRatio: aspectRatioWidth / aspectRatioHeight,
                 onPageChanged: (index, reason) {
-                  viewModel.onEvent(OffGalleryEvent.changeIndex(index));
+                  viewModel.changeIndex(index);
                 },
               ),
             ),
@@ -107,7 +102,7 @@ class OffGalleryScreen extends StatelessWidget {
                     height: 9,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      color: idx == state.index ? Colors.black : Colors.grey,
+                      color: idx == viewModel.state.index ? Colors.black : Colors.grey,
                     ),
                   );
                 },
@@ -116,7 +111,7 @@ class OffGalleryScreen extends StatelessWidget {
                     width: 5,
                   );
                 },
-                itemCount: state.offImageList.length,
+                itemCount: viewModel.state.offImageList.length,
               ),
             ),
             SizedBox(
@@ -127,13 +122,13 @@ class OffGalleryScreen extends StatelessWidget {
                   // idx == state.index
                   return GestureDetector(
                     onTap: () =>
-                        viewModel.onEvent(OffGalleryEvent.changeIndex(idx)),
+                        viewModel.changeIndex(idx),
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(16),
                       child: Image.memory(
-                        state.offImageList[idx].imageFile,
+                        viewModel.state.offImageList[idx].imageFile,
                         fit: BoxFit.fill,
-                        color: idx == state.index
+                        color: idx == viewModel.state.index
                             ? Colors.transparent
                             : Colors.grey,
                         colorBlendMode: BlendMode.screen,
@@ -148,7 +143,7 @@ class OffGalleryScreen extends StatelessWidget {
                     width: 5,
                   );
                 },
-                itemCount: state.offImageList.length,
+                itemCount: viewModel.state.offImageList.length,
               ),
             ),
           ],

@@ -3,7 +3,6 @@ import 'package:intl/intl.dart';
 import 'package:on_off/constants/constants_text_style.dart';
 import 'package:on_off/domain/model/content.dart';
 import 'package:on_off/ui/components/build_selected_icons.dart';
-import 'package:on_off/ui/off/list/off_list_state.dart';
 import 'package:on_off/ui/off/list/off_list_view_model.dart';
 import 'package:provider/provider.dart';
 
@@ -19,7 +18,6 @@ class ListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     OffListViewModel viewModel = context.watch<OffListViewModel>();
-    OffListState state = viewModel.state;
 
     return Column(
       children: [
@@ -35,8 +33,8 @@ class ListItem extends StatelessWidget {
             const SizedBox(
               width: 8,
             ),
-            if (state.iconMap.containsKey(content.time.day))
-              buildSelectedIcon(state.iconMap[content.time.day]!.name),
+            if (viewModel.state.iconMap.containsKey(content.time.day))
+              buildSelectedIcon(viewModel.state.iconMap[content.time.day]!.name),
             const SizedBox(width: 8),
             Expanded(
               child: Container(

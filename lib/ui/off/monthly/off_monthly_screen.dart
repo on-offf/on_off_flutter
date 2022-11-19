@@ -5,7 +5,6 @@ import 'package:on_off/ui/components/focus_month.dart';
 import 'package:on_off/ui/off/monthly/components/off_monthly_calendar.dart';
 import 'package:on_off/ui/off/monthly/components/off_monthly_item.dart';
 import 'package:on_off/ui/off/list/off_list_screen.dart';
-import 'package:on_off/ui/provider/ui_event.dart';
 import 'package:on_off/ui/provider/ui_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -13,12 +12,11 @@ import 'package:table_calendar/table_calendar.dart';
 class OffMonthlyScreen extends StatelessWidget {
   static const routeName = '/off/monthly';
 
-  OffMonthlyScreen({Key? key}) : super(key: key);
+  const OffMonthlyScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final uiProvider = context.watch<UiProvider>();
-    final uiState = uiProvider.state;
 
     return Scaffold(
       // 작성 화면에서 바로 달력 화면으로 올 경우, 키보드가 늦게 내려가는 경우 키보드 사이즈가 위젯에 영향을 끼치지 못하도록 설정 (픽셀 초과 에러 방지)
@@ -29,8 +27,7 @@ class OffMonthlyScreen extends StatelessWidget {
       ),
       floatingActionButton: CommonFloatingActionButton(
         montlyListButtonNavigator: () {
-          uiProvider.onEvent(
-              const UiEvent.changeCalendarFormat(CalendarFormat.month));
+          uiProvider.changeCalendarFormat(CalendarFormat.month);
           Navigator.pushNamed(context, OffListScreen.routeName);
         },
         onOffButtonNavigator: () {},
@@ -46,7 +43,7 @@ class OffMonthlyScreen extends StatelessWidget {
               children: [
                 FocusMonth(),
                 const OffMonthlyCalendar(),
-                uiState.calendarFormat == CalendarFormat.month
+                uiProvider.state.calendarFormat == CalendarFormat.month
                     ? const SizedBox(
                         height: 47.5,
                       )
@@ -69,11 +66,9 @@ class OffMonthlyScreen extends StatelessWidget {
 
   Future<void> _positionChange(uiProvider, details) async {
     if (details.primaryVelocity! > 0) {
-      uiProvider
-          .onEvent(const UiEvent.changeCalendarFormat(CalendarFormat.month));
+      uiProvider.changeCalendarFormat(CalendarFormat.month);
     } else if (details.primaryVelocity! < 0) {
-      uiProvider
-          .onEvent(const UiEvent.changeCalendarFormat(CalendarFormat.week));
+      uiProvider.changeCalendarFormat(CalendarFormat.week);
     }
   }
 }

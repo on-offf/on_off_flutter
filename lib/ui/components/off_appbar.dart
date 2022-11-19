@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:on_off/domain/icon/icon_path.dart';
 import 'package:on_off/ui/components/simple_dialog.dart';
-import 'package:on_off/ui/provider/ui_event.dart';
 import 'package:on_off/ui/provider/ui_provider.dart';
 import 'package:on_off/ui/setting/home/setting_screen.dart';
 import 'package:on_off/ui/setting/home/setting_view_model.dart';
@@ -15,9 +14,7 @@ PreferredSize offAppBar(
   bool settingButton = true,
 }) {
   final uiProvider = context.watch<UiProvider>();
-  final uiState = uiProvider.state;
   final settingViewModel = context.watch<SettingViewModel>();
-  final settingState = settingViewModel.state;
 
   return PreferredSize(
     preferredSize: const Size.fromHeight(77),
@@ -26,13 +23,12 @@ PreferredSize offAppBar(
       leading: isPrevButton
           ? ElevatedButton(
               onPressed: () {
-                uiProvider.onEvent(
-                    const UiEvent.changeFloatingActionButtonSwitch(true));
+                uiProvider.changeFloatingActionButtonSwitch(true);
                 Navigator.pop(context);
               },
               style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all(
-                  uiState.colorConst.canvas,
+                  uiProvider.state.colorConst.canvas,
                 ),
                 elevation: MaterialStateProperty.all(0),
               ),
@@ -45,15 +41,14 @@ PreferredSize offAppBar(
         settingButton
             ? GestureDetector(
                 onTap: () async {
-                  uiProvider.onEvent(
-                      const UiEvent.changeCalendarFormat(CalendarFormat.month));
+                  uiProvider.changeCalendarFormat(CalendarFormat.month);
 
-                  if (settingState.setting.password != null) {
+                  if (settingViewModel.state.setting.password != null) {
                     _checkPassword(
                       context,
-                      settingState.setting.password!,
-                      uiState.colorConst.getPrimary(),
-                      uiState.colorConst.canvas,
+                      settingViewModel.state.setting.password!,
+                      uiProvider.state.colorConst.getPrimary(),
+                      uiProvider.state.colorConst.canvas,
                     );
                   } else {
                     Navigator.pushNamed(context, SettingScreen.routeName);
@@ -71,7 +66,7 @@ PreferredSize offAppBar(
         ),
       ],
       elevation: 0.0,
-      backgroundColor: uiState.colorConst.canvas,
+      backgroundColor: uiProvider.state.colorConst.canvas,
     ),
   );
 }

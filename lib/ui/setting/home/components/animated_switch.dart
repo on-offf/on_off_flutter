@@ -29,7 +29,7 @@ class AnimatedSwitch extends StatelessWidget {
         duration: animationDuration,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(30),
-          color: isLock ? uiState.colorConst.getPrimary() : Color(0xFFD9D9D9),
+          color: isLock ? uiState.colorConst.getPrimary() : const Color(0xFFD9D9D9),
           border: Border.all(color: Colors.white, width: 2),
           boxShadow: [
             BoxShadow(
@@ -43,11 +43,11 @@ class AnimatedSwitch extends StatelessWidget {
           duration: animationDuration,
           alignment: isLock ? Alignment.centerRight : Alignment.centerLeft,
           child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 2),
+            padding: const EdgeInsets.symmetric(horizontal: 2),
             child: Container(
               width: 25,
               height: 25,
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 shape: BoxShape.circle,
                 color: Colors.white,
               ),

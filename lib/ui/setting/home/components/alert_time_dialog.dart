@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:on_off/constants/constants_text_style.dart';
 import 'package:on_off/domain/model/alert_time.dart';
-import 'package:on_off/ui/provider/ui_event.dart';
 import 'package:on_off/ui/provider/ui_provider.dart';
 import 'package:on_off/ui/provider/ui_state.dart';
 import 'package:on_off/ui/setting/home/setting_state.dart';
@@ -69,8 +68,7 @@ Future<AlertTime?> alertTimeDialog(
                         child: TextButton(
                           onPressed: () {
                             meridiem = true;
-                            uiProvider
-                                .onEvent(const UiEvent.selfNotifyListeners());
+                            uiProvider.selfNotifyListeners();
                           },
                           style: meridiemButtonStyle(),
                           child: Text(
@@ -86,8 +84,7 @@ Future<AlertTime?> alertTimeDialog(
                         child: TextButton(
                           onPressed: () {
                             meridiem = false;
-                            uiProvider
-                                .onEvent(const UiEvent.selfNotifyListeners());
+                            uiProvider.selfNotifyListeners();
                           },
                           style: meridiemButtonStyle(),
                           child: Text(
@@ -113,7 +110,7 @@ Future<AlertTime?> alertTimeDialog(
                       itemExtent: 52,
                       onSelectedItemChanged: (int value) {
                         hour = value;
-                        uiProvider.onEvent(const UiEvent.selfNotifyListeners());
+                        uiProvider.selfNotifyListeners();
                       },
                       childCount: 12,
                       itemBuilder: (context, index) {

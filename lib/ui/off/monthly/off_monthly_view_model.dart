@@ -5,7 +5,6 @@ import 'package:on_off/domain/model/content.dart';
 import 'package:on_off/domain/use_case/data_source/off/off_diary_use_case.dart';
 import 'package:on_off/domain/use_case/data_source/off/off_icon_use_case.dart';
 import 'package:on_off/domain/use_case/data_source/off/off_image_use_case.dart';
-import 'package:on_off/ui/off/monthly/off_monthly_event.dart';
 import 'package:on_off/ui/off/monthly/off_monthly_state.dart';
 import 'package:on_off/ui/provider/ui_provider_observe.dart';
 import 'package:on_off/ui/provider/ui_state.dart';
@@ -26,14 +25,13 @@ class OffMonthlyViewModel extends UiProviderObserve {
 
   OffMonthlyState get state => _state;
 
-  void onEvent(OffMonthlyEvent event) {
-    event.when(
-      init: initScreen,
-    );
-  }
-
   void initScreen() {
     _changeFocusedDay(uiState!.focusedDay);
+  }
+
+  void changeFocusedDay(DateTime focusedDay) async {
+    _changeFocusedDay(focusedDay);
+    notifyListeners();
   }
 
   void _changeFocusedDay(DateTime focusedDay) async {
@@ -41,7 +39,7 @@ class OffMonthlyViewModel extends UiProviderObserve {
 
     if (offDiary != null) {
       List<OffImage> imageList =
-          await offImageUseCase.selectOffImageList(offDiary.id!);
+      await offImageUseCase.selectOffImageList(offDiary.id!);
 
       Content content = Content(
         id: offDiary.id,
@@ -58,8 +56,6 @@ class OffMonthlyViewModel extends UiProviderObserve {
 
     OffIconEntity? icon = await offIconUseCase.selectOffIcon(focusedDay);
     _state = _state.copyWith(icon: icon);
-
-    notifyListeners();
   }
 
   @override
@@ -67,7 +63,6 @@ class OffMonthlyViewModel extends UiProviderObserve {
     this.uiState = uiState.copyWith();
 
     _changeFocusedDay(uiState.focusedDay);
-    // initScreen();
   }
 
   @override

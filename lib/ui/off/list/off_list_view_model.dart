@@ -7,7 +7,6 @@ import 'package:on_off/domain/model/content.dart';
 import 'package:on_off/domain/use_case/data_source/off/off_icon_use_case.dart';
 import 'package:on_off/domain/use_case/data_source/off/off_diary_use_case.dart';
 import 'package:on_off/domain/use_case/data_source/off/off_image_use_case.dart';
-import 'package:on_off/ui/off/list/off_list_event.dart';
 import 'package:on_off/ui/off/list/off_list_state.dart';
 import 'package:on_off/ui/provider/ui_provider_observe.dart';
 import 'package:on_off/ui/provider/ui_state.dart';
@@ -32,14 +31,7 @@ class OffListViewModel extends UiProviderObserve {
 
   OffListState get state => _state;
 
-  void onEvent(OffListEvent event) {
-    event.when(
-      changeContents: _changeContents,
-      changeDiaryOrderType: _changeDiaryOrderType,
-    );
-  }
-
-  void _changeDiaryOrderType() {
+  void changeDiaryOrderType() {
     List<Content> contentList = [];
 
     if (state.contents.isNotEmpty) {
@@ -54,6 +46,11 @@ class OffListViewModel extends UiProviderObserve {
     notifyListeners();
   }
 
+  void changeContents(DateTime selectedDate) async {
+    _changeContents(selectedDate);
+    notifyListeners();
+  }
+
   void _changeContents(DateTime selectedDate) async {
     DateTime startDateTime = DateTime(selectedDate.year, selectedDate.month, 1);
     DateTime endDateTime =
@@ -61,6 +58,7 @@ class OffListViewModel extends UiProviderObserve {
 
     _selectContents(startDateTime, endDateTime);
     _selectIcons(startDateTime, endDateTime);
+    notifyListeners();
   }
 
   void _selectContents(DateTime startDateTime, DateTime endDateTime) async {
@@ -87,8 +85,6 @@ class OffListViewModel extends UiProviderObserve {
     }
 
     _state = _state.copyWith(contents: contentList);
-
-    notifyListeners();
   }
 
   void _selectIcons(DateTime startDateTime, DateTime endDateTime) async {
@@ -102,20 +98,18 @@ class OffListViewModel extends UiProviderObserve {
       iconMap[dateTime.day] = iconEntity;
     }
     _state = _state.copyWith(iconMap: iconMap);
-
-    notifyListeners();
   }
 
   @override
   init(UiState uiState) async {
     this.uiState = uiState;
-    _changeContents(uiState.focusedDay);
+    changeContents(uiState.focusedDay);
   }
 
   @override
   update(UiState uiState) async {
     if (this.uiState!.focusedDay != uiState.focusedDay) {
-      _changeContents(uiState.focusedDay);
+      changeContents(uiState.focusedDay);
     }
 
     this.uiState = uiState;

@@ -5,12 +5,9 @@ import 'package:on_off/ui/off/daily/off_daily_screen.dart';
 import 'package:on_off/ui/components/focus_month.dart';
 import 'package:on_off/ui/off/list/components/off_list_order_change_button.dart';
 import 'package:on_off/ui/off/list/components/list_item.dart';
-import 'package:on_off/ui/off/list/off_list_state.dart';
 import 'package:on_off/ui/off/list/off_list_view_model.dart';
 import 'package:on_off/ui/off/write/off_write_screen.dart';
-import 'package:on_off/ui/provider/ui_event.dart';
 import 'package:on_off/ui/provider/ui_provider.dart';
-import 'package:on_off/ui/provider/ui_state.dart';
 import 'package:provider/provider.dart';
 
 class OffListScreen extends StatelessWidget {
@@ -21,10 +18,8 @@ class OffListScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     OffListViewModel viewModel = context.watch<OffListViewModel>();
-    OffListState state = viewModel.state;
 
     UiProvider uiProvider = context.watch<UiProvider>();
-    UiState uiState = uiProvider.state;
 
     return Scaffold(
       body: SafeArea(
@@ -50,16 +45,13 @@ class OffListScreen extends StatelessWidget {
                 height: MediaQuery.of(context).size.height - 173,
                 child: ListView.builder(
                   itemBuilder: ((context, index) {
-                    if (index == 0 && state.contents.isEmpty) {
+                    if (index == 0 && viewModel.state.contents.isEmpty) {
                       return Column(
                         children: [
                           Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              FocusMonth(
-                                isAccent: true,
-                              ),
-                              const OffListOrderChangeButton(),
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: const [
+                              OffListOrderChangeButton(),
                             ],
                           ),
                           SizedBox(
@@ -76,7 +68,7 @@ class OffListScreen extends StatelessWidget {
                           Text(
                             '이번 달은 아직 \n게시글이 없습니다!',
                             style: kSubtitle3.copyWith(
-                              color: uiState.colorConst.getPrimary(),
+                              color: uiProvider.state.colorConst.getPrimary(),
                             ),
                             textAlign: TextAlign.center,
                           ),
@@ -85,8 +77,7 @@ class OffListScreen extends StatelessWidget {
                             children: [
                               TextButton(
                                 onPressed: () {
-                                  uiProvider.onEvent(const UiEvent
-                                      .changeFloatingActionButtonSwitch(true));
+                                  uiProvider.changeFloatingActionButtonSwitch(true);
                                   Navigator.pushNamed(
                                       context, OffWriteScreen.routeName);
                                 },
@@ -98,7 +89,7 @@ class OffListScreen extends StatelessWidget {
                                         18.0,
                                       ),
                                       side: BorderSide(
-                                        color: uiState.colorConst.getPrimary(),
+                                        color: uiProvider.state.colorConst.getPrimary(),
                                       ),
                                     ),
                                   ),
@@ -117,8 +108,7 @@ class OffListScreen extends StatelessWidget {
                               ),
                               TextButton(
                                 onPressed: () {
-                                  uiProvider.onEvent(const UiEvent
-                                      .changeFloatingActionButtonSwitch(true));
+                                  uiProvider.changeFloatingActionButtonSwitch(true);
                                   Navigator.pop(context);
                                 },
                                 style: ButtonStyle(
@@ -129,7 +119,7 @@ class OffListScreen extends StatelessWidget {
                                         18.0,
                                       ),
                                       side: BorderSide(
-                                        color: uiState.colorConst.getPrimary(),
+                                        color: uiProvider.state.colorConst.getPrimary(),
                                       ),
                                     ),
                                   ),
@@ -156,23 +146,20 @@ class OffListScreen extends StatelessWidget {
                       );
                     } else {
                       return GestureDetector(
-                        child: ListItem(content: state.contents[index - 1]),
+                        child: ListItem(content: viewModel.state.contents[index - 1]),
                         onTap: () {
                           //daily 스크린으로 이동
-                          uiProvider.onEvent(UiEvent.changeSelectedDay(
-                              state.contents[index - 1].time));
-                          print("list - uiprovider 1");
-                          uiProvider.onEvent(UiEvent.changeFocusedDay(
-                              state.contents[index - 1].time));
-                          print("list - uiprovider 2 ${uiState.focusedDay}");
+                          uiProvider.changeSelectedDay(
+                              viewModel.state.contents[index - 1].time);
+                          uiProvider.changeFocusedDay(
+                              viewModel.state.contents[index - 1].time);
                           Navigator.pushNamed(
                               context, OffDailyScreen.routeName);
-                          print("데일리로 이동");
                         },
                       );
                     }
                   }),
-                  itemCount: state.contents.length + 1,
+                  itemCount: viewModel.state.contents.length + 1,
                 ),
               ),
             ],

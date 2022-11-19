@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:on_off/domain/icon/icon_path.dart';
-import 'package:on_off/ui/off/list/off_list_event.dart';
-import 'package:on_off/ui/off/list/off_list_state.dart';
 import 'package:on_off/ui/off/list/off_list_view_model.dart';
 import 'package:provider/provider.dart';
 
@@ -11,17 +9,16 @@ class OffListOrderChangeButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     OffListViewModel viewModel = context.watch<OffListViewModel>();
-    OffListState state = viewModel.state;
 
     return Padding(
       padding: const EdgeInsets.only(bottom: 17),
       child: GestureDetector(
         onTap: () {
-          viewModel.onEvent(const OffListEvent.changeDiaryOrderType());
+          viewModel.changeDiaryOrderType();
         },
         child: Row(
           children: [
-            Text(state.isAscending ? '오름차순' : '내림차순'),
+            Text(viewModel.state.isAscending ? '오름차순' : '내림차순'),
             const SizedBox(
               width: 6.38,
             ),

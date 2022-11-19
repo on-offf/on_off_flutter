@@ -9,7 +9,6 @@ import 'package:on_off/ui/provider/ui_state.dart';
 import 'package:on_off/ui/setting/home/components/alert_time_dialog.dart';
 import 'package:on_off/ui/setting/home/components/animated_switch.dart';
 import 'package:on_off/ui/setting/password/password_confirm_screen.dart';
-import 'package:on_off/ui/setting/home/setting_event.dart';
 import 'package:on_off/ui/setting/home/setting_view_model.dart';
 import 'package:provider/provider.dart';
 
@@ -21,20 +20,18 @@ class SettingScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final uiProvider = context.watch<UiProvider>();
-    final uiState = uiProvider.state;
     final viewModel = context.watch<SettingViewModel>();
-    final state = viewModel.state;
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: uiState.colorConst.getPrimary(),
+        backgroundColor: uiProvider.state.colorConst.getPrimary(),
         elevation: 0,
         leading: ElevatedButton(
           onPressed: () {
             Navigator.pop(context);
           },
           style: ElevatedButton.styleFrom(
-            primary: uiState.colorConst.getPrimary(),
+            primary: uiProvider.state.colorConst.getPrimary(),
             elevation: 0,
           ),
           child: Image(
@@ -74,23 +71,22 @@ class SettingScreen extends StatelessWidget {
                       style: buttonTextStyle(),
                     ),
                     AnimatedSwitch(
-                      uiState: uiState,
-                      isLock: state.setting.isScreenLock == 1,
+                      uiState: uiProvider.state,
+                      isLock: viewModel.state.setting.isScreenLock == 1,
                       onPressed: () async {
-                        if (state.setting.isScreenLock == 0 &&
-                            state.setting.password == null) {
+                        if (viewModel.state.setting.isScreenLock == 0 &&
+                            viewModel.state.setting.password == null) {
                           bool initPassword = await _initPassword(context,
-                              viewModel, uiState.colorConst.getPrimary());
+                              viewModel, uiProvider.state.colorConst.getPrimary());
 
                           if (!initPassword) return;
                         }
-                        viewModel
-                            .onEvent(const SettingEvent.changeIsScreenLock());
+                        viewModel.changeIsScreenLock();
                       },
                     ),
                   ],
                 ),
-                if (state.setting.isScreenLock == 1)
+                if (viewModel.state.setting.isScreenLock == 1)
                   Align(
                     alignment: Alignment.centerLeft,
                     heightFactor: .5,
@@ -98,17 +94,16 @@ class SettingScreen extends StatelessWidget {
                       onPressed: () async {
                         String? password = await _changePassword(
                           context: context,
-                          primaryColor: uiState.colorConst.getPrimary(),
+                          primaryColor: uiProvider.state.colorConst.getPrimary(),
                         );
 
                         if (password == null) return;
 
-                        viewModel
-                            .onEvent(SettingEvent.changePassword(password));
+                        viewModel.changePassword(password);
 
                         simpleTextDialog(
                           context,
-                          primaryColor: uiState.colorConst.getPrimary(),
+                          primaryColor: uiProvider.state.colorConst.getPrimary(),
                           canvasColor: Colors.white,
                           message: "비밀번호가 변경되었습니다.",
                         );
@@ -138,45 +133,40 @@ class SettingScreen extends StatelessWidget {
                       style: buttonTextStyle(),
                     ),
                     AnimatedSwitch(
-                      uiState: uiState,
-                      isLock: state.setting.isAlert == 1,
+                      uiState: uiProvider.state,
+                      isLock: viewModel.state.setting.isAlert == 1,
                       onPressed: () async {
-                        if (state.setting.isAlert == 0 &&
-                            state.setting.alertHour == null) {
+                        if (viewModel.state.setting.isAlert == 0 &&
+                            viewModel.state.setting.alertHour == null) {
                           AlertTime? alertTime = await alertTimeDialog(
                             context,
                             viewModel,
-                            state,
+                            viewModel.state,
                             uiProvider,
-                            uiState,
-                            uiState.colorConst.getPrimary(),
+                            uiProvider.state,
+                            uiProvider.state.colorConst.getPrimary(),
                           ) as AlertTime?;
 
                           if (alertTime == null) {
                             simpleTextDialog(
                               context,
-                              primaryColor: uiState.colorConst.getPrimary(),
+                              primaryColor: uiProvider.state.colorConst.getPrimary(),
                               canvasColor: Colors.white,
                               message: '시간을 선택해주세요.',
                             );
                             return;
                           }
-                          Future.delayed(
-                            const Duration(milliseconds: 100),
-                            () => viewModel.onEvent(
-                              SettingEvent.changeAlertTime(
-                                alertTime.hour,
-                                alertTime.minutes,
-                              ),
-                            ),
+                          viewModel.changeAlertTime(
+                            alertTime.hour,
+                            alertTime.minutes,
                           );
                         }
-                        viewModel.onEvent(const SettingEvent.changeIsAlert());
+                        viewModel.changeIsAlert();
                       },
                     ),
                   ],
                 ),
-                if (state.setting.isAlert == 1)
+                if (viewModel.state.setting.isAlert == 1)
                   Container(
                     padding: const EdgeInsets.only(
                       top: 0,
@@ -192,17 +182,15 @@ class SettingScreen extends StatelessWidget {
                           AlertTime? time = await alertTimeDialog(
                             context,
                             viewModel,
-                            state,
+                            viewModel.state,
                             uiProvider,
-                            uiState,
-                            uiState.colorConst.getPrimary(),
+                            uiProvider.state,
+                            uiProvider.state.colorConst.getPrimary(),
                           );
                           if (time != null) {
-                            viewModel.onEvent(
-                              SettingEvent.changeAlertTime(
-                                time.hour,
-                                time.minutes,
-                              ),
+                            viewModel.changeAlertTime(
+                              time.hour,
+                              time.minutes,
                             );
                           }
                         },
@@ -215,36 +203,36 @@ class SettingScreen extends StatelessWidget {
                             children: [
                               const TextSpan(text: '매일 '),
                               TextSpan(
-                                text: state.setting.alertHour! < 12
+                                text: viewModel.state.setting.alertHour! < 12
                                     ? 'AM '
                                     : 'PM ',
                                 style: messageTextStyle().copyWith(
-                                  color: uiState.colorConst.getPrimary(),
+                                  color: uiProvider.state.colorConst.getPrimary(),
                                   fontWeight: FontWeight.w500,
                                 ),
                               ),
                               TextSpan(
-                                text: state.setting.alertHour! == 0
+                                text: viewModel.state.setting.alertHour! == 0
                                     ? '12'
-                                    : state.setting.alertHour! <= 12
-                                        ? '${state.setting.alertHour!}'
-                                        : '${state.setting.alertHour! - 12}',
+                                    : viewModel.state.setting.alertHour! <= 12
+                                        ? '${viewModel.state.setting.alertHour!}'
+                                        : '${viewModel.state.setting.alertHour! - 12}',
                                 style: messageTextStyle().copyWith(
-                                  color: uiState.colorConst.getPrimary(),
+                                  color: uiProvider.state.colorConst.getPrimary(),
                                   fontWeight: FontWeight.w500,
                                 ),
                               ),
                               TextSpan(
                                 text: ':',
                                 style: messageTextStyle().copyWith(
-                                  color: uiState.colorConst.getPrimary(),
+                                  color: uiProvider.state.colorConst.getPrimary(),
                                   fontWeight: FontWeight.w500,
                                 ),
                               ),
                               TextSpan(
-                                text: '${state.setting.alertMinutes!}',
+                                text: '${viewModel.state.setting.alertMinutes! < 10 ? '0' : ''}${viewModel.state.setting.alertMinutes!}',
                                 style: messageTextStyle().copyWith(
-                                  color: uiState.colorConst.getPrimary(),
+                                  color: uiProvider.state.colorConst.getPrimary(),
                                   fontWeight: FontWeight.w500,
                                 ),
                               ),
@@ -255,29 +243,28 @@ class SettingScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-                if (state.setting.isAlert == 1)
+                if (viewModel.state.setting.isAlert == 1)
                   const SizedBox(
                     height: 10,
                   ),
-                if (state.setting.isAlert == 1)
+                if (viewModel.state.setting.isAlert == 1)
                   GestureDetector(
                     onTap: () async {
                       String? message = await simpleInputDialog(
                         context,
-                        primaryColor: uiState.colorConst.getPrimary(),
-                        canvasColor: uiState.colorConst.canvas,
+                        primaryColor: uiProvider.state.colorConst.getPrimary(),
+                        canvasColor: uiProvider.state.colorConst.canvas,
                         width: 215,
                         height: 150,
                         message: "알림 메시지 내용을 입력해주세요!",
-                        initMessage: state.setting.alertMessage,
+                        initMessage: viewModel.state.setting.alertMessage,
                       ) as String?;
 
                       if (message != null) {
-                        viewModel
-                            .onEvent(SettingEvent.changeAlertMessage(message));
+                        viewModel.changeAlertMessage(message);
                         simpleTextDialog(
                           context,
-                          primaryColor: uiState.colorConst.getPrimary(),
+                          primaryColor: uiProvider.state.colorConst.getPrimary(),
                           canvasColor: Colors.white,
                           message: "알림 메시지가 변경되었습니다.",
                         );
@@ -578,7 +565,7 @@ class SettingScreen extends StatelessWidget {
       return false;
     }
 
-    viewModel.onEvent(SettingEvent.changePassword(password));
+    viewModel.changePassword(password);
     return true;
   }
 

@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:on_off/constants/constants_text_style.dart';
 import 'package:on_off/domain/icon/icon_path.dart';
-import 'package:on_off/ui/provider/ui_event.dart';
 import 'package:on_off/ui/provider/ui_provider.dart';
-import 'package:on_off/ui/provider/ui_state.dart';
 import 'package:provider/provider.dart';
 
 class FocusMonth extends StatelessWidget {
@@ -16,7 +14,6 @@ class FocusMonth extends StatelessWidget {
 
   final GlobalKey _globalKey = GlobalKey();
   late UiProvider uiProvider;
-  late UiState uiState;
 
   late RenderBox renderBox =
       _globalKey.currentContext?.findRenderObject() as RenderBox;
@@ -29,7 +26,6 @@ class FocusMonth extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     uiProvider = context.watch<UiProvider>();
-    uiState = uiProvider.state;
 
     return Padding(
       padding: const EdgeInsets.only(left: 5, bottom: 17),
@@ -37,13 +33,13 @@ class FocusMonth extends StatelessWidget {
         onTap: () {
           if (!showOverlay) return;
 
-          uiProvider.onEvent(const UiEvent.focusMonthSelected());
-          if (uiState.focusMonthSelected) {
+          uiProvider.focusMonthSelected();
+          if (uiProvider.state.focusMonthSelected) {
             OverlayEntry overlayEntry = _createOverlay();
             Navigator.of(context).overlay?.insert(overlayEntry);
-            uiProvider.onEvent(UiEvent.showOverlay(context, overlayEntry));
+            uiProvider.showOverlay(context, overlayEntry);
           } else {
-            uiProvider.onEvent(const UiEvent.removeOverlay());
+            uiProvider.removeOverlay();
           }
         },
         child: Row(
@@ -52,7 +48,7 @@ class FocusMonth extends StatelessWidget {
               key: _globalKey,
               child: Text(
                 DateFormat('yyyy년 MM월', 'ko_KR')
-                    .format(uiState.changeCalendarPage),
+                    .format(uiProvider.state.changeCalendarPage),
                 style: isAccent
                     ? kSubtitle2.copyWith(
                         color: Colors.black,
@@ -77,7 +73,7 @@ class FocusMonth extends StatelessWidget {
   }
 
   OverlayEntry _createOverlay() {
-    DateTime focusedDay = uiState.focusedDay;
+    DateTime focusedDay = uiProvider.state.focusedDay;
     int year = focusedDay.year;
 
     return OverlayEntry(
@@ -85,9 +81,8 @@ class FocusMonth extends StatelessWidget {
         return Stack(
           children: [
             GestureDetector(
-              onTap: () => uiProvider.onEvent(const UiEvent.removeOverlay()),
-              onHorizontalDragDown: (_) =>
-                  uiProvider.onEvent(const UiEvent.removeOverlay()),
+              onTap: () => uiProvider.removeOverlay(),
+              onHorizontalDragDown: (_) => uiProvider.removeOverlay(),
             ),
             Positioned(
               left: isAccent ? offset.dx - 26 : offset.dx,
@@ -120,8 +115,7 @@ class FocusMonth extends StatelessWidget {
                             child: IconButton(
                               onPressed: () {
                                 year = year - 1;
-                                uiProvider.onEvent(
-                                    const UiEvent.selfNotifyListeners());
+                                uiProvider.selfNotifyListeners();
                               },
                               icon: Image(
                                 image: AssetImage(
@@ -146,8 +140,7 @@ class FocusMonth extends StatelessWidget {
                             child: IconButton(
                               onPressed: () {
                                 year = year + 1;
-                                uiProvider.onEvent(
-                                    const UiEvent.selfNotifyListeners());
+                                uiProvider.selfNotifyListeners();
                               },
                               icon: Image(
                                 image: AssetImage(IconPath.nextYearButton.name),
@@ -206,7 +199,7 @@ class FocusMonth extends StatelessWidget {
   }
 
   Widget monthSelectButton(int year, String month) {
-    DateTime focusedDay = uiState.focusedDay;
+    DateTime focusedDay = uiProvider.state.focusedDay;
     bool isFocusMonth =
         focusedDay.year == year && focusedDay.month == int.parse(month);
 
@@ -215,20 +208,20 @@ class FocusMonth extends StatelessWidget {
         height: 31,
         child: TextButton(
           onPressed: () {
-            uiProvider.onEvent(UiEvent.changeFocusedDay(
-                DateTime.utc(year, int.parse(month), 1)));
-            uiProvider.onEvent(UiEvent.changeCalendarPage(
-                DateTime.utc(year, int.parse(month), 1)));
-            uiProvider.onEvent(const UiEvent.removeOverlay());
+            uiProvider.changeFocusedDay(
+                DateTime.utc(year, int.parse(month), 1));
+            uiProvider.changeCalendarPage(
+                DateTime.utc(year, int.parse(month), 1));
+            uiProvider.removeOverlay();
           },
           style: !isFocusMonth
               ? TextButton.styleFrom()
               : TextButton.styleFrom(
-                  backgroundColor: uiState.colorConst.getPrimary(),
+                  backgroundColor: uiProvider.state.colorConst.getPrimary(),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(100.0),
                     side: BorderSide(
-                      color: uiState.colorConst.getPrimary(),
+                      color: uiProvider.state.colorConst.getPrimary(),
                     ),
                   ),
                 ),
@@ -238,7 +231,7 @@ class FocusMonth extends StatelessWidget {
               fontWeight: FontWeight.w400,
               fontSize: 13,
               color: !isFocusMonth
-                  ? uiState.colorConst.getPrimary()
+                  ? uiProvider.state.colorConst.getPrimary()
                   : Colors.white,
             ),
           ),

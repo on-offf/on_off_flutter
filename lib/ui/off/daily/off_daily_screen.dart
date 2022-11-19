@@ -2,18 +2,13 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:on_off/constants/constants_text_style.dart';
-import 'package:on_off/domain/entity/off/off_icon_entity.dart';
-import 'package:on_off/domain/model/content.dart';
 import 'package:on_off/ui/components/build_selected_icons.dart';
 import 'package:on_off/ui/components/off_appbar.dart';
-import 'package:on_off/ui/off/daily/off_daily_event.dart';
 import 'package:on_off/ui/off/daily/off_daily_state.dart';
 import 'package:on_off/ui/off/daily/off_daily_view_model.dart';
 import 'package:on_off/ui/off/gallery/off_gallery_screen.dart';
 import 'package:on_off/ui/off/write/off_write_screen.dart';
-import 'package:on_off/ui/provider/ui_event.dart';
 import 'package:on_off/ui/provider/ui_provider.dart';
-import 'package:on_off/ui/provider/ui_state.dart';
 import 'package:provider/provider.dart';
 
 class OffDailyScreen extends StatelessWidget {
@@ -30,8 +25,6 @@ class OffDailyScreen extends StatelessWidget {
 
     UiProvider uiProvider = context.watch<UiProvider>();
 
-    UiState uiState = uiProvider.state;
-
     return Scaffold(
       appBar: offAppBar(
         context,
@@ -42,21 +35,15 @@ class OffDailyScreen extends StatelessWidget {
         onVerticalDragEnd: (details) async {
           //down
           if (details.primaryVelocity! > 0) {
-            print("아래로 드래그 ${uiState.focusedDay}");
-            viewModel.onEvent(const OffDailyEvent.changeDay(true));
-            print("daily - vm 끝 ${uiState.focusedDay}");
-            uiProvider.onEvent(UiEvent.changeSelectedDay(state.content!.time));
-            uiProvider.onEvent(UiEvent.changeFocusedDay(state.content!.time));
-            print("daily - ui provider 끝 ${uiState.focusedDay}");
+            viewModel.changeDay(true);
+            uiProvider.changeSelectedDay(state.content!.time);
+            uiProvider.changeFocusedDay(state.content!.time);
           }
           //up
           else if (details.primaryVelocity! < 0) {
-            print("위로 드래그 ${uiState.focusedDay}");
-            viewModel.onEvent(const OffDailyEvent.changeDay(false));
-            print("daily - vm 끝 ${uiState.focusedDay}");
-            uiProvider.onEvent(UiEvent.changeSelectedDay(state.content!.time));
-            uiProvider.onEvent(UiEvent.changeFocusedDay(state.content!.time));
-            print("daily - ui provider 끝 ${uiState.focusedDay}");
+            viewModel.changeDay(false);
+            uiProvider.changeSelectedDay(state.content!.time);
+            uiProvider.changeFocusedDay(state.content!.time);
           }
         },
         child: Container(
@@ -115,8 +102,7 @@ class OffDailyScreen extends StatelessWidget {
                         enableInfiniteScroll: false,
                         viewportFraction: 1.0,
                         onPageChanged: (index, reason) {
-                          viewModel
-                              .onEvent(OffDailyEvent.changeCurrentIndex(index));
+                          viewModel.changeCurrentIndex(index);
                         },
                       ),
                       items: state.content!.imageList.map((offImage) {
@@ -151,8 +137,7 @@ class OffDailyScreen extends StatelessWidget {
                   ),
                   child: GestureDetector(
                     onTap: () {
-                      uiProvider.onEvent(
-                          UiEvent.changeFocusedDay(state.content!.time));
+                      uiProvider.changeFocusedDay(state.content!.time);
                       Navigator.pushNamed(
                         context,
                         OffWriteScreen.routeName,

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:on_off/constants/color_constants.dart';
 import 'package:on_off/ui/off/monthly/off_monthly_screen.dart';
 import 'package:on_off/ui/off/monthly/off_monthly_view_model.dart';
-import 'package:on_off/ui/provider/ui_event.dart';
 import 'package:on_off/ui/provider/ui_provider_observe.dart';
 import 'package:on_off/ui/provider/ui_state.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -37,56 +36,36 @@ class UiProvider with ChangeNotifier {
 
   UiState get state => _state;
 
-  void onEvent(UiEvent event) {
-    event.when(
-      // setting
-      changeMainColor: _changeMainColor,
+  // setting
+  void changeMainColor(ColorConst colorConst) {
+    _state = _state.copyWith(colorConst: colorConst);
+    _notifyListeners();
+  }
 
-      // calendar
-      changeSelectedDay: _changeSelectedDay,
-      changeFocusedDay: _changeFocusedDay,
-      changeCalendarPage: _changeCalendarPage,
-      changeCalendarFormat: _changeCalendarFormat,
-      changeFloatingActionButtonSwitch: _changeFloatingActionButtonSwitch,
+  // calendar
+  void changeSelectedDay(DateTime selectedDay) {
+    selectedDay =
+        DateTime(selectedDay.year, selectedDay.month, selectedDay.day);
+    _state = _state.copyWith(selectedDay: selectedDay);
+    _notifyListeners();
+  }
 
-      // focus month overlay
-      showOverlay: _showOverlay,
-      removeOverlay: _removeOverlay,
-      focusMonthSelected: _focusMonthSelected,
-
-      // initScreen
-      initScreen: _initScreen,
-
-      // notifyListeners
-      selfNotifyListeners: _selfNotifyListeners,
+  void changeFocusedDay(DateTime focusedDay) {
+    focusedDay = DateTime(focusedDay.year, focusedDay.month, focusedDay.day);
+    _state = _state.copyWith(
+      focusedDay: focusedDay,
     );
-  }
-
-  void _focusMonthSelected() {
-    _state = _state.copyWith(focusMonthSelected: !_state.focusMonthSelected);
     _notifyListeners();
   }
 
-  void _showOverlay(BuildContext context, OverlayEntry changeOverlayEntry) {
-    _state = state.copyWith(overlayEntry: changeOverlayEntry);
+  void changeCalendarPage(DateTime changeCalendarPage) {
+    changeCalendarPage = DateTime(changeCalendarPage.year,
+        changeCalendarPage.month, changeCalendarPage.day);
+    _state = _state.copyWith(changeCalendarPage: changeCalendarPage);
     _notifyListeners();
   }
 
-  void _removeOverlay() {
-    _state.overlayEntry?.remove();
-    _state = state.copyWith(overlayEntry: null);
-    _notifyListeners();
-  }
-
-  void _changeFloatingActionButtonSwitch(bool? floatingActionButtonSwitch) {
-    floatingActionButtonSwitch =
-        floatingActionButtonSwitch ?? !_state.floatingActionButtonSwitch;
-    _state =
-        _state.copyWith(floatingActionButtonSwitch: floatingActionButtonSwitch);
-    _notifyListeners();
-  }
-
-  void _changeCalendarFormat(CalendarFormat calendarFormat) {
+  void changeCalendarFormat(CalendarFormat calendarFormat) {
     if (_state.calendarFormat == calendarFormat) return;
 
     _state = _state.copyWith(
@@ -96,34 +75,33 @@ class UiProvider with ChangeNotifier {
     _notifyListeners();
   }
 
-  void _changeCalendarPage(DateTime changeCalendarPage) {
-    changeCalendarPage = DateTime(changeCalendarPage.year,
-        changeCalendarPage.month, changeCalendarPage.day);
-    _state = _state.copyWith(changeCalendarPage: changeCalendarPage);
+  void changeFloatingActionButtonSwitch(bool? floatingActionButtonSwitch) {
+    floatingActionButtonSwitch =
+        floatingActionButtonSwitch ?? !_state.floatingActionButtonSwitch;
+    _state =
+        _state.copyWith(floatingActionButtonSwitch: floatingActionButtonSwitch);
     _notifyListeners();
   }
 
-  void _changeSelectedDay(DateTime selectedDay) {
-    selectedDay =
-        DateTime(selectedDay.year, selectedDay.month, selectedDay.day);
-    _state = _state.copyWith(selectedDay: selectedDay);
+  // focus month overlay
+  void showOverlay(BuildContext context, OverlayEntry changeOverlayEntry) {
+    _state = state.copyWith(overlayEntry: changeOverlayEntry);
     _notifyListeners();
   }
 
-  void _changeFocusedDay(DateTime focusedDay) {
-    focusedDay = DateTime(focusedDay.year, focusedDay.month, focusedDay.day);
-    _state = _state.copyWith(
-      focusedDay: focusedDay,
-    );
+  void removeOverlay() {
+    _state.overlayEntry?.remove();
+    _state = state.copyWith(overlayEntry: null);
     _notifyListeners();
   }
 
-  void _changeMainColor(ColorConst colorConst) {
-    _state = _state.copyWith(colorConst: colorConst);
+  void focusMonthSelected() {
+    _state = _state.copyWith(focusMonthSelected: !_state.focusMonthSelected);
     _notifyListeners();
   }
 
-  void _initScreen(String route) {
+  // initScreen
+  void initScreen(String route) {
     for (var viewModel in viewModelList) {
       if (viewModel is OffMonthlyViewModel &&
           route == OffMonthlyScreen.routeName) {
@@ -132,21 +110,22 @@ class UiProvider with ChangeNotifier {
     }
   }
 
-  void _init() {
+  void selfNotifyListeners() {
+    notifyListeners();
+  }
+
+  // with Observe
+  Future<void> _init() async {
     for (var viewModel in viewModelList) {
       viewModel.init(_state);
     }
     notifyListeners();
   }
 
-  void _notifyListeners() {
+  Future<void> _notifyListeners() async {
     for (var viewModel in viewModelList) {
       viewModel.update(_state);
     }
-    notifyListeners();
-  }
-
-  void _selfNotifyListeners() {
     notifyListeners();
   }
 }

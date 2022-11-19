@@ -8,10 +8,7 @@ import 'package:on_off/domain/icon/icon_path.dart';
 import 'package:on_off/ui/components/image_input.dart';
 import 'package:on_off/ui/components/simple_dialog.dart';
 import 'package:on_off/ui/off/monthly/off_monthly_screen.dart';
-import 'package:on_off/ui/off/write/off_write_event.dart';
-import 'package:on_off/ui/off/write/off_write_state.dart';
 import 'package:on_off/ui/off/write/off_write_view_model.dart';
-import 'package:on_off/ui/provider/ui_event.dart';
 import 'package:on_off/ui/provider/ui_provider.dart';
 import 'package:on_off/ui/provider/ui_state.dart';
 import 'package:provider/provider.dart';
@@ -37,16 +34,13 @@ class IconsAboveKeyboard extends StatefulWidget {
 class _IconsAboveKeyboardState extends State<IconsAboveKeyboard> {
   File? _pickedImage;
   UiProvider? uiProvider;
-  UiState? uiState;
   final int imageLimitNumber = 10;
 
   @override
   Widget build(BuildContext context) {
     OffWriteViewModel viewModel = context.watch<OffWriteViewModel>();
-    OffWriteState state = viewModel.state;
 
     uiProvider = context.watch<UiProvider>();
-    uiState = uiProvider!.state;
 
     return Positioned(
       bottom: 0,
@@ -72,9 +66,7 @@ class _IconsAboveKeyboardState extends State<IconsAboveKeyboard> {
                   onPressed: () async {
                     _pickedImage = await inputImage(0);
                     if (_pickedImage != null) {
-                      viewModel.onEvent(
-                        OffWriteEvent.addSelectedImagePaths(_pickedImage!),
-                      );
+                      viewModel.addSelectedImagePaths(_pickedImage!);
                       _pickedImage = null;
                     }
                   },
@@ -88,15 +80,13 @@ class _IconsAboveKeyboardState extends State<IconsAboveKeyboard> {
                 const SizedBox(width: 20),
                 IconButton(
                   onPressed: () async {
-                    if (state.imagePaths.length >= imageLimitNumber) {
+                    if (viewModel.state.imagePaths.length >= imageLimitNumber) {
                       //TODO 질문 : > 사용해서 +1, -1을 하면 왜 안됨?
-                      _imageLimitTenDialog(uiState!);
+                      _imageLimitTenDialog(uiProvider!.state);
                     } else {
                       _pickedImage = await inputImage(1);
                       if (_pickedImage != null) {
-                        viewModel.onEvent(
-                          OffWriteEvent.addSelectedImagePaths(_pickedImage!),
-                        );
+                        viewModel.addSelectedImagePaths(_pickedImage!);
                         _pickedImage = null;
                       }
                     }
@@ -131,16 +121,12 @@ class _IconsAboveKeyboardState extends State<IconsAboveKeyboard> {
                 const SizedBox(width: 10,),
                 IconButton(
                   onPressed: () {
-                    if (state.imagePaths.isEmpty) {
+                    if (viewModel.state.imagePaths.isEmpty) {
                       _showImageRegistryDialog();
                       return;
                     }
-                    viewModel.onEvent(
-                      //TODO 글 입력하지 않고 저장하고 싶을때 수정해야 함.
-                      OffWriteEvent.saveContent(widget.titleController.text, widget.bodyController.text),
-                    );
-                    uiProvider?.onEvent(
-                        const UiEvent.initScreen(OffMonthlyScreen.routeName));
+                    viewModel.saveContent(widget.titleController.text, widget.bodyController.text);
+                    uiProvider?.initScreen(OffMonthlyScreen.routeName);
                     Navigator.of(context).pop();
                   },
                   padding: const EdgeInsets.all(0),

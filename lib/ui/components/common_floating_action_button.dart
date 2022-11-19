@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:on_off/constants/constants_text_style.dart';
 import 'package:on_off/domain/icon/icon_path.dart';
 import 'package:on_off/ui/components/simple_dialog.dart';
-import 'package:on_off/ui/provider/ui_event.dart';
 import 'package:on_off/ui/provider/ui_provider.dart';
 import 'package:provider/provider.dart';
 
 class CommonFloatingActionButton extends StatelessWidget {
-  CommonFloatingActionButton({
+  const CommonFloatingActionButton({
     Key? key,
     required this.montlyListButtonNavigator,
     required this.onOffButtonNavigator,
@@ -19,14 +17,12 @@ class CommonFloatingActionButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final uiProvier = context.watch<UiProvider>();
-    final state = uiProvier.state;
-    return state.floatingActionButtonSwitch
+    return uiProvier.state.floatingActionButtonSwitch
         ? FloatingActionButton(
             backgroundColor: Theme.of(context).primaryColor,
             heroTag: 'showFloatingActionButtons',
             onPressed: () {
-              uiProvier.onEvent(
-                  const UiEvent.changeFloatingActionButtonSwitch(null));
+              uiProvier.changeFloatingActionButtonSwitch(null);
             },
             child: const Icon(Icons.add),
           )
@@ -36,8 +32,7 @@ class CommonFloatingActionButton extends StatelessWidget {
               FloatingActionButton(
                 heroTag: 'moveMonthlyWeeklyScreen',
                 onPressed: () {
-                  uiProvier.onEvent(
-                      const UiEvent.changeFloatingActionButtonSwitch(null));
+                  uiProvier.changeFloatingActionButtonSwitch(null);
                   montlyListButtonNavigator.call();
                 },
                 backgroundColor: Colors.transparent,
@@ -58,7 +53,7 @@ class CommonFloatingActionButton extends StatelessWidget {
                 onPressed: () {
                   simpleHighlightTextDialog(
                     context,
-                    primaryColor: state.colorConst.getPrimary(),
+                    primaryColor: uiProvier.state.colorConst.getPrimary(),
                     canvasColor: Colors.white,
                     text: TextSpan(
                       style: const TextStyle(
@@ -69,7 +64,7 @@ class CommonFloatingActionButton extends StatelessWidget {
                         TextSpan(
                           text: 'ON ',
                           style: TextStyle(
-                            color: state.colorConst.getPrimary(),
+                            color: uiProvier.state.colorConst.getPrimary(),
                             fontWeight: FontWeight.w700,
                           ),
                         ),
@@ -96,8 +91,7 @@ class CommonFloatingActionButton extends StatelessWidget {
                 backgroundColor: Theme.of(context).primaryColorLight,
                 heroTag: 'hideFloatingActionButtons',
                 onPressed: () {
-                  uiProvier.onEvent(
-                      const UiEvent.changeFloatingActionButtonSwitch(null));
+                  uiProvier.changeFloatingActionButtonSwitch(null);
                 },
                 child: const Icon(Icons.remove),
               ),

@@ -9,10 +9,7 @@ import 'package:on_off/ui/components/simple_dialog.dart';
 import 'package:on_off/ui/components/sticker_button.dart';
 import 'package:on_off/ui/off/monthly/off_monthly_screen.dart';
 import 'package:on_off/ui/off/write/components/icons_above_keyboard.dart';
-import 'package:on_off/ui/off/write/off_write_event.dart';
-import 'package:on_off/ui/off/write/off_write_state.dart';
 import 'package:on_off/ui/off/write/off_write_view_model.dart';
-import 'package:on_off/ui/provider/ui_event.dart';
 import 'package:on_off/ui/provider/ui_provider.dart';
 import 'package:on_off/ui/provider/ui_state.dart';
 import 'package:provider/provider.dart';
@@ -34,9 +31,7 @@ class _OffWriteScreenState extends State<OffWriteScreen> {
   final LayerLink selectIconSheetLink = LayerLink();
   bool isClicked = false;
   OffWriteViewModel? viewModel;
-  OffWriteState? state;
   UiProvider? uiProvider;
-  UiState? uiState;
   bool init = false;
 
   void changeByFocus(bool hasFocus) {
@@ -60,25 +55,21 @@ class _OffWriteScreenState extends State<OffWriteScreen> {
   }
 
   @override
-  void dispose() {
+  void dispose() async {
     FocusManager.instance.primaryFocus?.unfocus();
     _titleFocus.dispose();
     _bodyFocus.dispose();
     titleController.dispose();
     bodyController.dispose();
-    Future.delayed(Duration.zero, () {
-      viewModel!.onEvent(const OffWriteEvent.resetState());
-    });
+    viewModel!.resetState();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     viewModel = context.watch<OffWriteViewModel>();
-    state = viewModel!.state;
 
     uiProvider = context.watch<UiProvider>();
-    uiState = uiProvider!.state;
 
     if (!init) {
       init = true;
@@ -102,7 +93,7 @@ class _OffWriteScreenState extends State<OffWriteScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      DateFormat.MMMMEEEEd('ko_KR').format(uiState!.focusedDay),
+                      DateFormat.MMMMEEEEd('ko_KR').format(uiProvider!.state.focusedDay),
                       style: const TextStyle(
                         fontSize: 15,
                         fontWeight: FontWeight.w700,
@@ -110,8 +101,8 @@ class _OffWriteScreenState extends State<OffWriteScreen> {
                         letterSpacing: .25,
                       ),
                     ),
-                    if (state!.icon != null)
-                      buildSelectedIcon(state!.icon!.name),
+                    if (viewModel!.state.icon != null)
+                      buildSelectedIcon(viewModel!.state.icon!.name),
                   ],
                 ),
                 const SizedBox(
@@ -157,12 +148,12 @@ class _OffWriteScreenState extends State<OffWriteScreen> {
                         const SizedBox(
                           height: 15,
                         ),
-                        state!.imagePaths.isNotEmpty
+                        viewModel!.state.imagePaths.isNotEmpty
                             ? SizedBox(
                                 height: 150,
                                 child: ListView.builder(
                                   scrollDirection: Axis.horizontal,
-                                  itemCount: state!.imagePaths.length,
+                                  itemCount: viewModel!.state.imagePaths.length,
                                   itemBuilder: (ctx, index) {
                                     return Padding(
                                       padding: const EdgeInsets.symmetric(
@@ -175,7 +166,7 @@ class _OffWriteScreenState extends State<OffWriteScreen> {
                                               Radius.circular(10),
                                             ),
                                             child: Image.file(
-                                              state!.imagePaths[index].file,
+                                              viewModel!.state.imagePaths[index].file,
                                               height: 140,
                                             ),
                                           ),
@@ -184,15 +175,13 @@ class _OffWriteScreenState extends State<OffWriteScreen> {
                                             right: 5,
                                             child: GestureDetector(
                                               onTap: () {
-                                                if (state!.imagePaths.length >
+                                                if (viewModel!.state.imagePaths.length >
                                                     1) {
-                                                  viewModel?.onEvent(
-                                                      OffWriteEvent.removeImage(
-                                                          state!.imagePaths[
-                                                              index]));
+                                                  viewModel?.removeImage(
+                                                      viewModel!.state.imagePaths[
+                                                              index]);
                                                 } else {
-                                                  _imageRemoveFailDialog(
-                                                      uiState!);
+                                                  _imageRemoveFailDialog(uiProvider!.state);
                                                 }
                                               },
                                               child: const Icon(Icons.cancel),
@@ -218,7 +207,7 @@ class _OffWriteScreenState extends State<OffWriteScreen> {
                           child: StickerButton(
                             layerLink: selectIconSheetLink,
                             actionAfterSelect: (path) =>
-                                viewModel?.onEvent(OffWriteEvent.addIcon(path)),
+                                viewModel?.addIcon(path),
                           ),
                         ),
                         Padding(
@@ -262,31 +251,26 @@ class _OffWriteScreenState extends State<OffWriteScreen> {
   }
 
   void _init() async {
-    viewModel!.onEvent(const OffWriteEvent.getFocusedDayDetail());
-
-    Future.delayed(const Duration(milliseconds: 200), () {
-      if (state?.offDiary != null) {
-        titleController.text = state!.offDiary!.title;
-        bodyController.text = state!.offDiary!.content;
-      } else {
-        Future.delayed(Duration.zero, () async {
-          var file = await inputImage(1);
-          if (file == null) {
-            Navigator.pop(context);
-            return;
-          }
-          viewModel!.onEvent(OffWriteEvent.addSelectedImagePaths(file));
-        });
+    await viewModel!.getFocusedDayDetail();
+    if (viewModel?.state.offDiary != null) {
+      titleController.text = viewModel!.state.offDiary!.title;
+      bodyController.text = viewModel!.state.offDiary!.content;
+    } else {
+      var file = await inputImage(1);
+      if (file == null) {
+        Navigator.pop(context);
+        return;
       }
-    });
+      viewModel!.addSelectedImagePaths(file);
+    }
   }
 
   void removeDialogFunction() async {
     FocusManager.instance.primaryFocus?.unfocus();
-    bool remove = await _removeDialog(uiState!);
+    bool remove = await _removeDialog(uiProvider!.state);
     if (remove) {
-      viewModel?.onEvent(const OffWriteEvent.removeContent());
-      uiProvider?.onEvent(const UiEvent.initScreen(OffMonthlyScreen.routeName));
+      viewModel?.removeContent();
+      uiProvider?.initScreen(OffMonthlyScreen.routeName);
       Future.delayed(Duration.zero, () => Navigator.pop(context));
     }
   }
