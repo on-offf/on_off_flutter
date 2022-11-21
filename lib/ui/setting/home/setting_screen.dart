@@ -156,7 +156,7 @@ class SettingScreen extends StatelessWidget {
                             );
                             return;
                           }
-                          viewModel.changeAlertTime(
+                          await viewModel.changeAlertTime(
                             alertTime.hour,
                             alertTime.minutes,
                           );

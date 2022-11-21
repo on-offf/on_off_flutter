@@ -18,50 +18,50 @@ class SettingViewModel extends UiProviderObserve {
 
   SettingState get state => _state;
 
-  void changeAlertTime(int hour, int minutes) async {
+  changeAlertTime(int hour, int minutes) async {
     SettingEntity entity = _state.setting;
     entity = entity.copyWith(
       alertHour: hour,
       alertMinutes: minutes,
     );
-    _updateSettingEntityAndNotifyListeners(entity);
+    await _updateSettingEntityAndNotifyListeners(entity);
   }
 
-  void changeAlertMessage(String message) async {
+  changeAlertMessage(String message) async {
     SettingEntity entity = _state.setting;
     entity = entity.copyWith(
       alertMessage: message,
     );
-    _updateSettingEntityAndNotifyListeners(entity);
+    await _updateSettingEntityAndNotifyListeners(entity);
   }
 
-  void changePassword(String password) async {
+  changePassword(String password) async {
     SettingEntity entity = _state.setting;
     entity = entity.copyWith(password: password);
-    _updateSettingEntityAndNotifyListeners(entity);
+    await _updateSettingEntityAndNotifyListeners(entity);
   }
 
-  void changeIsScreenLock({bool? isScreenLock}) async {
+  changeIsScreenLock({bool? isScreenLock}) async {
     isScreenLock ??= _state.setting.isScreenLock != 1;
     SettingEntity entity = _state.setting;
 
     entity = entity.copyWith(
       isScreenLock: isScreenLock ? 1 : 0,
     );
-    _updateSettingEntityAndNotifyListeners(entity);
+    await _updateSettingEntityAndNotifyListeners(entity);
   }
 
-  void changeIsAlert({bool? isAlert}) async {
+  changeIsAlert({bool? isAlert}) async {
     isAlert ??= _state.setting.isAlert != 1;
     SettingEntity entity = _state.setting;
 
     entity = entity.copyWith(
       isAlert: isAlert ? 1 : 0,
     );
-    _updateSettingEntityAndNotifyListeners(entity);
+    await _updateSettingEntityAndNotifyListeners(entity);
   }
 
-  void _updateSettingEntityAndNotifyListeners(SettingEntity entity) async {
+  _updateSettingEntityAndNotifyListeners(SettingEntity entity) async {
     entity = await settingUseCase.updateSettingEntity(entity);
     _state = _state.copyWith(setting: entity);
     notifyListeners();
