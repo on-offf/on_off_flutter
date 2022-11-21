@@ -20,7 +20,6 @@ class OffDailyScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     OffDailyViewModel viewModel = context.watch<OffDailyViewModel>();
-    OffDailyState state = viewModel.state;
     LayerLink layerLink = LayerLink();
 
     UiProvider uiProvider = context.watch<UiProvider>();
@@ -36,14 +35,14 @@ class OffDailyScreen extends StatelessWidget {
           //down
           if (details.primaryVelocity! > 0) {
             viewModel.changeDay(true);
-            uiProvider.changeSelectedDay(state.content!.time);
-            uiProvider.changeFocusedDay(state.content!.time);
+            uiProvider.changeSelectedDay(viewModel.state.content!.time);
+            uiProvider.changeFocusedDay(viewModel.state.content!.time);
           }
           //up
           else if (details.primaryVelocity! < 0) {
             viewModel.changeDay(false);
-            uiProvider.changeSelectedDay(state.content!.time);
-            uiProvider.changeFocusedDay(state.content!.time);
+            uiProvider.changeSelectedDay(viewModel.state.content!.time);
+            uiProvider.changeFocusedDay(viewModel.state.content!.time);
           }
         },
         child: Container(
@@ -57,12 +56,12 @@ class OffDailyScreen extends StatelessWidget {
                   CompositedTransformTarget(
                     link: layerLink,
                     child: Text(
-                      DateFormat.MMMMEEEEd('ko_KR').format(state.content!.time),
+                      DateFormat.MMMMEEEEd('ko_KR').format(viewModel.state.content!.time),
                       style: kSubtitle2,
                     ),
                   ),
                   const SizedBox(width: 8),
-                  if (state.icon != null) buildSelectedIcon(state.icon!.name),
+                  if (viewModel.state.icon != null) buildSelectedIcon(viewModel.state.icon!.name),
                   Expanded(
                     child: Container(
                       height: 2,
@@ -81,7 +80,7 @@ class OffDailyScreen extends StatelessWidget {
                   color: const Color.fromRGBO(18, 112, 176, 0.24),
                 ),
                 child: Text(
-                  state.content!.title,
+                  viewModel.state.content!.title,
                   style: kSubtitle3,
                 ),
               ),
@@ -92,7 +91,7 @@ class OffDailyScreen extends StatelessWidget {
                 child: Stack(
                   children: [
                     CarouselSlider(
-                      carouselController: state.carouselController,
+                      carouselController: viewModel.state.carouselController,
                       options: CarouselOptions(
                         autoPlay: true,
                         autoPlayInterval: const Duration(seconds: 3),
@@ -105,13 +104,13 @@ class OffDailyScreen extends StatelessWidget {
                           viewModel.changeCurrentIndex(index);
                         },
                       ),
-                      items: state.content!.imageList.map((offImage) {
+                      items: viewModel.state.content!.imageList.map((offImage) {
                         return GestureDetector(
                           onTap: () {
                             Navigator.pushNamed(
                                 context, OffGalleryScreen.routeName,
                                 arguments: {
-                                  'offImageList': state.content!.imageList
+                                  'offImageList': viewModel.state.content!.imageList
                                 });
                           },
                           child: ClipRRect(
@@ -137,7 +136,7 @@ class OffDailyScreen extends StatelessWidget {
                   ),
                   child: GestureDetector(
                     onTap: () {
-                      uiProvider.changeFocusedDay(state.content!.time);
+                      uiProvider.changeFocusedDay(viewModel.state.content!.time);
                       Navigator.pushNamed(
                         context,
                         OffWriteScreen.routeName,
@@ -147,7 +146,7 @@ class OffDailyScreen extends StatelessWidget {
                       child: SizedBox(
                         width: MediaQuery.of(context).size.width - 74,
                         child: Text(
-                          state.content!.content,
+                          viewModel.state.content!.content,
                           softWrap: true,
                           textAlign: TextAlign.start,
                         ),
