@@ -31,12 +31,12 @@ class OffGalleryViewModel extends UiProviderObserve {
   }
 
   @override
-  init(UiState uiState) {
+  init(UiState uiState) async {
     this.uiState = uiState.copyWith();
   }
 
   @override
-  update(UiState uiState) {
+  update(UiState uiState) async{
     this.uiState = uiState.copyWith();
   }
 }

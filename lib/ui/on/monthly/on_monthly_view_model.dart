@@ -8,12 +8,12 @@ class OnMonthlyViewModel extends UiProviderObserve {
   );
 
   @override
-  init(UiState uiState) {
+  init(UiState uiState) async {
     this.uiState = uiState;
   }
 
   @override
-  update(UiState uiState) {
+  update(UiState uiState) async {
     this.uiState = uiState;
   }
 

@@ -124,7 +124,7 @@ class UiProvider with ChangeNotifier {
 
   Future<void> _notifyListeners() async {
     for (var viewModel in viewModelList) {
-      viewModel.update(_state);
+      await viewModel.update(_state);
     }
     notifyListeners();
   }

@@ -75,7 +75,7 @@ class SettingViewModel extends UiProviderObserve {
   }
 
   @override
-  update(UiState uiState) {
+  update(UiState uiState) async {
     this.uiState = uiState.copyWith();
   }
 }

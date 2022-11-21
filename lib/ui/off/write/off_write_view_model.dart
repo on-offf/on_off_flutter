@@ -30,7 +30,7 @@ class OffWriteViewModel extends UiProviderObserve {
 
   OffWriteState get state => _state;
 
-  void removeContent() async {
+  removeContent() async {
     if (_state.offDiary == null) return;
 
     int diaryId = _state.offDiary!.id!;
@@ -38,7 +38,7 @@ class OffWriteViewModel extends UiProviderObserve {
     await offImageUseCase.deleteByDiaryId(diaryId);
   }
 
-  void removeImage(OffWriteImage selectedImage) async {
+  removeImage(OffWriteImage selectedImage) async {
     if (selectedImage.id != null) {
       await offImageUseCase.delete(selectedImage.id!);
     }
@@ -54,7 +54,7 @@ class OffWriteViewModel extends UiProviderObserve {
     notifyListeners();
   }
 
-  Future<void> getFocusedDayDetail() async {
+  getFocusedDayDetail() async {
     OffIconEntity? icon =
         await offIconUseCase.selectOffIcon(uiState!.focusedDay);
     _state = _state.copyWith(icon: icon);
@@ -105,13 +105,13 @@ class OffWriteViewModel extends UiProviderObserve {
     return String.fromCharCodes(Iterable.generate(length, (_) => chars.codeUnitAt(random.nextInt(chars.length))));
   }
 
-  void addIcon(String path) async {
+  addIcon(String path) async {
     OffIconEntity icon = await offIconUseCase.insert(uiState!.focusedDay, path);
     _state = _state.copyWith(icon: icon);
     notifyListeners();
   }
 
-  void addSelectedImagePaths(File path) {
+  addSelectedImagePaths(File path) {
     List<OffWriteImage> temp = [];
     temp.addAll(_state.imagePaths);
     temp.add(OffWriteImage(file: path));
@@ -119,7 +119,7 @@ class OffWriteViewModel extends UiProviderObserve {
     notifyListeners();
   }
 
-  void saveContent(String title, String content) async {
+  saveContent(String title, String content) async {
     int offDiaryId;
     if (_state.offDiary != null) {
       OffDiary offDiary = OffDiary(
@@ -143,7 +143,7 @@ class OffWriteViewModel extends UiProviderObserve {
     notifyListeners();
   }
 
-  void _saveDiaryImageList(int id) async {
+  _saveDiaryImageList(int id) async {
     List<OffImage> offImageList = [];
     for (var offWriteImage in state.imagePaths) {
       if (offWriteImage.id != null) continue;
@@ -157,26 +157,26 @@ class OffWriteViewModel extends UiProviderObserve {
     await offImageUseCase.insertAll(offImageList);
   }
 
-  void _getIcon(DateTime focuesdDay) async {
+  _getIcon(DateTime focuesdDay) async {
     OffIconEntity? icon = await offIconUseCase.selectOffIcon(focuesdDay);
     _state = _state.copyWith(icon: icon);
   }
 
-  void resetState() {
+  resetState() {
     _state = OffWriteState();
   }
 
   @override
-  init(UiState uiState) {
+  init(UiState uiState) async {
     this.uiState = uiState;
 
     notifyListeners();
   }
 
   @override
-  update(UiState uiState) {
+  update(UiState uiState) async {
     if (this.uiState?.focusedDay != uiState.focusedDay) {
-      _getIcon(uiState.focusedDay);
+      await _getIcon(uiState.focusedDay);
     }
 
     this.uiState = uiState;

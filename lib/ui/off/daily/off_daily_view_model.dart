@@ -29,7 +29,6 @@ class OffDailyViewModel extends UiProviderObserve {
 
   OffDailyState get state => _state;
 
-  //이전 게시글로 이동하는거면 isBefore를 true, 다음 게시글은 false
   void changeDay(bool isBefore) async {
     OffDiary? offDiary = await offDiaryUseCase.selectOffDiaryByUnixTimeLimit(
         state.content!.time, isBefore);
@@ -49,8 +48,7 @@ class OffDailyViewModel extends UiProviderObserve {
     _state = _state.copyWith(content: content);
   }
 
-  //Ui state에서 focused day가 변경되면 update 함수에 의해 실행됨.
-  void _changedByFocusedDay(DateTime focusedDay) async {
+  _changedByFocusedDay(DateTime focusedDay) async {
     OffDiary? offDiary = await offDiaryUseCase.selectByDateTime(focusedDay);
 
     if (offDiary != null) {
@@ -72,8 +70,6 @@ class OffDailyViewModel extends UiProviderObserve {
 
     OffIconEntity? icon = await offIconUseCase.selectOffIcon(focusedDay);
     _state = _state.copyWith(icon: icon);
-
-    notifyListeners();
   }
 
   void addIcon(DateTime selectedDate, String path) async {
@@ -91,14 +87,14 @@ class OffDailyViewModel extends UiProviderObserve {
   }
 
   @override
-  init(UiState uiState) {
+  init(UiState uiState) async {
     this.uiState = uiState.copyWith();
   }
 
   @override
-  update(UiState uiState) {
+  update(UiState uiState) async {
     if (this.uiState!.focusedDay != uiState.focusedDay) {
-      _changedByFocusedDay(uiState.focusedDay);
+      await _changedByFocusedDay(uiState.focusedDay);
     }
 
     this.uiState = uiState.copyWith();

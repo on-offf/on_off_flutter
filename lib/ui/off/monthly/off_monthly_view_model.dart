@@ -25,16 +25,16 @@ class OffMonthlyViewModel extends UiProviderObserve {
 
   OffMonthlyState get state => _state;
 
-  void initScreen() {
-    _changeFocusedDay(uiState!.focusedDay);
+  initScreen() {
+    changeFocusedDay(uiState!.focusedDay);
   }
 
-  void changeFocusedDay(DateTime focusedDay) async {
+  changeFocusedDay(DateTime focusedDay) async {
     _changeFocusedDay(focusedDay);
     notifyListeners();
   }
 
-  void _changeFocusedDay(DateTime focusedDay) async {
+  _changeFocusedDay(DateTime focusedDay) async {
     OffDiary? offDiary = await offDiaryUseCase.selectByDateTime(focusedDay);
 
     if (offDiary != null) {
@@ -59,16 +59,16 @@ class OffMonthlyViewModel extends UiProviderObserve {
   }
 
   @override
-  init(UiState uiState) {
+  init(UiState uiState) async {
     this.uiState = uiState.copyWith();
 
     _changeFocusedDay(uiState.focusedDay);
   }
 
   @override
-  update(UiState uiState) {
+  update(UiState uiState) async {
     if (this.uiState!.focusedDay != uiState.focusedDay) {
-      _changeFocusedDay(uiState.focusedDay);
+      await _changeFocusedDay(uiState.focusedDay);
     }
 
     this.uiState = uiState.copyWith();

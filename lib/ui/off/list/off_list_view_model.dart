@@ -46,19 +46,18 @@ class OffListViewModel extends UiProviderObserve {
     notifyListeners();
   }
 
-  void changeContents(DateTime selectedDate) async {
+  changeContents(DateTime selectedDate) async {
     _changeContents(selectedDate);
     notifyListeners();
   }
 
-  void _changeContents(DateTime selectedDate) async {
+  _changeContents(DateTime selectedDate) async {
     DateTime startDateTime = DateTime(selectedDate.year, selectedDate.month, 1);
     DateTime endDateTime =
         DateTime(selectedDate.year, selectedDate.month + 1, 0);
 
     _selectContents(startDateTime, endDateTime);
     _selectIcons(startDateTime, endDateTime);
-    notifyListeners();
   }
 
   void _selectContents(DateTime startDateTime, DateTime endDateTime) async {
@@ -109,7 +108,7 @@ class OffListViewModel extends UiProviderObserve {
   @override
   update(UiState uiState) async {
     if (this.uiState!.focusedDay != uiState.focusedDay) {
-      changeContents(uiState.focusedDay);
+      await _changeContents(uiState.focusedDay);
     }
 
     this.uiState = uiState;
