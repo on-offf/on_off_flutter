@@ -5,6 +5,7 @@ import 'package:on_off/ui/components/focus_month.dart';
 import 'package:on_off/ui/off/monthly/components/off_monthly_calendar.dart';
 import 'package:on_off/ui/off/monthly/components/off_monthly_item.dart';
 import 'package:on_off/ui/off/list/off_list_screen.dart';
+import 'package:on_off/ui/off/monthly/off_monthly_view_model.dart';
 import 'package:on_off/ui/provider/ui_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -17,6 +18,7 @@ class OffMonthlyScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final uiProvider = context.watch<UiProvider>();
+    final viewModel = context.watch<OffMonthlyViewModel>();
 
     return Scaffold(
       // 작성 화면에서 바로 달력 화면으로 올 경우, 키보드가 늦게 내려가는 경우 키보드 사이즈가 위젯에 영향을 끼치지 못하도록 설정 (픽셀 초과 에러 방지)
@@ -52,7 +54,9 @@ class OffMonthlyScreen extends StatelessWidget {
           Expanded(
             child: GestureDetector(
               onVerticalDragEnd: (details) {
-                _positionChange(uiProvider, details);
+                if (viewModel.state.icon != null) {
+                  _positionChange(uiProvider, details);
+                }
               },
               child: const OffMonthlyItem(),
             ),
