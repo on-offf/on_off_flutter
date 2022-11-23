@@ -42,12 +42,10 @@ class OffMonthlyScreen extends StatelessWidget {
             child: Column(
               children: [
                 FocusMonth(),
-                const OffMonthlyCalendar(),
-                uiProvider.state.calendarFormat == CalendarFormat.month
-                    ? const SizedBox(
-                        height: 47.5,
-                      )
-                    : Container(),
+                const SizedBox(
+                  height: 330,
+                  child: OffMonthlyCalendar(),
+                ),
               ],
             ),
           ),
