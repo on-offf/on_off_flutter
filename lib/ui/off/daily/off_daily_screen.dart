@@ -30,134 +30,119 @@ class OffDailyScreen extends StatelessWidget {
         isPrevButton: true,
         settingButton: false,
       ),
-      body: GestureDetector(
-        onVerticalDragEnd: (details) async {
-          //down
-          if (details.primaryVelocity! > 0) {
-            viewModel.changeDay(true);
-            uiProvider.changeSelectedDay(viewModel.state.content!.time);
-            uiProvider.changeFocusedDay(viewModel.state.content!.time);
-          }
-          //up
-          else if (details.primaryVelocity! < 0) {
-            viewModel.changeDay(false);
-            uiProvider.changeSelectedDay(viewModel.state.content!.time);
-            uiProvider.changeFocusedDay(viewModel.state.content!.time);
-          }
-        },
-        child: Container(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 37,
-          ),
-          child: Column(
-            children: [
-              Row(
-                children: [
-                  CompositedTransformTarget(
-                    link: layerLink,
-                    child: Text(
-                      DateFormat.MMMMEEEEd('ko_KR').format(viewModel.state.content!.time),
-                      style: kSubtitle2,
-                    ),
+      body: Container(
+        padding: const EdgeInsets.symmetric(
+          horizontal: 37,
+        ),
+        child: Column(
+          children: [
+            Row(
+              children: [
+                CompositedTransformTarget(
+                  link: layerLink,
+                  child: Text(
+                    DateFormat.MMMMEEEEd('ko_KR')
+                        .format(viewModel.state.content!.time),
+                    style: kSubtitle2,
                   ),
-                  const SizedBox(width: 8),
-                  if (viewModel.state.icon != null) buildSelectedIcon(viewModel.state.icon!.name),
-                  Expanded(
-                    child: Container(
-                      height: 2,
-                      color: Theme.of(context).primaryColor,
+                ),
+                const SizedBox(width: 8),
+                if (viewModel.state.icon != null)
+                  buildSelectedIcon(viewModel.state.icon!.name),
+                Expanded(
+                  child: Container(
+                    height: 2,
+                    color: Theme.of(context).primaryColor,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 23),
+            Container(
+              height: 41,
+              padding: const EdgeInsets.only(left: 8),
+              alignment: Alignment.centerLeft,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(7),
+                color: const Color.fromRGBO(18, 112, 176, 0.24),
+              ),
+              child: Text(
+                viewModel.state.content!.title,
+                style: kSubtitle3,
+              ),
+            ),
+            const SizedBox(height: 14),
+            SizedBox(
+              width: MediaQuery.of(context).size.width - 74,
+              // height: 240,
+              child: Stack(
+                children: [
+                  CarouselSlider(
+                    carouselController: viewModel.state.carouselController,
+                    options: CarouselOptions(
+                      autoPlay: true,
+                      autoPlayInterval: const Duration(seconds: 3),
+                      autoPlayAnimationDuration:
+                          const Duration(milliseconds: 500),
+                      initialPage: 0,
+                      enableInfiniteScroll: false,
+                      viewportFraction: 1.0,
+                      onPageChanged: (index, reason) {
+                        viewModel.changeCurrentIndex(index);
+                      },
                     ),
+                    items: viewModel.state.content!.imageList.map((offImage) {
+                      return GestureDetector(
+                        onTap: () {
+                          Navigator.pushNamed(
+                              context, OffGalleryScreen.routeName, arguments: {
+                            'offImageList': viewModel.state.content!.imageList
+                          });
+                        },
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(12),
+                          child: Image.memory(
+                            offImage.imageFile,
+                            fit: BoxFit.cover,
+                            width: MediaQuery.of(context).size.width - 74,
+                          ),
+                        ),
+                      );
+                    }).toList(),
                   ),
                 ],
               ),
-              const SizedBox(height: 23),
-              Container(
-                height: 41,
-                padding: const EdgeInsets.only(left: 8),
-                alignment: Alignment.centerLeft,
+            ),
+            const SizedBox(height: 14),
+            Expanded(
+              child: Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(7),
-                  color: const Color.fromRGBO(18, 112, 176, 0.24),
+                  color: const Color.fromRGBO(230, 247, 252, 0.3),
                 ),
-                child: Text(
-                  viewModel.state.content!.title,
-                  style: kSubtitle3,
-                ),
-              ),
-              const SizedBox(height: 14),
-              SizedBox(
-                width: MediaQuery.of(context).size.width - 74,
-                // height: 240,
-                child: Stack(
-                  children: [
-                    CarouselSlider(
-                      carouselController: viewModel.state.carouselController,
-                      options: CarouselOptions(
-                        autoPlay: true,
-                        autoPlayInterval: const Duration(seconds: 3),
-                        autoPlayAnimationDuration:
-                            const Duration(milliseconds: 500),
-                        initialPage: 0,
-                        enableInfiniteScroll: false,
-                        viewportFraction: 1.0,
-                        onPageChanged: (index, reason) {
-                          viewModel.changeCurrentIndex(index);
-                        },
-                      ),
-                      items: viewModel.state.content!.imageList.map((offImage) {
-                        return GestureDetector(
-                          onTap: () {
-                            Navigator.pushNamed(
-                                context, OffGalleryScreen.routeName,
-                                arguments: {
-                                  'offImageList': viewModel.state.content!.imageList
-                                });
-                          },
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(12),
-                            child: Image.memory(
-                              offImage.imageFile,
-                              fit: BoxFit.cover,
-                              width: MediaQuery.of(context).size.width - 74,
-                            ),
-                          ),
-                        );
-                      }).toList(),
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 14),
-              Expanded(
-                child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(7),
-                    color: const Color.fromRGBO(230, 247, 252, 0.3),
-                  ),
-                  child: GestureDetector(
-                    onTap: () {
-                      uiProvider.changeFocusedDay(viewModel.state.content!.time);
-                      Navigator.pushNamed(
-                        context,
-                        OffWriteScreen.routeName,
-                      );
-                    },
-                    child: SingleChildScrollView(
-                      child: SizedBox(
-                        width: MediaQuery.of(context).size.width - 74,
-                        child: Text(
-                          viewModel.state.content!.content,
-                          softWrap: true,
-                          textAlign: TextAlign.start,
-                        ),
+                child: GestureDetector(
+                  onTap: () {
+                    uiProvider.changeFocusedDay(viewModel.state.content!.time);
+                    Navigator.pushNamed(
+                      context,
+                      OffWriteScreen.routeName,
+                    );
+                  },
+                  child: SingleChildScrollView(
+                    child: SizedBox(
+                      width: MediaQuery.of(context).size.width - 74,
+                      child: Text(
+                        viewModel.state.content!.content,
+                        softWrap: true,
+                        textAlign: TextAlign.start,
                       ),
                     ),
                   ),
                 ),
               ),
-              const SizedBox(height: 41),
-            ],
-          ),
+            ),
+            const SizedBox(height: 41),
+          ],
         ),
       ),
     );
