@@ -11,13 +11,19 @@ import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class OffMonthlyItem extends StatelessWidget {
-  const OffMonthlyItem({Key? key}) : super(key: key);
+  OffMonthlyItem({Key? key}) : super(key: key);
+  final ScrollController _scrollController = ScrollController();
 
   @override
   Widget build(BuildContext context) {
     OffMonthlyViewModel viewModel = context.watch<OffMonthlyViewModel>();
     UiProvider uiProvider = context.watch<UiProvider>();
     LayerLink layerLink = LayerLink();
+    _scrollController.addListener(() {
+      if (_scrollController.offset < -50) {
+        uiProvider.changeCalendarFormat(CalendarFormat.month);
+      }
+    });
 
     return viewModel.state.content == null
         ? Column(
@@ -93,235 +99,158 @@ class OffMonthlyItem extends StatelessWidget {
                     )
                   : const BoxDecoration(),
               padding: EdgeInsets.only(
-                top: uiProvider.state.calendarFormat == CalendarFormat.month ? 0 : 25,
+                top: uiProvider.state.calendarFormat == CalendarFormat.month
+                    ? 0
+                    : 25,
                 left: 37,
                 right: 37,
               ),
-              child: Column(
-                children: [
-                  Row(
-                    children: [
-                      CompositedTransformTarget(
-                        link: layerLink,
-                        child: Text(
-                          DateFormat.MMMMEEEEd('ko_KR')
-                              .format(viewModel.state.content!.time),
-                          style: kSubtitle3,
-                        ),
-                      ),
-                      SizedBox(width: 10),
-                      Expanded(
-                        child: Container(
-                          height: 2,
-                          color: Theme.of(context).primaryColor,
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 23),
-                  Container(
-                    height: 41,
-                    padding: const EdgeInsets.only(left: 8),
-                    alignment: Alignment.centerLeft,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(7),
-                      color: const Color.fromRGBO(18, 112, 176, 0.24),
-                    ),
-                    child: Text(
-                      viewModel.state.content!.title,
-                      style: kSubtitle3,
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-                  uiProvider.state.calendarFormat == CalendarFormat.month
-                      ? Column(
-                          children: [
-                            viewModel.state.content!.imageList.isEmpty
-                                ? const SizedBox()
-                                : GestureDetector(
-                                    onTap: () {
-                                      uiProvider.changeFloatingActionButtonSwitch(true);
-                                      uiProvider.changeCalendarFormat(CalendarFormat.month);
-                                      Navigator.pushNamed(
-                                        context,
-                                        OffGalleryScreen.routeName,
-                                        arguments: {
-                                          'offImageList':
-                                              viewModel.state.content?.imageList
-                                        },
-                                      );
-                                    },
-                                    child: SizedBox(
-                                      width: MediaQuery.of(context).size.width -
-                                          74,
-                                      height: 240,
-                                      child: ClipRRect(
-                                        borderRadius: BorderRadius.circular(16),
-                                        child: Image.memory(
-                                          viewModel.state.content!.imageList.first
-                                              .imageFile,
-                                          fit: BoxFit.fill,
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width -
-                                              74,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                            viewModel.state.content!.imageList.isEmpty
-                                ? const SizedBox()
-                                : const SizedBox(height: 15),
-                            Row(
-                              children: [
-                                const Text(
-                                  "오늘의 일기",
-                                  style: kSubtitle2,
-                                ),
-                                const SizedBox(
-                                  width: 40.5,
-                                ),
-                                Expanded(
-                                  child: Container(
-                                    height: 2,
-                                    decoration: const BoxDecoration(
-                                      color: Color(0xff219EBC),
-                                      borderRadius: BorderRadius.all(
-                                        Radius.circular(2.0),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(height: 7),
-                            GestureDetector(
-                              onTap: () {
-                                uiProvider.changeCalendarFormat(CalendarFormat.month);
-                                Navigator.pushNamed(
-                                  context,
-                                  OffDailyScreen.routeName,
-                                  arguments: {
-                                    'content': viewModel.state.content,
-                                    'icon': viewModel.state.icon,
-                                  },
-                                );
-                              },
-                              child: SizedBox(
-                                width: MediaQuery.of(context).size.width - 74,
-                                child: Text(
-                                  viewModel.state.content!.content,
-                                  textAlign: TextAlign.start,
-                                  softWrap: true,
-                                  style: kBody1,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ),
-                            ),
-                          ],
-                        )
-                      : Expanded(
-                          child: Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(7),
-                              color: const Color.fromRGBO(230, 247, 252, 0.3),
-                            ),
-                            child: SingleChildScrollView(
-                              child: Column(
-                                children: [
-                                  viewModel.state.content!.imageList.isEmpty
-                                      ? const SizedBox()
-                                      : GestureDetector(
-                                          onTap: () {
-                                            uiProvider.changeFloatingActionButtonSwitch(true);
-                                            uiProvider.changeCalendarFormat(CalendarFormat.month);
-                                            Navigator.pushNamed(
-                                              context,
-                                              OffGalleryScreen.routeName,
-                                              arguments: {
-                                                'offImageList':
-                                                    viewModel.state.content?.imageList
-                                              },
-                                            );
-                                          },
-                                          child: SizedBox(
-                                            width: MediaQuery.of(context)
-                                                    .size
-                                                    .width -
-                                                74,
-                                            height: 240,
-                                            child: ClipRRect(
-                                              borderRadius:
-                                                  BorderRadius.circular(16),
-                                              child: Image.memory(
-                                                viewModel.state.content!.imageList.first
-                                                    .imageFile,
-                                                fit: BoxFit.fill,
-                                                width: MediaQuery.of(context)
-                                                        .size
-                                                        .width -
-                                                    74,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                  viewModel.state.content!.imageList.isEmpty
-                                      ? const SizedBox()
-                                      : const SizedBox(height: 15),
-                                  Row(
-                                    children: [
-                                      const Text(
-                                        "오늘의 일기",
-                                        style: kSubtitle2,
-                                      ),
-                                      const SizedBox(
-                                        width: 40.5,
-                                      ),
-                                      Expanded(
-                                        child: Container(
-                                          height: 2,
-                                          decoration: const BoxDecoration(
-                                            color: Color(0xff219EBC),
-                                            borderRadius: BorderRadius.all(
-                                              Radius.circular(2.0),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  const SizedBox(height: 7),
-                                  GestureDetector(
-                                    onTap: () {
-                                      uiProvider.changeCalendarFormat(CalendarFormat.month);
-                                      Navigator.pushNamed(
-                                        context,
-                                        OffDailyScreen.routeName,
-                                        arguments: {
-                                          'content': viewModel.state.content,
-                                          'icon': viewModel.state.icon,
-                                        },
-                                      );
-                                    },
-                                    child: SizedBox(
-                                      width: MediaQuery.of(context).size.width -
-                                          74,
-                                      child: Text(
-                                        viewModel.state.content!.content,
-                                        textAlign: TextAlign.start,
-                                        softWrap: true,
-                                        style: kBody1,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                ],
+              child: SingleChildScrollView(
+                physics: uiProvider.state.calendarFormat == CalendarFormat.month
+                    ? const NeverScrollableScrollPhysics()
+                    : const BouncingScrollPhysics(),
+                child: item(context, viewModel, uiProvider, layerLink),
               ),
             ),
           );
   }
+
+  Widget item(context, viewModel, uiProvider, layerLink) {
+    return Column(
+      children: [
+        Row(
+          children: [
+            CompositedTransformTarget(
+              link: layerLink,
+              child: Text(
+                DateFormat.MMMMEEEEd('ko_KR')
+                    .format(viewModel.state.content!.time),
+                style: kSubtitle3,
+              ),
+            ),
+            const SizedBox(width: 10),
+            Expanded(
+              child: Container(
+                height: 2,
+                color: Theme.of(context).primaryColor,
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 23),
+        Container(
+          decoration: const BoxDecoration(
+            color: Color.fromRGBO(100, 207, 239, .1),
+          ),
+          height: 500,
+          child: SingleChildScrollView(
+            physics: uiProvider.state.calendarFormat == CalendarFormat.month
+                ? const NeverScrollableScrollPhysics()
+                : const BouncingScrollPhysics(),
+            controller: _scrollController,
+            child: Column(
+              children: [
+                Container(
+                  height: 41,
+                  padding: const EdgeInsets.only(left: 8),
+                  alignment: Alignment.centerLeft,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(7),
+                    color: const Color.fromRGBO(18, 112, 176, 0.24),
+                  ),
+                  child: Text(
+                    viewModel.state.content!.title,
+                    style: kSubtitle3.copyWith(height: 1),
+                  ),
+                ),
+                const SizedBox(height: 10),
+                showItem(context, viewModel, uiProvider),
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget showItem(context, viewModel, uiProvider) {
+    return Column(
+      children: [
+        GestureDetector(
+          onTap: () {
+            uiProvider.changeFloatingActionButtonSwitch(true);
+            uiProvider.changeCalendarFormat(CalendarFormat.month);
+            Navigator.pushNamed(
+              context,
+              OffGalleryScreen.routeName,
+              arguments: {'offImageList': viewModel.state.content?.imageList},
+            );
+          },
+          child: SizedBox(
+            width: MediaQuery.of(context).size.width - 74,
+            height: 240,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(16),
+              child: Image.memory(
+                viewModel.state.content!.imageList.first.imageFile,
+                fit: BoxFit.fill,
+                width: MediaQuery.of(context).size.width - 74,
+              ),
+            ),
+          ),
+        ),
+        const SizedBox(height: 15),
+        GestureDetector(
+          onTap: () {
+            uiProvider.changeCalendarFormat(CalendarFormat.month);
+            Navigator.pushNamed(
+              context,
+              OffDailyScreen.routeName,
+              arguments: {
+                'content': viewModel.state.content,
+                'icon': viewModel.state.icon,
+              },
+            );
+          },
+          child: Column(
+            children: [
+              Row(
+                children: [
+                  const Text(
+                    "오늘의 일기",
+                    style: kSubtitle2,
+                  ),
+                  const SizedBox(
+                    width: 40.5,
+                  ),
+                  Expanded(
+                    child: Container(
+                      height: 2,
+                      decoration: const BoxDecoration(
+                        color: Color(0xff219EBC),
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(2.0),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 7),
+              SizedBox(
+                width: MediaQuery.of(context).size.width - 74,
+                child: Text(
+                  viewModel.state.content!.content,
+                  textAlign: TextAlign.start,
+                  softWrap: true,
+                  style: kBody1,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
 }

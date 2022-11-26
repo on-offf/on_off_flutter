@@ -44,10 +44,15 @@ class OffMonthlyScreen extends StatelessWidget {
             child: Column(
               children: [
                 FocusMonth(),
-                const SizedBox(
-                  height: 330,
-                  child: OffMonthlyCalendar(),
-                ),
+                AnimatedContainer(
+                  duration: const Duration(milliseconds: 300),
+                  height:
+                      uiProvider.state.calendarFormat == CalendarFormat.month
+                          ? 310
+                          : 60,
+                  child: const SingleChildScrollView(
+                      child: OffMonthlyCalendar()),
+                )
               ],
             ),
           ),
@@ -58,7 +63,7 @@ class OffMonthlyScreen extends StatelessWidget {
                   _positionChange(uiProvider, details);
                 }
               },
-              child: const OffMonthlyItem(),
+              child: OffMonthlyItem(),
             ),
           ),
         ],
