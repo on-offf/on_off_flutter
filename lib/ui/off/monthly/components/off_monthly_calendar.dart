@@ -56,41 +56,43 @@ class OffMonthlyCalendar extends StatelessWidget {
   }
 
   CalendarStyle _calendarStyle() {
-    return const CalendarStyle(
+    double fontSize = 14;
+    return CalendarStyle(
       outsideDaysVisible: false,
       todayTextStyle: TextStyle(
         fontWeight: FontWeight.w400,
-        fontSize: 11,
+        fontSize: fontSize,
         height: 1.21,
+        color: const Color(0xffB3B3B3),
       ),
       selectedTextStyle: TextStyle(
         fontWeight: FontWeight.w400,
-        fontSize: 11,
+        fontSize: fontSize,
         height: 1.21,
       ),
       defaultTextStyle: TextStyle(
         fontWeight: FontWeight.w400,
-        fontSize: 11,
+        fontSize: fontSize,
         height: 1.21,
-        color: Color(0xffB3B3B3),
+        color: const Color(0xffB3B3B3),
       ),
       weekendTextStyle: TextStyle(
         fontWeight: FontWeight.w400,
-        fontSize: 11,
+        fontSize: fontSize,
         height: 1.21,
-        color: Color(0xff219EBC),
+        color: const Color(0xff219EBC),
       ),
-      todayDecoration: BoxDecoration(
-        color: Color(0xFF219EBC),
+      todayDecoration: const BoxDecoration(
+        color: Colors.transparent,
         shape: BoxShape.circle,
       ),
-      selectedDecoration: BoxDecoration(
+      selectedDecoration: const BoxDecoration(
         color: Color(0xFF219EBC),
         shape: BoxShape.circle,
       ),
       outsideTextStyle: TextStyle(
         fontWeight: FontWeight.w400,
-        fontSize: 11,
+        fontSize: fontSize,
         height: 1.21,
         color: Color(0xffB3B3B3),
       ),
