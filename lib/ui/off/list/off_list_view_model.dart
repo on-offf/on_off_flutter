@@ -56,11 +56,11 @@ class OffListViewModel extends UiProviderObserve {
     DateTime endDateTime =
         DateTime(selectedDate.year, selectedDate.month + 1, 0);
 
-    _selectContents(startDateTime, endDateTime);
-    _selectIcons(startDateTime, endDateTime);
+    await _selectContents(startDateTime, endDateTime);
+    await _selectIcons(startDateTime, endDateTime);
   }
 
-  void _selectContents(DateTime startDateTime, DateTime endDateTime) async {
+  _selectContents(DateTime startDateTime, DateTime endDateTime) async {
     List<OffDiary> offDiaryList =
         await offDiaryUseCase.selectOffDiaryList(startDateTime, endDateTime);
     List<Content> contentList = [];
@@ -86,7 +86,7 @@ class OffListViewModel extends UiProviderObserve {
     _state = _state.copyWith(contents: contentList);
   }
 
-  void _selectIcons(DateTime startDateTime, DateTime endDateTime) async {
+  _selectIcons(DateTime startDateTime, DateTime endDateTime) async {
     List<OffIconEntity> iconEntityList =
         await iconUseCase.selectOffIconList(startDateTime, endDateTime);
 
