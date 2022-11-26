@@ -40,7 +40,7 @@ class _IconsAboveKeyboardState extends State<IconsAboveKeyboard> {
   Widget build(BuildContext context) {
     OffWriteViewModel viewModel = context.watch<OffWriteViewModel>();
 
-    uiProvider = context.watch<UiProvider>();
+    UiProvider uiProvider = context.watch<UiProvider>();
 
     return Positioned(
       bottom: 0,
@@ -65,7 +65,7 @@ class _IconsAboveKeyboardState extends State<IconsAboveKeyboard> {
                 IconButton(
                   onPressed: () async {
                     if (viewModel.state.imagePaths.length >= imageLimitNumber) {
-                      _imageLimitTenDialog(uiProvider!.state);
+                      _imageLimitTenDialog(uiProvider.state);
                     } else {
                       _pickedImage = await inputImage(0);
                       if (_pickedImage != null) {
@@ -85,7 +85,7 @@ class _IconsAboveKeyboardState extends State<IconsAboveKeyboard> {
                 IconButton(
                   onPressed: () async {
                     if (viewModel.state.imagePaths.length >= imageLimitNumber) {
-                      _imageLimitTenDialog(uiProvider!.state);
+                      _imageLimitTenDialog(uiProvider.state);
                     } else {
                       _pickedImage = await inputImage(1);
                       if (_pickedImage != null) {
@@ -132,7 +132,7 @@ class _IconsAboveKeyboardState extends State<IconsAboveKeyboard> {
                     }
                     viewModel.saveContent(widget.titleController.text,
                         widget.bodyController.text);
-                    uiProvider?.initScreen(OffMonthlyScreen.routeName);
+                    uiProvider.initScreen(OffMonthlyScreen.routeName);
                     Navigator.of(context).pop();
                   },
                   padding: const EdgeInsets.all(0),

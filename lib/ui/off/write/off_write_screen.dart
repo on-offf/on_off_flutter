@@ -34,6 +34,7 @@ class _OffWriteScreenState extends State<OffWriteScreen> {
   OffWriteViewModel? viewModel;
   UiProvider? uiProvider;
   bool init = false;
+  late ScrollController _scrollController;
 
   void changeByFocus(bool hasFocus) {
     if (hasFocus == true) {
@@ -53,6 +54,7 @@ class _OffWriteScreenState extends State<OffWriteScreen> {
     _bodyFocus.addListener(() {
       changeByFocus(_bodyFocus.hasFocus);
     });
+    _scrollController = ScrollController();
   }
 
   @override
@@ -63,14 +65,15 @@ class _OffWriteScreenState extends State<OffWriteScreen> {
     titleController.dispose();
     bodyController.dispose();
     viewModel!.resetState();
+    _scrollController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     viewModel = context.watch<OffWriteViewModel>();
-
-    uiProvider = context.watch<UiProvider>();
+    UiProvider uiProvider = context.watch<UiProvider>();
+    double height = MediaQuery.of(context).size.height;
 
     if (!init) {
       init = true;
@@ -85,17 +88,18 @@ class _OffWriteScreenState extends State<OffWriteScreen> {
       ),
       body: Stack(
         children: [
-          Padding(
+          Container(
             padding: const EdgeInsets.symmetric(horizontal: 37),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+            height: height,
+            child: ListView(
+              controller: _scrollController,
               children: [
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
                       DateFormat.MMMMEEEEd('ko_KR')
-                          .format(uiProvider!.state.focusedDay),
+                          .format(uiProvider.state.focusedDay),
                       style: const TextStyle(
                         fontSize: 15,
                         fontWeight: FontWeight.w700,
@@ -142,7 +146,11 @@ class _OffWriteScreenState extends State<OffWriteScreen> {
                 ),
                 Expanded(
                   child: Container(
-                    color: const Color.fromRGBO(230, 247, 252, .3),
+                    decoration: BoxDecoration(
+                      color: const Color.fromRGBO(230, 247, 252, .3),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    height: 500,
                     child: Column(
                       children: [
                         const SizedBox(
@@ -184,7 +192,7 @@ class _OffWriteScreenState extends State<OffWriteScreen> {
                                                           .imagePaths[index]);
                                                 } else {
                                                   _imageRemoveFailDialog(
-                                                      uiProvider!.state);
+                                                      uiProvider.state);
                                                 }
                                               },
                                               child: const Icon(Icons.cancel),
@@ -219,6 +227,8 @@ class _OffWriteScreenState extends State<OffWriteScreen> {
                             focusNode: _bodyFocus,
                             controller: bodyController,
                             style: kBody2,
+                            minLines: 8,
+                            maxLines: 8,
                             decoration: InputDecoration(
                               hintText: '일기를 입력해주세요...',
                               focusedBorder: InputBorder.none,
@@ -230,7 +240,14 @@ class _OffWriteScreenState extends State<OffWriteScreen> {
                                 ),
                               ),
                             ),
-                            maxLines: null,
+                            onTap: () {
+                              //키보드 높이 120 + 키보드 위 버튼들 높이 56
+                              _scrollController.animateTo(
+                                176,
+                                duration: Duration(milliseconds: 500),
+                                curve: Curves.ease,
+                              );
+                            },
                           ),
                         ),
                       ],
