@@ -9,6 +9,7 @@ import 'package:on_off/ui/components/simple_dialog.dart';
 import 'package:on_off/ui/components/sticker_button.dart';
 import 'package:on_off/ui/off/monthly/off_monthly_screen.dart';
 import 'package:on_off/ui/off/write/components/icons_above_keyboard.dart';
+import 'package:on_off/ui/off/write/off_write_state.dart';
 import 'package:on_off/ui/off/write/off_write_view_model.dart';
 import 'package:on_off/ui/provider/ui_provider.dart';
 import 'package:on_off/ui/provider/ui_state.dart';
@@ -93,7 +94,8 @@ class _OffWriteScreenState extends State<OffWriteScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      DateFormat.MMMMEEEEd('ko_KR').format(uiProvider!.state.focusedDay),
+                      DateFormat.MMMMEEEEd('ko_KR')
+                          .format(uiProvider!.state.focusedDay),
                       style: const TextStyle(
                         fontSize: 15,
                         fontWeight: FontWeight.w700,
@@ -101,8 +103,7 @@ class _OffWriteScreenState extends State<OffWriteScreen> {
                         letterSpacing: .25,
                       ),
                     ),
-                    if (viewModel!.state.icon != null)
-                      buildSelectedIcon(viewModel!.state.icon!.name),
+                    if (viewModel!.state.icon != null) _buildRemovableIcon(),
                   ],
                 ),
                 const SizedBox(
@@ -119,25 +120,24 @@ class _OffWriteScreenState extends State<OffWriteScreen> {
                       letterSpacing: .1,
                     ),
                     decoration: InputDecoration(
-                      hintText: '제목을 입력해주세요.',
-                      contentPadding: const EdgeInsets.only(left: 10),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8.0),
-                        borderSide: const BorderSide(
-                          width: 0,
-                          style: BorderStyle.none,
+                        hintText: '제목을 입력해주세요.',
+                        contentPadding: const EdgeInsets.only(left: 10),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8.0),
+                          borderSide: const BorderSide(
+                            width: 0,
+                            style: BorderStyle.none,
+                          ),
                         ),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8.0),
-                        borderSide: const BorderSide(
-                          width: 0,
-                          style: BorderStyle.none,
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8.0),
+                          borderSide: const BorderSide(
+                            width: 0,
+                            style: BorderStyle.none,
+                          ),
                         ),
-                      ),
-                      filled: true,
-                      fillColor: const Color.fromRGBO(18, 112, 176, 0.24)
-                    ),
+                        filled: true,
+                        fillColor: const Color.fromRGBO(18, 112, 176, 0.24)),
                   ),
                 ),
                 Expanded(
@@ -166,7 +166,8 @@ class _OffWriteScreenState extends State<OffWriteScreen> {
                                               Radius.circular(10),
                                             ),
                                             child: Image.file(
-                                              viewModel!.state.imagePaths[index].file,
+                                              viewModel!
+                                                  .state.imagePaths[index].file,
                                               height: 140,
                                             ),
                                           ),
@@ -175,13 +176,15 @@ class _OffWriteScreenState extends State<OffWriteScreen> {
                                             right: 5,
                                             child: GestureDetector(
                                               onTap: () {
-                                                if (viewModel!.state.imagePaths.length >
+                                                if (viewModel!.state.imagePaths
+                                                        .length >
                                                     1) {
                                                   viewModel?.removeImage(
-                                                      viewModel!.state.imagePaths[
-                                                              index]);
+                                                      viewModel!.state
+                                                          .imagePaths[index]);
                                                 } else {
-                                                  _imageRemoveFailDialog(uiProvider!.state);
+                                                  _imageRemoveFailDialog(
+                                                      uiProvider!.state);
                                                 }
                                               },
                                               child: const Icon(Icons.cancel),
@@ -273,6 +276,12 @@ class _OffWriteScreenState extends State<OffWriteScreen> {
       uiProvider?.initScreen(OffMonthlyScreen.routeName);
       Future.delayed(Duration.zero, () => Navigator.pop(context));
     }
+  }
+
+  Widget _buildRemovableIcon() {
+    return GestureDetector(
+        child: buildSelectedIcon(viewModel!.state.icon!.name),
+        onTap: () => viewModel?.removeIcon(uiProvider!.state.focusedDay));
   }
 
   Future<dynamic> _removeDialog(UiState uiState) {

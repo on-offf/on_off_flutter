@@ -38,6 +38,12 @@ class OffWriteViewModel extends UiProviderObserve {
     await offImageUseCase.deleteByDiaryId(diaryId);
   }
 
+  void removeIcon(DateTime dateTime) async {
+    await offIconUseCase.delete(dateTime);
+    _state = _state.copyWith(icon: null);
+    notifyListeners();
+  }
+
   removeImage(OffWriteImage selectedImage) async {
     if (selectedImage.id != null) {
       await offImageUseCase.delete(selectedImage.id!);
@@ -82,7 +88,8 @@ class OffWriteViewModel extends UiProviderObserve {
     List<OffWriteImage> list = [];
 
     for (var offImage in offImageList) {
-      final chars = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
+      final chars =
+          'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
       final random = Random();
 
       final appDir = await syspaths.getApplicationDocumentsDirectory();
@@ -102,7 +109,8 @@ class OffWriteViewModel extends UiProviderObserve {
   }
 
   String getRandomString(random, chars, int length) {
-    return String.fromCharCodes(Iterable.generate(length, (_) => chars.codeUnitAt(random.nextInt(chars.length))));
+    return String.fromCharCodes(Iterable.generate(
+        length, (_) => chars.codeUnitAt(random.nextInt(chars.length))));
   }
 
   addIcon(String path) async {
