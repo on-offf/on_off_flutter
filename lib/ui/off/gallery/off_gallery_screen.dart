@@ -77,8 +77,6 @@ class OffGalleryScreen extends StatelessWidget {
                   child: Image.memory(
                     viewModel.state.offImageList[viewModel.state.index].imageFile,
                     fit: BoxFit.fitWidth,
-                    colorBlendMode: BlendMode.hardLight,
-                    color: Colors.grey,
                   ),
                 );
               },
