@@ -20,8 +20,8 @@ class OffGalleryScreen extends StatelessWidget {
     final arguments = (ModalRoute.of(context)?.settings.arguments ??
         <String, dynamic>{}) as Map;
 
-    double aspectRatioWidth = MediaQuery.of(context).size.width - 76;
-    double aspectRatioHeight = MediaQuery.of(context).size.height - 307;
+    double aspectRatioWidth = 3;
+    double aspectRatioHeight = 4;
 
     if (!_isInit) {
       _isInit = true;
@@ -65,29 +65,31 @@ class OffGalleryScreen extends StatelessWidget {
         padding: const EdgeInsets.only(
           left: 38,
           right: 38,
-          bottom: 41,
         ),
         child: Column(
           children: [
-            CarouselSlider.builder(
-              itemCount: viewModel.state.offImageList.length,
-              itemBuilder: (BuildContext context, int index, int realIndex) {
-                return Image.memory(
-                  viewModel.state.offImageList[viewModel.state.index].imageFile,
-                  fit: BoxFit.fitWidth,
-                );
-              },
-              options: CarouselOptions(
-                initialPage: 0,
-                viewportFraction: 1.0,
-                aspectRatio: aspectRatioWidth / aspectRatioHeight,
-                onPageChanged: (index, reason) {
-                  viewModel.changeIndex(index);
+            Expanded(
+              flex: 7,
+              child: CarouselSlider.builder(
+                itemCount: viewModel.state.offImageList.length,
+                itemBuilder: (BuildContext context, int index, int realIndex) {
+                  return Image.memory(
+                    viewModel.state.offImageList[viewModel.state.index].imageFile,
+                    fit: BoxFit.fitWidth,
+                  );
                 },
+                options: CarouselOptions(
+                  initialPage: 0,
+                  viewportFraction: 1.0,
+                  aspectRatio: aspectRatioWidth / aspectRatioHeight,
+                  onPageChanged: (index, reason) {
+                    viewModel.changeIndex(index);
+                  },
+                ),
               ),
             ),
-            SizedBox(
-              height: 60,
+            Expanded(
+              flex: 1,
               child: ListView.separated(
                 scrollDirection: Axis.horizontal,
                 shrinkWrap: true,
@@ -109,38 +111,43 @@ class OffGalleryScreen extends StatelessWidget {
                 itemCount: viewModel.state.offImageList.length,
               ),
             ),
-            SizedBox(
-              height: 70,
-              child: ListView.separated(
-                scrollDirection: Axis.horizontal,
-                itemBuilder: (ctx, idx) {
-                  // idx == state.index
-                  return GestureDetector(
-                    onTap: () =>
-                        viewModel.changeIndex(idx),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(16),
-                      child: Image.memory(
-                        viewModel.state.offImageList[idx].imageFile,
-                        fit: BoxFit.fill,
-                        color: idx == viewModel.state.index
-                            ? Colors.transparent
-                            : Colors.grey,
-                        colorBlendMode: BlendMode.screen,
-                        width: 70,
-                        height: 70,
+            Expanded(
+              flex: 1,
+                child: ListView.separated(
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (ctx, idx) {
+                    // idx == state.index
+                    return SizedBox(
+                      width: 70,
+                      height: 70,
+                      child: GestureDetector(
+                        onTap: () =>
+                            viewModel.changeIndex(idx),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(16),
+                          child: Image.memory(
+                            viewModel.state.offImageList[idx].imageFile,
+                            fit: BoxFit.fill,
+                            color: idx == viewModel.state.index
+                                ? Colors.transparent
+                                : Colors.grey,
+                            colorBlendMode: BlendMode.screen,
+                            width: 70,
+                            height: 70,
+                          ),
+                        ),
                       ),
-                    ),
-                  );
-                },
-                separatorBuilder: (ctx, idx) {
-                  return const SizedBox(
-                    width: 5,
-                  );
-                },
-                itemCount: viewModel.state.offImageList.length,
+                    );
+                  },
+                  separatorBuilder: (ctx, idx) {
+                    return const SizedBox(
+                      width: 5,
+                    );
+                  },
+                  itemCount: viewModel.state.offImageList.length,
+                ),
               ),
-            ),
+            const SizedBox(height: 20),
           ],
         ),
       ),
