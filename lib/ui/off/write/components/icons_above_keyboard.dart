@@ -64,10 +64,14 @@ class _IconsAboveKeyboardState extends State<IconsAboveKeyboard> {
                 const SizedBox(width: 38),
                 IconButton(
                   onPressed: () async {
-                    _pickedImage = await inputImage(0);
-                    if (_pickedImage != null) {
-                      viewModel.addSelectedImagePaths(_pickedImage!);
-                      _pickedImage = null;
+                    if (viewModel.state.imagePaths.length >= imageLimitNumber) {
+                      _imageLimitTenDialog(uiProvider!.state);
+                    } else {
+                      _pickedImage = await inputImage(0);
+                      if (_pickedImage != null) {
+                        viewModel.addSelectedImagePaths(_pickedImage!);
+                        _pickedImage = null;
+                      }
                     }
                   },
                   padding: const EdgeInsets.all(0),
@@ -81,7 +85,6 @@ class _IconsAboveKeyboardState extends State<IconsAboveKeyboard> {
                 IconButton(
                   onPressed: () async {
                     if (viewModel.state.imagePaths.length >= imageLimitNumber) {
-                      //TODO 질문 : > 사용해서 +1, -1을 하면 왜 안됨?
                       _imageLimitTenDialog(uiProvider!.state);
                     } else {
                       _pickedImage = await inputImage(1);
@@ -118,14 +121,17 @@ class _IconsAboveKeyboardState extends State<IconsAboveKeyboard> {
                   indent: 10,
                   endIndent: 10,
                 ),
-                const SizedBox(width: 10,),
+                const SizedBox(
+                  width: 10,
+                ),
                 IconButton(
                   onPressed: () {
                     if (viewModel.state.imagePaths.isEmpty) {
                       _showImageRegistryDialog();
                       return;
                     }
-                    viewModel.saveContent(widget.titleController.text, widget.bodyController.text);
+                    viewModel.saveContent(widget.titleController.text,
+                        widget.bodyController.text);
                     uiProvider?.initScreen(OffMonthlyScreen.routeName);
                     Navigator.of(context).pop();
                   },
