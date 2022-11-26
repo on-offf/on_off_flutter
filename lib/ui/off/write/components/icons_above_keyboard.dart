@@ -39,7 +39,6 @@ class _IconsAboveKeyboardState extends State<IconsAboveKeyboard> {
   @override
   Widget build(BuildContext context) {
     OffWriteViewModel viewModel = context.watch<OffWriteViewModel>();
-
     UiProvider uiProvider = context.watch<UiProvider>();
 
     return Positioned(
@@ -130,10 +129,16 @@ class _IconsAboveKeyboardState extends State<IconsAboveKeyboard> {
                       _showImageRegistryDialog();
                       return;
                     }
-                    viewModel.saveContent(widget.titleController.text,
-                        widget.bodyController.text);
-                    uiProvider.initScreen(OffMonthlyScreen.routeName);
-                    Navigator.of(context).pop();
+                    if (widget.titleController.text.trim().isEmpty) {
+                      _titleFailDialog(uiProvider.state);
+                    } else if (widget.bodyController.text.trim().isEmpty) {
+                      _contentFailDialog(uiProvider.state);
+                    } else {
+                      viewModel.saveContent(widget.titleController.text,
+                          widget.bodyController.text);
+                      uiProvider.initScreen(OffMonthlyScreen.routeName);
+                      Navigator.of(context).pop();
+                    }
                   },
                   padding: const EdgeInsets.all(0),
                   icon: Image(
@@ -156,7 +161,7 @@ class _IconsAboveKeyboardState extends State<IconsAboveKeyboard> {
       context: context,
       builder: (_) => const AlertDialog(
         title: Text(
-          '사진을 1장 이상 등록해주세요.',
+          '사진을 1장 이상 등록해 주세요.',
           style: kBody1,
         ),
       ),
@@ -170,6 +175,24 @@ class _IconsAboveKeyboardState extends State<IconsAboveKeyboard> {
       canvasColor: uiState.colorConst.canvas,
       message: '사진은 최대 $imageLimitNumber장까지 등록 가능합니다.',
       // message: '사진은 최대 3장까지 등록 가능합니다.',
+    );
+  }
+
+  void _titleFailDialog(UiState uiState) {
+    simpleTextDialog(
+      context,
+      primaryColor: uiState.colorConst.getPrimary(),
+      canvasColor: uiState.colorConst.canvas,
+      message: '제목을 작성해 주세요',
+    );
+  }
+
+  void _contentFailDialog(UiState uiState) {
+    simpleTextDialog(
+      context,
+      primaryColor: uiState.colorConst.getPrimary(),
+      canvasColor: uiState.colorConst.canvas,
+      message: '본문을 작성해 주세요',
     );
   }
 }
