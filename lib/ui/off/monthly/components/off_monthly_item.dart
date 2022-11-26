@@ -13,25 +13,24 @@ import 'package:table_calendar/table_calendar.dart';
 class OffMonthlyItem extends StatelessWidget {
   OffMonthlyItem({Key? key}) : super(key: key);
   final ScrollController _scrollController = ScrollController();
+  final ScrollController _scrollController2 = ScrollController();
 
   @override
   Widget build(BuildContext context) {
     OffMonthlyViewModel viewModel = context.watch<OffMonthlyViewModel>();
     UiProvider uiProvider = context.watch<UiProvider>();
     LayerLink layerLink = LayerLink();
-    _scrollController.addListener(() {
-      if (_scrollController.offset < -50) {
-        uiProvider.changeCalendarFormat(CalendarFormat.month);
-      }
-    });
+
+    _scrollControllerListener(_scrollController, uiProvider);
+    _scrollControllerListener(_scrollController2, uiProvider);
 
     return viewModel.state.content == null
         ? Column(
             children: [
               Image(
                 image: AssetImage(IconPath.noHaveContent.name),
-                width: 130,
-                height: 130,
+                width: 120,
+                height: 120,
               ),
               const SizedBox(
                 height: 15,
@@ -109,6 +108,7 @@ class OffMonthlyItem extends StatelessWidget {
                 physics: uiProvider.state.calendarFormat == CalendarFormat.month
                     ? const NeverScrollableScrollPhysics()
                     : const BouncingScrollPhysics(),
+                controller: _scrollController,
                 child: item(context, viewModel, uiProvider, layerLink),
               ),
             ),
@@ -147,7 +147,7 @@ class OffMonthlyItem extends StatelessWidget {
             physics: uiProvider.state.calendarFormat == CalendarFormat.month
                 ? const NeverScrollableScrollPhysics()
                 : const BouncingScrollPhysics(),
-            controller: _scrollController,
+            controller: _scrollController2,
             child: Column(
               children: [
                 Container(
@@ -251,6 +251,14 @@ class OffMonthlyItem extends StatelessWidget {
         ),
       ],
     );
+  }
+
+  void _scrollControllerListener(ScrollController scrollController, UiProvider uiProvider) {
+    scrollController.addListener(() {
+      if (scrollController.offset < -50) {
+        uiProvider.changeCalendarFormat(CalendarFormat.month);
+      }
+    });
   }
 
 }
