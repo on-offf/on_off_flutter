@@ -39,8 +39,7 @@ class _IconsAboveKeyboardState extends State<IconsAboveKeyboard> {
   @override
   Widget build(BuildContext context) {
     OffWriteViewModel viewModel = context.watch<OffWriteViewModel>();
-
-    uiProvider = context.watch<UiProvider>();
+    UiProvider uiProvider = context.watch<UiProvider>();
 
     return Positioned(
       bottom: 0,
@@ -64,10 +63,14 @@ class _IconsAboveKeyboardState extends State<IconsAboveKeyboard> {
                 const SizedBox(width: 38),
                 IconButton(
                   onPressed: () async {
-                    _pickedImage = await inputImage(0);
-                    if (_pickedImage != null) {
-                      viewModel.addSelectedImagePaths(_pickedImage!);
-                      _pickedImage = null;
+                    if (viewModel.state.imagePaths.length >= imageLimitNumber) {
+                      _imageLimitTenDialog(uiProvider.state);
+                    } else {
+                      _pickedImage = await inputImage(0);
+                      if (_pickedImage != null) {
+                        viewModel.addSelectedImagePaths(_pickedImage!);
+                        _pickedImage = null;
+                      }
                     }
                   },
                   padding: const EdgeInsets.all(0),
@@ -81,8 +84,7 @@ class _IconsAboveKeyboardState extends State<IconsAboveKeyboard> {
                 IconButton(
                   onPressed: () async {
                     if (viewModel.state.imagePaths.length >= imageLimitNumber) {
-                      //TODO 질문 : > 사용해서 +1, -1을 하면 왜 안됨?
-                      _imageLimitTenDialog(uiProvider!.state);
+                      _imageLimitTenDialog(uiProvider.state);
                     } else {
                       _pickedImage = await inputImage(1);
                       if (_pickedImage != null) {
@@ -118,16 +120,25 @@ class _IconsAboveKeyboardState extends State<IconsAboveKeyboard> {
                   indent: 10,
                   endIndent: 10,
                 ),
-                const SizedBox(width: 10,),
+                const SizedBox(
+                  width: 10,
+                ),
                 IconButton(
                   onPressed: () {
                     if (viewModel.state.imagePaths.isEmpty) {
                       _showImageRegistryDialog();
                       return;
                     }
-                    viewModel.saveContent(widget.titleController.text, widget.bodyController.text);
-                    uiProvider?.initScreen(OffMonthlyScreen.routeName);
-                    Navigator.of(context).pop();
+                    if (widget.titleController.text.trim().isEmpty) {
+                      _titleFailDialog(uiProvider.state);
+                    } else if (widget.bodyController.text.trim().isEmpty) {
+                      _contentFailDialog(uiProvider.state);
+                    } else {
+                      viewModel.saveContent(widget.titleController.text,
+                          widget.bodyController.text);
+                      uiProvider.initScreen(OffMonthlyScreen.routeName);
+                      Navigator.of(context).pop();
+                    }
                   },
                   padding: const EdgeInsets.all(0),
                   icon: Image(
@@ -150,7 +161,7 @@ class _IconsAboveKeyboardState extends State<IconsAboveKeyboard> {
       context: context,
       builder: (_) => const AlertDialog(
         title: Text(
-          '사진을 1장 이상 등록해주세요.',
+          '사진을 1장 이상 등록해 주세요.',
           style: kBody1,
         ),
       ),
@@ -164,6 +175,24 @@ class _IconsAboveKeyboardState extends State<IconsAboveKeyboard> {
       canvasColor: uiState.colorConst.canvas,
       message: '사진은 최대 $imageLimitNumber장까지 등록 가능합니다.',
       // message: '사진은 최대 3장까지 등록 가능합니다.',
+    );
+  }
+
+  void _titleFailDialog(UiState uiState) {
+    simpleTextDialog(
+      context,
+      primaryColor: uiState.colorConst.getPrimary(),
+      canvasColor: uiState.colorConst.canvas,
+      message: '제목을 작성해 주세요',
+    );
+  }
+
+  void _contentFailDialog(UiState uiState) {
+    simpleTextDialog(
+      context,
+      primaryColor: uiState.colorConst.getPrimary(),
+      canvasColor: uiState.colorConst.canvas,
+      message: '본문을 작성해 주세요',
     );
   }
 }
