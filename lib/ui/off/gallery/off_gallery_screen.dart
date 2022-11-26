@@ -72,12 +72,9 @@ class OffGalleryScreen extends StatelessWidget {
             CarouselSlider.builder(
               itemCount: viewModel.state.offImageList.length,
               itemBuilder: (BuildContext context, int index, int realIndex) {
-                return ClipRRect(
-                  borderRadius: BorderRadius.circular(16.0),
-                  child: Image.memory(
-                    viewModel.state.offImageList[viewModel.state.index].imageFile,
-                    fit: BoxFit.fitWidth,
-                  ),
+                return Image.memory(
+                  viewModel.state.offImageList[viewModel.state.index].imageFile,
+                  fit: BoxFit.fitWidth,
                 );
               },
               options: CarouselOptions(
