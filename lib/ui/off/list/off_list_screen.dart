@@ -22,6 +22,15 @@ class OffListScreen extends StatelessWidget {
     UiProvider uiProvider = context.watch<UiProvider>();
 
     return Scaffold(
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(5),
+        child: AppBar(
+          toolbarHeight: 5,
+          leading: Container(),
+          backgroundColor: uiProvider.state.colorConst.canvas,
+          elevation: 0,
+        ),
+      ),
       body: Container(
         padding: const EdgeInsets.only(
           left: 37,
@@ -41,7 +50,7 @@ class OffListScreen extends StatelessWidget {
               ),
             ),
             SizedBox(
-              height: MediaQuery.of(context).size.height - 90,
+              height: MediaQuery.of(context).size.height - 100,
               child: ListView.builder(
                 itemBuilder: ((context, index) {
                   if (index == 0 && viewModel.state.contents.isEmpty) {
@@ -76,7 +85,8 @@ class OffListScreen extends StatelessWidget {
                           children: [
                             TextButton(
                               onPressed: () {
-                                uiProvider.changeFloatingActionButtonSwitch(true);
+                                uiProvider
+                                    .changeFloatingActionButtonSwitch(true);
                                 Navigator.pushNamed(
                                     context, OffWriteScreen.routeName);
                               },
@@ -88,7 +98,8 @@ class OffListScreen extends StatelessWidget {
                                       18.0,
                                     ),
                                     side: BorderSide(
-                                      color: uiProvider.state.colorConst.getPrimary(),
+                                      color: uiProvider.state.colorConst
+                                          .getPrimary(),
                                     ),
                                   ),
                                 ),
@@ -107,7 +118,8 @@ class OffListScreen extends StatelessWidget {
                             ),
                             TextButton(
                               onPressed: () {
-                                uiProvider.changeFloatingActionButtonSwitch(true);
+                                uiProvider
+                                    .changeFloatingActionButtonSwitch(true);
                                 Navigator.pop(context);
                               },
                               style: ButtonStyle(
@@ -118,7 +130,8 @@ class OffListScreen extends StatelessWidget {
                                       18.0,
                                     ),
                                     side: BorderSide(
-                                      color: uiProvider.state.colorConst.getPrimary(),
+                                      color: uiProvider.state.colorConst
+                                          .getPrimary(),
                                     ),
                                   ),
                                 ),
@@ -145,15 +158,15 @@ class OffListScreen extends StatelessWidget {
                     );
                   } else {
                     return GestureDetector(
-                      child: ListItem(content: viewModel.state.contents[index - 1]),
+                      child: ListItem(
+                          content: viewModel.state.contents[index - 1]),
                       onTap: () {
                         //daily 스크린으로 이동
                         uiProvider.changeSelectedDay(
                             viewModel.state.contents[index - 1].time);
                         uiProvider.changeFocusedDay(
                             viewModel.state.contents[index - 1].time);
-                        Navigator.pushNamed(
-                            context, OffDailyScreen.routeName);
+                        Navigator.pushNamed(context, OffDailyScreen.routeName);
                       },
                     );
                   }

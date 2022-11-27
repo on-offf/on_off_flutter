@@ -39,7 +39,7 @@ class _IconsAboveKeyboardState extends State<IconsAboveKeyboard> {
   @override
   Widget build(BuildContext context) {
     OffWriteViewModel viewModel = context.watch<OffWriteViewModel>();
-    UiProvider uiProvider = context.watch<UiProvider>();
+    uiProvider = context.watch<UiProvider>();
 
     return Positioned(
       bottom: 0,
@@ -64,7 +64,7 @@ class _IconsAboveKeyboardState extends State<IconsAboveKeyboard> {
                 IconButton(
                   onPressed: () async {
                     if (viewModel.state.imagePaths.length >= imageLimitNumber) {
-                      _imageLimitTenDialog(uiProvider.state);
+                      _imageLimitTenDialog(uiProvider!.state);
                     } else {
                       _pickedImage = await inputImage(0);
                       if (_pickedImage != null) {
@@ -84,7 +84,7 @@ class _IconsAboveKeyboardState extends State<IconsAboveKeyboard> {
                 IconButton(
                   onPressed: () async {
                     if (viewModel.state.imagePaths.length >= imageLimitNumber) {
-                      _imageLimitTenDialog(uiProvider.state);
+                      _imageLimitTenDialog(uiProvider!.state);
                     } else {
                       _pickedImage = await inputImage(1);
                       if (_pickedImage != null) {
@@ -130,13 +130,13 @@ class _IconsAboveKeyboardState extends State<IconsAboveKeyboard> {
                       return;
                     }
                     if (widget.titleController.text.trim().isEmpty) {
-                      _titleFailDialog(uiProvider.state);
+                      _titleFailDialog(uiProvider!.state);
                     } else if (widget.bodyController.text.trim().isEmpty) {
-                      _contentFailDialog(uiProvider.state);
+                      _contentFailDialog(uiProvider!.state);
                     } else {
                       viewModel.saveContent(widget.titleController.text,
                           widget.bodyController.text);
-                      uiProvider.initScreen(OffMonthlyScreen.routeName);
+                      uiProvider!.initScreen(OffMonthlyScreen.routeName);
                       Navigator.of(context).pop();
                     }
                   },
