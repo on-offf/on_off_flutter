@@ -23,6 +23,6 @@ class Routes {
 
     // setting
     SettingScreen.routeName: (ctx) => SettingScreen(),
-    PasswordConfirmScreen.routeName: (ctx) => PasswordConfirmScreen(),
+    // PasswordConfirmScreen.routeName: (ctx) => PasswordConfirmScreen(),
   };
 }
