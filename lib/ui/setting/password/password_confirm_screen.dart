@@ -1,12 +1,18 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
 import 'package:on_off/constants/constants_text_style.dart';
 import 'package:on_off/ui/provider/ui_provider.dart';
-import 'package:provider/provider.dart';
 
 class PasswordConfirmScreen extends StatefulWidget {
   static const routeName = '/setting/password/confirm';
+  late String title;
 
-  const PasswordConfirmScreen({Key? key}) : super(key: key);
+  PasswordConfirmScreen({
+    Key? key,
+    required this.title,
+  }) : super(key: key);
 
   @override
   State<PasswordConfirmScreen> createState() => _PasswordConfirmScreenState();
@@ -33,7 +39,8 @@ class _PasswordConfirmScreenState extends State<PasswordConfirmScreen> {
   Widget build(BuildContext context) {
     final uiProvider = context.watch<UiProvider>();
     final uiState = uiProvider.state;
-    String? title = ModalRoute.of(context)!.settings.arguments as String?;
+    String title = widget.title;
+    // String? title = ModalRoute.of(context)!.settings.arguments as String?;
 
     return Scaffold(
       appBar: AppBar(

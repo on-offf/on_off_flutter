@@ -77,8 +77,20 @@ void _checkPassword(
   Color primaryColor,
   Color canvasColor,
 ) async {
-  var result =
-      await Navigator.pushNamed(context, PasswordConfirmScreen.routeName);
+  // var result =
+  //     await Navigator.pushNamed(context, PasswordConfirmScreen.routeName);
+
+  var result = await Navigator.push(
+    context,
+    // PasswordConfirmScreen.routeName,
+    PageRouteBuilder(
+      pageBuilder: (_, __, ___) =>
+          PasswordConfirmScreen(title: '변경할 비밀번호를 입력해주세요.'),
+      transitionDuration: Duration.zero,
+      reverseTransitionDuration: Duration.zero,
+    ),
+    // arguments: '변경할 비밀번호를 입력해주세요.',
+  ) as String?;
 
   if (result == null) {
     /* do nothing */

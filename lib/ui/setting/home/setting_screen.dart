@@ -76,8 +76,10 @@ class SettingScreen extends StatelessWidget {
                       onPressed: () async {
                         if (viewModel.state.setting.isScreenLock == 0 &&
                             viewModel.state.setting.password == null) {
-                          bool initPassword = await _initPassword(context,
-                              viewModel, uiProvider.state.colorConst.getPrimary());
+                          bool initPassword = await _initPassword(
+                              context,
+                              viewModel,
+                              uiProvider.state.colorConst.getPrimary());
 
                           if (!initPassword) return;
                         }
@@ -94,7 +96,8 @@ class SettingScreen extends StatelessWidget {
                       onPressed: () async {
                         String? password = await _changePassword(
                           context: context,
-                          primaryColor: uiProvider.state.colorConst.getPrimary(),
+                          primaryColor:
+                              uiProvider.state.colorConst.getPrimary(),
                         );
 
                         if (password == null) return;
@@ -103,7 +106,8 @@ class SettingScreen extends StatelessWidget {
 
                         simpleTextDialog(
                           context,
-                          primaryColor: uiProvider.state.colorConst.getPrimary(),
+                          primaryColor:
+                              uiProvider.state.colorConst.getPrimary(),
                           canvasColor: Colors.white,
                           message: "비밀번호가 변경되었습니다.",
                         );
@@ -150,7 +154,8 @@ class SettingScreen extends StatelessWidget {
                           if (alertTime == null) {
                             simpleTextDialog(
                               context,
-                              primaryColor: uiProvider.state.colorConst.getPrimary(),
+                              primaryColor:
+                                  uiProvider.state.colorConst.getPrimary(),
                               canvasColor: Colors.white,
                               message: '시간을 선택해주세요.',
                             );
@@ -207,7 +212,8 @@ class SettingScreen extends StatelessWidget {
                                     ? 'AM '
                                     : 'PM ',
                                 style: messageTextStyle().copyWith(
-                                  color: uiProvider.state.colorConst.getPrimary(),
+                                  color:
+                                      uiProvider.state.colorConst.getPrimary(),
                                   fontWeight: FontWeight.w500,
                                 ),
                               ),
@@ -218,21 +224,25 @@ class SettingScreen extends StatelessWidget {
                                         ? '${viewModel.state.setting.alertHour!}'
                                         : '${viewModel.state.setting.alertHour! - 12}',
                                 style: messageTextStyle().copyWith(
-                                  color: uiProvider.state.colorConst.getPrimary(),
+                                  color:
+                                      uiProvider.state.colorConst.getPrimary(),
                                   fontWeight: FontWeight.w500,
                                 ),
                               ),
                               TextSpan(
                                 text: ':',
                                 style: messageTextStyle().copyWith(
-                                  color: uiProvider.state.colorConst.getPrimary(),
+                                  color:
+                                      uiProvider.state.colorConst.getPrimary(),
                                   fontWeight: FontWeight.w500,
                                 ),
                               ),
                               TextSpan(
-                                text: '${viewModel.state.setting.alertMinutes! < 10 ? '0' : ''}${viewModel.state.setting.alertMinutes!}',
+                                text:
+                                    '${viewModel.state.setting.alertMinutes! < 10 ? '0' : ''}${viewModel.state.setting.alertMinutes!}',
                                 style: messageTextStyle().copyWith(
-                                  color: uiProvider.state.colorConst.getPrimary(),
+                                  color:
+                                      uiProvider.state.colorConst.getPrimary(),
                                   fontWeight: FontWeight.w500,
                                 ),
                               ),
@@ -264,7 +274,8 @@ class SettingScreen extends StatelessWidget {
                         viewModel.changeAlertMessage(message);
                         simpleTextDialog(
                           context,
-                          primaryColor: uiProvider.state.colorConst.getPrimary(),
+                          primaryColor:
+                              uiProvider.state.colorConst.getPrimary(),
                           canvasColor: Colors.white,
                           message: "알림 메시지가 변경되었습니다.",
                         );
@@ -346,7 +357,8 @@ class SettingScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   GestureDetector(
-                    onTap: () async => await _sendEmail(context, uiProvider.state.colorConst.getPrimary()),
+                    onTap: () async => await _sendEmail(
+                        context, uiProvider.state.colorConst.getPrimary()),
                     child: Text(
                       '아쉬운 점을 알려주세요!',
                       style: buttonTextStyle(),
@@ -378,7 +390,8 @@ class SettingScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   GestureDetector(
-                    onTap: () => _showVersion(context, uiProvider.state.colorConst.getPrimary()),
+                    onTap: () => _showVersion(
+                        context, uiProvider.state.colorConst.getPrimary()),
                     child: Text(
                       '버전관리',
                       style: buttonTextStyle(),
@@ -412,17 +425,27 @@ class SettingScreen extends StatelessWidget {
     required BuildContext context,
     required Color primaryColor,
   }) async {
-    String? firstPassword = await Navigator.pushNamed(
+    String? firstPassword = await Navigator.push(
       context,
-      PasswordConfirmScreen.routeName,
-      arguments: '변경할 비밀번호를 입력해주세요.',
+      PageRouteBuilder(
+        pageBuilder: (_, __, ___) =>
+            PasswordConfirmScreen(title: '변경할 비밀번호를 입력해주세요.'),
+        transitionDuration: Duration.zero,
+        reverseTransitionDuration: Duration.zero,
+      ),
     ) as String?;
 
     if (firstPassword == null) return null;
 
-    String? secondPassword = await Navigator.pushNamed(
-        context, PasswordConfirmScreen.routeName,
-        arguments: '비밀번호를 다시 한번 확인해주세요.') as String?;
+    String? secondPassword = await Navigator.push(
+      context,
+      PageRouteBuilder(
+        pageBuilder: (_, __, ___) =>
+            PasswordConfirmScreen(title: '비밀번호를 다시 한번 확인해주세요.'),
+        transitionDuration: Duration.zero,
+        reverseTransitionDuration: Duration.zero,
+      ),
+    ) as String?;
 
     if (secondPassword == null) return null;
 
