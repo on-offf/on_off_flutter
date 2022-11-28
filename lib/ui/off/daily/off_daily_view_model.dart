@@ -29,6 +29,10 @@ class OffDailyViewModel extends UiProviderObserve {
 
   OffDailyState get state => _state;
 
+  initScreen() async {
+    await _changedByFocusedDay(uiState!.focusedDay);
+  }
+
   void changeDay(bool isBefore) async {
     OffDiary? offDiary = await offDiaryUseCase.selectOffDiaryByUnixTimeLimit(
         state.content!.time, isBefore);

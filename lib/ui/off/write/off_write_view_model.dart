@@ -147,7 +147,7 @@ class OffWriteViewModel extends UiProviderObserve {
       offDiary = await offDiaryUseCase.insert(offDiary);
       offDiaryId = offDiary.id!;
     }
-    _saveDiaryImageList(offDiaryId);
+    await _saveDiaryImageList(offDiaryId);
     notifyListeners();
   }
 

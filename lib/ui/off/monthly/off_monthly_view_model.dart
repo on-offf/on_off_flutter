@@ -25,7 +25,7 @@ class OffMonthlyViewModel extends UiProviderObserve {
 
   OffMonthlyState get state => _state;
 
-  initScreen() {
+  initScreen() async {
     changeFocusedDay(uiState!.focusedDay);
   }
 

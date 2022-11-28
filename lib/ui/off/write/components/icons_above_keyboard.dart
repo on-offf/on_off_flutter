@@ -7,7 +7,7 @@ import 'package:on_off/constants/constants_text_style.dart';
 import 'package:on_off/domain/icon/icon_path.dart';
 import 'package:on_off/ui/components/image_input.dart';
 import 'package:on_off/ui/components/simple_dialog.dart';
-import 'package:on_off/ui/off/monthly/off_monthly_screen.dart';
+import 'package:on_off/ui/off/daily/off_daily_screen.dart';
 import 'package:on_off/ui/off/write/off_write_view_model.dart';
 import 'package:on_off/ui/provider/ui_provider.dart';
 import 'package:on_off/ui/provider/ui_state.dart';
@@ -124,7 +124,7 @@ class _IconsAboveKeyboardState extends State<IconsAboveKeyboard> {
                   width: 10,
                 ),
                 IconButton(
-                  onPressed: () {
+                  onPressed: () async {
                     if (viewModel.state.imagePaths.isEmpty) {
                       _showImageRegistryDialog();
                       return;
@@ -134,10 +134,15 @@ class _IconsAboveKeyboardState extends State<IconsAboveKeyboard> {
                     } else if (widget.bodyController.text.trim().isEmpty) {
                       _contentFailDialog(uiProvider!.state);
                     } else {
-                      viewModel.saveContent(widget.titleController.text,
+                      await viewModel.saveContent(widget.titleController.text,
                           widget.bodyController.text);
-                      uiProvider!.initScreen(OffMonthlyScreen.routeName);
-                      Navigator.of(context).pop();
+                      await uiProvider?.initScreen(OffDailyScreen.routeName);
+
+                      if (viewModel.state.offDiary?.id != null) {
+                        Navigator.of(context).pop();
+                      } else {
+                        Navigator.of(context).popAndPushNamed(OffDailyScreen.routeName);
+                      }
                     }
                   },
                   padding: const EdgeInsets.all(0),

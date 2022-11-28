@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:on_off/constants/color_constants.dart';
+import 'package:on_off/ui/off/daily/off_daily_screen.dart';
+import 'package:on_off/ui/off/daily/off_daily_view_model.dart';
 import 'package:on_off/ui/off/monthly/off_monthly_screen.dart';
 import 'package:on_off/ui/off/monthly/off_monthly_view_model.dart';
 import 'package:on_off/ui/provider/ui_provider_observe.dart';
@@ -101,11 +103,13 @@ class UiProvider with ChangeNotifier {
   }
 
   // initScreen
-  void initScreen(String route) {
+  initScreen(String route) async {
     for (var viewModel in viewModelList) {
       if (viewModel is OffMonthlyViewModel &&
           route == OffMonthlyScreen.routeName) {
-        viewModel.initScreen();
+        await viewModel.initScreen();
+      } else if (viewModel is OffDailyViewModel && route == OffDailyScreen.routeName) {
+        await viewModel.initScreen();
       }
     }
   }

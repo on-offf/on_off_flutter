@@ -286,9 +286,12 @@ class _OffWriteScreenState extends State<OffWriteScreen> {
     FocusManager.instance.primaryFocus?.unfocus();
     bool remove = await _removeDialog(uiProvider!.state);
     if (remove) {
-      viewModel?.removeContent();
-      uiProvider?.initScreen(OffMonthlyScreen.routeName);
-      Future.delayed(Duration.zero, () => Navigator.pop(context));
+      await viewModel?.removeContent();
+      await uiProvider?.initScreen(OffMonthlyScreen.routeName);
+      Future.delayed(Duration.zero, () {
+        Navigator.pop(context);
+        Navigator.pop(context);
+      });
     }
   }
 
