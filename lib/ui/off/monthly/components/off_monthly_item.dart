@@ -25,51 +25,54 @@ class OffMonthlyItem extends StatelessWidget {
     _scrollControllerListener(_scrollController2, uiProvider);
 
     return viewModel.state.content == null
-        ? Column(
-            children: [
-              Image(
-                image: AssetImage(IconPath.noHaveContent.name),
-                width: 120,
-                height: 120,
-              ),
-              const SizedBox(
-                height: 15,
-              ),
-              Text(
-                '이날은 아직 \n게시글이 없습니다!',
-                style: kSubtitle3.copyWith(
-                  color: uiProvider.state.colorConst.getPrimary(),
+        ? SingleChildScrollView(
+          physics: const NeverScrollableScrollPhysics(),
+          child: Column(
+              children: [
+                Image(
+                  image: AssetImage(IconPath.noHaveContent.name),
+                  width: 120,
+                  height: 120,
                 ),
-                textAlign: TextAlign.center,
-              ),
-              TextButton(
-                onPressed: () {
-                  uiProvider.changeFloatingActionButtonSwitch(true);
-                  Navigator.pushNamed(context, OffWriteScreen.routeName);
-                },
-                style: ButtonStyle(
-                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                    RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(
-                        18.0,
-                      ),
-                      side: BorderSide(
-                        color: uiProvider.state.colorConst.getPrimary(),
+                const SizedBox(
+                  height: 15,
+                ),
+                Text(
+                  '이날은 아직 \n게시글이 없습니다!',
+                  style: kSubtitle3.copyWith(
+                    color: uiProvider.state.colorConst.getPrimary(),
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                TextButton(
+                  onPressed: () {
+                    uiProvider.changeFloatingActionButtonSwitch(true);
+                    Navigator.pushNamed(context, OffWriteScreen.routeName);
+                  },
+                  style: ButtonStyle(
+                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(
+                          18.0,
+                        ),
+                        side: BorderSide(
+                          color: uiProvider.state.colorConst.getPrimary(),
+                        ),
                       ),
                     ),
                   ),
-                ),
-                child: const Text(
-                  '글쓰러 가기',
-                  style: TextStyle(
-                    fontWeight: FontWeight.w700,
-                    fontSize: 14,
-                    letterSpacing: 0.1,
+                  child: const Text(
+                    '글쓰러 가기',
+                    style: TextStyle(
+                      fontWeight: FontWeight.w700,
+                      fontSize: 14,
+                      letterSpacing: 0.1,
+                    ),
                   ),
                 ),
-              ),
-            ],
-          )
+              ],
+            ),
+        )
         : Container(
             decoration: uiProvider.state.calendarFormat == CalendarFormat.week
                 ? const BoxDecoration(
