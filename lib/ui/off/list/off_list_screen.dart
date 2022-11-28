@@ -22,19 +22,18 @@ class OffListScreen extends StatelessWidget {
     UiProvider uiProvider = context.watch<UiProvider>();
 
     return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(5),
-        child: AppBar(
-          toolbarHeight: 5,
-          leading: Container(),
-          backgroundColor: uiProvider.state.colorConst.canvas,
-          elevation: 0,
-        ),
+      appBar: AppBar(
+        toolbarHeight: 0,
+        leading: Container(),
+        backgroundColor: uiProvider.state.colorConst.canvas,
+        elevation: 0,
       ),
       body: Container(
         padding: const EdgeInsets.only(
+          top: 0,
           left: 37,
           right: 37,
+          bottom: 0,
         ),
         child: Column(
           children: [
@@ -49,8 +48,7 @@ class OffListScreen extends StatelessWidget {
                 ],
               ),
             ),
-            SizedBox(
-              height: MediaQuery.of(context).size.height - 100,
+            Expanded(
               child: ListView.builder(
                 itemBuilder: ((context, index) {
                   if (index == 0 && viewModel.state.contents.isEmpty) {
