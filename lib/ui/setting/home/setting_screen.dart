@@ -12,6 +12,8 @@ import 'package:on_off/ui/setting/password/password_confirm_screen.dart';
 import 'package:on_off/ui/setting/home/setting_view_model.dart';
 import 'package:provider/provider.dart';
 
+import 'components/notification.dart';
+
 class SettingScreen extends StatelessWidget {
   static const routeName = '/setting/home';
 
@@ -150,6 +152,8 @@ class SettingScreen extends StatelessWidget {
                             uiProvider.state,
                             uiProvider.state.colorConst.getPrimary(),
                           ) as AlertTime?;
+                          // print("시간 : ${alertTime}");
+                          // print("다이얼로그 끝남");
 
                           if (alertTime == null) {
                             simpleTextDialog(
@@ -165,6 +169,12 @@ class SettingScreen extends StatelessWidget {
                             alertTime.hour,
                             alertTime.minutes,
                           );
+                          // print("시간 : ${alertTime.hour} ${alertTime.minutes}");
+                          // dailyWriteNotification(
+                          //   "오늘의 일기를 남겨보세요~",
+                          //   alertTime.hour,
+                          //   alertTime.minutes,
+                          // );
                         }
                         viewModel.changeIsAlert();
                       },
@@ -194,6 +204,15 @@ class SettingScreen extends StatelessWidget {
                           );
                           if (time != null) {
                             viewModel.changeAlertTime(
+                              time.hour,
+                              time.minutes,
+                            );
+                            print("시간 : ${time}");
+                            print("다이얼로그 끝남");
+
+                            print("시간 : ${time.hour} ${time.minutes}");
+                            dailyWriteNotification(
+                              "오늘의 일기를 남겨보세요~",
                               time.hour,
                               time.minutes,
                             );
