@@ -43,7 +43,7 @@ PreferredSize offAppBar(
                 onTap: () async {
                   uiProvider.changeCalendarFormat(CalendarFormat.month);
 
-                  if (settingViewModel.state.setting.password != null) {
+                  if (settingViewModel.state.setting.isScreenLock == 1) {
                     _checkPassword(
                       context,
                       settingViewModel.state.setting.password!,

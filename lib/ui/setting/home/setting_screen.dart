@@ -83,7 +83,7 @@ class SettingScreen extends StatelessWidget {
 
                           if (!initPassword) return;
                         }
-                        viewModel.changeIsScreenLock();
+                        await viewModel.changeIsScreenLock();
                       },
                     ),
                   ],
