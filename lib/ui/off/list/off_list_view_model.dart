@@ -31,6 +31,10 @@ class OffListViewModel extends UiProviderObserve {
 
   OffListState get state => _state;
 
+  initScreen() {
+    changeContents(uiState!.focusedDay);
+  }
+
   void changeDiaryOrderType() {
     List<Content> contentList = [];
 
