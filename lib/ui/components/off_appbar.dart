@@ -46,7 +46,7 @@ PreferredSize offAppBar(
                   if (settingViewModel.state.setting.isScreenLock == 1) {
                     _checkPassword(
                       context,
-                      settingViewModel.state.setting.password!,
+                      settingViewModel.state.setting.password,
                       uiProvider.state.colorConst.getPrimary(),
                       uiProvider.state.colorConst.canvas,
                     );
@@ -73,23 +73,17 @@ PreferredSize offAppBar(
 
 void _checkPassword(
   BuildContext context,
-  String password,
+  String? password,
   Color primaryColor,
   Color canvasColor,
 ) async {
-  // var result =
-  //     await Navigator.pushNamed(context, PasswordConfirmScreen.routeName);
-
+  print(password);
   var result = await Navigator.push(
     context,
-    // PasswordConfirmScreen.routeName,
     PageRouteBuilder(
       pageBuilder: (_, __, ___) =>
-          PasswordConfirmScreen(title: '변경할 비밀번호를 입력해주세요.'),
-      transitionDuration: Duration.zero,
-      reverseTransitionDuration: Duration.zero,
+          PasswordConfirmScreen(title: '비밀번호를 입력해주세요.'),
     ),
-    // arguments: '변경할 비밀번호를 입력해주세요.',
   ) as String?;
 
   if (result == null) {

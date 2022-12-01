@@ -573,9 +573,13 @@ class SettingScreen extends StatelessWidget {
 
   Future<bool> _initPassword(BuildContext context, SettingViewModel viewModel,
       Color primaryColor) async {
-    String? password =
-        await Navigator.pushNamed(context, PasswordConfirmScreen.routeName)
-            as String?;
+    String? password = await Navigator.push(
+      context,
+      PageRouteBuilder(
+        pageBuilder: (_, __, ___) =>
+            PasswordConfirmScreen(title: '비밀번호를 입력해주세요.'),
+      ),
+    ) as String?;
 
     if (password == null) {
       simpleTextDialog(
@@ -587,9 +591,13 @@ class SettingScreen extends StatelessWidget {
       return false;
     }
 
-    String? secondPassword =
-        await Navigator.pushNamed(context, PasswordConfirmScreen.routeName)
-            as String?;
+    String? secondPassword = await Navigator.push(
+      context,
+      PageRouteBuilder(
+        pageBuilder: (_, __, ___) =>
+            PasswordConfirmScreen(title: '비밀번호를 확인해주세요.'),
+      ),
+    ) as String?;
 
     if (secondPassword == null) {
       simpleTextDialog(context,
@@ -607,7 +615,7 @@ class SettingScreen extends StatelessWidget {
       return false;
     }
 
-    viewModel.changePassword(password);
+    await viewModel.changePassword(password);
     return true;
   }
 
