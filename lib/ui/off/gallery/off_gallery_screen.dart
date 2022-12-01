@@ -80,6 +80,7 @@ class OffGalleryScreen extends StatelessWidget {
                 },
                 options: CarouselOptions(
                   initialPage: 0,
+                  enableInfiniteScroll: false,
                   viewportFraction: 1.0,
                   aspectRatio: aspectRatioWidth / aspectRatioHeight,
                   onPageChanged: (index, reason) {

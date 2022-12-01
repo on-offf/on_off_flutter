@@ -22,7 +22,7 @@ class OffGalleryViewModel extends UiProviderObserve {
   OffGalleryState get state => _state;
 
   void initScreen(List<OffImage> offImageList) async {
-    _state = _state.copyWith(offImageList: offImageList);
+    _state = _state.copyWith(offImageList: offImageList, index: 0);
   }
 
   void changeIndex(int index) {
