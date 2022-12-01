@@ -7,6 +7,7 @@ import 'package:on_off/ui/components/image_input.dart';
 import 'package:on_off/ui/components/off_appbar.dart';
 import 'package:on_off/ui/components/simple_dialog.dart';
 import 'package:on_off/ui/components/sticker_button.dart';
+import 'package:on_off/ui/off/list/off_list_screen.dart';
 import 'package:on_off/ui/off/monthly/off_monthly_screen.dart';
 import 'package:on_off/ui/off/write/components/icons_above_keyboard.dart';
 import 'package:on_off/ui/off/write/off_write_view_model.dart';
@@ -287,11 +288,16 @@ class _OffWriteScreenState extends State<OffWriteScreen> {
     bool remove = await _removeDialog(uiProvider!.state);
     if (remove) {
       await viewModel?.removeContent();
-      await uiProvider?.initScreen(OffMonthlyScreen.routeName);
-      Future.delayed(Duration.zero, () {
-        Navigator.pop(context);
-        Navigator.pop(context);
-      });
+      uiProvider?.initScreen(OffMonthlyScreen.routeName);
+      uiProvider?.initScreen(OffListScreen.routeName);
+      Future.delayed(
+          Duration.zero,
+              () => Navigator.pushNamedAndRemoveUntil(
+                  context,
+                  OffMonthlyScreen.routeName,
+                  (route) => false
+              )
+      );
     }
   }
 
