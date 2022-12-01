@@ -8,6 +8,8 @@ import 'package:on_off/domain/icon/icon_path.dart';
 import 'package:on_off/ui/components/image_input.dart';
 import 'package:on_off/ui/components/simple_dialog.dart';
 import 'package:on_off/ui/off/daily/off_daily_screen.dart';
+import 'package:on_off/ui/off/list/off_list_screen.dart';
+import 'package:on_off/ui/off/monthly/off_monthly_screen.dart';
 import 'package:on_off/ui/off/write/off_write_view_model.dart';
 import 'package:on_off/ui/provider/ui_provider.dart';
 import 'package:on_off/ui/provider/ui_state.dart';
@@ -137,6 +139,8 @@ class _IconsAboveKeyboardState extends State<IconsAboveKeyboard> {
                       await viewModel.saveContent(widget.titleController.text,
                           widget.bodyController.text);
                       await uiProvider?.initScreen(OffDailyScreen.routeName);
+                      uiProvider?.initScreen(OffMonthlyScreen.routeName);
+                      uiProvider?.initScreen(OffListScreen.routeName);
 
                       if (viewModel.state.offDiary?.id != null) {
                         Navigator.of(context).pop();
