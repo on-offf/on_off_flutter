@@ -27,8 +27,8 @@ class OffMonthlyItem extends StatelessWidget {
 
     return viewModel.state.content == null
         ? SingleChildScrollView(
-          physics: const NeverScrollableScrollPhysics(),
-          child: Column(
+            physics: const NeverScrollableScrollPhysics(),
+            child: Column(
               children: [
                 Image(
                   image: AssetImage(IconPath.noHaveContent.name),
@@ -74,7 +74,7 @@ class OffMonthlyItem extends StatelessWidget {
                 ),
               ],
             ),
-        )
+          )
         : Container(
             decoration: uiProvider.state.calendarFormat == CalendarFormat.week
                 ? const BoxDecoration(
@@ -133,7 +133,9 @@ class OffMonthlyItem extends StatelessWidget {
                 style: kSubtitle3,
               ),
             ),
-            viewModel.state.icon != null ? buildSelectedIcon(viewModel.state.icon.name) : const SizedBox(width: 10),
+            viewModel.state.icon != null
+                ? buildSelectedIcon(viewModel.state.icon.name)
+                : const SizedBox(width: 10),
             Expanded(
               child: Container(
                 height: 2,
@@ -198,7 +200,7 @@ class OffMonthlyItem extends StatelessWidget {
               borderRadius: BorderRadius.circular(16),
               child: Image.memory(
                 viewModel.state.content!.imageList.first.imageFile,
-                fit: BoxFit.fill,
+                fit: BoxFit.cover,
                 width: MediaQuery.of(context).size.width - 74,
               ),
             ),
@@ -258,12 +260,12 @@ class OffMonthlyItem extends StatelessWidget {
     );
   }
 
-  void _scrollControllerListener(ScrollController scrollController, UiProvider uiProvider) {
+  void _scrollControllerListener(
+      ScrollController scrollController, UiProvider uiProvider) {
     scrollController.addListener(() {
       if (scrollController.offset < -50) {
         uiProvider.changeCalendarFormat(CalendarFormat.month);
       }
     });
   }
-
 }
