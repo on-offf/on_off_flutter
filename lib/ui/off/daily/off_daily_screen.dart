@@ -77,38 +77,40 @@ class OffDailyScreen extends StatelessWidget {
               // height: 240,
               child: Stack(
                 children: [
-                  CarouselSlider(
-                    carouselController: viewModel.state.carouselController,
-                    options: CarouselOptions(
-                      autoPlay: true,
-                      autoPlayInterval: const Duration(seconds: 3),
-                      autoPlayAnimationDuration:
-                          const Duration(milliseconds: 500),
-                      initialPage: 0,
-                      enableInfiniteScroll: false,
-                      viewportFraction: 1.0,
-                      onPageChanged: (index, reason) {
-                        viewModel.changeCurrentIndex(index);
-                      },
-                    ),
-                    items: viewModel.state.content!.imageList.map((offImage) {
-                      return GestureDetector(
-                        onTap: () {
-                          Navigator.pushNamed(
-                              context, OffGalleryScreen.routeName, arguments: {
-                            'offImageList': viewModel.state.content!.imageList
-                          });
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(12),
+                    child: CarouselSlider(
+                      carouselController: viewModel.state.carouselController,
+                      options: CarouselOptions(
+                        autoPlay: true,
+                        autoPlayInterval: const Duration(seconds: 3),
+                        autoPlayAnimationDuration:
+                            const Duration(milliseconds: 500),
+                        initialPage: 0,
+                        enableInfiniteScroll: false,
+                        viewportFraction: 1.0,
+                        onPageChanged: (index, reason) {
+                          viewModel.changeCurrentIndex(index);
                         },
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(12),
+                      ),
+                      items: viewModel.state.content!.imageList.map((offImage) {
+                        return GestureDetector(
+                          onTap: () {
+                            Navigator.pushNamed(
+                                context, OffGalleryScreen.routeName,
+                                arguments: {
+                                  'offImageList':
+                                      viewModel.state.content!.imageList
+                                });
+                          },
                           child: Image.memory(
                             offImage.imageFile,
                             fit: BoxFit.cover,
                             width: MediaQuery.of(context).size.width - 74,
                           ),
-                        ),
-                      );
-                    }).toList(),
+                        );
+                      }).toList(),
+                    ),
                   ),
                 ],
               ),
