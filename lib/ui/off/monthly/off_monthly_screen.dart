@@ -59,7 +59,7 @@ class OffMonthlyScreen extends StatelessWidget {
           Expanded(
             child: GestureDetector(
               onVerticalDragEnd: (details) {
-                if (viewModel.state.icon != null) {
+                if (viewModel.state.content != null) {
                   _positionChange(uiProvider, details);
                 }
               },
