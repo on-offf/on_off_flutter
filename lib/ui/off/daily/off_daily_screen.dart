@@ -46,9 +46,9 @@ class OffDailyScreen extends StatelessWidget {
                     style: kSubtitle2,
                   ),
                 ),
-                const SizedBox(width: 8),
-                if (viewModel.state.icon != null)
-                  buildSelectedIcon(viewModel.state.icon!.name),
+                viewModel.state.icon != null
+                    ? buildSelectedIcon(viewModel.state.icon!.name)
+                    : const SizedBox(width: 8),
                 Expanded(
                   child: Container(
                     height: 2,

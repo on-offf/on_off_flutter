@@ -30,12 +30,10 @@ class ListItem extends StatelessWidget {
                 style: kSubtitle2,
               ),
             ),
-            const SizedBox(
-              width: 8,
-            ),
-            if (viewModel.state.iconMap.containsKey(content.time.day))
-              buildSelectedIcon(viewModel.state.iconMap[content.time.day]!.name),
-            const SizedBox(width: 8),
+            viewModel.state.iconMap[content.time.day] == null
+                ? const SizedBox(width: 8)
+                : buildSelectedIcon(
+                    viewModel.state.iconMap[content.time.day]!.name),
             Expanded(
               child: Container(
                 height: 2,

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:on_off/constants/constants_text_style.dart';
 import 'package:on_off/domain/icon/icon_path.dart';
+import 'package:on_off/ui/components/build_selected_icons.dart';
 import 'package:on_off/ui/off/daily/off_daily_screen.dart';
 import 'package:on_off/ui/off/gallery/off_gallery_screen.dart';
 import 'package:on_off/ui/off/monthly/off_monthly_view_model.dart';
@@ -132,7 +133,7 @@ class OffMonthlyItem extends StatelessWidget {
                 style: kSubtitle3,
               ),
             ),
-            const SizedBox(width: 10),
+            viewModel.state.icon != null ? buildSelectedIcon(viewModel.state.icon.name) : const SizedBox(width: 10),
             Expanded(
               child: Container(
                 height: 2,
