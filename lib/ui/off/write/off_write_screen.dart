@@ -160,16 +160,36 @@ class _OffWriteScreenState extends State<OffWriteScreen> {
                               height: 150,
                               child: ListView.builder(
                                 scrollDirection: Axis.horizontal,
-                                itemCount: viewModel!.state.imagePaths.length,
+                                itemCount:
+                                    viewModel!.state.imagePaths.length < 10
+                                        ? viewModel!.state.imagePaths.length + 1
+                                        : viewModel!.state.imagePaths.length,
                                 itemBuilder: (ctx, index) {
+                                  if (index ==
+                                      viewModel!.state.imagePaths.length) {
+                                    return SizedBox(
+                                      width: 100,
+                                      child: IconButton(
+                                        onPressed: () async {
+                                          var pickedImage = await inputImage(1);
+                                          if (pickedImage == null) return;
+                                          viewModel?.addSelectedImagePaths(pickedImage);
+                                        },
+                                        icon: const Icon(
+                                          Icons.add_circle_outline,
+                                          color: Colors.black38,
+                                        ),
+                                      ),
+                                    );
+                                  }
+
                                   return Padding(
                                     padding: const EdgeInsets.symmetric(
                                         horizontal: 3.0),
                                     child: Stack(
                                       children: [
                                         ClipRRect(
-                                          borderRadius:
-                                              const BorderRadius.all(
+                                          borderRadius: const BorderRadius.all(
                                             Radius.circular(10),
                                           ),
                                           child: Image.file(
@@ -183,8 +203,8 @@ class _OffWriteScreenState extends State<OffWriteScreen> {
                                           right: 5,
                                           child: GestureDetector(
                                             onTap: () {
-                                              if (viewModel!.state.imagePaths
-                                                      .length >
+                                              if (viewModel!
+                                                      .state.imagePaths.length >
                                                   1) {
                                                 viewModel?.removeImage(
                                                     viewModel!.state
@@ -216,8 +236,7 @@ class _OffWriteScreenState extends State<OffWriteScreen> {
                         ),
                         child: StickerButton(
                           layerLink: selectIconSheetLink,
-                          actionAfterSelect: (path) =>
-                              viewModel?.addIcon(path),
+                          actionAfterSelect: (path) => viewModel?.addIcon(path),
                         ),
                       ),
                       Padding(
@@ -292,12 +311,8 @@ class _OffWriteScreenState extends State<OffWriteScreen> {
       uiProvider?.initScreen(OffListScreen.routeName);
       Future.delayed(
           Duration.zero,
-              () => Navigator.pushNamedAndRemoveUntil(
-                  context,
-                  OffMonthlyScreen.routeName,
-                  (route) => false
-              )
-      );
+          () => Navigator.pushNamedAndRemoveUntil(
+              context, OffMonthlyScreen.routeName, (route) => false));
     }
   }
 
