@@ -61,12 +61,13 @@ class OffMonthlyItem extends StatelessWidget {
                       ),
                     ),
                   ),
-                  child: const Text(
+                  child: Text(
                     '글쓰러 가기',
                     style: TextStyle(
                       fontWeight: FontWeight.w700,
                       fontSize: 14,
                       letterSpacing: 0.1,
+                      color: uiProvider.state.colorConst.getPrimary(),
                     ),
                   ),
                 ),

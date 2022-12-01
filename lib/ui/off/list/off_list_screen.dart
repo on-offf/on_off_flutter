@@ -102,12 +102,13 @@ class OffListScreen extends StatelessWidget {
                                   ),
                                 ),
                               ),
-                              child: const Text(
+                              child: Text(
                                 '글쓰러가기',
                                 style: TextStyle(
                                   fontWeight: FontWeight.w700,
                                   fontSize: 14,
                                   letterSpacing: 0.1,
+                                  color: uiProvider.state.colorConst.getPrimary(),
                                 ),
                               ),
                             ),
@@ -134,12 +135,13 @@ class OffListScreen extends StatelessWidget {
                                   ),
                                 ),
                               ),
-                              child: const Text(
+                              child: Text(
                                 '뒤로 가기',
                                 style: TextStyle(
                                   fontWeight: FontWeight.w700,
                                   fontSize: 14,
                                   letterSpacing: 0.1,
+                                  color: uiProvider.state.colorConst.getPrimary(),
                                 ),
                               ),
                             )
