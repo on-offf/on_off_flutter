@@ -28,6 +28,7 @@ initNotification() async {
 
 //2. 알림들
 dailyWriteNotification(String message, int hour, int min) async {
+  print("설정함 $hour $min");
   tz.initializeTimeZones();
 
   var androidDetails = const AndroidNotificationDetails(
@@ -46,7 +47,7 @@ dailyWriteNotification(String message, int hour, int min) async {
   notifications.zonedSchedule(
     2, //id
     '온앤오프 - on & off', //title
-    message,
+    message, //내용
     makeDate(hour, min),
     NotificationDetails(android: androidDetails, iOS: iosDetails),
     androidAllowWhileIdle: true,
@@ -58,23 +59,20 @@ dailyWriteNotification(String message, int hour, int min) async {
 
 makeDate(hour, min) {
   var now = tz.TZDateTime.now(tz.local);
-  var k_now;
-  if (now.hour >= 15)
-    k_now = tz.TZDateTime(tz.local, now.year, now.month, now.day + 1,
-        now.hour - 9, now.minute, now.second);
+  var when;
+  if (hour < 9)
+    when = tz.TZDateTime(
+        tz.local, now.year, now.month, now.day, hour + 15, min, 0);
   else
-    k_now = tz.TZDateTime(tz.local, now.year, now.month, now.day, now.hour + 9,
-        now.minute, now.second);
-  // print(
-  //     "make date now ${tz.local} ${now.year} ${now.month} ${now.day} ${now.hour} ${now.minute}");
-  var when = tz.TZDateTime(
-      tz.local, k_now.year, k_now.month, k_now.day, hour, min, now.second);
-  if (when.isBefore(now)) {
-    print("make date now ${now.hour} ${now.minute}");
-    print("make date now $hour $min");
-    return when.add(Duration(days: 1));
-  } else {
-    print("make date $hour $min");
-    return when;
-  }
+    when = tz.TZDateTime(
+        tz.local, now.year, now.month, now.day - 1, hour + 15, min, 0);
+
+  print("로컬 시간  ${now.day} ${now.hour} ${now.minute}");
+  print("make date now ${when.day} ${when.hour} ${when.minute}");
+  return when;
+  // if (when.isBefore(now)) {
+  //   return when.add(Duration(days: 1));
+  // } else {
+  //   return when;
+  // }
 }
