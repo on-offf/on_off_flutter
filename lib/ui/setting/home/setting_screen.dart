@@ -163,8 +163,6 @@ class _SettingScreenState extends State<SettingScreen> {
                             uiProvider.state,
                             uiProvider.state.colorConst.getPrimary(),
                           ) as AlertTime?;
-                          // print("시간 : ${alertTime}");
-                          // print("다이얼로그 끝남");
 
                           if (alertTime == null) {
                             simpleTextDialog(
@@ -176,16 +174,14 @@ class _SettingScreenState extends State<SettingScreen> {
                             );
                             return;
                           }
-                          await viewModel.changeAlertTime(
-                            alertTime.hour,
-                            alertTime.minutes,
+                          await viewModel.changeAlertTime(alertTime);
+
+                          simpleTextDialog(
+                            context,
+                            primaryColor: uiProvider.state.colorConst.getPrimary(),
+                            canvasColor: uiProvider.state.colorConst.canvas,
+                            message: "설정한 시간: ${alertTime}",
                           );
-                          // print("시간 : ${alertTime.hour} ${alertTime.minutes}");
-                          // dailyWriteNotification(
-                          //   "오늘의 일기를 남겨보세요~",
-                          //   alertTime.hour,
-                          //   alertTime.minutes,
-                          // );
                         }
                         viewModel.changeIsAlert();
                       },
@@ -214,18 +210,13 @@ class _SettingScreenState extends State<SettingScreen> {
                             uiProvider.state.colorConst.getPrimary(),
                           );
                           if (time != null) {
-                            viewModel.changeAlertTime(
-                              time.hour,
-                              time.minutes,
-                            );
-                            print("시간 : ${time}");
-                            print("다이얼로그 끝남");
+                            viewModel.changeAlertTime(time);
 
-                            print("시간 : ${time.hour} ${time.minutes}");
-                            dailyWriteNotification(
-                              "오늘의 일기를 남겨보세요~",
-                              time.hour,
-                              time.minutes,
+                            simpleTextDialog(
+                              context,
+                              primaryColor: uiProvider.state.colorConst.getPrimary(),
+                              canvasColor: uiProvider.state.colorConst.canvas,
+                              message: "설정한 시간: ${time}",
                             );
                           }
                         },
