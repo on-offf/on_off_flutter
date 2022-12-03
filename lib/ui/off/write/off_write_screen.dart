@@ -249,6 +249,7 @@ class _OffWriteScreenState extends State<OffWriteScreen> {
                           maxLines: 8,
                           decoration: InputDecoration(
                             hintText: '일기를 입력해주세요...',
+                            contentPadding: const EdgeInsets.only(left: 10),
                             focusedBorder: InputBorder.none,
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(8.0),

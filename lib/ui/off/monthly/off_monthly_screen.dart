@@ -49,7 +49,7 @@ class OffMonthlyScreen extends StatelessWidget {
                   height:
                       uiProvider.state.calendarFormat == CalendarFormat.month
                           ? 320
-                          : 60,
+                          : 70,
                   child: const SingleChildScrollView(
                       child: OffMonthlyCalendar()),
                 )

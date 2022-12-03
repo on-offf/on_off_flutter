@@ -74,7 +74,6 @@ class UiProvider with ChangeNotifier {
 
     _state = _state.copyWith(
       calendarFormat: calendarFormat,
-      daysOfWeekVisible: !_state.daysOfWeekVisible,
     );
     _notifyListeners();
   }
