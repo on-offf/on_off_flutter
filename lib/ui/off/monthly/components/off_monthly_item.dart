@@ -246,6 +246,7 @@ class OffMonthlyItem extends StatelessWidget {
               const SizedBox(height: 7),
               SizedBox(
                 width: MediaQuery.of(context).size.width - 74,
+                height: 100, //TODO 화면이 작은 폰에서도 작동하는지 확인해야 함.
                 child: Text(
                   viewModel.state.content!.content,
                   textAlign: TextAlign.start,
