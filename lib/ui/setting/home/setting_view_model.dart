@@ -1,7 +1,9 @@
 import 'package:on_off/domain/entity/setting/setting_entity.dart';
+import 'package:on_off/domain/model/alert_time.dart';
 import 'package:on_off/domain/use_case/data_source/setting/setting_use_case.dart';
 import 'package:on_off/ui/provider/ui_provider_observe.dart';
 import 'package:on_off/ui/provider/ui_state.dart';
+import 'package:on_off/ui/setting/home/components/notification.dart';
 import 'package:on_off/ui/setting/home/setting_state.dart';
 
 class SettingViewModel extends UiProviderObserve {
@@ -18,12 +20,19 @@ class SettingViewModel extends UiProviderObserve {
 
   SettingState get state => _state;
 
-  changeAlertTime(int hour, int minutes) async {
+  changeAlertTime(AlertTime time) async {
     SettingEntity entity = _state.setting;
     entity = entity.copyWith(
-      alertHour: hour,
-      alertMinutes: minutes,
+      alertHour: time.hour,
+      alertMinutes: time.minutes,
     );
+
+    dailyWriteNotification(
+      entity.alertMessage == null ? "일과 일상을 분리해보세요." : entity.alertMessage!,
+      time.hour,
+      time.minutes,
+    );
+
     await _updateSettingEntityAndNotifyListeners(entity);
   }
 
@@ -32,6 +41,13 @@ class SettingViewModel extends UiProviderObserve {
     entity = entity.copyWith(
       alertMessage: message,
     );
+
+    dailyWriteNotification(
+      entity.alertMessage == null ? "일과 일상을 분리해보세요." : entity.alertMessage!,
+      entity.alertHour!,
+      entity.alertMinutes!,
+    );
+
     await _updateSettingEntityAndNotifyListeners(entity);
   }
 
@@ -54,6 +70,8 @@ class SettingViewModel extends UiProviderObserve {
   changeIsAlert({bool? isAlert}) async {
     isAlert ??= _state.setting.isAlert != 1;
     SettingEntity entity = _state.setting;
+
+    if (!isAlert) removeWriteNotification();
 
     entity = entity.copyWith(
       isAlert: isAlert ? 1 : 0,

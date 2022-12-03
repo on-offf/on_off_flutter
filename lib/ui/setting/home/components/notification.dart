@@ -28,7 +28,6 @@ initNotification() async {
 
 //2. 알림들
 dailyWriteNotification(String message, int hour, int min) async {
-  print("설정함 $hour $min");
   tz.initializeTimeZones();
 
   var androidDetails = const AndroidNotificationDetails(
@@ -57,22 +56,13 @@ dailyWriteNotification(String message, int hour, int min) async {
   );
 }
 
+removeWriteNotification() {
+  notifications.cancel(2);
+}
+
 makeDate(hour, min) {
   var now = tz.TZDateTime.now(tz.local);
-  var when;
-  if (hour < 9)
-    when = tz.TZDateTime(
-        tz.local, now.year, now.month, now.day, hour + 15, min, 0);
-  else
-    when = tz.TZDateTime(
-        tz.local, now.year, now.month, now.day - 1, hour + 15, min, 0);
-
-  print("로컬 시간  ${now.day} ${now.hour} ${now.minute}");
-  print("make date now ${when.day} ${when.hour} ${when.minute}");
+  var when = tz.TZDateTime(
+        tz.local, now.year, now.month, now.day, hour, min, 0);
   return when;
-  // if (when.isBefore(now)) {
-  //   return when.add(Duration(days: 1));
-  // } else {
-  //   return when;
-  // }
 }
