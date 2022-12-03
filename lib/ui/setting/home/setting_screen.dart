@@ -204,14 +204,6 @@ class _SettingScreenState extends State<SettingScreen> {
                           );
                           if (time != null) {
                             viewModel.changeAlertTime(time);
-
-                            simpleTextDialog(
-                              context,
-                              primaryColor:
-                                  uiProvider.state.colorConst.getPrimary(),
-                              canvasColor: uiProvider.state.colorConst.canvas,
-                              message: "설정한 시간: ${time}",
-                            );
                           }
                         },
                         style: TextButton.styleFrom(
