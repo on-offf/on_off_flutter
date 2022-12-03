@@ -175,13 +175,6 @@ class _SettingScreenState extends State<SettingScreen> {
                             return;
                           }
                           await viewModel.changeAlertTime(alertTime);
-
-                          simpleTextDialog(
-                            context,
-                            primaryColor: uiProvider.state.colorConst.getPrimary(),
-                            canvasColor: uiProvider.state.colorConst.canvas,
-                            message: "설정한 시간: ${alertTime}",
-                          );
                         }
                         viewModel.changeIsAlert();
                       },
@@ -214,7 +207,8 @@ class _SettingScreenState extends State<SettingScreen> {
 
                             simpleTextDialog(
                               context,
-                              primaryColor: uiProvider.state.colorConst.getPrimary(),
+                              primaryColor:
+                                  uiProvider.state.colorConst.getPrimary(),
                               canvasColor: uiProvider.state.colorConst.canvas,
                               message: "설정한 시간: ${time}",
                             );

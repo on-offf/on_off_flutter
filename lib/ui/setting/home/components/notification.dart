@@ -61,8 +61,9 @@ removeWriteNotification() {
 }
 
 makeDate(hour, min) {
-  var now = tz.TZDateTime.now(tz.local);
-  var when = tz.TZDateTime(
-        tz.local, now.year, now.month, now.day, hour, min, 0);
+  final seoul_time = tz.getLocation("Asia/Seoul");
+  var now = tz.TZDateTime.now(seoul_time);
+  var when =
+      tz.TZDateTime(seoul_time, now.year, now.month, now.day, hour, min, 0);
   return when;
 }

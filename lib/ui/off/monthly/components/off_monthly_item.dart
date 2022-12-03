@@ -27,6 +27,7 @@ class OffMonthlyItem extends StatelessWidget {
 
     return viewModel.state.content == null
         ? SingleChildScrollView(
+            //작은 화면에서 게시글 없을 때 화면이 잘려서 에러 발생하는 것 보완
             physics: const NeverScrollableScrollPhysics(),
             child: Column(
               children: [
@@ -152,7 +153,7 @@ class OffMonthlyItem extends StatelessWidget {
           height: 500,
           child: SingleChildScrollView(
             physics: uiProvider.state.calendarFormat == CalendarFormat.month
-                ? const NeverScrollableScrollPhysics()
+                ? const NeverScrollableScrollPhysics() //아래에서 위로 스와이프하지 않았을 때 스크롤 방지
                 : const BouncingScrollPhysics(),
             controller: _scrollController2,
             child: Column(
