@@ -7,11 +7,15 @@ final notifications = FlutterLocalNotificationsPlugin();
 
 //1. 앱로드시 실행할 기본설정
 initNotification() async {
+
+  notifications.resolvePlatformSpecificImplementation<
+      AndroidFlutterLocalNotificationsPlugin>()?.requestPermission();
+
   //안드로이드용 아이콘파일 이름
-  var androidSetting = AndroidInitializationSettings('app_icon');
+  var androidSetting = const AndroidInitializationSettings('@mipmap/ic_launcher');
 
   //ios에서 앱 로드시 유저에게 권한요청하려면
-  var iosSetting = DarwinInitializationSettings(
+  var iosSetting = const DarwinInitializationSettings(
     requestAlertPermission: true,
     requestBadgePermission: true,
     requestSoundPermission: true,
@@ -32,7 +36,8 @@ dailyWriteNotification(String message, int hour, int min) async {
 
   var androidDetails = const AndroidNotificationDetails(
     'everyday-write-alarm', //유니크한 알림 채널 ID
-    '매일 글쓰는 시간 알림', //알림 종류 설명
+    'channel-name', //알림 종류 설명
+    channelDescription: 'everyday-write-alarm description',
     priority: Priority.high,
     importance: Importance.max,
     color: Color.fromARGB(255, 255, 0, 0),
