@@ -46,5 +46,14 @@ app.*.map.json
 /android/app/profile
 /android/app/release
 
+/android/app/src
+
 *.g.dart
 *.freezed.dart
+
+ios/Runner/Assets.xcassets/LaunchBackground.imageset/
+
+
+
+
+

@@ -10,15 +10,23 @@ environment:
 
 dependencies:
   build_runner: ^2.2.0
+  carousel_slider: ^4.1.1
   cupertino_icons: ^1.0.2
   flutter:
     sdk: flutter
+  flutter_local_notifications: ^12.0.1+1
+  flutter_native_splash: ^2.2.9
   freezed_annotation: ^2.1.0
+  google_fonts: ^3.0.1
   image_picker: ^0.8.5+3
   intl: ^0.17.0
   json_annotation: ^4.6.0
+  path: ^1.8.1
+  path_provider: ^2.0.11
   provider: ^6.0.3
   sqflite: ^2.0.3
+  table_calendar: ^3.0.6
+  flutter_email_sender: ^5.2.0
 
 dev_dependencies:
   flutter_lints: ^2.0.0
@@ -33,4 +41,16 @@ flutter:
   uses-material-design: true
   assets:
     - assets/icons/
+    - assets/icons/appbar/
+    - assets/icons/calendar/
+    - assets/icons/floating_button/
+    - assets/icons/off_write/
+    - assets/icons/stickers/
+    - assets/icons/setting/
     - lib/ui/off/list/
+
+flutter_native_splash:
+  color: "#219EBC"
+  image: "assets/images/splash.png"
+  android: true
+  ios: true

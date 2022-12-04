@@ -1,120 +1,180 @@
 import 'package:flutter/material.dart';
-import 'package:on_off/domain/model/content.dart';
-import 'package:on_off/ui/off/list/list_item.dart';
+import 'package:on_off/constants/constants_text_style.dart';
+import 'package:on_off/domain/icon/icon_path.dart';
+import 'package:on_off/ui/off/daily/off_daily_screen.dart';
+import 'package:on_off/ui/components/focus_month.dart';
+import 'package:on_off/ui/off/list/components/off_list_order_change_button.dart';
+import 'package:on_off/ui/off/list/components/list_item.dart';
+import 'package:on_off/ui/off/list/off_list_view_model.dart';
+import 'package:on_off/ui/off/write/off_write_screen.dart';
+import 'package:on_off/ui/provider/ui_provider.dart';
+import 'package:provider/provider.dart';
 
-class OffListScreen extends StatefulWidget {
+class OffListScreen extends StatelessWidget {
   static const routeName = '/off/list';
-  final List<Content> contents = [
-    Content(
-      id: 1,
-      time: DateTime.utc(2022, 8, 2, 12, 33),
-      // date: "8월 2일 목요일",
-      // time: "오후 12시 33분",
-      content:
-          "오늘 수영장을 다녀왔다! 오랜만에 친구들을 만나서 즐거운 시간을 보낸 것 같다!! 요즘 친구들 만난지 오래 되었는데 , 옛날처럼 자주 만났으면 좋겠다 흑흑.... 오늘도 즐거운 하루를 보낸거 같다... 방학이 평생 끝나지 않으면 좋겠다 ㅠㅠ",
-      imagePaths: [
-        "lib/ui/off/list/content1.png",
-        "lib/ui/off/list/content1.png",
-      ],
-    ),
-    Content(
-      id: 2,
-      time: DateTime.utc(2022, 8, 2, 12, 33),
-      // date: "8월 4일 목요일",
-      // time: "오후 12시 33분",
-      content: "오랜만에 가는 공연! 너무 신나는 하루를 보냈다!! ㅎㅎ 언제쯤 공연 보러 자유롭게 갈 수 있으려나 ㅠㅠ ",
-      imagePaths: [
-        "lib/ui/off/list/content2.png",
-        "lib/ui/off/list/content2.png",
-      ],
-    ),
-    Content(
-      id: 3,
-      time: DateTime.utc(2022, 8, 2, 12, 33),
-      // date: "8월 2일 목요일",
-      // time: "오후 12시 33분",
-      content:
-          "내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용",
-      imagePaths: [],
-    ),
-    Content(
-      id: 4,
-      time: DateTime.utc(2022, 8, 2, 12, 33),
-      // date: "8월 2일 목요일",
-      // time: "오후 12시 33분",
-      content:
-          "오늘 수영장을 다녀왔다! 오랜만에 친구들을 만나서 즐거운 시간을 보낸 것 같다!! 요즘 친구들 만난지 오래 되었는데 , 옛날처럼 자주 만났으면 좋겠다 흑흑.... 오늘도 즐거운 하루를 보낸거 같다... 방학이 평생 끝나지 않으면 좋겠다 ㅠㅠ",
-      imagePaths: [
-        "lib/ui/off/list/content1.png",
-        "lib/ui/off/list/content1.png",
-      ],
-    ),
-    Content(
-      id: 5,
-      time: DateTime.utc(2022, 8, 2, 12, 33),
-      // date: "8월 4일 목요일",
-      // time: "오후 12시 33분",
-      content: "오랜만에 가는 공연! 너무 신나는 하루를 보냈다!! ㅎㅎ 언제쯤 공연 보러 자유롭게 갈 수 있으려나 ㅠㅠ ",
-      imagePaths: [
-        "lib/ui/off/list/content2.png",
-        "lib/ui/off/list/content2.png",
-      ],
-    ),
-    Content(
-      id: 6,
-      time: DateTime.utc(2022, 8, 2, 12, 33),
-      // date: "8월 2일 목요일",
-      // time: "오후 12시 33분",
-      content:
-          "내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용",
-      imagePaths: [],
-    ),
-  ];
 
-  @override
-  State<OffListScreen> createState() => _OffListScreenState();
-}
-
-class _OffListScreenState extends State<OffListScreen> {
-  late List<Content> displayContents;
-  // var _loadedInitData = false;
-
-  // @override
-  // void didChangeDependencies() {
-  //   if (!_loadedInitData) {
-  //     // final routeArgs =
-  //     //     ModalRoute.of(context).settings.arguments as Map<String, String>;
-  //     // categoryTitle = routeArgs['title'];
-  //     // final categoryId = routeArgs['id'];
-  //     displayContents = widget.contents.where((content) {
-  //       return content.date.contains("8월");
-  //     }).toList();
-  //     _loadedInitData = true;
-  //   }
-  //   super.didChangeDependencies();
-  // }
+  const OffListScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    OffListViewModel viewModel = context.watch<OffListViewModel>();
+
+    UiProvider uiProvider = context.watch<UiProvider>();
+
     return Scaffold(
       appBar: AppBar(
-        title: Text("앱바자리"),
-        backgroundColor: Theme.of(context).primaryColor,
-        foregroundColor: Colors.black,
+        toolbarHeight: 0,
+        leading: Container(),
+        backgroundColor: uiProvider.state.colorConst.canvas,
+        elevation: 0,
       ),
       body: Container(
-        padding: const EdgeInsets.symmetric(
-          horizontal: 37,
+        padding: const EdgeInsets.only(
+          top: 0,
+          left: 37,
+          right: 37,
+          bottom: 0,
         ),
-        child: MediaQuery.removePadding(
-          context: context,
-          removeTop: true,
-          child: ListView.builder(
-            itemBuilder: ((context, index) {
-              return ListItem(content: widget.contents[index]);
-            }),
-            itemCount: widget.contents.length,
-          ),
+        child: Column(
+          children: [
+            SizedBox(
+              height: 80,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  FocusMonth(
+                    isAccent: true,
+                  ),
+                ],
+              ),
+            ),
+            Expanded(
+              child: ListView.builder(
+                itemBuilder: ((context, index) {
+                  if (index == 0 && viewModel.state.contents.isEmpty) {
+                    return Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: const [
+                            OffListOrderChangeButton(),
+                          ],
+                        ),
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height / 5,
+                        ),
+                        Image(
+                          image: AssetImage(IconPath.noHaveContent.name),
+                          width: 130,
+                          height: 130,
+                        ),
+                        const SizedBox(
+                          height: 15,
+                        ),
+                        Text(
+                          '이번 달은 아직 \n게시글이 없습니다!',
+                          style: kSubtitle3.copyWith(
+                            color: uiProvider.state.colorConst.getPrimary(),
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            TextButton(
+                              onPressed: () {
+                                uiProvider
+                                    .changeFloatingActionButtonSwitch(true);
+                                Navigator.pushNamed(
+                                    context, OffWriteScreen.routeName);
+                              },
+                              style: ButtonStyle(
+                                shape: MaterialStateProperty.all<
+                                    RoundedRectangleBorder>(
+                                  RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(
+                                      18.0,
+                                    ),
+                                    side: BorderSide(
+                                      color: uiProvider.state.colorConst
+                                          .getPrimary(),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              child: Text(
+                                '글쓰러가기',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 14,
+                                  letterSpacing: 0.1,
+                                  color: uiProvider.state.colorConst.getPrimary(),
+                                ),
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 20,
+                            ),
+                            TextButton(
+                              onPressed: () {
+                                uiProvider
+                                    .changeFloatingActionButtonSwitch(true);
+                                Navigator.pop(context);
+                              },
+                              style: ButtonStyle(
+                                shape: MaterialStateProperty.all<
+                                    RoundedRectangleBorder>(
+                                  RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(
+                                      18.0,
+                                    ),
+                                    side: BorderSide(
+                                      color: uiProvider.state.colorConst
+                                          .getPrimary(),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              child: Text(
+                                '뒤로 가기',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 14,
+                                  letterSpacing: 0.1,
+                                  color: uiProvider.state.colorConst.getPrimary(),
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                      ],
+                    );
+                  } else if (index == 0) {
+                    return Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: const [
+                        OffListOrderChangeButton(),
+                      ],
+                    );
+                  } else {
+                    return GestureDetector(
+                      child: ListItem(
+                          content: viewModel.state.contents[index - 1]),
+                      onTap: () {
+                        //daily 스크린으로 이동
+                        uiProvider.changeSelectedDay(
+                            viewModel.state.contents[index - 1].time);
+                        uiProvider.changeFocusedDay(
+                            viewModel.state.contents[index - 1].time);
+                        Navigator.pushNamed(context, OffDailyScreen.routeName);
+                      },
+                    );
+                  }
+                }),
+                itemCount: viewModel.state.contents.length + 1,
+              ),
+            ),
+          ],
         ),
       ),
     );

@@ -1,58 +1,61 @@
 import 'package:flutter/widgets.dart';
 
-const TextStyle kHeadline6 = TextStyle(
-  height: 1.448,
-  fontSize: 20,
-  fontWeight: FontWeight.w400,
-  letterSpacing: -1.5,
-);
-
-const TextStyle kSubtitle1 = TextStyle(
-  height: 1.5,
+const TextStyle kTitle1 = TextStyle(
   fontSize: 16,
   fontWeight: FontWeight.w400,
-  letterSpacing: 0.15,
+  height: 1.437,
+  letterSpacing: 0.25,
 );
 
 const TextStyle kSubtitle2 = TextStyle(
-  height: 1.448,
+  height: 1.437,
   fontSize: 16,
   fontWeight: FontWeight.w400,
+  letterSpacing: 0.25,
+);
+
+const TextStyle kSubtitle3 = TextStyle(
+  height: 1.714,
+  fontSize: 14,
+  fontWeight: FontWeight.w700,
   letterSpacing: 0.1,
 );
 
-// const TextStyle kBody1 = TextStyle(
-//   height: 1.75,
-//   fontSize: 16,
-//   fontWeight: FontWeight.w300,
-//   letterSpacing: 0.44,
-// );
-
-const TextStyle kBody2 = TextStyle(
-  height: 1.428,
-  fontSize: 14,
+const TextStyle kBody1 = TextStyle(
+  height: 1.66,
+  fontSize: 12,
   fontWeight: FontWeight.w100,
   letterSpacing: 0.25,
 );
 
-const TextStyle kButton = TextStyle(
-  height: 1.448,
+const TextStyle kBody2 = TextStyle(
+  height: 1.25,
+  fontSize: 16,
+  fontWeight: FontWeight.w400,
+);
+
+const TextStyle kMonth = TextStyle(
+  height: 1.428,
+  fontWeight: FontWeight.w400,
   fontSize: 14,
-  fontWeight: FontWeight.w400,
-  letterSpacing: 1.35,
+  letterSpacing: 0.25,
 );
 
-const TextStyle kCaption = TextStyle(
-  height: 1.33,
-  fontSize: 12,
+const TextStyle kDay = TextStyle(
+  height: 13 / 11,
   fontWeight: FontWeight.w400,
-  letterSpacing: 0.4,
+  fontSize: 11,
 );
 
-const TextStyle kOverLine = TextStyle(
-  height: 1.6,
-  fontSize: 10,
+const TextStyle kNumber = TextStyle(
+  height: 13 / 11,
   fontWeight: FontWeight.w400,
-  letterSpacing: 1.5,
+  fontSize: 11,
+);
+
+const TextStyle kCalendar = TextStyle(
+  height: 13 / 11,
+  fontWeight: FontWeight.w400,
+  fontSize: 11,
 );
 
