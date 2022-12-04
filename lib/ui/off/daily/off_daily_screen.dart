@@ -4,7 +4,6 @@ import 'package:intl/intl.dart';
 import 'package:on_off/constants/constants_text_style.dart';
 import 'package:on_off/ui/components/build_selected_icons.dart';
 import 'package:on_off/ui/components/off_appbar.dart';
-import 'package:on_off/ui/off/daily/off_daily_state.dart';
 import 'package:on_off/ui/off/daily/off_daily_view_model.dart';
 import 'package:on_off/ui/off/gallery/off_gallery_screen.dart';
 import 'package:on_off/ui/off/write/off_write_screen.dart';
@@ -68,7 +67,7 @@ class OffDailyScreen extends StatelessWidget {
               ),
               child: Text(
                 viewModel.state.content!.title,
-                style: kSubtitle3,
+                style: kSubtitle3.copyWith(height: 1),
               ),
             ),
             const SizedBox(height: 14),

@@ -186,6 +186,7 @@ Future<AlertTime?> alertTimeDialog(
                     '예',
                     style: kSubtitle3.copyWith(
                       color: primaryColor,
+                      height: 1.2,
                     ),
                   ),
                 ),
@@ -210,6 +211,7 @@ Future<AlertTime?> alertTimeDialog(
                     '아니요',
                     style: kSubtitle3.copyWith(
                       color: primaryColor,
+                      height: 1.2,
                     ),
                   ),
                 ),

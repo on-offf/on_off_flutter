@@ -277,6 +277,7 @@ Future<dynamic> simpleInputDialog(
                     '예',
                     style: kSubtitle3.copyWith(
                       color: primaryColor,
+                      height: 1.2,
                     ),
                   ),
                 ),
@@ -301,6 +302,7 @@ Future<dynamic> simpleInputDialog(
                     '아니요',
                     style: kSubtitle3.copyWith(
                       color: primaryColor,
+                      height: 1.2,
                     ),
                   ),
                 ),

@@ -53,7 +53,7 @@ class ListItem extends StatelessWidget {
           ),
           child: Text(
             content.title,
-            style: kSubtitle3,
+            style: kSubtitle3.copyWith(height: 1),
           ),
         ),
         Container(

@@ -93,6 +93,7 @@ class OffDailyViewModel extends UiProviderObserve {
   @override
   init(UiState uiState) async {
     this.uiState = uiState.copyWith();
+    await _changedByFocusedDay(uiState.focusedDay);
   }
 
   @override

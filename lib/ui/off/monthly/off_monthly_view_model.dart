@@ -62,7 +62,7 @@ class OffMonthlyViewModel extends UiProviderObserve {
   init(UiState uiState) async {
     this.uiState = uiState.copyWith();
 
-    _changeFocusedDay(uiState.focusedDay);
+    await _changeFocusedDay(uiState.focusedDay);
   }
 
   @override
