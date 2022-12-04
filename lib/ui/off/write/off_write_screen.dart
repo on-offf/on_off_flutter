@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 
 import 'package:on_off/constants/constants_text_style.dart';
@@ -118,30 +119,34 @@ class _OffWriteScreenState extends State<OffWriteScreen> {
                   child: TextField(
                     focusNode: _titleFocus,
                     controller: titleController,
+                    maxLength: 20,
+                    maxLengthEnforcement: MaxLengthEnforcement.enforced,
                     style: const TextStyle(
                       fontWeight: FontWeight.w700,
                       fontSize: 14,
                       letterSpacing: .1,
                     ),
                     decoration: InputDecoration(
-                        hintText: '제목을 입력해주세요.',
-                        contentPadding: const EdgeInsets.only(left: 10),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8.0),
-                          borderSide: const BorderSide(
-                            width: 0,
-                            style: BorderStyle.none,
-                          ),
+                      hintText: '제목을 입력해주세요.',
+                      counterText: '',
+                      contentPadding: const EdgeInsets.only(left: 10),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8.0),
+                        borderSide: const BorderSide(
+                          width: 0,
+                          style: BorderStyle.none,
                         ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8.0),
-                          borderSide: const BorderSide(
-                            width: 0,
-                            style: BorderStyle.none,
-                          ),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8.0),
+                        borderSide: const BorderSide(
+                          width: 0,
+                          style: BorderStyle.none,
                         ),
-                        filled: true,
-                        fillColor: const Color.fromRGBO(18, 112, 176, 0.24)),
+                      ),
+                      filled: true,
+                      fillColor: const Color.fromRGBO(18, 112, 176, 0.24),
+                    ),
                   ),
                 ),
                 Container(
@@ -173,7 +178,8 @@ class _OffWriteScreenState extends State<OffWriteScreen> {
                                         onPressed: () async {
                                           var pickedImage = await inputImage(1);
                                           if (pickedImage == null) return;
-                                          viewModel?.addSelectedImagePaths(pickedImage);
+                                          viewModel?.addSelectedImagePaths(
+                                              pickedImage);
                                         },
                                         icon: const Icon(
                                           Icons.add_circle_outline,
