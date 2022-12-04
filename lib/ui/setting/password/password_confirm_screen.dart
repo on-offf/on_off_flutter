@@ -1,5 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
+import 'package:on_off/ui/components/simple_dialog.dart';
 import 'package:provider/provider.dart';
 
 import 'package:on_off/constants/constants_text_style.dart';
@@ -8,10 +9,13 @@ import 'package:on_off/ui/provider/ui_provider.dart';
 class PasswordConfirmScreen extends StatefulWidget {
   static const routeName = '/setting/password/confirm';
   late String title;
+  String? realPassword;
+  Function? passwordIsNotDialog;
 
   PasswordConfirmScreen({
     Key? key,
     required this.title,
+    this.realPassword,
   }) : super(key: key);
 
   @override
@@ -40,7 +44,6 @@ class _PasswordConfirmScreenState extends State<PasswordConfirmScreen> {
     final uiProvider = context.watch<UiProvider>();
     final uiState = uiProvider.state;
     String title = widget.title;
-    // String? title = ModalRoute.of(context)!.settings.arguments as String?;
 
     return Scaffold(
       appBar: AppBar(
@@ -77,7 +80,7 @@ class _PasswordConfirmScreenState extends State<PasswordConfirmScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              title ?? '비밀번호를 입력해 주세요!',
+              title,
               style: kBody2.copyWith(
                 color: uiState.colorConst.getPrimary(),
               ),
@@ -134,6 +137,25 @@ class _PasswordConfirmScreenState extends State<PasswordConfirmScreen> {
                         }
 
                         if (_password.length == 4) {
+                          if (widget.realPassword != null &&
+                              widget.realPassword != _password) {
+                            _password = "";
+                            // TODO 왜 두번 호출해야 다이얼로그가 발생하는지 확인 필요!
+                            simpleTextDialog(
+                              context,
+                              primaryColor:
+                              uiProvider.state.colorConst.getPrimary(),
+                              canvasColor: uiProvider.state.colorConst.canvas,
+                              message: '비밀번호가 일치하지 않습니다.',
+                            );
+                            simpleTextDialog(
+                              context,
+                              primaryColor:
+                                  uiProvider.state.colorConst.getPrimary(),
+                              canvasColor: uiProvider.state.colorConst.canvas,
+                              message: '비밀번호가 일치하지 않습니다.',
+                            );
+                          }
                           Navigator.pop(context, _password);
                         }
                         setState(() {});

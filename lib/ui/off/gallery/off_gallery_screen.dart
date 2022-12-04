@@ -13,6 +13,7 @@ class OffGalleryScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var controller = CarouselController();
     final viewModel = context.watch<OffGalleryViewModel>();
 
     final uiProvider = context.watch<UiProvider>();
@@ -70,21 +71,20 @@ class OffGalleryScreen extends StatelessWidget {
           children: [
             Expanded(
               flex: 7,
-              child: CarouselSlider.builder(
-                itemCount: viewModel.state.offImageList.length,
-                itemBuilder: (BuildContext context, int index, int realIndex) {
+              child: CarouselSlider(
+                items: viewModel.state.offImageList.map((offImage) {
                   return Image.memory(
-                    viewModel.state.offImageList[viewModel.state.index].imageFile,
+                    offImage.imageFile,
                     fit: BoxFit.fitWidth,
                   );
-                },
+                }).toList(),
+                carouselController: controller,
                 options: CarouselOptions(
                   initialPage: 0,
                   enableInfiniteScroll: false,
                   viewportFraction: 1.0,
                   aspectRatio: aspectRatioWidth / aspectRatioHeight,
                   onPageChanged: (index, reason) {
-                    viewModel.changeIndex(index);
                   },
                 ),
               ),
@@ -100,7 +100,9 @@ class OffGalleryScreen extends StatelessWidget {
                     height: 9,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      color: idx == viewModel.state.index ? Colors.black : Colors.grey,
+                      color: idx == viewModel.state.index
+                          ? Colors.black
+                          : Colors.grey,
                     ),
                   );
                 },
@@ -114,40 +116,39 @@ class OffGalleryScreen extends StatelessWidget {
             ),
             Expanded(
               flex: 1,
-                child: ListView.separated(
-                  scrollDirection: Axis.horizontal,
-                  itemBuilder: (ctx, idx) {
-                    // idx == state.index
-                    return SizedBox(
-                      width: 70,
-                      height: 70,
-                      child: GestureDetector(
-                        onTap: () =>
-                            viewModel.changeIndex(idx),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(16),
-                          child: Image.memory(
-                            viewModel.state.offImageList[idx].imageFile,
-                            fit: BoxFit.fill,
-                            color: idx == viewModel.state.index
-                                ? Colors.transparent
-                                : Colors.grey,
-                            colorBlendMode: BlendMode.screen,
-                            width: 70,
-                            height: 70,
-                          ),
+              child: ListView.separated(
+                scrollDirection: Axis.horizontal,
+                itemBuilder: (ctx, idx) {
+                  // idx == state.index
+                  return SizedBox(
+                    width: 70,
+                    height: 70,
+                    child: GestureDetector(
+                      onTap: () => viewModel.changeIndex(idx),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(16),
+                        child: Image.memory(
+                          viewModel.state.offImageList[idx].imageFile,
+                          fit: BoxFit.fill,
+                          color: idx == viewModel.state.index
+                              ? Colors.transparent
+                              : Colors.grey,
+                          colorBlendMode: BlendMode.screen,
+                          width: 70,
+                          height: 70,
                         ),
                       ),
-                    );
-                  },
-                  separatorBuilder: (ctx, idx) {
-                    return const SizedBox(
-                      width: 5,
-                    );
-                  },
-                  itemCount: viewModel.state.offImageList.length,
-                ),
+                    ),
+                  );
+                },
+                separatorBuilder: (ctx, idx) {
+                  return const SizedBox(
+                    width: 5,
+                  );
+                },
+                itemCount: viewModel.state.offImageList.length,
               ),
+            ),
             const SizedBox(height: 20),
           ],
         ),

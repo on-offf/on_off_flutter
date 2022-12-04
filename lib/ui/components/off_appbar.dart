@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:on_off/domain/icon/icon_path.dart';
-import 'package:on_off/ui/components/simple_dialog.dart';
 import 'package:on_off/ui/provider/ui_provider.dart';
 import 'package:on_off/ui/setting/home/setting_screen.dart';
 import 'package:on_off/ui/setting/home/setting_view_model.dart';
@@ -47,8 +46,6 @@ PreferredSize offAppBar(
                     _checkPassword(
                       context,
                       settingViewModel.state.setting.password,
-                      uiProvider.state.colorConst.getPrimary(),
-                      uiProvider.state.colorConst.canvas,
                     );
                   } else {
                     Navigator.pushNamed(context, SettingScreen.routeName);
@@ -74,28 +71,24 @@ PreferredSize offAppBar(
 void _checkPassword(
   BuildContext context,
   String? password,
-  Color primaryColor,
-  Color canvasColor,
 ) async {
-  print(password);
-  var result = await Navigator.push(
-    context,
-    PageRouteBuilder(
-      pageBuilder: (_, __, ___) =>
-          PasswordConfirmScreen(title: '비밀번호를 입력해주세요.'),
-    ),
-  ) as String?;
+  String? result;
+
+  do {
+    result = await Navigator.push(
+      context,
+      PageRouteBuilder(
+        pageBuilder: (_, __, ___) => PasswordConfirmScreen(
+          title: '비밀번호를 입력해주세요.',
+          realPassword: password,
+        ),
+      ),
+    ) as String?;
+  } while (result != null && result != password);
 
   if (result == null) {
     /* do nothing */
   } else if (result == password) {
     Navigator.pushNamed(context, SettingScreen.routeName);
-  } else {
-    simpleTextDialog(
-      context,
-      primaryColor: primaryColor,
-      canvasColor: canvasColor,
-      message: '비밀번호가 일치하지 않습니다.',
-    );
   }
 }
