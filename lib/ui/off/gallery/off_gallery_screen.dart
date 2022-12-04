@@ -13,7 +13,6 @@ class OffGalleryScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var controller = CarouselController();
     final viewModel = context.watch<OffGalleryViewModel>();
 
     final uiProvider = context.watch<UiProvider>();
@@ -78,13 +77,16 @@ class OffGalleryScreen extends StatelessWidget {
                     fit: BoxFit.fitWidth,
                   );
                 }).toList(),
-                carouselController: controller,
+                carouselController: viewModel.state.controller,
                 options: CarouselOptions(
                   initialPage: 0,
                   enableInfiniteScroll: false,
                   viewportFraction: 1.0,
                   aspectRatio: aspectRatioWidth / aspectRatioHeight,
                   onPageChanged: (index, reason) {
+                    if (reason == CarouselPageChangedReason.manual) {
+                      viewModel.changeIndex(index);
+                    }
                   },
                 ),
               ),

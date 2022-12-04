@@ -1,3 +1,4 @@
+import 'package:carousel_slider/carousel_controller.dart';
 import 'package:on_off/domain/entity/off/off_image.dart';
 import 'package:on_off/domain/use_case/data_source/off/off_diary_use_case.dart';
 import 'package:on_off/domain/use_case/data_source/off/off_image_use_case.dart';
@@ -17,6 +18,7 @@ class OffGalleryViewModel extends UiProviderObserve {
   OffGalleryState _state = OffGalleryState(
     offImageList: [],
     index: 0,
+    controller: CarouselControllerImpl(),
   );
 
   OffGalleryState get state => _state;
@@ -27,6 +29,7 @@ class OffGalleryViewModel extends UiProviderObserve {
 
   void changeIndex(int index) {
     _state = _state.copyWith(index: index);
+    _state.controller.animateToPage(index, duration: const Duration(milliseconds: 300));
     notifyListeners();
   }
 
