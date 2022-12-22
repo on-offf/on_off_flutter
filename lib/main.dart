@@ -52,8 +52,7 @@ class MyApp extends StatelessWidget {
         routes: Routes.routes,
         builder: (context, child) => ResponsiveWrapper.builder(
           child,
-          maxWidth: 500,
-          minWidth: 390,
+          minWidth: 480,
           defaultScale: true,
           breakpoints: [
             const ResponsiveBreakpoint.resize(480, name: MOBILE),
