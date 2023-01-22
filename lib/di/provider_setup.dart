@@ -8,6 +8,9 @@ import 'package:on_off/data/data_source/db/setting/setting_dao.dart';
 import 'package:on_off/domain/use_case/data_source/off/off_icon_use_case.dart';
 import 'package:on_off/domain/use_case/data_source/off/off_diary_use_case.dart';
 import 'package:on_off/domain/use_case/data_source/off/off_image_use_case.dart';
+import 'package:on_off/domain/use_case/data_source/on/on_icon_use_case.dart';
+import 'package:on_off/domain/use_case/data_source/on/on_image_use_case.dart';
+import 'package:on_off/domain/use_case/data_source/on/on_todo_use_case.dart';
 import 'package:on_off/domain/use_case/data_source/setting/setting_use_case.dart';
 import 'package:on_off/ui/off/daily/off_daily_view_model.dart';
 import 'package:on_off/ui/off/gallery/off_gallery_view_model.dart';
@@ -35,6 +38,11 @@ Future<List<SingleChildWidget>> getProviders() async {
       await db.execute(OffImageDAO.ddl);
       await db.execute(OffIconDAO.ddl);
 
+      // ON
+      await db.execute(OnTodoDAO.ddl);
+      await db.execute(OnImageDAO.ddl);
+      await db.execute(OnIconDAO.ddl);
+
       // SETTING
       await db.execute(SettingDAO.ddl);
     },
@@ -53,6 +61,10 @@ Future<List<SingleChildWidget>> getProviders() async {
   OffDiaryUseCase offDiaryUseCase = OffDiaryUseCase(offDiaryDAO);
   OffImageUseCase offImageUseCase = OffImageUseCase(offImageDAO);
   OffIconUseCase offIconUseCase = OffIconUseCase(iconDAO);
+
+  OnTodoUseCase onTodoUseCase = OnTodoUseCase(onTodoDAO);
+  OnImageUseCase onImageUseCase = OnImageUseCase(onImageDAO);
+  OnIconUseCase onIconUseCase = OnIconUseCase(onIconDAO);
 
   SettingUseCase settingUseCase = SettingUseCase(settingDAO);
 
