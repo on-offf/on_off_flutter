@@ -14,6 +14,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   flutter:
     sdk: flutter
+  flutter_email_sender: ^5.2.0
   flutter_local_notifications: ^12.0.1+1
   flutter_native_splash: ^2.2.9
   freezed_annotation: ^2.1.0
@@ -24,9 +25,9 @@ dependencies:
   path: ^1.8.1
   path_provider: ^2.0.11
   provider: ^6.0.3
+  responsive_framework: ^0.2.0
   sqflite: ^2.0.3
   table_calendar: ^3.0.6
-  flutter_email_sender: ^5.2.0
 
 dev_dependencies:
   flutter_lints: ^2.0.0

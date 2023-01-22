@@ -8,6 +8,7 @@ import 'package:on_off/routes.dart';
 import 'package:on_off/ui/off/monthly/off_monthly_screen.dart';
 import 'package:on_off/ui/provider/ui_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:responsive_framework/responsive_framework.dart';
 
 void main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
@@ -49,6 +50,15 @@ class MyApp extends StatelessWidget {
         ),
         initialRoute: OffMonthlyScreen.routeName,
         routes: Routes.routes,
+        builder: (context, child) => ResponsiveWrapper.builder(
+          child,
+          minWidth: 480,
+          defaultScale: true,
+          breakpoints: [
+            const ResponsiveBreakpoint.resize(480, name: MOBILE),
+          ],
+          background: Container(color: const Color(0xFFF5F5F5)),
+        ),
       ),
     );
   }
