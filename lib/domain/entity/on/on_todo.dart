@@ -9,6 +9,8 @@ class OnTodo with _$OnTodo {
     required int dateTime,
     required String title,
     required String content,
+    required bool status,
+    int? completeDateTime,
     int? id,
   }) = _OnTodo;
 

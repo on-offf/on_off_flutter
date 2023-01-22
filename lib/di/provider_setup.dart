@@ -1,6 +1,9 @@
 import 'package:on_off/data/data_source/db/off/off_icon_dao.dart';
 import 'package:on_off/data/data_source/db/off/off_diary_dao.dart';
 import 'package:on_off/data/data_source/db/off/off_image_dao.dart';
+import 'package:on_off/data/data_source/db/on/on_icon_dao.dart';
+import 'package:on_off/data/data_source/db/on/on_image_dao.dart';
+import 'package:on_off/data/data_source/db/on/on_todo_dao.dart';
 import 'package:on_off/data/data_source/db/setting/setting_dao.dart';
 import 'package:on_off/domain/use_case/data_source/off/off_icon_use_case.dart';
 import 'package:on_off/domain/use_case/data_source/off/off_diary_use_case.dart';
@@ -40,6 +43,10 @@ Future<List<SingleChildWidget>> getProviders() async {
   OffDiaryDAO offDiaryDAO = OffDiaryDAO(database);
   OffImageDAO offImageDAO = OffImageDAO(database);
   OffIconDAO iconDAO = OffIconDAO(database);
+
+  OnIconDAO onIconDAO = OnIconDAO(database);
+  OnImageDAO onImageDAO = OnImageDAO(database);
+  OnTodoDAO onTodoDAO = OnTodoDAO(database);
 
   SettingDAO settingDAO = SettingDAO(database);
 
