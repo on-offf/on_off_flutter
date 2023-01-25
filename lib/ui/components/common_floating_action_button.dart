@@ -51,27 +51,27 @@ class CommonFloatingActionButton extends StatelessWidget {
               FloatingActionButton(
                 heroTag: 'moveOnOffScreen',
                 onPressed: () {
-                  simpleHighlightTextDialog(
-                    context,
-                    primaryColor: uiProvier.state.colorConst.getPrimary(),
-                    canvasColor: Colors.white,
-                    text: TextSpan(
-                      style: const TextStyle(
-                        color: Colors.black,
-                      ),
-                      children: [
-                        const TextSpan(text: '아직 준비 중인 기능이에요.\n'),
-                        TextSpan(
-                          text: 'ON ',
-                          style: TextStyle(
-                            color: uiProvier.state.colorConst.getPrimary(),
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                        const TextSpan(text: '페이지 많이 기대해주세요!'),
-                      ],
-                    ),
-                  );
+                  // simpleHighlightTextDialog(
+                  //   context,
+                  //   primaryColor: uiProvier.state.colorConst.getPrimary(),
+                  //   canvasColor: Colors.white,
+                  //   text: TextSpan(
+                  //     style: const TextStyle(
+                  //       color: Colors.black,
+                  //     ),
+                  //     children: [
+                  //       const TextSpan(text: '아직 준비 중인 기능이에요.\n'),
+                  //       TextSpan(
+                  //         text: 'ON ',
+                  //         style: TextStyle(
+                  //           color: uiProvier.state.colorConst.getPrimary(),
+                  //           fontWeight: FontWeight.w700,
+                  //         ),
+                  //       ),
+                  //       const TextSpan(text: '페이지 많이 기대해주세요!'),
+                  //     ],
+                  //   ),
+                  // );
                   onOffButtonNavigator.call();
                 },
                 backgroundColor: Colors.transparent,
