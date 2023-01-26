@@ -1,4 +1,3 @@
-import 'package:on_off/domain/use_case/data_source/on/on_todo_use_case.dart';
 import 'package:on_off/ui/on/monthly/on_monthly_state.dart';
 import 'package:on_off/ui/provider/ui_provider_observe.dart';
 import 'package:on_off/ui/provider/ui_state.dart';
@@ -64,18 +63,18 @@ List<OnTodo> DUMMY_TODOS = [
     dateTime: 20230125,
     title: "제목제목제목1",
     content: "내용내용내용내용내용내용내용내용내용내용내용내용1",
-    status: true,
+    status: 1,
   ),
   OnTodo(
     dateTime: 20230125,
     title: "제목제목제목2",
     content: "내용내용내용내용내용내용내용내용내용내용내용내용2",
-    status: false,
+    status: 0,
   ),
   OnTodo(
     dateTime: 20230125,
     title: "제목제목제목3",
     content: "내용내용내용내용내용내용내용내용내용내용내용내용3",
-    status: true,
+    status: 1,
   ),
 ];
