@@ -8,10 +8,11 @@ class OnTodo with _$OnTodo {
   factory OnTodo({
     required int dateTime,
     required String title,
-    required String content,
     required bool status, //true = finished(checked)
+    String? content,
     int? completeDateTime,
     int? id,
+    int? todoOrder,
   }) = _OnTodo;
 
   factory OnTodo.fromJson(Map<String, dynamic> json) => _$OnTodoFromJson(json);

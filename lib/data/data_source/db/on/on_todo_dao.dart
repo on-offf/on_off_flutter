@@ -28,11 +28,12 @@ class OnTodoDAO {
     );
   }
 
-  Future<List<OnTodo>> selectOnTodoList(int startUnixTime, int endUnixTime) async {
+  /// order: dateTime, todoOrder
+  Future<List<OnTodo>> selectOnTodoList(int startUnixTime, int endUnixTime, String order) async {
     final List<Map<String, dynamic>> maps = await database.query(
       table,
       where: 'dateTime >= ? and dateTime < ?',
-      orderBy: 'dateTime ASC',
+      orderBy: '$order ASC',
       whereArgs: [startUnixTime, endUnixTime],
     );
 

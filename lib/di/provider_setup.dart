@@ -1,15 +1,11 @@
 import 'package:on_off/data/data_source/db/off/off_icon_dao.dart';
 import 'package:on_off/data/data_source/db/off/off_diary_dao.dart';
 import 'package:on_off/data/data_source/db/off/off_image_dao.dart';
-import 'package:on_off/data/data_source/db/on/on_icon_dao.dart';
-import 'package:on_off/data/data_source/db/on/on_image_dao.dart';
 import 'package:on_off/data/data_source/db/on/on_todo_dao.dart';
 import 'package:on_off/data/data_source/db/setting/setting_dao.dart';
 import 'package:on_off/domain/use_case/data_source/off/off_icon_use_case.dart';
 import 'package:on_off/domain/use_case/data_source/off/off_diary_use_case.dart';
 import 'package:on_off/domain/use_case/data_source/off/off_image_use_case.dart';
-import 'package:on_off/domain/use_case/data_source/on/on_icon_use_case.dart';
-import 'package:on_off/domain/use_case/data_source/on/on_image_use_case.dart';
 import 'package:on_off/domain/use_case/data_source/on/on_todo_use_case.dart';
 import 'package:on_off/domain/use_case/data_source/setting/setting_use_case.dart';
 import 'package:on_off/ui/off/daily/off_daily_view_model.dart';
@@ -40,8 +36,6 @@ Future<List<SingleChildWidget>> getProviders() async {
 
       // ON
       await db.execute(OnTodoDAO.ddl);
-      await db.execute(OnImageDAO.ddl);
-      await db.execute(OnIconDAO.ddl);
 
       // SETTING
       await db.execute(SettingDAO.ddl);
@@ -52,8 +46,6 @@ Future<List<SingleChildWidget>> getProviders() async {
   OffImageDAO offImageDAO = OffImageDAO(database);
   OffIconDAO iconDAO = OffIconDAO(database);
 
-  OnIconDAO onIconDAO = OnIconDAO(database);
-  OnImageDAO onImageDAO = OnImageDAO(database);
   OnTodoDAO onTodoDAO = OnTodoDAO(database);
 
   SettingDAO settingDAO = SettingDAO(database);
@@ -63,8 +55,6 @@ Future<List<SingleChildWidget>> getProviders() async {
   OffIconUseCase offIconUseCase = OffIconUseCase(iconDAO);
 
   OnTodoUseCase onTodoUseCase = OnTodoUseCase(onTodoDAO);
-  OnImageUseCase onImageUseCase = OnImageUseCase(onImageDAO);
-  OnIconUseCase onIconUseCase = OnIconUseCase(onIconDAO);
 
   SettingUseCase settingUseCase = SettingUseCase(settingDAO);
 
