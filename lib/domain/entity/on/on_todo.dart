@@ -5,7 +5,7 @@ part 'on_todo.g.dart';
 
 /// status
 /// - 1: 완료
-/// - 2: 미완료
+/// - 0: 미완료
 @freezed
 class OnTodo with _$OnTodo {
   factory OnTodo({
