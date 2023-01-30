@@ -140,7 +140,7 @@ class OnMonthlyItem extends StatelessWidget {
           child: Row(
             children: [
               Checkbox(
-                value: viewModel.state.todos[i].status,
+                value: viewModel.state.todos[i].status == 1 ? true : false,
                 onChanged: (bool? value) {
                   ///TODO 클릭시 OnTodo의 status 변함
                   // viewModel.state.todos[i].status = value!;
@@ -155,7 +155,7 @@ class OnMonthlyItem extends StatelessWidget {
               ),
               Text(
                 "${viewModel.state.todos[i].title}",
-                style: viewModel.state.todos[i].status
+                style: viewModel.state.todos[i].status == 1
                     ? kBody2.copyWith(
                         color: Color(0xffb3b3b3),
                         decoration: TextDecoration.lineThrough,
