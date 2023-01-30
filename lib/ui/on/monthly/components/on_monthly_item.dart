@@ -22,73 +22,73 @@ class OnMonthlyItem extends StatelessWidget {
     _scrollControllerListener(_scrollController, uiProvider);
     _scrollControllerListener(_scrollController2, uiProvider);
 
-    return viewModel.state.todos == null
-        ? SingleChildScrollView(
-            //작은 화면에서 게시글 없을 때 화면이 잘려서 에러 발생하는 것 보완
-            physics: const NeverScrollableScrollPhysics(),
-            child: Column(
-              children: [
-                Image(
-                  image: AssetImage(IconPath.noHaveContent.name),
-                  width: 120,
-                  height: 120,
-                ),
-                const SizedBox(
-                  height: 15,
-                ),
-                Text(
-                  '이날은 아직 \n일정이 없습니다!',
-                  style: kSubtitle3.copyWith(
-                    color: uiProvider.state.colorConst.getPrimary(),
-                  ),
-                  textAlign: TextAlign.center,
+    return
+        // viewModel.state.todos == null
+        //     ? SingleChildScrollView(
+        //         //작은 화면에서 게시글 없을 때 화면이 잘려서 에러 발생하는 것 보완
+        //         physics: const NeverScrollableScrollPhysics(),
+        //         child: Column(
+        //           children: [
+        //             Image(
+        //               image: AssetImage(IconPath.noHaveContent.name),
+        //               width: 120,
+        //               height: 120,
+        //             ),
+        //             const SizedBox(
+        //               height: 15,
+        //             ),
+        //             Text(
+        //               '이날은 아직 \n일정이 없습니다!',
+        //               style: kSubtitle3.copyWith(
+        //                 color: uiProvider.state.colorConst.getPrimary(),
+        //               ),
+        //               textAlign: TextAlign.center,
+        //             ),
+        //           ],
+        //         ),
+        //       )
+        //     :
+        Container(
+      decoration: uiProvider.state.calendarFormat == CalendarFormat.week
+          ? const BoxDecoration(
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(22),
+                topRight: Radius.circular(22),
+              ),
+              boxShadow: [
+                BoxShadow(
+                  offset: Offset(-3, -3),
+                  blurRadius: 1,
+                  spreadRadius: 1,
+                  color: Color.fromRGBO(0, 0, 0, .1),
                 ),
               ],
-            ),
-          )
-        : Container(
-            decoration: uiProvider.state.calendarFormat == CalendarFormat.week
-                ? const BoxDecoration(
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(22),
-                      topRight: Radius.circular(22),
-                    ),
-                    boxShadow: [
-                      BoxShadow(
-                        offset: Offset(-3, -3),
-                        blurRadius: 1,
-                        spreadRadius: 1,
-                        color: Color.fromRGBO(0, 0, 0, .1),
-                      ),
-                    ],
-                  )
-                : const BoxDecoration(),
-            child: Container(
-              decoration: uiProvider.state.calendarFormat == CalendarFormat.week
-                  ? BoxDecoration(
-                      borderRadius: const BorderRadius.only(
-                        topLeft: Radius.circular(22),
-                        topRight: Radius.circular(22),
-                      ),
-                      color: uiProvider.state.colorConst.canvas,
-                    )
-                  : const BoxDecoration(),
-              padding: EdgeInsets.only(
-                top: uiProvider.state.calendarFormat == CalendarFormat.month
-                    ? 0
-                    : 25,
-                left: 37,
-                right: 37,
-              ),
-              child: SingleChildScrollView(
-                physics: uiProvider.state.calendarFormat == CalendarFormat.month
-                    ? const NeverScrollableScrollPhysics()
-                    : const BouncingScrollPhysics(),
-                controller: _scrollController,
-                child: bottomView(context, viewModel, uiProvider, layerLink),
-              ),
-            ),
-          );
+            )
+          : const BoxDecoration(),
+      child: Container(
+        decoration: uiProvider.state.calendarFormat == CalendarFormat.week
+            ? BoxDecoration(
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(22),
+                  topRight: Radius.circular(22),
+                ),
+                color: uiProvider.state.colorConst.canvas,
+              )
+            : const BoxDecoration(),
+        padding: EdgeInsets.only(
+          top: uiProvider.state.calendarFormat == CalendarFormat.month ? 0 : 25,
+          left: 37,
+          right: 37,
+        ),
+        child: SingleChildScrollView(
+          physics: uiProvider.state.calendarFormat == CalendarFormat.month
+              ? const NeverScrollableScrollPhysics()
+              : const BouncingScrollPhysics(),
+          controller: _scrollController,
+          child: bottomView(context, viewModel, uiProvider, layerLink),
+        ),
+      ),
+    );
   }
 
   Widget bottomView(context, viewModel, uiProvider, layerLink) {
@@ -116,7 +116,6 @@ class OnMonthlyItem extends StatelessWidget {
             ),
           ],
         ),
-        // const SizedBox(height: 23),
         SizedBox(
           height: 500,
           child: SingleChildScrollView(
@@ -133,40 +132,41 @@ class OnMonthlyItem extends StatelessWidget {
 
   Widget items(context, viewModel, uiProvider) {
     List<Widget> todos = [];
-    for (int i = 0; i < viewModel.state.todos.length; i++) {
-      todos.add(
-        SizedBox(
-          height: 27,
-          child: Row(
-            children: [
-              Checkbox(
-                value: viewModel.state.todos[i].status == 1 ? true : false,
-                onChanged: (bool? value) {
-                  ///TODO 클릭시 OnTodo의 status 변함
-                  // viewModel.state.todos[i].status = value!;
-                },
-                activeColor: uiProvider.state.colorConst.getPrimary(),
-                side: BorderSide(
-                  color: Color(0xffD9D9D9),
+    if (viewModel.state.todos != null) {
+      for (int i = 0; i < viewModel.state.todos.length; i++) {
+        todos.add(
+          SizedBox(
+            height: 27,
+            child: Row(
+              children: [
+                Checkbox(
+                  value: viewModel.state.todos[i].status == 1 ? true : false,
+                  onChanged: (bool? value) {
+                    viewModel.changeTodoStatus(viewModel.state.todos[i]);
+                  },
+                  activeColor: uiProvider.state.colorConst.getPrimary(),
+                  side: BorderSide(
+                    color: Color(0xffD9D9D9),
+                  ),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(5),
+                  ),
                 ),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(5),
+                Text(
+                  "${viewModel.state.todos[i].title}",
+                  style: viewModel.state.todos[i].status == 1
+                      ? kBody2.copyWith(
+                          color: Color(0xffb3b3b3),
+                          decoration: TextDecoration.lineThrough,
+                        )
+                      : kBody2,
                 ),
-              ),
-              Text(
-                "${viewModel.state.todos[i].title}",
-                style: viewModel.state.todos[i].status == 1
-                    ? kBody2.copyWith(
-                        color: Color(0xffb3b3b3),
-                        decoration: TextDecoration.lineThrough,
-                      )
-                    : kBody2,
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
-      );
-      todos.add(SizedBox(height: 15));
+        );
+        todos.add(SizedBox(height: 15));
+      }
     }
 
     return Column(
@@ -185,20 +185,34 @@ class OnMonthlyItem extends StatelessWidget {
               children: [
                 Checkbox(
                   value: false,
-                  onChanged: (bool? value) {
-                    // viewModel.state.todos[i].status = value!;
-                  },
+                  onChanged: (bool? value) {}, //작성하는 todo 칸은 체크박스 비활성화
                   activeColor: uiProvider.state.colorConst.getPrimary(),
                   side: BorderSide(
-                    color: Color(0xffD9D9D9),
+                    color: const Color(0xffD9D9D9),
                   ),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(5),
                   ),
                 ),
-                Text(
-                  "오늘의 리스트를 추가해 주세요!",
-                  style: kSubtitle3,
+                Expanded(
+                  child: TextFormField(
+                    // initialValue: "오늘의 리스트를 추가해 주세요!",
+                    style: kSubtitle3,
+                    decoration: InputDecoration(
+                      hintText: "오늘의 리스트를 추가해 주세요!",
+                      enabledBorder: const UnderlineInputBorder(
+                        borderSide: BorderSide(color: Colors.transparent),
+                      ),
+                      focusedBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(
+                          color: uiProvider.state.colorConst.getPrimary(),
+                        ),
+                      ),
+                    ),
+                    onFieldSubmitted: (value) {
+                      viewModel.saveContent(value);
+                    },
+                  ),
                 ),
               ],
             ),

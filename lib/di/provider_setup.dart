@@ -94,7 +94,9 @@ Future<List<SingleChildWidget>> getProviders() async {
   );
 
   // On View Model
-  OnMonthlyViewModel onHomeViewModel = OnMonthlyViewModel();
+  OnMonthlyViewModel onHomeViewModel = OnMonthlyViewModel(
+    onTodoUseCase: onTodoUseCase,
+  );
 
   // Setting View Model
   SettingViewModel settingViewModel = SettingViewModel(
