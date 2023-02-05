@@ -502,7 +502,7 @@ class _SettingScreenState extends State<SettingScreen> {
                                 ),
                                 TextSpan(
                                   text:
-                                      '${viewModel.state.setting.switchEndMinutes < 10 ? '0' : ''}${viewModel.state.setting.switchEndMinutes!}',
+                                      '${viewModel.state.setting.switchEndMinutes < 10 ? '0' : ''}${viewModel.state.setting.switchEndMinutes}',
                                   style: messageTextStyle().copyWith(
                                     color: uiProvider.state.colorConst
                                         .getPrimary(),
