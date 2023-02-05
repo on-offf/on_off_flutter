@@ -13,6 +13,8 @@ class OnMonthlyItem extends StatelessWidget {
   final ScrollController _scrollController = ScrollController();
   final ScrollController _scrollController2 = ScrollController();
 
+  var createTodoTextFormFieldController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     OnMonthlyViewModel viewModel = context.watch<OnMonthlyViewModel>();
@@ -179,6 +181,7 @@ class OnMonthlyItem extends StatelessWidget {
                 Expanded(
                   child: TextFormField(
                     style: kSubtitle3,
+                    controller: createTodoTextFormFieldController,
                     decoration: InputDecoration(
                       hintText: "오늘의 리스트를 추가해 주세요!",
                       enabledBorder: const UnderlineInputBorder(
@@ -192,7 +195,7 @@ class OnMonthlyItem extends StatelessWidget {
                     ),
                     onFieldSubmitted: (value) async {
                       await viewModel.saveContent(value);
-                      value = '';
+                      createTodoTextFormFieldController.text = '';
                     },
                   ),
                 ),
