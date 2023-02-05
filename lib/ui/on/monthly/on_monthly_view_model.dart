@@ -27,11 +27,11 @@ class OnMonthlyViewModel extends UiProviderObserve {
     OnTodo todo = await onTodoUseCase.insertOnTodo(dateTime, title);
 
     List<OnTodo> todos = [];
+    todos.add(todo);
     for (var element in _state.todos!) {
       todos.add(element);
     }
 
-    todos.add(todo);
     _state = _state.copyWith(todos: todos);
     notifyListeners();
   }
@@ -55,9 +55,10 @@ class OnMonthlyViewModel extends UiProviderObserve {
   _changeFocusedDay(DateTime focusedDay) async {
     List<OnTodo> selectOnTodoList = await onTodoUseCase.selectOnTodoList(
       focusedDay,
-      'todoOrder',
+      'id',
       0,
     );
+    print(selectOnTodoList);
     _state = _state.copyWith(todos: selectOnTodoList);
   }
 

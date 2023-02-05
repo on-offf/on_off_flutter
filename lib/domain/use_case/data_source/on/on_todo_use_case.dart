@@ -40,7 +40,7 @@ class OnTodoUseCase {
 
   /// order: dateTime, todoOrder
   Future<List<OnTodo>> selectOnTodoList(DateTime dateTime, String order, int? status) async {
-    if (order != 'dateTime' || order != 'todoOrder') {
+    if (order != 'id' && order != 'todoOrder') {
       order = 'todoOrder';
     }
 

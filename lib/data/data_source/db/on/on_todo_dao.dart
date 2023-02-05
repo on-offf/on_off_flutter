@@ -38,10 +38,11 @@ class OnTodoDAO {
 
   /// order: dateTime, todoOrder
   Future<List<OnTodo>> selectOnTodoList(int startUnixTime, int endUnixTime, String order) async {
+    String orderDesc = order == 'id' ? 'DESC' : 'ASC';
     final List<Map<String, dynamic>> maps = await database.query(
       table,
       where: 'dateTime >= ? and dateTime < ?',
-      orderBy: '$order ASC',
+      orderBy: '$order $orderDesc',
       whereArgs: [startUnixTime, endUnixTime],
     );
 
