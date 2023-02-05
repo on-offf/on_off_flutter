@@ -1,10 +1,12 @@
 import 'package:on_off/data/data_source/db/off/off_icon_dao.dart';
 import 'package:on_off/data/data_source/db/off/off_diary_dao.dart';
 import 'package:on_off/data/data_source/db/off/off_image_dao.dart';
+import 'package:on_off/data/data_source/db/on/on_todo_dao.dart';
 import 'package:on_off/data/data_source/db/setting/setting_dao.dart';
 import 'package:on_off/domain/use_case/data_source/off/off_icon_use_case.dart';
 import 'package:on_off/domain/use_case/data_source/off/off_diary_use_case.dart';
 import 'package:on_off/domain/use_case/data_source/off/off_image_use_case.dart';
+import 'package:on_off/domain/use_case/data_source/on/on_todo_use_case.dart';
 import 'package:on_off/domain/use_case/data_source/setting/setting_use_case.dart';
 import 'package:on_off/ui/off/daily/off_daily_view_model.dart';
 import 'package:on_off/ui/off/gallery/off_gallery_view_model.dart';
@@ -21,7 +23,7 @@ import 'package:sqflite/sqflite.dart';
 
 Future<List<SingleChildWidget>> getProviders() async {
   var databaseName = 'on_off.db';
-  var databaseVersion = 1;
+  var databaseVersion = 2;
 
   Database database = await openDatabase(
     databaseName,
@@ -32,6 +34,9 @@ Future<List<SingleChildWidget>> getProviders() async {
       await db.execute(OffImageDAO.ddl);
       await db.execute(OffIconDAO.ddl);
 
+      // ON
+      await db.execute(OnTodoDAO.ddl);
+
       // SETTING
       await db.execute(SettingDAO.ddl);
     },
@@ -41,11 +46,15 @@ Future<List<SingleChildWidget>> getProviders() async {
   OffImageDAO offImageDAO = OffImageDAO(database);
   OffIconDAO iconDAO = OffIconDAO(database);
 
+  OnTodoDAO onTodoDAO = OnTodoDAO(database);
+
   SettingDAO settingDAO = SettingDAO(database);
 
   OffDiaryUseCase offDiaryUseCase = OffDiaryUseCase(offDiaryDAO);
   OffImageUseCase offImageUseCase = OffImageUseCase(offImageDAO);
   OffIconUseCase offIconUseCase = OffIconUseCase(iconDAO);
+
+  OnTodoUseCase onTodoUseCase = OnTodoUseCase(onTodoDAO);
 
   SettingUseCase settingUseCase = SettingUseCase(settingDAO);
 
@@ -85,7 +94,9 @@ Future<List<SingleChildWidget>> getProviders() async {
   );
 
   // On View Model
-  OnMonthlyViewModel onHomeViewModel = OnMonthlyViewModel();
+  OnMonthlyViewModel onHomeViewModel = OnMonthlyViewModel(
+    onTodoUseCase: onTodoUseCase,
+  );
 
   // Setting View Model
   SettingViewModel settingViewModel = SettingViewModel(
@@ -107,6 +118,7 @@ Future<List<SingleChildWidget>> getProviders() async {
   viewModelList.add(settingViewModel);
 
   UiProvider uiProvider = UiProvider(viewModelList: viewModelList);
+  uiProvider.init();
 
   return [
     ChangeNotifierProvider(create: (_) => uiProvider),

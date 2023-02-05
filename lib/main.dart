@@ -48,7 +48,7 @@ class MyApp extends StatelessWidget {
           canvasColor: state.colorConst.canvas,
           textTheme: GoogleFonts.notoSansTextTheme(),
         ),
-        initialRoute: OffMonthlyScreen.routeName,
+        initialRoute: state.startRoute,
         routes: Routes.routes,
         builder: (context, child) => ResponsiveWrapper.builder(
           child,

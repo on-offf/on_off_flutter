@@ -19,5 +19,8 @@ class UiState with _$UiState {
     // focus year & month
     required bool focusMonthSelected,
     required OverlayEntry? overlayEntry,
+
+    //select start screen
+    required String startRoute,
   }) = _UiState;
 }

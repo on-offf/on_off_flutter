@@ -6,6 +6,7 @@ import 'package:on_off/ui/off/monthly/components/off_monthly_calendar.dart';
 import 'package:on_off/ui/off/monthly/components/off_monthly_item.dart';
 import 'package:on_off/ui/off/list/off_list_screen.dart';
 import 'package:on_off/ui/off/monthly/off_monthly_view_model.dart';
+import 'package:on_off/ui/on/monthly/on_monthly_screen.dart';
 import 'package:on_off/ui/provider/ui_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -32,7 +33,9 @@ class OffMonthlyScreen extends StatelessWidget {
           uiProvider.changeCalendarFormat(CalendarFormat.month);
           Navigator.pushNamed(context, OffListScreen.routeName);
         },
-        onOffButtonNavigator: () {},
+        onOffButtonNavigator: () {
+          Navigator.pushReplacementNamed(context, OnMonthlyScreen.routeName);
+        },
       ),
       body: Column(
         children: [
@@ -50,8 +53,8 @@ class OffMonthlyScreen extends StatelessWidget {
                       uiProvider.state.calendarFormat == CalendarFormat.month
                           ? 320
                           : 70,
-                  child: const SingleChildScrollView(
-                      child: OffMonthlyCalendar()),
+                  child:
+                      const SingleChildScrollView(child: OffMonthlyCalendar()),
                 )
               ],
             ),

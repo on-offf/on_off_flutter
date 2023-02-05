@@ -68,7 +68,6 @@ class OceanMainColor extends ColorConst {
   Color getPrimaryPlus() {
     return primaryPlus;
   }
-
 }
 
 class YellowMainColor extends ColorConst {
@@ -157,4 +156,3 @@ class OrangeMainColor extends ColorConst {
     return primaryPlus;
   }
 }
-
