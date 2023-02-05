@@ -32,7 +32,7 @@ class MonthlyCalendar extends StatelessWidget {
   }
 
   OnDaySelected _onDaySelected(UiProvider uiProvider) {
-    return (selectedDay, focusedDay) {
+    return (selectedDay, focusedDay) async {
       uiProvider.changeSelectedDay(selectedDay);
       uiProvider.changeFocusedDay(focusedDay);
     };

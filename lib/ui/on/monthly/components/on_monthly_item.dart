@@ -22,33 +22,7 @@ class OnMonthlyItem extends StatelessWidget {
     _scrollControllerListener(_scrollController, uiProvider);
     _scrollControllerListener(_scrollController2, uiProvider);
 
-    return
-        // viewModel.state.todos == null
-        //     ? SingleChildScrollView(
-        //         //작은 화면에서 게시글 없을 때 화면이 잘려서 에러 발생하는 것 보완
-        //         physics: const NeverScrollableScrollPhysics(),
-        //         child: Column(
-        //           children: [
-        //             Image(
-        //               image: AssetImage(IconPath.noHaveContent.name),
-        //               width: 120,
-        //               height: 120,
-        //             ),
-        //             const SizedBox(
-        //               height: 15,
-        //             ),
-        //             Text(
-        //               '이날은 아직 \n일정이 없습니다!',
-        //               style: kSubtitle3.copyWith(
-        //                 color: uiProvider.state.colorConst.getPrimary(),
-        //               ),
-        //               textAlign: TextAlign.center,
-        //             ),
-        //           ],
-        //         ),
-        //       )
-        //     :
-        Container(
+    return Container(
       decoration: uiProvider.state.calendarFormat == CalendarFormat.week
           ? const BoxDecoration(
               borderRadius: BorderRadius.only(
@@ -113,7 +87,7 @@ class OnMonthlyItem extends StatelessWidget {
             ),
             IconButton(
               onPressed: () => _buildBottomSheet(context),
-              icon: Icon(Icons.menu),
+              icon: const Icon(Icons.menu),
             ),
           ],
         ),
@@ -131,22 +105,26 @@ class OnMonthlyItem extends StatelessWidget {
     );
   }
 
-  Widget items(context, viewModel, uiProvider) {
+  Widget items(
+    context,
+    OnMonthlyViewModel viewModel,
+    uiProvider,
+  ) {
     List<Widget> todos = [];
     if (viewModel.state.todos != null) {
-      for (int i = 0; i < viewModel.state.todos.length; i++) {
+      for (int i = 0; i < viewModel.state.todos!.length; i++) {
         todos.add(
           SizedBox(
             height: 27,
             child: Row(
               children: [
                 Checkbox(
-                  value: viewModel.state.todos[i].status == 1 ? true : false,
+                  value: viewModel.state.todos![i].status == 1 ? true : false,
                   onChanged: (bool? value) {
-                    viewModel.changeTodoStatus(viewModel.state.todos[i]);
+                    viewModel.changeTodoStatus(viewModel.state.todos![i]);
                   },
                   activeColor: uiProvider.state.colorConst.getPrimary(),
-                  side: BorderSide(
+                  side: const BorderSide(
                     color: Color(0xffD9D9D9),
                   ),
                   shape: RoundedRectangleBorder(
@@ -154,10 +132,10 @@ class OnMonthlyItem extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  "${viewModel.state.todos[i].title}",
-                  style: viewModel.state.todos[i].status == 1
+                  viewModel.state.todos![i].title,
+                  style: viewModel.state.todos![i].status == 1
                       ? kBody2.copyWith(
-                          color: Color(0xffb3b3b3),
+                          color: const Color(0xffb3b3b3),
                           decoration: TextDecoration.lineThrough,
                         )
                       : kBody2,
@@ -166,7 +144,9 @@ class OnMonthlyItem extends StatelessWidget {
             ),
           ),
         );
-        todos.add(SizedBox(height: 15));
+        todos.add(
+          const SizedBox(height: 15),
+        );
       }
     }
 
@@ -176,13 +156,13 @@ class OnMonthlyItem extends StatelessWidget {
         ...todos,
         DottedBorder(
           borderType: BorderType.RRect,
-          radius: Radius.circular(7),
+          radius: const Radius.circular(7),
           color: uiProvider.state.colorConst.getPrimary(),
           strokeWidth: 1,
           child: Container(
             // height: 27,
             height: 45,
-            color: Color(0xfff8f8f8),
+            color: const Color(0xfff8f8f8),
             child: Row(
               children: [
                 Checkbox(
@@ -190,8 +170,8 @@ class OnMonthlyItem extends StatelessWidget {
                   onChanged: (bool? value) {},
                   //작성하는 todo 칸은 체크박스 비활성화
                   activeColor: uiProvider.state.colorConst.getPrimary(),
-                  side: BorderSide(
-                    color: const Color(0xffD9D9D9),
+                  side: const BorderSide(
+                    color: Color(0xffD9D9D9),
                   ),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(5),
@@ -199,7 +179,6 @@ class OnMonthlyItem extends StatelessWidget {
                 ),
                 Expanded(
                   child: TextFormField(
-                    // initialValue: "오늘의 리스트를 추가해 주세요!",
                     style: kSubtitle3,
                     decoration: InputDecoration(
                       hintText: "오늘의 리스트를 추가해 주세요!",
@@ -212,8 +191,9 @@ class OnMonthlyItem extends StatelessWidget {
                         ),
                       ),
                     ),
-                    onFieldSubmitted: (value) {
-                      viewModel.saveContent(value);
+                    onFieldSubmitted: (value) async {
+                      await viewModel.saveContent(value);
+                      value = '';
                     },
                   ),
                 ),
