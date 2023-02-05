@@ -6,8 +6,10 @@ import 'package:on_off/ui/off/list/off_list_screen.dart';
 import 'package:on_off/ui/off/list/off_list_view_model.dart';
 import 'package:on_off/ui/off/monthly/off_monthly_screen.dart';
 import 'package:on_off/ui/off/monthly/off_monthly_view_model.dart';
+import 'package:on_off/ui/on/monthly/on_monthly_screen.dart';
 import 'package:on_off/ui/provider/ui_provider_observe.dart';
 import 'package:on_off/ui/provider/ui_state.dart';
+import 'package:on_off/ui/setting/home/setting_view_model.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class UiProvider with ChangeNotifier {
@@ -15,9 +17,7 @@ class UiProvider with ChangeNotifier {
 
   UiProvider({
     required this.viewModelList,
-  }) {
-    _init();
-  }
+  });
 
   UiState _state = UiState(
     // setting
@@ -36,6 +36,9 @@ class UiProvider with ChangeNotifier {
     // focus month overlay
     overlayEntry: null,
     focusMonthSelected: false,
+
+    //start screen
+    startRoute: OffMonthlyScreen.routeName,
   );
 
   UiState get state => _state;
@@ -44,6 +47,27 @@ class UiProvider with ChangeNotifier {
   void changeMainColor(ColorConst colorConst) {
     _state = _state.copyWith(colorConst: colorConst);
     _notifyListeners();
+  }
+
+  void _selectStartScreen() {
+    for (var viewModel in viewModelList) {
+      if (viewModel is SettingViewModel) {
+        var settingState = viewModel.state.setting;
+        DateTime now = DateTime.now();
+        //TODO : on 종료시간이 자정을 넘기지 않는다고 가정. 만약 넘어가도 되면 고쳐야함.
+        DateTime settingStartTime = DateTime(now.year, now.month, now.day,
+            settingState.switchStartHour, settingState.switchStartMinutes);
+        DateTime settingEndTime = DateTime(now.year, now.month, now.day,
+            settingState.switchEndHour, settingState.switchEndMinutes);
+        if (settingState.isOnOffSwitch == 1 &&
+            now.compareTo(settingStartTime) == 1 &&
+            now.compareTo(settingEndTime) == -1) {
+          _state = _state.copyWith(startRoute: OnMonthlyScreen.routeName);
+          _notifyListeners();
+        }
+      }
+    }
+    // _state = _state.copyWith(startRoute: );
   }
 
   // calendar
@@ -109,9 +133,11 @@ class UiProvider with ChangeNotifier {
       if (viewModel is OffMonthlyViewModel &&
           route == OffMonthlyScreen.routeName) {
         await viewModel.initScreen();
-      } else if (viewModel is OffDailyViewModel && route == OffDailyScreen.routeName) {
+      } else if (viewModel is OffDailyViewModel &&
+          route == OffDailyScreen.routeName) {
         await viewModel.initScreen();
-      } else if (viewModel is OffListViewModel && route == OffListScreen.routeName) {
+      } else if (viewModel is OffListViewModel &&
+          route == OffListScreen.routeName) {
         await viewModel.initScreen();
       }
     }
@@ -122,11 +148,17 @@ class UiProvider with ChangeNotifier {
   }
 
   // with Observe
-  Future<void> _init() async {
-    for (var viewModel in viewModelList) {
-      viewModel.init(_state);
-    }
+  Future<void> init() async {
+    await _initViewModel();
+    //select start screen
+    _selectStartScreen();
     notifyListeners();
+  }
+
+  Future<void> _initViewModel() async {
+    for (var viewModel in viewModelList) {
+      await viewModel.init(_state);
+    }
   }
 
   Future<void> _notifyListeners() async {

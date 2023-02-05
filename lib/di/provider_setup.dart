@@ -118,6 +118,7 @@ Future<List<SingleChildWidget>> getProviders() async {
   viewModelList.add(settingViewModel);
 
   UiProvider uiProvider = UiProvider(viewModelList: viewModelList);
+  uiProvider.init();
 
   return [
     ChangeNotifierProvider(create: (_) => uiProvider),
