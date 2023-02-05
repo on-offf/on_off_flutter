@@ -1,18 +1,18 @@
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:on_off/constants/constants_text_style.dart';
 import 'package:on_off/ui/on/monthly/on_monthly_view_model.dart';
 import 'package:on_off/ui/provider/ui_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 
-import '../../../../constants/constants_text_style.dart';
-import '../../../../domain/icon/icon_path.dart';
-
 class OnMonthlyItem extends StatelessWidget {
   OnMonthlyItem({super.key});
+
   final ScrollController _scrollController = ScrollController();
   final ScrollController _scrollController2 = ScrollController();
+
   @override
   Widget build(BuildContext context) {
     OnMonthlyViewModel viewModel = context.watch<OnMonthlyViewModel>();
@@ -99,11 +99,8 @@ class OnMonthlyItem extends StatelessWidget {
             CompositedTransformTarget(
               link: layerLink,
               child: Text(
-                "1월 25일 수요일",
-
-                ///TODO 날짜 가져와서 변경하도록 수정
-                // DateFormat.MMMMEEEEd('ko_KR')
-                //     .format(viewModel.state.content!.time),
+                DateFormat.MMMMEEEEd('ko_KR')
+                    .format(uiProvider.state.focusedDay),
                 style: kSubtitle3,
               ),
             ),
@@ -190,7 +187,8 @@ class OnMonthlyItem extends StatelessWidget {
               children: [
                 Checkbox(
                   value: false,
-                  onChanged: (bool? value) {}, //작성하는 todo 칸은 체크박스 비활성화
+                  onChanged: (bool? value) {},
+                  //작성하는 todo 칸은 체크박스 비활성화
                   activeColor: uiProvider.state.colorConst.getPrimary(),
                   side: BorderSide(
                     color: const Color(0xffD9D9D9),

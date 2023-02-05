@@ -3,8 +3,8 @@ import 'package:on_off/ui/provider/ui_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 
-class OffMonthlyCalendar extends StatelessWidget {
-  const OffMonthlyCalendar({Key? key}) : super(key: key);
+class MonthlyCalendar extends StatelessWidget {
+  const MonthlyCalendar({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
