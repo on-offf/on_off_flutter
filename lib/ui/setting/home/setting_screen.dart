@@ -315,6 +315,214 @@ class _SettingScreenState extends State<SettingScreen> {
               ],
             ),
           ),
+          divide(),
+          Container(
+            padding: buttonEdgeInsets(),
+            color: Colors.white,
+            child: Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'ON 시간 설정',
+                      style: buttonTextStyle(),
+                    ),
+                    AnimatedSwitch(
+                      uiState: uiProvider.state,
+                      isLock: viewModel.state.setting.isOnOffSwitch == 1,
+                      onPressed: () async {
+                        viewModel.changeIsOnOffSwitch();
+                      },
+                    ),
+                  ],
+                ),
+                if (viewModel.state.setting.isOnOffSwitch == 1)
+                  Container(
+                    padding: const EdgeInsets.only(
+                      top: 0,
+                      bottom: 0,
+                      left: 10,
+                      right: 0,
+                    ),
+                    height: 25,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "ON 시작",
+                          style: switchOnOffTextStyle(),
+                        ),
+                        TextButton(
+                          onPressed: () async {
+                            AlertTime? time = await alertTimeDialog(
+                              context,
+                              viewModel,
+                              viewModel.state,
+                              uiProvider,
+                              uiProvider.state,
+                              uiProvider.state.colorConst.getPrimary(),
+                            );
+                            if (time != null) {
+                              viewModel.changeSwitchTime(true, time);
+                            }
+                          },
+                          style: TextButton.styleFrom(
+                            padding: const EdgeInsets.all(0),
+                          ),
+                          child: RichText(
+                            text: TextSpan(
+                              style: switchOnOffTextStyle(),
+                              children: [
+                                TextSpan(
+                                  text:
+                                      viewModel.state.setting.switchStartHour <
+                                              12
+                                          ? 'AM '
+                                          : 'PM ',
+                                  style: messageTextStyle().copyWith(
+                                    color: uiProvider.state.colorConst
+                                        .getPrimary(),
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                                TextSpan(
+                                  text: viewModel
+                                              .state.setting.switchStartHour ==
+                                          0
+                                      ? '12'
+                                      : viewModel.state.setting
+                                                  .switchStartHour <=
+                                              12
+                                          ? '${viewModel.state.setting.switchStartHour}'
+                                          : '${viewModel.state.setting.switchStartHour - 12}',
+                                  style: messageTextStyle().copyWith(
+                                    color: uiProvider.state.colorConst
+                                        .getPrimary(),
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                                TextSpan(
+                                  text: ':',
+                                  style: messageTextStyle().copyWith(
+                                    color: uiProvider.state.colorConst
+                                        .getPrimary(),
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                                TextSpan(
+                                  text:
+                                      '${viewModel.state.setting.switchStartMinutes < 10 ? '0' : ''}${viewModel.state.setting.switchStartMinutes}',
+                                  style: messageTextStyle().copyWith(
+                                    color: uiProvider.state.colorConst
+                                        .getPrimary(),
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                if (viewModel.state.setting.isOnOffSwitch == 1)
+                  const SizedBox(
+                    height: 10,
+                  ),
+                if (viewModel.state.setting.isOnOffSwitch == 1)
+                  Container(
+                    padding: const EdgeInsets.only(
+                      top: 0,
+                      bottom: 0,
+                      left: 10,
+                      right: 0,
+                    ),
+                    height: 25,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "ON 종료",
+                          style: switchOnOffTextStyle(),
+                        ),
+                        TextButton(
+                          onPressed: () async {
+                            AlertTime? time = await alertTimeDialog(
+                              context,
+                              viewModel,
+                              viewModel.state,
+                              uiProvider,
+                              uiProvider.state,
+                              uiProvider.state.colorConst.getPrimary(),
+                            );
+                            if (time != null) {
+                              viewModel.changeSwitchTime(false, time);
+                            }
+                          },
+                          style: TextButton.styleFrom(
+                            padding: const EdgeInsets.all(0),
+                          ),
+                          child: RichText(
+                            text: TextSpan(
+                              style: switchOnOffTextStyle(),
+                              children: [
+                                TextSpan(
+                                  text:
+                                      viewModel.state.setting.switchEndHour < 12
+                                          ? 'AM '
+                                          : 'PM ',
+                                  style: messageTextStyle().copyWith(
+                                    color: uiProvider.state.colorConst
+                                        .getPrimary(),
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                                TextSpan(
+                                  text: viewModel.state.setting.switchEndHour ==
+                                          0
+                                      ? '12'
+                                      : viewModel.state.setting.switchEndHour <=
+                                              12
+                                          ? '${viewModel.state.setting.switchEndHour}'
+                                          : '${viewModel.state.setting.switchEndHour - 12}',
+                                  style: messageTextStyle().copyWith(
+                                    color: uiProvider.state.colorConst
+                                        .getPrimary(),
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                                TextSpan(
+                                  text: ':',
+                                  style: messageTextStyle().copyWith(
+                                    color: uiProvider.state.colorConst
+                                        .getPrimary(),
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                                TextSpan(
+                                  text:
+                                      '${viewModel.state.setting.switchEndMinutes < 10 ? '0' : ''}${viewModel.state.setting.switchEndMinutes!}',
+                                  style: messageTextStyle().copyWith(
+                                    color: uiProvider.state.colorConst
+                                        .getPrimary(),
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                if (viewModel.state.setting.isOnOffSwitch == 1)
+                  const SizedBox(
+                    height: 10,
+                  ),
+              ],
+            ),
+          ),
           Container(
             padding: titleEdgeInsets(),
             child: Align(
@@ -543,6 +751,16 @@ class _SettingScreenState extends State<SettingScreen> {
   TextStyle messageTextStyle() {
     return const TextStyle(
       fontSize: 12,
+      fontWeight: FontWeight.w100,
+      letterSpacing: .25,
+      height: 1.666,
+      color: Colors.black,
+    );
+  }
+
+  TextStyle switchOnOffTextStyle() {
+    return const TextStyle(
+      fontSize: 15,
       fontWeight: FontWeight.w100,
       letterSpacing: .25,
       height: 1.666,
