@@ -153,7 +153,6 @@ class OnMonthlyItem extends StatelessWidget {
     return Column(
       children: [
         const SizedBox(height: 15),
-        ...todos,
         DottedBorder(
           borderType: BorderType.RRect,
           radius: const Radius.circular(7),
@@ -201,6 +200,7 @@ class OnMonthlyItem extends StatelessWidget {
             ),
           ),
         ),
+        ...todos,
       ],
     );
   }
