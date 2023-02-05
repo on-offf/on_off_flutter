@@ -183,7 +183,8 @@ class OnMonthlyItem extends StatelessWidget {
           color: uiProvider.state.colorConst.getPrimary(),
           strokeWidth: 1,
           child: Container(
-            height: 27,
+            // height: 27,
+            height: 45,
             color: Color(0xfff8f8f8),
             child: Row(
               children: [
