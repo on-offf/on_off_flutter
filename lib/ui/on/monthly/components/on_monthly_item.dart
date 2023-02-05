@@ -114,6 +114,10 @@ class OnMonthlyItem extends StatelessWidget {
                 color: Theme.of(context).primaryColor,
               ),
             ),
+            IconButton(
+              onPressed: () => _buildBottomSheet(context),
+              icon: Icon(Icons.menu),
+            ),
           ],
         ),
         SizedBox(
@@ -229,5 +233,71 @@ class OnMonthlyItem extends StatelessWidget {
         uiProvider.changeCalendarFormat(CalendarFormat.month);
       }
     });
+  }
+
+  Future<dynamic> _buildBottomSheet(BuildContext context) {
+    return showModalBottomSheet(
+      context: context,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(25.0),
+        ),
+      ),
+      builder: (context) {
+        return Container(
+          height: 400,
+          padding: EdgeInsets.all(20),
+          child: Column(children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Container(
+                  child: Text("미완료 일정 보기"),
+                  height: 50,
+                  width: 200,
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    color: Colors.grey[500],
+                  ),
+                ),
+                Container(
+                  child: Text("완료 일정 보기"),
+                  height: 50,
+                  width: 200,
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    color: Colors.grey[500],
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: 10),
+            Container(
+              child: Text("오늘의 일정 전체보기"),
+              height: 50,
+              width: 200,
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
+                color: Colors.grey[500],
+              ),
+            ),
+            SizedBox(height: 10),
+            Container(
+              child: Text("다수의 일정 삭제하기"),
+              height: 50,
+              width: 200,
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
+                color: Colors.grey[500],
+              ),
+            ),
+          ]),
+        );
+      },
+    );
   }
 }
