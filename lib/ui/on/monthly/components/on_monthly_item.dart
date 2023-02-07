@@ -2,6 +2,7 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:on_off/constants/constants_text_style.dart';
+import 'package:on_off/ui/on/monthly/components/TodoBottomSheet.dart';
 import 'package:on_off/ui/on/monthly/on_monthly_view_model.dart';
 import 'package:on_off/ui/provider/ui_provider.dart';
 import 'package:provider/provider.dart';
@@ -227,59 +228,7 @@ class OnMonthlyItem extends StatelessWidget {
         ),
       ),
       builder: (context) {
-        return Container(
-          height: 400,
-          padding: const EdgeInsets.all(20),
-          child: Column(children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Container(
-                  child: Text("미완료 일정 보기"),
-                  height: 50,
-                  width: 200,
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    color: Colors.grey[500],
-                  ),
-                ),
-                Container(
-                  child: Text("완료 일정 보기"),
-                  height: 50,
-                  width: 200,
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    color: Colors.grey[500],
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 10),
-            Container(
-              child: Text("오늘의 일정 전체보기"),
-              height: 50,
-              width: 200,
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
-                color: Colors.grey[500],
-              ),
-            ),
-            const SizedBox(height: 10),
-            Container(
-              child: Text("다수의 일정 삭제하기"),
-              height: 50,
-              width: 200,
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
-                color: Colors.grey[500],
-              ),
-            ),
-          ]),
-        );
+        return const TodoBottomSheetMenu();
       },
     );
   }

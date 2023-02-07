@@ -4,7 +4,6 @@ import 'package:on_off/ui/on/monthly/on_monthly_state.dart';
 import 'package:on_off/ui/provider/ui_provider_observe.dart';
 import 'package:on_off/ui/provider/ui_state.dart';
 
-
 class OnMonthlyViewModel extends UiProviderObserve {
   final OnTodoUseCase onTodoUseCase;
 
@@ -60,6 +59,16 @@ class OnMonthlyViewModel extends UiProviderObserve {
     });
 
     _state = _state.copyWith(todos: todos);
+    notifyListeners();
+  }
+
+  changeTodosByStatus(int? status) async {
+    List<OnTodo> selectOnTodos = await onTodoUseCase.selectOnTodoList(
+      uiState!.focusedDay,
+      'id',
+      status,
+    );
+    _state = _state.copyWith(todos: selectOnTodos);
     notifyListeners();
   }
 
