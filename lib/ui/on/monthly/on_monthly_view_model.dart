@@ -37,6 +37,8 @@ class OnMonthlyViewModel extends UiProviderObserve {
   }
 
   changeTodoStatus(OnTodo todo) {
+    print('click');
+    print(todo);
     int status = todo.status;
 
     if (status == 0) {
@@ -46,6 +48,19 @@ class OnMonthlyViewModel extends UiProviderObserve {
     }
 
     onTodoUseCase.updateTodoStatus(todo.copyWith(status: status));
+
+    List<OnTodo> todos = [];
+    state.todos?.forEach((element) {
+      if (element.id == todo.id) {
+        element = element.copyWith(status: status);
+        todos.add(element);
+      } else {
+        todos.add(element);
+      }
+    });
+
+    _state = _state.copyWith(todos: todos);
+    notifyListeners();
   }
 
   changeFocusedDay(DateTime focusedDay) async {
@@ -56,9 +71,8 @@ class OnMonthlyViewModel extends UiProviderObserve {
     List<OnTodo> selectOnTodoList = await onTodoUseCase.selectOnTodoList(
       focusedDay,
       'id',
-      0,
+      null,
     );
-    print(selectOnTodoList);
     _state = _state.copyWith(todos: selectOnTodoList);
   }
 

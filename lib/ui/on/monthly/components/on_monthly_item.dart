@@ -122,8 +122,8 @@ class OnMonthlyItem extends StatelessWidget {
               children: [
                 Checkbox(
                   value: viewModel.state.todos![i].status == 1 ? true : false,
-                  onChanged: (bool? value) {
-                    viewModel.changeTodoStatus(viewModel.state.todos![i]);
+                  onChanged: (bool? value) async {
+                    await viewModel.changeTodoStatus(viewModel.state.todos![i]);
                   },
                   activeColor: uiProvider.state.colorConst.getPrimary(),
                   side: const BorderSide(
@@ -168,8 +168,9 @@ class OnMonthlyItem extends StatelessWidget {
               children: [
                 Checkbox(
                   value: false,
-                  onChanged: (bool? value) {},
-                  //작성하는 todo 칸은 체크박스 비활성화
+                  onChanged: (bool? value) {
+
+                  },
                   activeColor: uiProvider.state.colorConst.getPrimary(),
                   side: const BorderSide(
                     color: Color(0xffD9D9D9),
@@ -228,7 +229,7 @@ class OnMonthlyItem extends StatelessWidget {
       builder: (context) {
         return Container(
           height: 400,
-          padding: EdgeInsets.all(20),
+          padding: const EdgeInsets.all(20),
           child: Column(children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -255,7 +256,7 @@ class OnMonthlyItem extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             Container(
               child: Text("오늘의 일정 전체보기"),
               height: 50,
@@ -266,7 +267,7 @@ class OnMonthlyItem extends StatelessWidget {
                 color: Colors.grey[500],
               ),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             Container(
               child: Text("다수의 일정 삭제하기"),
               height: 50,
