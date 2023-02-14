@@ -222,6 +222,7 @@ class OnMonthlyItem extends StatelessWidget {
             ),
           ),
         ),
+        const SizedBox(height: 10),
         ...todos,
       ],
     );
