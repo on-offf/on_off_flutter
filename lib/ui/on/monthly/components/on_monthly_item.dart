@@ -1,8 +1,10 @@
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:intl/intl.dart';
 import 'package:on_off/constants/constants_text_style.dart';
 import 'package:on_off/ui/on/monthly/components/TodoBottomSheet.dart';
+import 'package:on_off/ui/on/monthly/on_monthly_screen.dart';
 import 'package:on_off/ui/on/monthly/on_monthly_view_model.dart';
 import 'package:on_off/ui/provider/ui_provider.dart';
 import 'package:provider/provider.dart';
@@ -119,31 +121,48 @@ class OnMonthlyItem extends StatelessWidget {
         todos.add(
           SizedBox(
             height: 27,
-            child: Row(
-              children: [
-                Checkbox(
-                  value: viewModel.state.todos![i].status == 1 ? true : false,
-                  onChanged: (bool? value) async {
-                    await viewModel.changeTodoStatus(viewModel.state.todos![i]);
-                  },
-                  activeColor: uiProvider.state.colorConst.getPrimary(),
-                  side: const BorderSide(
-                    color: Color(0xffD9D9D9),
+            child: Slidable(
+              endActionPane: ActionPane(
+                extentRatio: 0.2,
+                motion: const ScrollMotion(),
+                children: [
+                  SlidableAction(
+                    onPressed: (context) async {
+                      await viewModel.deleteTodo(viewModel.state.todos![i]);
+                    },
+                    backgroundColor: Color(0xFFFE4A49),
+                    foregroundColor: Colors.white,
+                    icon: Icons.delete,
                   ),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(5),
+                ],
+              ),
+              child: Row(
+                children: [
+                  Checkbox(
+                    value: viewModel.state.todos![i].status == 1 ? true : false,
+                    onChanged: (bool? value) async {
+                      await viewModel
+                          .changeTodoStatus(viewModel.state.todos![i]);
+                    },
+                    activeColor: uiProvider.state.colorConst.getPrimary(),
+                    side: const BorderSide(
+                      color: Color(0xffD9D9D9),
+                    ),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(5),
+                    ),
                   ),
-                ),
-                Text(
-                  viewModel.state.todos![i].title,
-                  style: viewModel.state.todos![i].status == 1
-                      ? kBody2.copyWith(
-                          color: const Color(0xffb3b3b3),
-                          decoration: TextDecoration.lineThrough,
-                        )
-                      : kBody2,
-                ),
-              ],
+                  Text(
+                    viewModel.state.todos![i].title,
+                    style: viewModel.state.todos![i].status == 1
+                        ? kBody2.copyWith(
+                            color: const Color(0xffb3b3b3),
+                            decoration: TextDecoration.lineThrough,
+                          )
+                        : kBody2,
+                  ),
+                ],
+              ),
             ),
           ),
         );
@@ -169,9 +188,7 @@ class OnMonthlyItem extends StatelessWidget {
               children: [
                 Checkbox(
                   value: false,
-                  onChanged: (bool? value) {
-
-                  },
+                  onChanged: (bool? value) {},
                   activeColor: uiProvider.state.colorConst.getPrimary(),
                   side: const BorderSide(
                     color: Color(0xffD9D9D9),

@@ -72,6 +72,19 @@ class OnMonthlyViewModel extends UiProviderObserve {
     notifyListeners();
   }
 
+  deleteTodo(OnTodo todo) async {
+    await onTodoUseCase.deleteOnTodo(todo);
+    List<OnTodo> todos = [];
+    state.todos?.forEach((element) {
+      if (element.id == todo.id) {
+      } else {
+        todos.add(element);
+      }
+    });
+    _state = _state.copyWith(todos: todos);
+    notifyListeners();
+  }
+
   changeFocusedDay(DateTime focusedDay) async {
     await _changeFocusedDay(focusedDay);
   }
