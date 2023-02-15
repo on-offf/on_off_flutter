@@ -70,15 +70,20 @@ class TodoBottomSheetMenu extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 10),
-        Container(
-          height: 50,
-          width: 200,
-          alignment: Alignment.center,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20),
-            color: Colors.grey[500],
+        GestureDetector(
+          onTap: () {
+            print('gestureDetector');
+          },
+          child: Container(
+            height: 50,
+            width: 200,
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20),
+              color: Colors.grey[500],
+            ),
+            child: const Text("다수의 일정 삭제하기"),
           ),
-          child: const Text("다수의 일정 삭제하기"),
         ),
       ]),
     );

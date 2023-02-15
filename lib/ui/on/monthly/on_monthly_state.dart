@@ -7,6 +7,7 @@ part 'on_monthly_state.freezed.dart';
 @freezed
 class OnMonthlyState with _$OnMonthlyState {
   factory OnMonthlyState({
+    required String order,
     bool? isFinished,
     List<OnTodo>? todos,
   }) = _OnMonthlyState;

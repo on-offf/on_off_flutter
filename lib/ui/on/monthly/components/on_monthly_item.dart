@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:intl/intl.dart';
 import 'package:on_off/constants/constants_text_style.dart';
+import 'package:on_off/domain/entity/on/on_todo.dart';
 import 'package:on_off/ui/on/monthly/components/todo_bottom_sheet.dart';
-import 'package:on_off/ui/on/monthly/on_monthly_screen.dart';
 import 'package:on_off/ui/on/monthly/on_monthly_view_model.dart';
 import 'package:on_off/ui/provider/ui_provider.dart';
 import 'package:provider/provider.dart';
@@ -115,63 +115,6 @@ class OnMonthlyItem extends StatelessWidget {
     OnMonthlyViewModel viewModel,
     uiProvider,
   ) {
-    List<Widget> todos = [];
-    if (viewModel.state.todos != null) {
-      for (int i = 0; i < viewModel.state.todos!.length; i++) {
-        todos.add(
-          SizedBox(
-            height: 27,
-            child: Slidable(
-              endActionPane: ActionPane(
-                extentRatio: 0.2,
-                motion: const ScrollMotion(),
-                children: [
-                  SlidableAction(
-                    onPressed: (context) async {
-                      await viewModel.deleteTodo(viewModel.state.todos![i]);
-                    },
-                    backgroundColor: Color(0xFFFE4A49),
-                    foregroundColor: Colors.white,
-                    icon: Icons.delete,
-                  ),
-                ],
-              ),
-              child: Row(
-                children: [
-                  Checkbox(
-                    value: viewModel.state.todos![i].status == 1 ? true : false,
-                    onChanged: (bool? value) async {
-                      await viewModel
-                          .changeTodoStatus(viewModel.state.todos![i]);
-                    },
-                    activeColor: uiProvider.state.colorConst.getPrimary(),
-                    side: const BorderSide(
-                      color: Color(0xffD9D9D9),
-                    ),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(5),
-                    ),
-                  ),
-                  Text(
-                    viewModel.state.todos![i].title,
-                    style: viewModel.state.todos![i].status == 1
-                        ? kBody2.copyWith(
-                            color: const Color(0xffb3b3b3),
-                            decoration: TextDecoration.lineThrough,
-                          )
-                        : kBody2,
-                  ),
-                ],
-              ),
-            ),
-          ),
-        );
-        todos.add(
-          const SizedBox(height: 15),
-        );
-      }
-    }
-
     return Column(
       children: [
         const SizedBox(height: 15),
@@ -223,7 +166,109 @@ class OnMonthlyItem extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 10),
-        ...todos,
+        if (viewModel.state.order == 'todoOrder')
+          SizedBox(
+            height: 300,
+            child: ReorderableListView.builder(
+              itemBuilder: (context, index) {
+                return buildTodo(
+                  viewModel.state.todos![index],
+                  viewModel,
+                  uiProvider,
+                );
+              },
+              itemCount: viewModel.state.todos!.length,
+              onReorder: (oldIndex, newIndex) async {
+                List<OnTodo> copyTodos = [];
+                int i = 0;
+                for (int index = 0;
+                    index < viewModel.state.todos!.length;
+                    index++) {
+                  if (index == oldIndex) {
+                    continue;
+                  } else if (index == newIndex) {
+                    OnTodo todo = viewModel.state.todos![oldIndex];
+                    copyTodos.add(todo.copyWith(todoOrder: i++));
+                  }
+
+                  OnTodo todo = viewModel.state.todos![index];
+                  copyTodos.add(todo.copyWith(todoOrder: i++));
+                }
+
+                if (newIndex == viewModel.state.todos!.length) {
+                  OnTodo todo = viewModel.state.todos![oldIndex];
+                  copyTodos.add(todo.copyWith(todoOrder: newIndex));
+                }
+                await viewModel.updateTodos(copyTodos);
+              },
+            ),
+          ),
+        if (viewModel.state.order == 'id')
+          ...viewModel.state.todos!.map(
+            (e) => buildTodo(
+              e,
+              viewModel,
+              uiProvider,
+            ),
+          ),
+      ],
+    );
+  }
+
+  Widget buildTodo(
+    OnTodo todo,
+    OnMonthlyViewModel viewModel,
+    UiProvider uiProvider,
+  ) {
+    return Column(
+      key: ObjectKey(todo.id),
+      children: [
+        SizedBox(
+          height: 27,
+          child: Slidable(
+            endActionPane: ActionPane(
+              extentRatio: 0.2,
+              motion: const ScrollMotion(),
+              children: [
+                SlidableAction(
+                  onPressed: (context) async {
+                    await viewModel.deleteTodo(todo);
+                  },
+                  backgroundColor: const Color(0xFFFE4A49),
+                  foregroundColor: Colors.white,
+                  icon: Icons.delete,
+                ),
+              ],
+            ),
+            child: Row(
+              children: [
+                Checkbox(
+                  value: todo.status == 1 ? true : false,
+                  onChanged: (bool? value) async {
+                    await viewModel.changeTodoStatus(todo);
+                  },
+                  activeColor: uiProvider.state.colorConst.getPrimary(),
+                  side: const BorderSide(
+                    color: Color(0xffD9D9D9),
+                  ),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(5),
+                  ),
+                ),
+                Text(
+                  todo.title,
+                  style: todo.status == 1
+                      ? kBody2.copyWith(
+                          color: const Color(0xffb3b3b3),
+                          decoration: TextDecoration.lineThrough,
+                        )
+                      : kBody2,
+                ),
+              ],
+            ),
+          ),
+        ),
+        const SizedBox(height: 15),
       ],
     );
   }

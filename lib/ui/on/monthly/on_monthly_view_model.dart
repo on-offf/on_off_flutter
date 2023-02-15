@@ -12,6 +12,7 @@ class OnMonthlyViewModel extends UiProviderObserve {
   });
 
   OnMonthlyState _state = OnMonthlyState(
+    order: 'id',
     todos: [],
   );
 
@@ -65,7 +66,7 @@ class OnMonthlyViewModel extends UiProviderObserve {
   changeTodosByStatus(int? status) async {
     List<OnTodo> selectOnTodos = await onTodoUseCase.selectOnTodoList(
       uiState!.focusedDay,
-      'id',
+      state.order,
       status,
     );
     _state = _state.copyWith(todos: selectOnTodos);
@@ -85,6 +86,12 @@ class OnMonthlyViewModel extends UiProviderObserve {
     notifyListeners();
   }
 
+  updateTodos(List<OnTodo> todos) async {
+    _state = _state.copyWith(todos: todos);
+    notifyListeners();
+    onTodoUseCase.updateTodoList(todos);
+  }
+
   changeFocusedDay(DateTime focusedDay) async {
     await _changeFocusedDay(focusedDay);
   }
@@ -92,7 +99,7 @@ class OnMonthlyViewModel extends UiProviderObserve {
   _changeFocusedDay(DateTime focusedDay) async {
     List<OnTodo> selectOnTodoList = await onTodoUseCase.selectOnTodoList(
       focusedDay,
-      'id',
+      state.order,
       null,
     );
     _state = _state.copyWith(todos: selectOnTodoList);
