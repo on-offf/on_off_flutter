@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:on_off/domain/model/OnTodoStatus.dart';
 import 'package:on_off/ui/on/monthly/on_monthly_view_model.dart';
-import 'package:path/path.dart';
 import 'package:provider/provider.dart';
 
 class TodoBottomSheetMenu extends StatelessWidget {
@@ -72,7 +71,8 @@ class TodoBottomSheetMenu extends StatelessWidget {
         const SizedBox(height: 10),
         GestureDetector(
           onTap: () {
-            print('gestureDetector');
+            viewModel.updateMultiDeleteStatus();
+            Navigator.pop(context);
           },
           child: Container(
             height: 50,

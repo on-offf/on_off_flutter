@@ -208,7 +208,7 @@ class OnMonthlyItem extends StatelessWidget {
     );
   }
 
-  Widget buildTodo(
+  buildTodo(
     OnTodo todo,
     OnMonthlyViewModel viewModel,
     UiProvider uiProvider,
@@ -218,47 +218,58 @@ class OnMonthlyItem extends StatelessWidget {
       children: [
         SizedBox(
           height: 27,
-          child: Slidable(
-            endActionPane: ActionPane(
-              extentRatio: 0.2,
-              motion: const ScrollMotion(),
-              children: [
-                SlidableAction(
-                  onPressed: (context) async {
-                    await viewModel.deleteTodo(todo);
-                  },
-                  backgroundColor: const Color(0xFFFE4A49),
-                  foregroundColor: Colors.white,
-                  icon: Icons.delete,
-                ),
-              ],
-            ),
-            child: Row(
-              children: [
+          child: Row(
+            children: [
+              if (viewModel.state.multiDeleteStatus)
                 Checkbox(
-                  value: todo.status == 1 ? true : false,
-                  onChanged: (bool? value) async {
-                    await viewModel.changeTodoStatus(todo);
+                  value: viewModel.state.multiDeleteTodoIds.containsKey(todo.id),
+                  onChanged: (isChecked) async {
+                    await viewModel.updateMultiDeleteTodoIds(todo.id!, isChecked!);
                   },
-                  activeColor: uiProvider.state.colorConst.getPrimary(),
-                  side: const BorderSide(
-                    color: Color(0xffD9D9D9),
-                  ),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(5),
-                  ),
                 ),
-                Text(
-                  todo.title,
-                  style: todo.status == 1
-                      ? kBody2.copyWith(
-                          color: const Color(0xffb3b3b3),
-                          decoration: TextDecoration.lineThrough,
-                        )
-                      : kBody2,
+              Slidable(
+                endActionPane: ActionPane(
+                  extentRatio: 0.2,
+                  motion: const ScrollMotion(),
+                  children: [
+                    SlidableAction(
+                      onPressed: (context) async {
+                        await viewModel.deleteTodo(todo);
+                      },
+                      backgroundColor: const Color(0xFFFE4A49),
+                      foregroundColor: Colors.white,
+                      icon: Icons.delete,
+                    ),
+                  ],
                 ),
-              ],
-            ),
+                child: Row(
+                  children: [
+                    Checkbox(
+                      value: todo.status == 1 ? true : false,
+                      onChanged: (bool? value) async {
+                        await viewModel.changeTodoStatus(todo);
+                      },
+                      activeColor: uiProvider.state.colorConst.getPrimary(),
+                      side: const BorderSide(
+                        color: Color(0xffD9D9D9),
+                      ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(5),
+                      ),
+                    ),
+                    Text(
+                      todo.title,
+                      style: todo.status == 1
+                          ? kBody2.copyWith(
+                              color: const Color(0xffb3b3b3),
+                              decoration: TextDecoration.lineThrough,
+                            )
+                          : kBody2,
+                    ),
+                  ],
+                ),
+              ),
+            ],
           ),
         ),
         const SizedBox(height: 15),

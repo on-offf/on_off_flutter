@@ -8,6 +8,8 @@ part 'on_monthly_state.freezed.dart';
 class OnMonthlyState with _$OnMonthlyState {
   factory OnMonthlyState({
     required String order,
+    required bool multiDeleteStatus,
+    required Map<int, bool> multiDeleteTodoIds,
     bool? isFinished,
     List<OnTodo>? todos,
   }) = _OnMonthlyState;

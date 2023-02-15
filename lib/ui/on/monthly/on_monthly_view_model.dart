@@ -13,6 +13,8 @@ class OnMonthlyViewModel extends UiProviderObserve {
 
   OnMonthlyState _state = OnMonthlyState(
     order: 'id',
+    multiDeleteStatus: false,
+    multiDeleteTodoIds: {},
     todos: [],
   );
 
@@ -37,8 +39,6 @@ class OnMonthlyViewModel extends UiProviderObserve {
   }
 
   changeTodoStatus(OnTodo todo) {
-    print('click');
-    print(todo);
     int status = todo.status;
 
     if (status == 0) {
@@ -77,8 +77,7 @@ class OnMonthlyViewModel extends UiProviderObserve {
     await onTodoUseCase.deleteOnTodo(todo);
     List<OnTodo> todos = [];
     state.todos?.forEach((element) {
-      if (element.id == todo.id) {
-      } else {
+      if (element.id == todo.id) {} else {
         todos.add(element);
       }
     });
@@ -94,6 +93,24 @@ class OnMonthlyViewModel extends UiProviderObserve {
 
   changeFocusedDay(DateTime focusedDay) async {
     await _changeFocusedDay(focusedDay);
+  }
+
+  updateMultiDeleteStatus() {
+    _state = _state.copyWith(
+        multiDeleteStatus: !_state.multiDeleteStatus, multiDeleteTodoIds: {});
+    notifyListeners();
+  }
+
+  updateMultiDeleteTodoIds(int id, bool checked) {
+    Map<int, bool> multiDeleteTodoIds = Map.from(_state.multiDeleteTodoIds);
+
+    multiDeleteTodoIds.putIfAbsent(id, () => checked);
+    if (!checked) {
+      multiDeleteTodoIds.remove(id);
+    }
+
+    _state = _state.copyWith(multiDeleteTodoIds: multiDeleteTodoIds);
+    notifyListeners();
   }
 
   _changeFocusedDay(DateTime focusedDay) async {
