@@ -166,51 +166,44 @@ class OnMonthlyItem extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 10),
-        if (viewModel.state.order == 'todoOrder')
-          SizedBox(
-            height: 300,
-            child: ReorderableListView.builder(
-              itemBuilder: (context, index) {
-                return buildTodo(
-                  viewModel.state.todos![index],
-                  viewModel,
-                  uiProvider,
-                );
-              },
-              itemCount: viewModel.state.todos!.length,
-              onReorder: (oldIndex, newIndex) async {
-                List<OnTodo> copyTodos = [];
-                int i = 0;
-                for (int index = 0;
-                    index < viewModel.state.todos!.length;
-                    index++) {
-                  if (index == oldIndex) {
-                    continue;
-                  } else if (index == newIndex) {
-                    OnTodo todo = viewModel.state.todos![oldIndex];
-                    copyTodos.add(todo.copyWith(todoOrder: i++));
-                  }
-
-                  OnTodo todo = viewModel.state.todos![index];
+        SizedBox(
+          height: 300,
+          child: ReorderableListView.builder(
+            physics: const NeverScrollableScrollPhysics(),
+            buildDefaultDragHandles: viewModel.state.order == 'todoOrder',
+            itemBuilder: (context, index) {
+              return buildTodo(
+                viewModel.state.todos![index],
+                viewModel,
+                uiProvider,
+              );
+            },
+            itemCount: viewModel.state.todos!.length,
+            onReorder: (oldIndex, newIndex) async {
+              List<OnTodo> copyTodos = [];
+              int i = 0;
+              for (int index = 0;
+                  index < viewModel.state.todos!.length;
+                  index++) {
+                if (index == oldIndex) {
+                  continue;
+                } else if (index == newIndex) {
+                  OnTodo todo = viewModel.state.todos![oldIndex];
                   copyTodos.add(todo.copyWith(todoOrder: i++));
                 }
 
-                if (newIndex == viewModel.state.todos!.length) {
-                  OnTodo todo = viewModel.state.todos![oldIndex];
-                  copyTodos.add(todo.copyWith(todoOrder: newIndex));
-                }
-                await viewModel.updateTodos(copyTodos);
-              },
-            ),
+                OnTodo todo = viewModel.state.todos![index];
+                copyTodos.add(todo.copyWith(todoOrder: i++));
+              }
+
+              if (newIndex == viewModel.state.todos!.length) {
+                OnTodo todo = viewModel.state.todos![oldIndex];
+                copyTodos.add(todo.copyWith(todoOrder: newIndex));
+              }
+              await viewModel.updateTodos(copyTodos);
+            },
           ),
-        if (viewModel.state.order == 'id')
-          ...viewModel.state.todos!.map(
-            (e) => buildTodo(
-              e,
-              viewModel,
-              uiProvider,
-            ),
-          ),
+        ),
       ],
     );
   }
