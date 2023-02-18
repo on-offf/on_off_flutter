@@ -77,11 +77,28 @@ class OnMonthlyViewModel extends UiProviderObserve {
     await onTodoUseCase.deleteOnTodo(todo);
     List<OnTodo> todos = [];
     state.todos?.forEach((element) {
-      if (element.id == todo.id) {} else {
+      if (element.id == todo.id) {
+      } else {
         todos.add(element);
       }
     });
     _state = _state.copyWith(todos: todos);
+    notifyListeners();
+  }
+
+  deleteMultiOnTodo() async {
+    List<OnTodo> deleteTodos = [];
+    List<OnTodo> restTodos = [];
+    _state.todos?.forEach((todo) {
+      if (_state.multiDeleteTodoIds.containsKey(todo.id!)) {
+        deleteTodos.add(todo);
+      } else {
+        restTodos.add(todo);
+      }
+    });
+
+    await onTodoUseCase.deleteMultiOnTodo(deleteTodos);
+    _state = _state.copyWith(todos: restTodos, multiDeleteStatus: false, multiDeleteTodoIds: {});
     notifyListeners();
   }
 
@@ -101,7 +118,7 @@ class OnMonthlyViewModel extends UiProviderObserve {
     notifyListeners();
   }
 
-  updateMultiDeleteTodoIds(int id, bool checked) {
+  updateMultiDeleteTodoIdCheck(int id, bool checked) {
     Map<int, bool> multiDeleteTodoIds = Map.from(_state.multiDeleteTodoIds);
 
     multiDeleteTodoIds.putIfAbsent(id, () => checked);

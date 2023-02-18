@@ -18,8 +18,8 @@ class TodoBottomSheetMenu extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             GestureDetector(
-              onTap: () async {
-                await viewModel.changeTodosByStatus(INCOMPLETE);
+              onTap: () {
+                viewModel.changeTodosByStatus(INCOMPLETE);
                 Navigator.pop(context);
               },
               child: Container(
@@ -34,8 +34,8 @@ class TodoBottomSheetMenu extends StatelessWidget {
               ),
             ),
             GestureDetector(
-              onTap: () async {
-                await viewModel.changeTodosByStatus(DONE);
+              onTap: () {
+                viewModel.changeTodosByStatus(DONE);
                 Navigator.pop(context);
               },
               child: Container(
@@ -53,8 +53,8 @@ class TodoBottomSheetMenu extends StatelessWidget {
         ),
         const SizedBox(height: 10),
         GestureDetector(
-          onTap: () async {
-            await viewModel.changeTodosByStatus(null);
+          onTap: () {
+            viewModel.changeTodosByStatus(null);
             Navigator.pop(context);
           },
           child: Container(

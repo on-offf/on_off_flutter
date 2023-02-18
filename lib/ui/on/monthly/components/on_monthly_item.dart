@@ -70,7 +70,7 @@ class OnMonthlyItem extends StatelessWidget {
     );
   }
 
-  Widget bottomView(context, viewModel, uiProvider, layerLink) {
+  Widget bottomView(context, OnMonthlyViewModel viewModel, uiProvider, layerLink) {
     return Column(
       children: [
         Row(
@@ -98,12 +98,52 @@ class OnMonthlyItem extends StatelessWidget {
         ),
         SizedBox(
           height: 500,
-          child: SingleChildScrollView(
-            physics: uiProvider.state.calendarFormat == CalendarFormat.month
-                ? const NeverScrollableScrollPhysics() //아래에서 위로 스와이프하지 않았을 때 스크롤 방지
-                : const BouncingScrollPhysics(),
-            controller: _scrollController2,
-            child: items(context, viewModel, uiProvider),
+          child: Column(
+            children: [
+              SingleChildScrollView(
+                physics: uiProvider.state.calendarFormat == CalendarFormat.month
+                    ? const NeverScrollableScrollPhysics() //아래에서 위로 스와이프하지 않았을 때 스크롤 방지
+                    : const BouncingScrollPhysics(),
+                controller: _scrollController2,
+                child: items(context, viewModel, uiProvider),
+              ),
+              if (viewModel.state.multiDeleteStatus)
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      viewModel.updateMultiDeleteStatus();
+                    },
+                    child: Container(
+                      height: 40,
+                      width: 200,
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        color: Colors.grey[500],
+                      ),
+                      child: const Text('취소'),
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      viewModel.deleteMultiOnTodo();
+                    },
+                    child: Container(
+                      height: 40,
+                      width: 200,
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        color: Colors.grey[500],
+                      ),
+                      child: const Text('전체 삭제'),
+                    ),
+                  ),
+                ],
+              ),
+            ],
           ),
         ),
       ],
@@ -169,7 +209,6 @@ class OnMonthlyItem extends StatelessWidget {
         SizedBox(
           height: 300,
           child: ReorderableListView.builder(
-            physics: const NeverScrollableScrollPhysics(),
             buildDefaultDragHandles: viewModel.state.order == 'todoOrder',
             itemBuilder: (context, index) {
               return buildTodo(
@@ -224,7 +263,7 @@ class OnMonthlyItem extends StatelessWidget {
                 Checkbox(
                   value: viewModel.state.multiDeleteTodoIds.containsKey(todo.id),
                   onChanged: (isChecked) async {
-                    await viewModel.updateMultiDeleteTodoIds(todo.id!, isChecked!);
+                    await viewModel.updateMultiDeleteTodoIdCheck(todo.id!, isChecked!);
                   },
                 ),
               Slidable(
