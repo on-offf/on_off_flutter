@@ -15,6 +15,11 @@ class SettingViewModel extends UiProviderObserve {
     setting: SettingEntity(
       isAlert: 0,
       isScreenLock: 0,
+      isOnOffSwitch: 0,
+      switchStartHour: 10,
+      switchStartMinutes: 0,
+      switchEndHour: 18,
+      switchEndMinutes: 0,
     ),
   );
 
@@ -33,6 +38,22 @@ class SettingViewModel extends UiProviderObserve {
       time.minutes,
     );
 
+    await _updateSettingEntityAndNotifyListeners(entity);
+  }
+
+  changeSwitchTime(bool isStart, AlertTime time) async {
+    SettingEntity entity = _state.setting;
+    if (isStart) {
+      entity = entity.copyWith(
+        switchStartHour: time.hour,
+        switchStartMinutes: time.minutes,
+      );
+    } else {
+      entity = entity.copyWith(
+        switchEndHour: time.hour,
+        switchEndMinutes: time.minutes,
+      );
+    }
     await _updateSettingEntityAndNotifyListeners(entity);
   }
 
@@ -75,6 +96,20 @@ class SettingViewModel extends UiProviderObserve {
 
     entity = entity.copyWith(
       isAlert: isAlert ? 1 : 0,
+    );
+    await _updateSettingEntityAndNotifyListeners(entity);
+  }
+
+  changeIsOnOffSwitch({bool? isOnOffSwitch}) async {
+    isOnOffSwitch ??= _state.setting.isOnOffSwitch != 1;
+    SettingEntity entity = _state.setting;
+
+    if (!isOnOffSwitch) {
+      //TODO 시간에 따라서 화면 바뀌는 함수 추가
+    }
+
+    entity = entity.copyWith(
+      isOnOffSwitch: isOnOffSwitch ? 1 : 0,
     );
     await _updateSettingEntityAndNotifyListeners(entity);
   }

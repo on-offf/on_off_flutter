@@ -23,7 +23,7 @@ import 'package:sqflite/sqflite.dart';
 
 Future<List<SingleChildWidget>> getProviders() async {
   var databaseName = 'on_off.db';
-  var databaseVersion = 1;
+  var databaseVersion = 2;
 
   Database database = await openDatabase(
     databaseName,
