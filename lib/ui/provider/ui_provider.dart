@@ -8,6 +8,7 @@ import 'package:on_off/ui/off/monthly/off_monthly_screen.dart';
 import 'package:on_off/ui/off/monthly/off_monthly_view_model.dart';
 import 'package:on_off/ui/provider/ui_provider_observe.dart';
 import 'package:on_off/ui/provider/ui_state.dart';
+import 'package:on_off/ui/setting/home/setting_view_model.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class UiProvider with ChangeNotifier {
@@ -15,9 +16,7 @@ class UiProvider with ChangeNotifier {
 
   UiProvider({
     required this.viewModelList,
-  }) {
-    _init();
-  }
+  });
 
   UiState _state = UiState(
     // setting
@@ -109,9 +108,11 @@ class UiProvider with ChangeNotifier {
       if (viewModel is OffMonthlyViewModel &&
           route == OffMonthlyScreen.routeName) {
         await viewModel.initScreen();
-      } else if (viewModel is OffDailyViewModel && route == OffDailyScreen.routeName) {
+      } else if (viewModel is OffDailyViewModel &&
+          route == OffDailyScreen.routeName) {
         await viewModel.initScreen();
-      } else if (viewModel is OffListViewModel && route == OffListScreen.routeName) {
+      } else if (viewModel is OffListViewModel &&
+          route == OffListScreen.routeName) {
         await viewModel.initScreen();
       }
     }
@@ -122,9 +123,13 @@ class UiProvider with ChangeNotifier {
   }
 
   // with Observe
-  Future<void> _init() async {
+  init() async {
     for (var viewModel in viewModelList) {
-      viewModel.init(_state);
+      if (viewModel is SettingViewModel) {
+        await viewModel.init(_state);
+      } else {
+        viewModel.init(_state);
+      }
     }
     notifyListeners();
   }

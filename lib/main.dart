@@ -6,13 +6,16 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:on_off/di/provider_setup.dart';
 import 'package:on_off/routes.dart';
 import 'package:on_off/ui/off/monthly/off_monthly_screen.dart';
+import 'package:on_off/ui/on/monthly/on_monthly_screen.dart';
 import 'package:on_off/ui/provider/ui_provider.dart';
+import 'package:on_off/ui/setting/home/setting_view_model.dart';
 import 'package:provider/provider.dart';
+import 'package:provider/single_child_widget.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
 void main() async {
-  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
-  final providers = await getProviders();
+  WidgetsFlutterBinding.ensureInitialized();
+  List<SingleChildWidget> providers = await getProviders();
 
   initializeDateFormatting('ko_KR', null);
 
@@ -35,6 +38,8 @@ class MyApp extends StatelessWidget {
     final uiProvider = context.watch<UiProvider>();
     final state = uiProvider.state;
 
+    final SettingViewModel settingViewModel = Provider.of<SettingViewModel>(context);
+
     return GestureDetector(
       onTap: () {
         FocusManager.instance.primaryFocus?.unfocus();
@@ -48,7 +53,7 @@ class MyApp extends StatelessWidget {
           canvasColor: state.colorConst.canvas,
           textTheme: GoogleFonts.notoSansTextTheme(),
         ),
-        initialRoute: OffMonthlyScreen.routeName,
+        initialRoute: checkInitScreen(settingViewModel),
         routes: Routes.routes,
         builder: (context, child) => ResponsiveWrapper.builder(
           child,
@@ -61,5 +66,23 @@ class MyApp extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  String checkInitScreen(SettingViewModel settingViewModel) {
+    if (settingViewModel.state.setting.isOnOffSwitch == 0) return OffMonthlyScreen.routeName;
+    var switchStartHour = settingViewModel.state.setting.switchStartHour;
+    var switchStartMinutes = settingViewModel.state.setting.switchStartMinutes;
+    var switchEndHour = settingViewModel.state.setting.switchEndHour;
+    var switchEndMinutes = settingViewModel.state.setting.switchEndMinutes;
+
+    DateTime now = DateTime.now();
+    if (switchStartHour < now.hour && now.hour < switchEndHour) {
+      return OnMonthlyScreen.routeName;
+    } else if (switchStartHour == now.hour && switchStartMinutes < now.minute) {
+      return OnMonthlyScreen.routeName;
+    } else if (switchEndHour == now.hour && now.minute < switchEndMinutes) {
+      return OnMonthlyScreen.routeName;
+    }
+    return OffMonthlyScreen.routeName;
   }
 }
