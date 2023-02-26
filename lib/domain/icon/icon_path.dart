@@ -40,6 +40,7 @@ enum IconPath {
   minus,
   downArrow,
   submit,
+  menu,
 }
 
 extension IconExtension on IconPath {
@@ -105,6 +106,8 @@ extension IconExtension on IconPath {
         return "assets/icons/minus.png";
       case IconPath.submit:
         return "assets/icons/submit.png";
+      case IconPath.menu:
+        return "assets/icons/menu.svg";
 
       default:
         return "";

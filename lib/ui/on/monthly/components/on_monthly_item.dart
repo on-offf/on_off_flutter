@@ -1,9 +1,11 @@
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 import 'package:on_off/constants/constants_text_style.dart';
 import 'package:on_off/domain/entity/on/on_todo.dart';
+import 'package:on_off/domain/icon/icon_path.dart';
 import 'package:on_off/ui/on/monthly/components/todo_bottom_sheet.dart';
 import 'package:on_off/ui/on/monthly/on_monthly_view_model.dart';
 import 'package:on_off/ui/provider/ui_provider.dart';
@@ -70,7 +72,12 @@ class OnMonthlyItem extends StatelessWidget {
     );
   }
 
-  Widget bottomView(context, OnMonthlyViewModel viewModel, uiProvider, layerLink) {
+  Widget bottomView(
+    context,
+    OnMonthlyViewModel viewModel,
+    UiProvider uiProvider,
+    layerLink,
+  ) {
     return Column(
       children: [
         Row(
@@ -92,7 +99,11 @@ class OnMonthlyItem extends StatelessWidget {
             ),
             IconButton(
               onPressed: () => _buildBottomSheet(context),
-              icon: const Icon(Icons.menu),
+              icon: SvgPicture.asset(
+                IconPath.menu.name,
+                color: uiProvider.state.colorConst.getPrimary(),
+              ),
+              iconSize: 5,
             ),
           ],
         ),
@@ -108,41 +119,41 @@ class OnMonthlyItem extends StatelessWidget {
                 child: items(context, viewModel, uiProvider),
               ),
               if (viewModel.state.multiDeleteStatus)
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  GestureDetector(
-                    onTap: () {
-                      viewModel.updateMultiDeleteStatus();
-                    },
-                    child: Container(
-                      height: 40,
-                      width: 200,
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        color: Colors.grey[500],
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        viewModel.updateMultiDeleteStatus();
+                      },
+                      child: Container(
+                        height: 40,
+                        width: 200,
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                          color: Colors.grey[500],
+                        ),
+                        child: const Text('취소'),
                       ),
-                      child: const Text('취소'),
                     ),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      viewModel.deleteMultiOnTodo();
-                    },
-                    child: Container(
-                      height: 40,
-                      width: 200,
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        color: Colors.grey[500],
+                    GestureDetector(
+                      onTap: () {
+                        viewModel.deleteMultiOnTodo();
+                      },
+                      child: Container(
+                        height: 40,
+                        width: 200,
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                          color: Colors.grey[500],
+                        ),
+                        child: const Text('전체 삭제'),
                       ),
-                      child: const Text('전체 삭제'),
                     ),
-                  ),
-                ],
-              ),
+                  ],
+                ),
             ],
           ),
         ),
@@ -164,28 +175,23 @@ class OnMonthlyItem extends StatelessWidget {
           color: uiProvider.state.colorConst.getPrimary(),
           strokeWidth: 1,
           child: Container(
-            // height: 27,
-            height: 45,
+            height: 50,
             color: const Color(0xfff8f8f8),
             child: Row(
               children: [
-                Checkbox(
-                  value: false,
-                  onChanged: (bool? value) {},
-                  activeColor: uiProvider.state.colorConst.getPrimary(),
-                  side: const BorderSide(
-                    color: Color(0xffD9D9D9),
-                  ),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(5),
-                  ),
+                const SizedBox(
+                  height: 50,
+                  width: 40,
                 ),
                 Expanded(
                   child: TextFormField(
-                    style: kSubtitle3,
+                    style: kSubtitle2.copyWith(
+                        color: Colors.black, fontWeight: FontWeight.bold),
                     controller: createTodoTextFormFieldController,
                     decoration: InputDecoration(
                       hintText: "오늘의 리스트를 추가해 주세요!",
+                      hintStyle:
+                          kSubtitle2.copyWith(fontWeight: FontWeight.bold),
                       enabledBorder: const UnderlineInputBorder(
                         borderSide: BorderSide(color: Colors.transparent),
                       ),
@@ -261,10 +267,13 @@ class OnMonthlyItem extends StatelessWidget {
             children: [
               if (viewModel.state.multiDeleteStatus)
                 Checkbox(
-                  value: viewModel.state.multiDeleteTodoIds.containsKey(todo.id),
+                  value:
+                      viewModel.state.multiDeleteTodoIds.containsKey(todo.id),
                   onChanged: (isChecked) async {
-                    await viewModel.updateMultiDeleteTodoIdCheck(todo.id!, isChecked!);
+                    await viewModel.updateMultiDeleteTodoIdCheck(
+                        todo.id!, isChecked!);
                   },
+                  checkColor: const Color(0xffFFFFFF),
                 ),
               Slidable(
                 endActionPane: ActionPane(
@@ -291,6 +300,7 @@ class OnMonthlyItem extends StatelessWidget {
                       activeColor: uiProvider.state.colorConst.getPrimary(),
                       side: const BorderSide(
                         color: Color(0xffD9D9D9),
+                        width: 1,
                       ),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(5),
