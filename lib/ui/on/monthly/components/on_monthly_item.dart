@@ -98,7 +98,7 @@ class OnMonthlyItem extends StatelessWidget {
               ),
             ),
             IconButton(
-              onPressed: () => _buildBottomSheet(context),
+              onPressed: () => _buildBottomSheet(context, uiProvider),
               icon: SvgPicture.asset(
                 IconPath.menu.name,
                 color: uiProvider.state.colorConst.getPrimary(),
@@ -335,16 +335,36 @@ class OnMonthlyItem extends StatelessWidget {
     });
   }
 
-  Future<dynamic> _buildBottomSheet(BuildContext context) {
+  Future<dynamic> _buildBottomSheet(
+      BuildContext context, UiProvider uiProvider) {
     return showModalBottomSheet(
       context: context,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(
-          top: Radius.circular(25.0),
-        ),
-      ),
+      backgroundColor: Colors.transparent,
+      barrierColor: Colors.transparent,
       builder: (context) {
-        return const TodoBottomSheetMenu();
+        return ClipRRect(
+          borderRadius: const BorderRadius.vertical(
+            top: Radius.circular(25),
+          ),
+          clipBehavior: Clip.antiAliasWithSaveLayer,
+          child: Container(
+            decoration: BoxDecoration(
+              color: uiProvider.state.colorConst.getPrimary(),
+            ),
+            padding: const EdgeInsets.only(
+              top: 1,
+            ),
+            child: Container(
+              decoration: const BoxDecoration(
+                borderRadius: BorderRadius.vertical(
+                  top: Radius.circular(25),
+                ),
+                color: Colors.white,
+              ),
+              child: const TodoBottomSheetMenu(),
+            ),
+          ),
+        );
       },
     );
   }
