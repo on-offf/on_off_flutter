@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:on_off/ui/components/common_floating_action_button.dart';
+import 'package:on_off/ui/components/floating_action_button.dart';
 import 'package:on_off/ui/components/focus_month.dart';
 import 'package:on_off/ui/components/monthly_calendar.dart';
 import 'package:on_off/ui/components/off_appbar.dart';
@@ -28,11 +28,7 @@ class OnMonthlyScreen extends StatelessWidget {
         context,
         isPrevButton: false,
       ),
-      floatingActionButton: CommonFloatingActionButton(
-        montlyListButtonNavigator: () {
-          uiProvider.changeCalendarFormat(CalendarFormat.month);
-          // Navigator.pushNamed(context, OffListScreen.routeName); //TODO on 화면에서는 어떻게 이동하는지 결정
-        },
+      floatingActionButton: OnFloatingActionButton(
         onOffButtonNavigator: () {
           Navigator.pushReplacementNamed(context, OffMonthlyScreen.routeName);
         },

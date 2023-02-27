@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:on_off/ui/components/common_floating_action_button.dart';
+import 'package:on_off/ui/components/floating_action_button.dart';
 import 'package:on_off/ui/components/off_appbar.dart';
 import 'package:on_off/ui/components/focus_month.dart';
 import 'package:on_off/ui/components/monthly_calendar.dart';
@@ -28,7 +28,7 @@ class OffMonthlyScreen extends StatelessWidget {
         context,
         isPrevButton: false,
       ),
-      floatingActionButton: CommonFloatingActionButton(
+      floatingActionButton: OffFloatingActionButton(
         montlyListButtonNavigator: () {
           uiProvider.changeCalendarFormat(CalendarFormat.month);
           Navigator.pushNamed(context, OffListScreen.routeName);
@@ -53,8 +53,7 @@ class OffMonthlyScreen extends StatelessWidget {
                       uiProvider.state.calendarFormat == CalendarFormat.month
                           ? 320
                           : 70,
-                  child:
-                      const SingleChildScrollView(child: MonthlyCalendar()),
+                  child: const SingleChildScrollView(child: MonthlyCalendar()),
                 )
               ],
             ),
