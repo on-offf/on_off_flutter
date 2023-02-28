@@ -109,8 +109,8 @@ class _IconsAboveKeyboardState extends State<IconsAboveKeyboard> {
                   padding: const EdgeInsets.all(0),
                   icon: SvgPicture.asset(
                     IconPath.trashCan.name,
-                    // width: 29,
-                    // height: 29,
+                    width: 29,
+                    height: 29,
                   ),
                 ),
               ],

@@ -285,10 +285,10 @@ class OnMonthlyItem extends StatelessWidget {
                         onPressed: () async {
                           await viewModel.deleteTodo(todo);
                         },
-                        icon: Image(
+                        icon: SvgPicture.asset(
                           width: 18,
                           height: 18,
-                          image: AssetImage(IconPath.trashCan.name),
+                          IconPath.trashCan.name,
                         ),
                       ),
                     ],
