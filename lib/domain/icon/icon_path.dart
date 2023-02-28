@@ -1,5 +1,4 @@
 enum IconPath {
-
   // appbar
   appbarPreviousButton,
   setting,
@@ -47,65 +46,65 @@ extension IconExtension on IconPath {
   String get name {
     switch (this) {
       case IconPath.appbarPreviousButton:
-        return "assets/icons/appbar/appbar_previous_button.png";
+        return "assets/icons/appbar/appbar_previous_button.svg";
       case IconPath.setting:
-        return "assets/icons/appbar/setting.png";
+        return "assets/icons/appbar/setting.svg";
 
       case IconPath.nextYearButton:
-        return "assets/icons/calendar/next_year_button.png";
+        return "assets/icons/calendar/next_year_button.svg";
       case IconPath.previousYearButton:
-        return "assets/icons/calendar/previous_year_button.png";
+        return "assets/icons/calendar/previous_year_button.svg";
 
       case IconPath.floatingActionButtonOnOff:
-        return "assets/icons/floating_button/floating_action_button_on_off.png";
+        return "assets/icons/floating_button/floating_action_button_on_off.svg";
       case IconPath.floatingActionButtonMonthlyWeekly:
-        return "assets/icons/floating_button/floating_action_button_monthly_weekly.png";
+        return "assets/icons/floating_button/floating_action_button_monthly_weekly.svg";
 
       case IconPath.calendarAdd:
-        return "assets/icons/off_write/calendar_add.png";
+        return "assets/icons/off_write/calendar_add.svg";
       case IconPath.camera:
-        return "assets/icons/off_write/camera.png";
+        return "assets/icons/off_write/camera.svg";
       case IconPath.clip:
-        return "assets/icons/off_write/clip.png";
+        return "assets/icons/off_write/clip.svg";
       case IconPath.trashCan:
-        return "assets/icons/off_write/trash_can.png";
+        return "assets/icons/off_write/trash_can.svg";
       case IconPath.noHaveContent:
-        return "assets/icons/off_write/no_have_content.png";
+        return "assets/icons/off_write/no_have_content.svg";
 
       case IconPath.expressionNormal:
-        return "assets/icons/stickers/expression_normal.png";
+        return "assets/icons/stickers/expression_normal.svg";
       case IconPath.expressionSmile:
-        return "assets/icons/stickers/expression_smile.png";
+        return "assets/icons/stickers/expression_smile.svg";
       case IconPath.expressionLittleSad:
-        return "assets/icons/stickers/expression_little_sad.png";
+        return "assets/icons/stickers/expression_little_sad.svg";
       case IconPath.expressionSmileEye:
-        return "assets/icons/stickers/expression_smile_eye.png";
+        return "assets/icons/stickers/expression_smile_eye.svg";
       case IconPath.expressionAngry:
-        return "assets/icons/stickers/expression_angry.png";
+        return "assets/icons/stickers/expression_angry.svg";
       case IconPath.expressionSmallEye:
-        return "assets/icons/stickers/expression_small_eye.png";
+        return "assets/icons/stickers/expression_small_eye.svg";
       case IconPath.expressionCry:
-        return "assets/icons/stickers/expression_cry.png";
+        return "assets/icons/stickers/expression_cry.svg";
       case IconPath.expressionLine:
-        return "assets/icons/stickers/expression_line.png";
+        return "assets/icons/stickers/expression_line.svg";
       case IconPath.expressionPairOfEye:
-        return "assets/icons/stickers/expression_pair_of_eye.png";
+        return "assets/icons/stickers/expression_pair_of_eye.svg";
       case IconPath.expressionReverse:
-        return "assets/icons/stickers/expression_reverse.png";
+        return "assets/icons/stickers/expression_reverse.svg";
       case IconPath.expressionSleep:
-        return "assets/icons/stickers/expression_sleep.png";
+        return "assets/icons/stickers/expression_sleep.svg";
 
       case IconPath.settingArrowButton:
-        return "assets/icons/setting/setting_arrow_button.png";
+        return "assets/icons/setting/setting_arrow_button.svg";
 
       case IconPath.downArrow:
-        return "assets/icons/down_arrow.png";
+        return "assets/icons/down_arrow.svg";
       case IconPath.plus:
-        return "assets/icons/plus.png";
+        return "assets/icons/plus.svg";
       case IconPath.minus:
-        return "assets/icons/minus.png";
+        return "assets/icons/minus.svg";
       case IconPath.submit:
-        return "assets/icons/submit.png";
+        return "assets/icons/submit.svg";
       case IconPath.menu:
         return "assets/icons/menu.svg";
 

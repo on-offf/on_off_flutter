@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:on_off/domain/icon/icon_path.dart';
 import 'package:on_off/ui/components/simple_dialog.dart';
 import 'package:on_off/ui/provider/ui_provider.dart';
@@ -37,10 +38,8 @@ class OffFloatingActionButton extends StatelessWidget {
                 },
                 backgroundColor: Colors.transparent,
                 elevation: 0,
-                child: Image(
-                  image: AssetImage(
-                    IconPath.floatingActionButtonMonthlyWeekly.name,
-                  ),
+                child: SvgPicture.asset(
+                  IconPath.floatingActionButtonMonthlyWeekly.name,
                   width: 55,
                   height: 55,
                 ),
@@ -51,35 +50,12 @@ class OffFloatingActionButton extends StatelessWidget {
               FloatingActionButton(
                 heroTag: 'moveOnOffScreen',
                 onPressed: () {
-                  // simpleHighlightTextDialog(
-                  //   context,
-                  //   primaryColor: uiProvier.state.colorConst.getPrimary(),
-                  //   canvasColor: Colors.white,
-                  //   text: TextSpan(
-                  //     style: const TextStyle(
-                  //       color: Colors.black,
-                  //     ),
-                  //     children: [
-                  //       const TextSpan(text: '아직 준비 중인 기능이에요.\n'),
-                  //       TextSpan(
-                  //         text: 'ON ',
-                  //         style: TextStyle(
-                  //           color: uiProvier.state.colorConst.getPrimary(),
-                  //           fontWeight: FontWeight.w700,
-                  //         ),
-                  //       ),
-                  //       const TextSpan(text: '페이지 많이 기대해주세요!'),
-                  //     ],
-                  //   ),
-                  // );
                   onOffButtonNavigator.call();
                 },
                 backgroundColor: Colors.transparent,
                 elevation: 0,
-                child: Image(
-                  image: AssetImage(
-                    IconPath.floatingActionButtonOnOff.name,
-                  ),
+                child: SvgPicture.asset(
+                  IconPath.floatingActionButtonOnOff.name,
                   width: 55,
                   height: 55,
                 ),
@@ -142,10 +118,8 @@ class OnFloatingActionButton extends StatelessWidget {
           },
           backgroundColor: Theme.of(context).primaryColor,
           elevation: 0,
-          child: Image(
-            image: AssetImage(
-              IconPath.floatingActionButtonOnOff.name,
-            ),
+          child: SvgPicture.asset(
+            IconPath.floatingActionButtonOnOff.name,
             width: 55,
             height: 55,
           ),

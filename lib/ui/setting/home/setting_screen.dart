@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_email_sender/flutter_email_sender.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:on_off/constants/constants_text_style.dart';
 import 'package:on_off/domain/icon/icon_path.dart';
 import 'package:on_off/domain/model/alert_time.dart';
@@ -39,16 +40,13 @@ class _SettingScreenState extends State<SettingScreen> {
       appBar: AppBar(
         backgroundColor: uiProvider.state.colorConst.getPrimary(),
         elevation: 0,
-        leading: ElevatedButton(
+        leading: IconButton(
           onPressed: () {
             Navigator.pop(context);
           },
-          style: ElevatedButton.styleFrom(
-            primary: uiProvider.state.colorConst.getPrimary(),
-            elevation: 0,
-          ),
-          child: Image(
-            image: AssetImage(IconPath.appbarPreviousButton.name),
+          icon: SvgPicture.asset(
+            IconPath.appbarPreviousButton.name,
+            // color: uiProvider.state.colorConst.getPrimary(),
             color: Colors.white,
           ),
         ),
@@ -301,12 +299,10 @@ class _SettingScreenState extends State<SettingScreen> {
                         ),
                         Padding(
                           padding: const EdgeInsets.only(right: 15.0),
-                          child: Image(
+                          child: SvgPicture.asset(
                             width: 9,
                             height: 14,
-                            image: AssetImage(
-                              IconPath.settingArrowButton.name,
-                            ),
+                            IconPath.settingArrowButton.name,
                           ),
                         ),
                       ],
@@ -581,12 +577,10 @@ class _SettingScreenState extends State<SettingScreen> {
                   ),
                   Padding(
                     padding: const EdgeInsets.only(right: 15.0),
-                    child: Image(
+                    child: SvgPicture.asset(
                       width: 9,
                       height: 14,
-                      image: AssetImage(
-                        IconPath.settingArrowButton.name,
-                      ),
+                      IconPath.settingArrowButton.name,
                     ),
                   ),
                 ],
@@ -614,12 +608,10 @@ class _SettingScreenState extends State<SettingScreen> {
                   ),
                   Padding(
                     padding: const EdgeInsets.only(right: 15.0),
-                    child: Image(
+                    child: SvgPicture.asset(
                       width: 9,
                       height: 14,
-                      image: AssetImage(
-                        IconPath.settingArrowButton.name,
-                      ),
+                      IconPath.settingArrowButton.name,
                     ),
                   ),
                 ],

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 import 'package:on_off/constants/constants_text_style.dart';
 import 'package:on_off/domain/icon/icon_path.dart';
@@ -61,8 +62,8 @@ class FocusMonth extends StatelessWidget {
             const SizedBox(
               width: 6.38,
             ),
-            Image(
-              image: AssetImage(IconPath.downArrow.name),
+            SvgPicture.asset(
+              IconPath.downArrow.name,
               width: 4.29,
               height: 6.32,
             ),
@@ -117,12 +118,11 @@ class FocusMonth extends StatelessWidget {
                                 year = year - 1;
                                 uiProvider.selfNotifyListeners();
                               },
-                              icon: Image(
-                                image: AssetImage(
-                                  IconPath.previousYearButton.name,
-                                ),
+                              icon: SvgPicture.asset(
+                                IconPath.previousYearButton.name,
                                 height: 11,
                                 width: 11,
+                                color: uiProvider.state.colorConst.getPrimary(),
                               ),
                             ),
                           ),
@@ -142,10 +142,11 @@ class FocusMonth extends StatelessWidget {
                                 year = year + 1;
                                 uiProvider.selfNotifyListeners();
                               },
-                              icon: Image(
-                                image: AssetImage(IconPath.nextYearButton.name),
+                              icon: SvgPicture.asset(
+                                IconPath.nextYearButton.name,
                                 height: 11,
                                 width: 11,
+                                color: uiProvider.state.colorConst.getPrimary(),
                               ),
                             ),
                           ),
@@ -208,10 +209,10 @@ class FocusMonth extends StatelessWidget {
         height: 31,
         child: TextButton(
           onPressed: () {
-            uiProvider.changeFocusedDay(
-                DateTime.utc(year, int.parse(month), 1));
-            uiProvider.changeCalendarPage(
-                DateTime.utc(year, int.parse(month), 1));
+            uiProvider
+                .changeFocusedDay(DateTime.utc(year, int.parse(month), 1));
+            uiProvider
+                .changeCalendarPage(DateTime.utc(year, int.parse(month), 1));
             uiProvider.removeOverlay();
           },
           style: !isFocusMonth

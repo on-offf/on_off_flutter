@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:on_off/domain/icon/icon_path.dart';
 import 'package:on_off/ui/provider/ui_provider.dart';
 import 'package:on_off/ui/setting/home/setting_screen.dart';
@@ -20,19 +21,20 @@ PreferredSize offAppBar(
     child: AppBar(
       toolbarHeight: 77,
       leading: isPrevButton
-          ? ElevatedButton(
+          ? IconButton(
               onPressed: () {
                 uiProvider.changeFloatingActionButtonSwitch(true);
                 Navigator.pop(context);
               },
-              style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all(
-                  uiProvider.state.colorConst.canvas,
-                ),
-                elevation: MaterialStateProperty.all(0),
-              ),
-              child: Image(
-                image: AssetImage(IconPath.appbarPreviousButton.name),
+              // style: ButtonStyle(
+              //   backgroundColor: MaterialStateProperty.all(
+              //     uiProvider.state.colorConst.canvas,
+              //   ),
+              //   elevation: MaterialStateProperty.all(0),
+              // ),
+              icon: SvgPicture.asset(
+                IconPath.appbarPreviousButton.name,
+                color: uiProvider.state.colorConst.getPrimary(),
               ),
             )
           : Container(),
@@ -51,10 +53,24 @@ PreferredSize offAppBar(
                     Navigator.pushNamed(context, SettingScreen.routeName);
                   }
                 },
-                child: Image(
-                  image: AssetImage(IconPath.setting.name),
-                  width: 24.17,
-                  height: 24.76,
+                child: IconButton(
+                  icon: SvgPicture.asset(
+                    IconPath.setting.name,
+                    width: 24.17,
+                    height: 24.76,
+                  ),
+                  onPressed: () async {
+                    uiProvider.changeCalendarFormat(CalendarFormat.month);
+
+                    if (settingViewModel.state.setting.isScreenLock == 1) {
+                      _checkPassword(
+                        context,
+                        settingViewModel.state.setting.password,
+                      );
+                    } else {
+                      Navigator.pushNamed(context, SettingScreen.routeName);
+                    }
+                  },
                 ),
               )
             : Container(),

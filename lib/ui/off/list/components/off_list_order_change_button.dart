@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:on_off/domain/icon/icon_path.dart';
 import 'package:on_off/ui/off/list/off_list_view_model.dart';
 import 'package:provider/provider.dart';
@@ -22,8 +23,8 @@ class OffListOrderChangeButton extends StatelessWidget {
             const SizedBox(
               width: 6.38,
             ),
-            Image(
-              image: AssetImage(IconPath.downArrow.name),
+            SvgPicture.asset(
+              IconPath.downArrow.name,
               width: 4.29,
               height: 6.32,
             ),

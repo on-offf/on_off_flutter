@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 import 'package:on_off/constants/constants_text_style.dart';
 import 'package:on_off/domain/icon/icon_path.dart';
@@ -31,10 +32,11 @@ class OffMonthlyItem extends StatelessWidget {
             physics: const NeverScrollableScrollPhysics(),
             child: Column(
               children: [
-                Image(
-                  image: AssetImage(IconPath.noHaveContent.name),
+                SvgPicture.asset(
+                  IconPath.noHaveContent.name,
                   width: 120,
                   height: 120,
+                  color: uiProvider.state.colorConst.getPrimary(),
                 ),
                 const SizedBox(
                   height: 15,

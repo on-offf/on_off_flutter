@@ -2,6 +2,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:on_off/constants/constants_text_style.dart';
 
 import 'package:on_off/domain/icon/icon_path.dart';
@@ -76,8 +77,8 @@ class _IconsAboveKeyboardState extends State<IconsAboveKeyboard> {
                     }
                   },
                   padding: const EdgeInsets.all(0),
-                  icon: Image(
-                    image: AssetImage(IconPath.camera.name),
+                  icon: SvgPicture.asset(
+                    IconPath.camera.name,
                     width: 37,
                     height: 35,
                   ),
@@ -96,8 +97,8 @@ class _IconsAboveKeyboardState extends State<IconsAboveKeyboard> {
                     }
                   },
                   padding: const EdgeInsets.all(0),
-                  icon: Image(
-                    image: AssetImage(IconPath.clip.name),
+                  icon: SvgPicture.asset(
+                    IconPath.clip.name,
                     width: 29,
                     height: 29,
                   ),
@@ -106,10 +107,10 @@ class _IconsAboveKeyboardState extends State<IconsAboveKeyboard> {
                 IconButton(
                   onPressed: widget.removeDialogFunction,
                   padding: const EdgeInsets.all(0),
-                  icon: Image(
-                    image: AssetImage(IconPath.trashCan.name),
-                    width: 29,
-                    height: 29,
+                  icon: SvgPicture.asset(
+                    IconPath.trashCan.name,
+                    // width: 29,
+                    // height: 29,
                   ),
                 ),
               ],
@@ -145,13 +146,14 @@ class _IconsAboveKeyboardState extends State<IconsAboveKeyboard> {
                       if (viewModel.state.offDiary?.id != null) {
                         Navigator.of(context).pop();
                       } else {
-                        Navigator.of(context).popAndPushNamed(OffDailyScreen.routeName);
+                        Navigator.of(context)
+                            .popAndPushNamed(OffDailyScreen.routeName);
                       }
                     }
                   },
                   padding: const EdgeInsets.all(0),
-                  icon: Image(
-                    image: AssetImage(IconPath.submit.name),
+                  icon: SvgPicture.asset(
+                    IconPath.submit.name,
                     width: 30,
                     height: 30,
                   ),
