@@ -23,7 +23,7 @@ class OnMonthlyViewModel extends UiProviderObserve {
   OnMonthlyState get state => _state;
 
   initScreen() async {
-    changeFocusedDay(uiState!.focusedDay);
+    await changeFocusedDay(uiState!.focusedDay);
   }
 
   saveContent(String title) async {
@@ -149,6 +149,7 @@ class OnMonthlyViewModel extends UiProviderObserve {
   @override
   init(UiState uiState) async {
     this.uiState = uiState.copyWith();
+    await _changeFocusedDay(uiState.focusedDay);
   }
 
   @override
