@@ -1,4 +1,5 @@
 import 'package:on_off/domain/entity/on/on_todo.dart';
+import 'package:on_off/domain/model/OnTodoStatus.dart';
 import 'package:on_off/domain/use_case/data_source/on/on_todo_use_case.dart';
 import 'package:on_off/ui/on/monthly/on_monthly_state.dart';
 import 'package:on_off/ui/provider/ui_provider_observe.dart';
@@ -15,6 +16,7 @@ class OnMonthlyViewModel extends UiProviderObserve {
     order: 'id',
     multiDeleteStatus: false,
     multiDeleteTodoIds: {},
+    showStatus: 2,
     todos: [],
   );
 
@@ -48,13 +50,13 @@ class OnMonthlyViewModel extends UiProviderObserve {
     }
 
     onTodoUseCase.updateTodoStatus(todo.copyWith(status: status));
-
     List<OnTodo> todos = [];
     state.todos?.forEach((element) {
       if (element.id == todo.id) {
         element = element.copyWith(status: status);
-        todos.add(element);
-      } else {
+      }
+
+      if (state.showStatus == 2 || state.showStatus == element.status) {
         todos.add(element);
       }
     });
@@ -63,13 +65,18 @@ class OnMonthlyViewModel extends UiProviderObserve {
     notifyListeners();
   }
 
-  changeTodosByStatus(int? status) async {
+  changeTodosByStatus(int status) async {
+    int? changeStatus = status;
+    if (status == ALL) {
+      changeStatus = null;
+    }
+
     List<OnTodo> selectOnTodos = await onTodoUseCase.selectOnTodoList(
       uiState!.focusedDay,
       state.order,
-      status,
+      changeStatus,
     );
-    _state = _state.copyWith(todos: selectOnTodos);
+    _state = _state.copyWith(todos: selectOnTodos, showStatus: status);
     notifyListeners();
   }
 
@@ -136,7 +143,7 @@ class OnMonthlyViewModel extends UiProviderObserve {
       state.order,
       null,
     );
-    _state = _state.copyWith(todos: selectOnTodoList);
+    _state = _state.copyWith(todos: selectOnTodoList, showStatus: 2);
   }
 
   @override

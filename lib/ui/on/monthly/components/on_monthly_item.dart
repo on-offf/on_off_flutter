@@ -262,7 +262,7 @@ class OnMonthlyItem extends StatelessWidget {
       key: ObjectKey(todo.id),
       children: [
         SizedBox(
-          height: 27,
+          height: 40,
           child: Row(
             children: [
               if (viewModel.state.multiDeleteStatus)
@@ -275,53 +275,56 @@ class OnMonthlyItem extends StatelessWidget {
                   },
                   checkColor: const Color(0xffFFFFFF),
                 ),
-              Slidable(
-                endActionPane: ActionPane(
-                  extentRatio: 0.2,
-                  motion: const ScrollMotion(),
-                  children: [
-                    SlidableAction(
-                      onPressed: (context) async {
-                        await viewModel.deleteTodo(todo);
-                      },
-                      backgroundColor: const Color(0xFFFE4A49),
-                      foregroundColor: Colors.white,
-                      icon: Icons.delete,
-                    ),
-                  ],
-                ),
-                child: Row(
-                  children: [
-                    Checkbox(
-                      value: todo.status == 1 ? true : false,
-                      onChanged: (bool? value) async {
-                        await viewModel.changeTodoStatus(todo);
-                      },
-                      activeColor: uiProvider.state.colorConst.getPrimary(),
-                      side: const BorderSide(
-                        color: Color(0xffD9D9D9),
-                        width: 1,
+              Expanded(
+                child: Slidable(
+                  endActionPane: ActionPane(
+                    extentRatio: .15,
+                    motion: const ScrollMotion(),
+                    children: [
+                      IconButton(
+                        onPressed: () async {
+                          await viewModel.deleteTodo(todo);
+                        },
+                        icon: Image(
+                          width: 18,
+                          height: 18,
+                          image: AssetImage(IconPath.trashCan.name),
+                        ),
                       ),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(5),
+                    ],
+                  ),
+                  child: Row(
+                    children: [
+                      Checkbox(
+                        value: todo.status == 1 ? true : false,
+                        onChanged: (bool? value) async {
+                          await viewModel.changeTodoStatus(todo);
+                        },
+                        activeColor: uiProvider.state.colorConst.getPrimary(),
+                        side: const BorderSide(
+                          color: Color(0xffD9D9D9),
+                          width: 1,
+                        ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5),
+                        ),
                       ),
-                    ),
-                    Text(
-                      todo.title,
-                      style: todo.status == 1
-                          ? kBody2.copyWith(
-                              color: const Color(0xffb3b3b3),
-                              decoration: TextDecoration.lineThrough,
-                            )
-                          : kBody2,
-                    ),
-                  ],
+                      Text(
+                        todo.title,
+                        style: todo.status == 1
+                            ? kBody2.copyWith(
+                                color: const Color(0xffb3b3b3),
+                                decoration: TextDecoration.lineThrough,
+                              )
+                            : kBody2,
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ],
           ),
         ),
-        const SizedBox(height: 15),
       ],
     );
   }

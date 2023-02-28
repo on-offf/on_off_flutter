@@ -87,7 +87,7 @@ class TodoBottomSheetMenu extends StatelessWidget {
           const SizedBox(height: 15),
           GestureDetector(
             onTap: () {
-              viewModel.changeTodosByStatus(null);
+              viewModel.changeTodosByStatus(ALL);
               Navigator.pop(context);
             },
             child: Container(

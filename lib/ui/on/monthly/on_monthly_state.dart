@@ -10,6 +10,12 @@ class OnMonthlyState with _$OnMonthlyState {
     required String order,
     required bool multiDeleteStatus,
     required Map<int, bool> multiDeleteTodoIds,
+    /**
+     * 0: 미완료 일정만
+     * 1: 완료 일정만
+     * 2: 전체 일정 보기
+     */
+    required int showStatus,
     bool? isFinished,
     List<OnTodo>? todos,
   }) = _OnMonthlyState;
