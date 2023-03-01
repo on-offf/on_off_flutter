@@ -4,7 +4,7 @@ import 'package:on_off/ui/components/focus_month.dart';
 import 'package:on_off/ui/components/monthly_calendar.dart';
 import 'package:on_off/ui/components/off_appbar.dart';
 import 'package:on_off/ui/off/monthly/off_monthly_screen.dart';
-import 'package:on_off/ui/on/monthly/components/on_monthly_item.dart';
+import 'package:on_off/ui/on/monthly/components/on_monthly_item_wrapper.dart';
 import 'package:on_off/ui/provider/ui_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -63,7 +63,7 @@ class OnMonthlyScreen extends StatelessWidget {
                   _positionChange(uiProvider, details);
                 }
               },
-              child: OnMonthlyItem(),
+              child: OnMonthlyItemWrapper(),
             ),
           ),
         ],
