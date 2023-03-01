@@ -46,7 +46,6 @@ class _SettingScreenState extends State<SettingScreen> {
           },
           icon: SvgPicture.asset(
             IconPath.appbarPreviousButton.name,
-            // color: uiProvider.state.colorConst.getPrimary(),
             color: Colors.white,
           ),
         ),
@@ -60,6 +59,7 @@ class _SettingScreenState extends State<SettingScreen> {
         physics: const NeverScrollableScrollPhysics(),
         children: [
           Container(
+            color: const Color(0xffebebeb),
             padding: titleEdgeInsets(),
             child: Align(
               alignment: Alignment.bottomLeft,
@@ -117,8 +117,7 @@ class _SettingScreenState extends State<SettingScreen> {
 
                         simpleTextDialog(
                           context,
-                          primaryColor:
-                              uiProvider.state.colorConst.getPrimary(),
+                          primaryColor: uiProvider.state.colorConst.getPrimary(),
                           canvasColor: Colors.white,
                           message: "비밀번호가 변경되었습니다.",
                         );
@@ -521,6 +520,7 @@ class _SettingScreenState extends State<SettingScreen> {
           ),
           Container(
             padding: titleEdgeInsets(),
+            color: const Color(0xffebebeb),
             child: Align(
               alignment: Alignment.bottomLeft,
               child: Text(
