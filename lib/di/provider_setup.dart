@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:on_off/data/data_source/db/off/off_icon_dao.dart';
 import 'package:on_off/data/data_source/db/off/off_diary_dao.dart';
 import 'package:on_off/data/data_source/db/off/off_image_dao.dart';
@@ -40,6 +42,7 @@ Future<List<SingleChildWidget>> getProviders() async {
       // SETTING
       await db.execute(SettingDAO.ddl);
     },
+    onUpgrade: _upgrade,
   );
 
   OffDiaryDAO offDiaryDAO = OffDiaryDAO(database);
@@ -136,4 +139,18 @@ Future<List<SingleChildWidget>> getProviders() async {
     // setting
     ChangeNotifierProvider(create: (_) => settingViewModel),
   ];
+}
+
+FutureOr<void> _upgrade(Database db, int oldVersion, int newVersion) async {
+  Batch batch = db.batch();
+
+  if (oldVersion == 1) {
+    batch.execute('ALTER TABLE ${SettingDAO.table} ADD isOnOffSwitch Integer');
+    batch.execute('ALTER TABLE ${SettingDAO.table} ADD switchStartHour Integer');
+    batch.execute('ALTER TABLE ${SettingDAO.table} ADD switchStartMinutes Integer');
+    batch.execute('ALTER TABLE ${SettingDAO.table} ADD switchEndHour Integer');
+    batch.execute('ALTER TABLE ${SettingDAO.table} ADD switchEndMinutes Integer');
+  }
+
+  await batch.commit();
 }
