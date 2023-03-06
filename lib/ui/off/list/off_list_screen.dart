@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:on_off/constants/constants_text_style.dart';
 import 'package:on_off/domain/icon/icon_path.dart';
 import 'package:on_off/ui/off/daily/off_daily_screen.dart';
@@ -63,10 +64,11 @@ class OffListScreen extends StatelessWidget {
                         SizedBox(
                           height: MediaQuery.of(context).size.height / 5,
                         ),
-                        Image(
-                          image: AssetImage(IconPath.noHaveContent.name),
+                        SvgPicture.asset(
+                          IconPath.noHaveContent.name,
                           width: 130,
                           height: 130,
+                          color: uiProvider.state.colorConst.getPrimary(),
                         ),
                         const SizedBox(
                           height: 15,
@@ -108,7 +110,8 @@ class OffListScreen extends StatelessWidget {
                                   fontWeight: FontWeight.w700,
                                   fontSize: 14,
                                   letterSpacing: 0.1,
-                                  color: uiProvider.state.colorConst.getPrimary(),
+                                  color:
+                                      uiProvider.state.colorConst.getPrimary(),
                                 ),
                               ),
                             ),
@@ -141,7 +144,8 @@ class OffListScreen extends StatelessWidget {
                                   fontWeight: FontWeight.w700,
                                   fontSize: 14,
                                   letterSpacing: 0.1,
-                                  color: uiProvider.state.colorConst.getPrimary(),
+                                  color:
+                                      uiProvider.state.colorConst.getPrimary(),
                                 ),
                               ),
                             )

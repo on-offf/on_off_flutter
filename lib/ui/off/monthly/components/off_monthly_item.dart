@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 import 'package:on_off/constants/constants_text_style.dart';
 import 'package:on_off/domain/icon/icon_path.dart';
@@ -26,56 +27,58 @@ class OffMonthlyItem extends StatelessWidget {
     _scrollControllerListener(_scrollController2, uiProvider);
 
     return viewModel.state.content == null
-        ? SingleChildScrollView(
-            //작은 화면에서 게시글 없을 때 화면이 잘려서 에러 발생하는 것 보완
-            physics: const NeverScrollableScrollPhysics(),
-            child: Column(
-              children: [
-                Image(
-                  image: AssetImage(IconPath.noHaveContent.name),
-                  width: 120,
-                  height: 120,
-                ),
-                const SizedBox(
-                  height: 15,
-                ),
-                Text(
-                  '이날은 아직 \n게시글이 없습니다!',
-                  style: kSubtitle3.copyWith(
-                    color: uiProvider.state.colorConst.getPrimary(),
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-                TextButton(
-                  onPressed: () {
-                    uiProvider.changeFloatingActionButtonSwitch(true);
-                    Navigator.pushNamed(context, OffWriteScreen.routeName);
-                  },
-                  style: ButtonStyle(
-                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                      RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(
-                          18.0,
-                        ),
-                        side: BorderSide(
-                          color: uiProvider.state.colorConst.getPrimary(),
-                        ),
-                      ),
+        ? Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SvgPicture.asset(
+              IconPath.noHaveContent.name,
+              width: 120,
+              height: 120,
+              colorFilter: ColorFilter.mode(
+                uiProvider.state.colorConst.getPrimary(),
+                BlendMode.srcIn,
+              ),
+            ),
+            const SizedBox(
+              height: 15,
+            ),
+            Text(
+              '이날은 아직 \n게시글이 없습니다!',
+              style: kSubtitle3.copyWith(
+                color: uiProvider.state.colorConst.getPrimary(),
+              ),
+              textAlign: TextAlign.center,
+            ),
+            TextButton(
+              onPressed: () {
+                uiProvider.changeFloatingActionButtonSwitch(true);
+                Navigator.pushNamed(context, OffWriteScreen.routeName);
+              },
+              style: ButtonStyle(
+                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(
+                      18.0,
                     ),
-                  ),
-                  child: Text(
-                    '글쓰러 가기',
-                    style: TextStyle(
-                      fontWeight: FontWeight.w700,
-                      fontSize: 14,
-                      letterSpacing: 0.1,
+                    side: BorderSide(
                       color: uiProvider.state.colorConst.getPrimary(),
                     ),
                   ),
                 ),
-              ],
+              ),
+              child: Text(
+                '글쓰러 가기',
+                style: TextStyle(
+                  fontWeight: FontWeight.w700,
+                  fontSize: 14,
+                  letterSpacing: 0.1,
+                  color: uiProvider.state.colorConst.getPrimary(),
+                ),
+              ),
             ),
-          )
+            SizedBox(height: MediaQuery.of(context).size.height / 10,)
+          ],
+        )
         : Container(
             decoration: uiProvider.state.calendarFormat == CalendarFormat.week
                 ? const BoxDecoration(

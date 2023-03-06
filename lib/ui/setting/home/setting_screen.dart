@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_email_sender/flutter_email_sender.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:on_off/constants/constants_text_style.dart';
 import 'package:on_off/domain/icon/icon_path.dart';
 import 'package:on_off/domain/model/alert_time.dart';
@@ -39,16 +40,12 @@ class _SettingScreenState extends State<SettingScreen> {
       appBar: AppBar(
         backgroundColor: uiProvider.state.colorConst.getPrimary(),
         elevation: 0,
-        leading: ElevatedButton(
+        leading: IconButton(
           onPressed: () {
             Navigator.pop(context);
           },
-          style: ElevatedButton.styleFrom(
-            primary: uiProvider.state.colorConst.getPrimary(),
-            elevation: 0,
-          ),
-          child: Image(
-            image: AssetImage(IconPath.appbarPreviousButton.name),
+          icon: SvgPicture.asset(
+            IconPath.appbarPreviousButton.name,
             color: Colors.white,
           ),
         ),
@@ -62,6 +59,7 @@ class _SettingScreenState extends State<SettingScreen> {
         physics: const NeverScrollableScrollPhysics(),
         children: [
           Container(
+            color: const Color(0xffebebeb),
             padding: titleEdgeInsets(),
             child: Align(
               alignment: Alignment.bottomLeft,
@@ -119,8 +117,7 @@ class _SettingScreenState extends State<SettingScreen> {
 
                         simpleTextDialog(
                           context,
-                          primaryColor:
-                              uiProvider.state.colorConst.getPrimary(),
+                          primaryColor: uiProvider.state.colorConst.getPrimary(),
                           canvasColor: Colors.white,
                           message: "비밀번호가 변경되었습니다.",
                         );
@@ -301,12 +298,10 @@ class _SettingScreenState extends State<SettingScreen> {
                         ),
                         Padding(
                           padding: const EdgeInsets.only(right: 15.0),
-                          child: Image(
+                          child: SvgPicture.asset(
                             width: 9,
                             height: 14,
-                            image: AssetImage(
-                              IconPath.settingArrowButton.name,
-                            ),
+                            IconPath.settingArrowButton.name,
                           ),
                         ),
                       ],
@@ -525,6 +520,7 @@ class _SettingScreenState extends State<SettingScreen> {
           ),
           Container(
             padding: titleEdgeInsets(),
+            color: const Color(0xffebebeb),
             child: Align(
               alignment: Alignment.bottomLeft,
               child: Text(
@@ -581,12 +577,10 @@ class _SettingScreenState extends State<SettingScreen> {
                   ),
                   Padding(
                     padding: const EdgeInsets.only(right: 15.0),
-                    child: Image(
+                    child: SvgPicture.asset(
                       width: 9,
                       height: 14,
-                      image: AssetImage(
-                        IconPath.settingArrowButton.name,
-                      ),
+                      IconPath.settingArrowButton.name,
                     ),
                   ),
                 ],
@@ -614,12 +608,10 @@ class _SettingScreenState extends State<SettingScreen> {
                   ),
                   Padding(
                     padding: const EdgeInsets.only(right: 15.0),
-                    child: Image(
+                    child: SvgPicture.asset(
                       width: 9,
                       height: 14,
-                      image: AssetImage(
-                        IconPath.settingArrowButton.name,
-                      ),
+                      IconPath.settingArrowButton.name,
                     ),
                   ),
                 ],

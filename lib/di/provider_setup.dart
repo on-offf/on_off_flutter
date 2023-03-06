@@ -114,11 +114,10 @@ Future<List<SingleChildWidget>> getProviders() async {
   viewModelList.add(offGalleryViewModel);
 
   viewModelList.add(onHomeViewModel);
-
   viewModelList.add(settingViewModel);
 
   UiProvider uiProvider = UiProvider(viewModelList: viewModelList);
-  uiProvider.init();
+  await uiProvider.init();
 
   return [
     ChangeNotifierProvider(create: (_) => uiProvider),

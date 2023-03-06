@@ -11,7 +11,8 @@ abstract class ColorConst {
   Color gray = const Color(0xffB3B3B3);
   Color lightGray = const Color(0xffE7E7E7);
 
-  Color canvas = const Color(0xffebebeb);
+  // Color canvas = const Color(0xffebebeb);
+  Color canvas = Colors.white;
 
   Color getPrimary();
   Color getPrimaryLight();

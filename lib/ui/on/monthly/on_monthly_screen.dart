@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:on_off/ui/on/monthly/components/on_monthly_item.dart';
+import 'package:on_off/ui/components/floating_action_button.dart';
+import 'package:on_off/ui/components/focus_month.dart';
+import 'package:on_off/ui/components/monthly_calendar.dart';
+import 'package:on_off/ui/components/off_appbar.dart';
+import 'package:on_off/ui/off/monthly/off_monthly_screen.dart';
+import 'package:on_off/ui/on/monthly/components/on_monthly_item_wrapper.dart';
+import 'package:on_off/ui/provider/ui_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 
-import '../../components/common_floating_action_button.dart';
-import '../../components/focus_month.dart';
-import '../../components/off_appbar.dart';
-import '../../off/monthly/components/off_monthly_calendar.dart';
-import '../../off/monthly/off_monthly_screen.dart';
-import '../../provider/ui_provider.dart';
 import 'on_monthly_view_model.dart';
 
 class OnMonthlyScreen extends StatelessWidget {
@@ -28,11 +28,7 @@ class OnMonthlyScreen extends StatelessWidget {
         context,
         isPrevButton: false,
       ),
-      floatingActionButton: CommonFloatingActionButton(
-        montlyListButtonNavigator: () {
-          uiProvider.changeCalendarFormat(CalendarFormat.month);
-          // Navigator.pushNamed(context, OffListScreen.routeName); //TODO on 화면에서는 어떻게 이동하는지 결정
-        },
+      floatingActionButton: OnFloatingActionButton(
         onOffButtonNavigator: () {
           Navigator.pushReplacementNamed(context, OffMonthlyScreen.routeName);
         },
@@ -54,9 +50,9 @@ class OnMonthlyScreen extends StatelessWidget {
                           ? 320
                           : 70,
                   child: const SingleChildScrollView(
-                      child:
-                          OffMonthlyCalendar()), //TODO 이후 완전히 동일하면 공통 기능으로 빼기
-                )
+                    child: MonthlyCalendar(),
+                  ),
+                ),
               ],
             ),
           ),
@@ -67,7 +63,7 @@ class OnMonthlyScreen extends StatelessWidget {
                   _positionChange(uiProvider, details);
                 }
               },
-              child: OnMonthlyItem(),
+              child: OnMonthlyItemWrapper(),
             ),
           ),
         ],

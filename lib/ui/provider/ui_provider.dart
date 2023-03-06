@@ -148,16 +148,13 @@ class UiProvider with ChangeNotifier {
   }
 
   // with Observe
-  Future<void> init() async {
-    await _initViewModel();
-    //select start screen
-    _selectStartScreen();
-    notifyListeners();
-  }
-
-  Future<void> _initViewModel() async {
+  init() async {
     for (var viewModel in viewModelList) {
-      await viewModel.init(_state);
+      if (viewModel is SettingViewModel) {
+        await viewModel.init(_state);
+      } else {
+        viewModel.init(_state);
+      }
     }
   }
 

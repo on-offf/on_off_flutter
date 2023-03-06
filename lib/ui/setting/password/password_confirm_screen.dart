@@ -111,7 +111,7 @@ class _PasswordConfirmScreenState extends State<PasswordConfirmScreen> {
               ],
             ),
             SizedBox(
-              height: 450,
+              height: 550,
               child: GridView.builder(
                 physics: const NeverScrollableScrollPhysics(),
                 itemCount: keypadList.length,
@@ -140,14 +140,6 @@ class _PasswordConfirmScreenState extends State<PasswordConfirmScreen> {
                           if (widget.realPassword != null &&
                               widget.realPassword != _password) {
                             _password = "";
-                            // TODO 왜 두번 호출해야 다이얼로그가 발생하는지 확인 필요!
-                            simpleTextDialog(
-                              context,
-                              primaryColor:
-                              uiProvider.state.colorConst.getPrimary(),
-                              canvasColor: uiProvider.state.colorConst.canvas,
-                              message: '비밀번호가 일치하지 않습니다.',
-                            );
                             simpleTextDialog(
                               context,
                               primaryColor:
