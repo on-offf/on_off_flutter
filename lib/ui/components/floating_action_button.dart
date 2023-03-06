@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:on_off/domain/icon/icon_path.dart';
-import 'package:on_off/ui/components/simple_dialog.dart';
 import 'package:on_off/ui/provider/ui_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -86,7 +85,7 @@ class OnFloatingActionButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final uiProvier = context.watch<UiProvider>();
+    final uiProvider = context.watch<UiProvider>();
     return Column(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
@@ -118,10 +117,17 @@ class OnFloatingActionButton extends StatelessWidget {
           },
           backgroundColor: Theme.of(context).primaryColor,
           elevation: 0,
-          child: SvgPicture.asset(
-            IconPath.floatingActionButtonOnOff.name,
-            width: 55,
-            height: 55,
+          child: CircleAvatar(
+            backgroundColor: uiProvider.state.colorConst.getPrimary(),
+            child: SvgPicture.asset(
+              IconPath.floatingActionButtonChange.name,
+              colorFilter: const ColorFilter.mode(
+                Colors.white,
+                BlendMode.srcIn,
+              ),
+              width: 30,
+              height: 30,
+            ),
           ),
         ),
       ],

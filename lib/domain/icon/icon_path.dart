@@ -9,6 +9,7 @@ enum IconPath {
 
   // floating_button
   floatingActionButtonOnOff,
+  floatingActionButtonChange,
   floatingActionButtonMonthlyWeekly,
 
   // off_write
@@ -55,6 +56,8 @@ extension IconExtension on IconPath {
       case IconPath.previousYearButton:
         return "assets/icons/calendar/previous_year_button.svg";
 
+      case IconPath.floatingActionButtonChange:
+        return "assets/icons/floating_button/floating_action_button_change.svg";
       case IconPath.floatingActionButtonOnOff:
         return "assets/icons/floating_button/floating_action_button_on_off.svg";
       case IconPath.floatingActionButtonMonthlyWeekly:
