@@ -36,9 +36,6 @@ Future<List<SingleChildWidget>> getProviders() async {
       await db.execute(OffImageDAO.ddl);
       await db.execute(OffIconDAO.ddl);
 
-      // ON
-      await db.execute(OnTodoDAO.ddl);
-
       // SETTING
       await db.execute(SettingDAO.ddl);
     },
@@ -142,28 +139,22 @@ Future<List<SingleChildWidget>> getProviders() async {
 }
 
 _upgrade(Database db, int oldVersion, int newVersion) async {
+  if (oldVersion == newVersion) return;
+
   Batch batch = db.batch();
-
-  if (oldVersion == newVersion) {
-    oldVersion1(batch);
-    await batch.commit();
-    return;
-  }
-
   switch(oldVersion) {
-    case 1: {
-      print('oldVersion!!');
-      oldVersion1(batch);
-    }
+    case 1: _dbVersion1(batch);
   }
 
   await batch.commit();
 }
 
-oldVersion1(Batch batch) {
+_dbVersion1(Batch batch) {
   batch.execute('ALTER TABLE ${SettingDAO.table} ADD isOnOffSwitch Integer');
   batch.execute('ALTER TABLE ${SettingDAO.table} ADD switchStartHour Integer');
   batch.execute('ALTER TABLE ${SettingDAO.table} ADD switchStartMinutes Integer');
   batch.execute('ALTER TABLE ${SettingDAO.table} ADD switchEndHour Integer');
   batch.execute('ALTER TABLE ${SettingDAO.table} ADD switchEndMinutes Integer');
+
+  batch.execute(OnTodoDAO.ddl);
 }
