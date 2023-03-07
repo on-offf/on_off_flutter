@@ -150,11 +150,12 @@ _upgrade(Database db, int oldVersion, int newVersion) async {
 }
 
 _dbVersion1(Batch batch) {
-  batch.execute('ALTER TABLE ${SettingDAO.table} ADD isOnOffSwitch Integer');
-  batch.execute('ALTER TABLE ${SettingDAO.table} ADD switchStartHour Integer');
-  batch.execute('ALTER TABLE ${SettingDAO.table} ADD switchStartMinutes Integer');
-  batch.execute('ALTER TABLE ${SettingDAO.table} ADD switchEndHour Integer');
-  batch.execute('ALTER TABLE ${SettingDAO.table} ADD switchEndMinutes Integer');
+  batch.execute('ALTER TABLE ${SettingDAO.table} ADD isOnOffSwitch Integer DEFAULT 0');
+  batch.execute('ALTER TABLE ${SettingDAO.table} ADD switchStartHour Integer DEFAULT 10');
+  batch.execute('ALTER TABLE ${SettingDAO.table} ADD switchStartMinutes Integer DEFAULT 0');
+  batch.execute('ALTER TABLE ${SettingDAO.table} ADD switchEndHour Integer DEFAULT 18');
+  batch.execute('ALTER TABLE ${SettingDAO.table} ADD switchEndMinutes Integer DEFAULT 0');
+
 
   batch.execute(OnTodoDAO.ddl);
 }
