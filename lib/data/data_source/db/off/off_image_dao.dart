@@ -3,7 +3,7 @@ import 'package:sqflite/sqflite.dart';
 
 class OffImageDAO {
   static const table = 'off_image';
-  static const ddl = 'CREATE TABLE ${OffImageDAO.table} (id INTEGER PRIMARY KEY AUTOINCREMENT, offDiaryId Integer, imageFile BLOB)';
+  static const ddl = 'CREATE TABLE IF NOT EXISTS ${OffImageDAO.table} (id INTEGER PRIMARY KEY AUTOINCREMENT, offDiaryId Integer, imageFile BLOB)';
 
   final Database database;
 

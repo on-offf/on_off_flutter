@@ -4,7 +4,7 @@ import 'package:sqflite/sqflite.dart';
 class OnTodoDAO {
   static const table = "on_todo";
   static const ddl =
-      '''CREATE TABLE ${OnTodoDAO.table} (
+      '''CREATE TABLE IF NOT EXISTS ${OnTodoDAO.table} (
           id INTEGER PRIMARY KEY AUTOINCREMENT
           , title TEXT
           , content TEXT

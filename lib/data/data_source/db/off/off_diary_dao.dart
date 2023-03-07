@@ -3,7 +3,7 @@ import 'package:sqflite/sqflite.dart';
 
 class OffDiaryDAO {
   static const table = 'off_diary';
-  static const ddl = 'CREATE TABLE ${OffDiaryDAO.table} (id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT, content TEXT, dateTime INTEGER)';
+  static const ddl = 'CREATE TABLE IF NOT EXISTS ${OffDiaryDAO.table} (id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT, content TEXT, dateTime INTEGER)';
 
   final Database database;
 

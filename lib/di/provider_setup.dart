@@ -36,6 +36,9 @@ Future<List<SingleChildWidget>> getProviders() async {
       await db.execute(OffImageDAO.ddl);
       await db.execute(OffIconDAO.ddl);
 
+      // ON
+      await db.execute(OnTodoDAO.ddl);
+
       // SETTING
       await db.execute(SettingDAO.ddl);
     },
@@ -141,21 +144,41 @@ Future<List<SingleChildWidget>> getProviders() async {
 _upgrade(Database db, int oldVersion, int newVersion) async {
   if (oldVersion == newVersion) return;
 
-  Batch batch = db.batch();
   switch(oldVersion) {
-    case 1: _dbVersion1(batch);
+    case 1: await _dbVersion1(db);
   }
-
-  await batch.commit();
 }
 
-_dbVersion1(Batch batch) {
-  batch.execute('ALTER TABLE ${SettingDAO.table} ADD isOnOffSwitch Integer DEFAULT 0');
-  batch.execute('ALTER TABLE ${SettingDAO.table} ADD switchStartHour Integer DEFAULT 10');
-  batch.execute('ALTER TABLE ${SettingDAO.table} ADD switchStartMinutes Integer DEFAULT 0');
-  batch.execute('ALTER TABLE ${SettingDAO.table} ADD switchEndHour Integer DEFAULT 18');
-  batch.execute('ALTER TABLE ${SettingDAO.table} ADD switchEndMinutes Integer DEFAULT 0');
+_dbVersion1(Database db) async {
+  Batch batch = db.batch();
+  List<Map> settingTableInfo = await db.rawQuery('PRAGMA table_info(${SettingDAO.table});');
+  String isOnOffSwitch = 'isOnOffSwitch';
+  String switchStartHour = 'switchStartHour';
+  String switchStartMinutes = 'switchStartMinutes';
+  String switchEndHour = 'switchEndHour';
+  String switchEndMinutes = 'switchEndMinutes';
 
+  if (!settingTableInfo.any((element) => element[isOnOffSwitch] == isOnOffSwitch)) {
+    batch.execute('ALTER TABLE ${SettingDAO.table} ADD $isOnOffSwitch Integer DEFAULT 0');
+  }
 
-  batch.execute(OnTodoDAO.ddl);
+  if (!settingTableInfo.any((element) => element[switchStartHour] == switchStartHour)) {
+    batch.execute('ALTER TABLE ${SettingDAO.table} ADD $switchStartHour Integer DEFAULT 10');
+  }
+
+  if (!settingTableInfo.any((element) => element[switchStartMinutes] == switchStartMinutes)) {
+    batch.execute('ALTER TABLE ${SettingDAO.table} ADD $switchStartMinutes Integer DEFAULT 0');
+  }
+
+  if (!settingTableInfo.any((element) => element[switchEndHour] == switchEndHour)) {
+    batch.execute('ALTER TABLE ${SettingDAO.table} ADD $switchEndHour Integer DEFAULT 18');
+  }
+
+  if (!settingTableInfo.any((element) => element[switchEndMinutes] == switchEndMinutes)) {
+    batch.execute('ALTER TABLE ${SettingDAO.table} ADD $switchEndMinutes Integer DEFAULT 0');
+  }
+
+  // ON
+  await db.execute(OnTodoDAO.ddl);
+  batch.commit();
 }
