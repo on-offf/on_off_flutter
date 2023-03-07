@@ -141,19 +141,29 @@ Future<List<SingleChildWidget>> getProviders() async {
   ];
 }
 
-FutureOr<void> _upgrade(Database db, int oldVersion, int newVersion) async {
-  if (oldVersion == newVersion) return;
-
+_upgrade(Database db, int oldVersion, int newVersion) async {
   Batch batch = db.batch();
+
+  if (oldVersion == newVersion) {
+    oldVersion1(batch);
+    await batch.commit();
+    return;
+  }
+
   switch(oldVersion) {
     case 1: {
-      batch.execute('ALTER TABLE ${SettingDAO.table} ADD isOnOffSwitch Integer');
-      batch.execute('ALTER TABLE ${SettingDAO.table} ADD switchStartHour Integer');
-      batch.execute('ALTER TABLE ${SettingDAO.table} ADD switchStartMinutes Integer');
-      batch.execute('ALTER TABLE ${SettingDAO.table} ADD switchEndHour Integer');
-      batch.execute('ALTER TABLE ${SettingDAO.table} ADD switchEndMinutes Integer');
+      print('oldVersion!!');
+      oldVersion1(batch);
     }
   }
 
   await batch.commit();
+}
+
+oldVersion1(Batch batch) {
+  batch.execute('ALTER TABLE ${SettingDAO.table} ADD isOnOffSwitch Integer');
+  batch.execute('ALTER TABLE ${SettingDAO.table} ADD switchStartHour Integer');
+  batch.execute('ALTER TABLE ${SettingDAO.table} ADD switchStartMinutes Integer');
+  batch.execute('ALTER TABLE ${SettingDAO.table} ADD switchEndHour Integer');
+  batch.execute('ALTER TABLE ${SettingDAO.table} ADD switchEndMinutes Integer');
 }
