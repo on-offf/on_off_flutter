@@ -25,7 +25,7 @@ import 'package:sqflite/sqflite.dart';
 
 Future<List<SingleChildWidget>> getProviders() async {
   var databaseName = 'on_off.db';
-  var databaseVersion = 2;
+  var databaseVersion = 1;
 
   Database database = await openDatabase(
     databaseName,
@@ -35,9 +35,6 @@ Future<List<SingleChildWidget>> getProviders() async {
       await db.execute(OffDiaryDAO.ddl);
       await db.execute(OffImageDAO.ddl);
       await db.execute(OffIconDAO.ddl);
-
-      // ON
-      await db.execute(OnTodoDAO.ddl);
 
       // SETTING
       await db.execute(SettingDAO.ddl);
@@ -142,14 +139,19 @@ Future<List<SingleChildWidget>> getProviders() async {
 }
 
 FutureOr<void> _upgrade(Database db, int oldVersion, int newVersion) async {
-  Batch batch = db.batch();
+  if (oldVersion == newVersion) return;
 
-  if (oldVersion == 1) {
-    batch.execute('ALTER TABLE ${SettingDAO.table} ADD isOnOffSwitch Integer');
-    batch.execute('ALTER TABLE ${SettingDAO.table} ADD switchStartHour Integer');
-    batch.execute('ALTER TABLE ${SettingDAO.table} ADD switchStartMinutes Integer');
-    batch.execute('ALTER TABLE ${SettingDAO.table} ADD switchEndHour Integer');
-    batch.execute('ALTER TABLE ${SettingDAO.table} ADD switchEndMinutes Integer');
+  Batch batch = db.batch();
+  switch(oldVersion) {
+    case 1: {
+      batch.execute('ALTER TABLE ${SettingDAO.table} ADD isOnOffSwitch Integer');
+      batch.execute('ALTER TABLE ${SettingDAO.table} ADD switchStartHour Integer');
+      batch.execute('ALTER TABLE ${SettingDAO.table} ADD switchStartMinutes Integer');
+      batch.execute('ALTER TABLE ${SettingDAO.table} ADD switchEndHour Integer');
+      batch.execute('ALTER TABLE ${SettingDAO.table} ADD switchEndMinutes Integer');
+
+      batch.execute(OnTodoDAO.ddl);
+    }
   }
 
   await batch.commit();
