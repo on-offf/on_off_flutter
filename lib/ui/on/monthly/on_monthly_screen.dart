@@ -37,7 +37,7 @@ class OnMonthlyScreen extends StatelessWidget {
       ),
       body: SingleChildScrollView(
         controller: viewModel.state.monthlyItemWrapperScrollController,
-        // physics: const NeverScrollableScrollPhysics(),
+        physics: const NeverScrollableScrollPhysics(),
         child: Column(
           children: [
             Padding(
