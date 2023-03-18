@@ -31,20 +31,27 @@ class _OnTodoInputComponentState extends State<OnTodoInputComponent> {
       double widgetHeight = renderBox.size.height;
 
       double upperSize = (offset.dy + (widgetHeight)) / 2;
-
       Future.delayed(const Duration(milliseconds: 450), (){
         double keyboardHeight = MediaQuery.of(context).viewInsets.bottom;
 
-        viewModel!.updateKeyboardHeight(keyboardHeight);
-        viewModel!.state.monthlyItemWrapperScrollController?.animateTo(
-          keyboardHeight - upperSize,
-          duration: const Duration(
-            milliseconds: 200,
-          ),
-          curve: Curves.ease,
-        );
+        if (offset.dy < keyboardHeight) {
+          viewModel!.updateKeyboardHeight(0);
+          return;
+        }
+        updateKeyboardHeight(keyboardHeight, upperSize);
       });
     });
+  }
+
+  void updateKeyboardHeight(double keyboardHeight, double upperSize) {
+    viewModel!.updateKeyboardHeight(keyboardHeight);
+    viewModel!.state.monthlyItemWrapperScrollController?.animateTo(
+      keyboardHeight - upperSize,
+      duration: const Duration(
+        milliseconds: 200,
+      ),
+      curve: Curves.ease,
+    );
   }
 
   @override
