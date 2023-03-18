@@ -4,16 +4,12 @@ import 'package:on_off/ui/provider/ui_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 
-class OnMonthlyItemWrapper extends StatelessWidget {
-  OnMonthlyItemWrapper({super.key});
-
-  final ScrollController _scrollController = ScrollController();
+class OnMonthlyItemScroller extends StatelessWidget {
+  OnMonthlyItemScroller({super.key});
 
   @override
   Widget build(BuildContext context) {
     UiProvider uiProvider = context.watch<UiProvider>();
-
-    _scrollControllerListener(_scrollController, uiProvider);
 
     return Container(
       decoration: uiProvider.state.calendarFormat == CalendarFormat.week
@@ -48,23 +44,11 @@ class OnMonthlyItemWrapper extends StatelessWidget {
           right: 37,
         ),
         child: SingleChildScrollView(
-          physics: uiProvider.state.calendarFormat == CalendarFormat.month
-              ? const NeverScrollableScrollPhysics()
-              : const BouncingScrollPhysics(),
-          controller: _scrollController,
+          physics: const NeverScrollableScrollPhysics(),
           child: OnMonthlyItem(),
         ),
       ),
     );
-  }
-
-  void _scrollControllerListener(
-      ScrollController scrollController, UiProvider uiProvider) {
-    scrollController.addListener(() {
-      if (scrollController.offset < -50) {
-        uiProvider.changeCalendarFormat(CalendarFormat.month);
-      }
-    });
   }
 
 }

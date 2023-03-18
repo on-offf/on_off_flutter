@@ -18,7 +18,13 @@ class OnMonthlyState with _$OnMonthlyState {
     required int showStatus,
     bool? isFinished,
     List<OnTodo>? todos,
-    ScrollController? monthlyItemWrapperScrollController,
+    ScrollController? onMonthlyScreenScrollerController,
     required double keyboardHeight,
+
+    // OnTodoComponents
+    ScrollController? todoComponentsController,
+    required double todoComponentsHeight,
+    GlobalKey? todoComponentsKey,
+
   }) = _OnMonthlyState;
 }

@@ -5,60 +5,16 @@ import 'package:on_off/ui/on/monthly/on_monthly_view_model.dart';
 import 'package:on_off/ui/provider/ui_provider.dart';
 import 'package:provider/provider.dart';
 
-class OnTodoInputComponent extends StatefulWidget {
-  const OnTodoInputComponent({Key? key}) : super(key: key);
-
-  @override
-  State<OnTodoInputComponent> createState() => _OnTodoInputComponentState();
-}
-
-class _OnTodoInputComponentState extends State<OnTodoInputComponent> {
+class OnTodoInputComponent extends StatelessWidget {
+  OnTodoInputComponent({Key? key}) : super(key: key);
   final GlobalKey _widgetKey = GlobalKey();
-  OnMonthlyViewModel? viewModel;
-
-  @override
-  void initState() {
-    super.initState();
-
-    KeyboardVisibilityController().onChange.listen((event) {
-      if (!event) {
-        viewModel!.updateKeyboardHeight(0);
-        return;
-      }
-
-      RenderBox renderBox = _widgetKey.currentContext?.findRenderObject() as RenderBox;
-      Offset offset = renderBox.localToGlobal(Offset.zero);
-      double widgetHeight = renderBox.size.height;
-
-      double upperSize = (offset.dy + (widgetHeight)) / 2;
-      Future.delayed(const Duration(milliseconds: 450), (){
-        double keyboardHeight = MediaQuery.of(context).viewInsets.bottom;
-
-        if (offset.dy < keyboardHeight) {
-          viewModel!.updateKeyboardHeight(0);
-          return;
-        }
-        updateKeyboardHeight(keyboardHeight, upperSize);
-      });
-    });
-  }
-
-  void updateKeyboardHeight(double keyboardHeight, double upperSize) {
-    viewModel!.updateKeyboardHeight(keyboardHeight);
-    viewModel!.state.monthlyItemWrapperScrollController?.animateTo(
-      keyboardHeight - upperSize,
-      duration: const Duration(
-        milliseconds: 200,
-      ),
-      curve: Curves.ease,
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
     UiProvider uiProvider = context.watch<UiProvider>();
-    viewModel = context.watch<OnMonthlyViewModel>();
+    OnMonthlyViewModel viewModel = context.watch<OnMonthlyViewModel>();
     var createTodoTextFormFieldController = TextEditingController();
+    keyboardEvent(context, viewModel);
 
     return TextFormField(
       key: _widgetKey,
@@ -78,9 +34,45 @@ class _OnTodoInputComponentState extends State<OnTodoInputComponent> {
         ),
       ),
       onFieldSubmitted: (value) async {
-        await viewModel?.saveContent(value);
+        await viewModel.saveContent(value);
         createTodoTextFormFieldController.text = '';
       },
+    );
+  }
+
+  keyboardEvent(BuildContext context, OnMonthlyViewModel viewModel) {
+    KeyboardVisibilityController().onChange.listen((event) {
+      if (!event) {
+        viewModel.updateKeyboardHeight(0);
+        return;
+      }
+
+      RenderBox renderBox =
+          _widgetKey.currentContext?.findRenderObject() as RenderBox;
+      Offset offset = renderBox.localToGlobal(Offset.zero);
+      double widgetHeight = renderBox.size.height;
+
+      double upperSize = (offset.dy + (widgetHeight)) / 2;
+      Future.delayed(const Duration(milliseconds: 450), () {
+        double keyboardHeight = MediaQuery.of(context).viewInsets.bottom;
+
+        if (offset.dy < keyboardHeight) {
+          viewModel.updateKeyboardHeight(0);
+          return;
+        }
+        updateKeyboardHeight(viewModel, keyboardHeight, upperSize);
+      });
+    });
+  }
+
+  void updateKeyboardHeight(OnMonthlyViewModel viewModel, double keyboardHeight, double upperSize) {
+    viewModel.updateKeyboardHeight(keyboardHeight);
+    viewModel.state.onMonthlyScreenScrollerController?.animateTo(
+      keyboardHeight - upperSize,
+      duration: const Duration(
+        milliseconds: 200,
+      ),
+      curve: Curves.ease,
     );
   }
 }

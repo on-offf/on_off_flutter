@@ -3,7 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 import 'package:on_off/constants/constants_text_style.dart';
 import 'package:on_off/domain/icon/icon_path.dart';
-import 'package:on_off/ui/on/monthly/components/todo/on_todo_components.dart';
+import 'package:on_off/ui/on/monthly/components/todo/on_todo_component_container.dart';
 import 'package:on_off/ui/on/monthly/components/todo_bottom_sheet.dart';
 import 'package:on_off/ui/on/monthly/on_monthly_view_model.dart';
 import 'package:on_off/ui/provider/ui_provider.dart';
@@ -48,7 +48,7 @@ class OnMonthlyItem extends StatelessWidget {
         ),
         Column(
           children: [
-            OnTodoComponents(),
+            OnTodoComponentContainer(),
             if (viewModel.state.multiDeleteStatus)
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -90,7 +90,6 @@ class OnMonthlyItem extends StatelessWidget {
       ],
     );
   }
-
 
   Future<dynamic> _buildBottomSheet(
       BuildContext context, UiProvider uiProvider) {

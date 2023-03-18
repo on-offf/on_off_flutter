@@ -14,13 +14,13 @@ class OnMonthlyViewModel extends UiProviderObserve {
   });
 
   OnMonthlyState _state = OnMonthlyState(
-    order: 'id',
-    multiDeleteStatus: false,
-    multiDeleteTodoIds: {},
-    showStatus: 2,
-    todos: [],
-    keyboardHeight: 0,
-  );
+      order: 'id',
+      multiDeleteStatus: false,
+      multiDeleteTodoIds: {},
+      showStatus: 2,
+      todos: [],
+      keyboardHeight: 0,
+      todoComponentsHeight: 500);
 
   OnMonthlyState get state => _state;
 
@@ -28,10 +28,16 @@ class OnMonthlyViewModel extends UiProviderObserve {
     await changeFocusedDay(uiState!.focusedDay);
   }
 
-  generateMonthlyItemWrapperScrollController() {
-    ScrollController monthlyItemWrapperScrollController = ScrollController();
+  generateMonthlyScreenScrollerController() {
+    _state =
+        _state.copyWith(onMonthlyScreenScrollerController: ScrollController());
+  }
+
+  generateTodoComponentsState() {
     _state = _state.copyWith(
-        monthlyItemWrapperScrollController: monthlyItemWrapperScrollController);
+      todoComponentsController: ScrollController(),
+      todoComponentsKey: GlobalKey(),
+    );
   }
 
   saveContent(String title) async {
@@ -119,7 +125,9 @@ class OnMonthlyViewModel extends UiProviderObserve {
   }
 
   updateTodos(List<OnTodo> todos) async {
-    _state = _state.copyWith(todos: todos);
+    double todosTotalHeight = todos.length * 40;
+    _state =
+        _state.copyWith(todos: todos, todoComponentsHeight: todosTotalHeight);
     notifyListeners();
     onTodoUseCase.updateTodoList(todos);
   }
@@ -147,6 +155,11 @@ class OnMonthlyViewModel extends UiProviderObserve {
   }
 
   updateKeyboardHeight(double keyboardHeight) {
+    _state.onMonthlyScreenScrollerController!.animateTo(
+      0,
+      duration: const Duration(milliseconds: 450),
+      curve: Curves.ease,
+    );
     _state = _state.copyWith(keyboardHeight: keyboardHeight);
     notifyListeners();
   }

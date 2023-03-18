@@ -4,23 +4,28 @@ import 'package:on_off/ui/components/focus_month.dart';
 import 'package:on_off/ui/components/monthly_calendar.dart';
 import 'package:on_off/ui/components/off_appbar.dart';
 import 'package:on_off/ui/off/monthly/off_monthly_screen.dart';
-import 'package:on_off/ui/on/monthly/components/on_monthly_item_wrapper.dart';
+import 'package:on_off/ui/on/monthly/components/on_monthly_item_scroller.dart';
 import 'package:on_off/ui/provider/ui_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 import 'on_monthly_view_model.dart';
 
-class OnMonthlyScreen extends StatelessWidget {
+class OnMonthlyScreen extends StatefulWidget {
   static const routeName = '/on/monthly';
 
   const OnMonthlyScreen({Key? key}) : super(key: key);
 
   @override
+  State<OnMonthlyScreen> createState() => _OnMonthlyScreenState();
+}
+
+class _OnMonthlyScreenState extends State<OnMonthlyScreen> {
+  @override
   Widget build(BuildContext context) {
     final uiProvider = context.watch<UiProvider>();
     final viewModel = context.watch<OnMonthlyViewModel>();
-    viewModel.generateMonthlyItemWrapperScrollController();
+    viewModel.generateMonthlyScreenScrollerController();
 
     return Scaffold(
       // 작성 화면에서 바로 달력 화면으로 올 경우, 키보드가 늦게 내려가는 경우 키보드 사이즈가 위젯에 영향을 끼치지 못하도록 설정 (픽셀 초과 에러 방지)
@@ -36,7 +41,7 @@ class OnMonthlyScreen extends StatelessWidget {
         },
       ),
       body: SingleChildScrollView(
-        controller: viewModel.state.monthlyItemWrapperScrollController,
+        controller: viewModel.state.onMonthlyScreenScrollerController,
         physics: const NeverScrollableScrollPhysics(),
         child: Column(
           children: [
@@ -67,7 +72,7 @@ class OnMonthlyScreen extends StatelessWidget {
                   _positionChange(uiProvider, details);
                 }
               },
-              child: OnMonthlyItemWrapper(),
+              child: OnMonthlyItemScroller(),
             ),
             SizedBox(
               height: viewModel.state.keyboardHeight,
@@ -78,7 +83,8 @@ class OnMonthlyScreen extends StatelessWidget {
     );
   }
 
-  Future<void> _positionChange(uiProvider, details) async {
+  Future<void> _positionChange(
+      UiProvider uiProvider, DragEndDetails details) async {
     if (details.primaryVelocity! > 0) {
       uiProvider.changeCalendarFormat(CalendarFormat.month);
     } else if (details.primaryVelocity! < 0) {
