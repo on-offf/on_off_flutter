@@ -1,6 +1,6 @@
+import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:on_off/domain/entity/on/on_todo.dart';
-
 
 part 'on_monthly_state.freezed.dart';
 
@@ -18,5 +18,7 @@ class OnMonthlyState with _$OnMonthlyState {
     required int showStatus,
     bool? isFinished,
     List<OnTodo>? todos,
+    ScrollController? monthlyItemWrapperScrollController,
+    required double keyboardHeight,
   }) = _OnMonthlyState;
 }

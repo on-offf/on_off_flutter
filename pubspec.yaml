@@ -31,7 +31,7 @@ dependencies:
   responsive_framework: ^0.2.0
   sqflite: ^2.0.3
   table_calendar: ^3.0.6
-
+  flutter_keyboard_visibility: ^5.4.0
 dev_dependencies:
   flutter_lints: ^2.0.0
   flutter_test:

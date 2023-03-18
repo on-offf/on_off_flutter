@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:on_off/domain/entity/on/on_todo.dart';
 import 'package:on_off/domain/model/OnTodoStatus.dart';
 import 'package:on_off/domain/use_case/data_source/on/on_todo_use_case.dart';
@@ -18,12 +19,19 @@ class OnMonthlyViewModel extends UiProviderObserve {
     multiDeleteTodoIds: {},
     showStatus: 2,
     todos: [],
+    keyboardHeight: 0,
   );
 
   OnMonthlyState get state => _state;
 
   initScreen() async {
     await changeFocusedDay(uiState!.focusedDay);
+  }
+
+  generateMonthlyItemWrapperScrollController() {
+    ScrollController monthlyItemWrapperScrollController = ScrollController();
+    _state = _state.copyWith(
+        monthlyItemWrapperScrollController: monthlyItemWrapperScrollController);
   }
 
   saveContent(String title) async {
@@ -105,7 +113,8 @@ class OnMonthlyViewModel extends UiProviderObserve {
     });
 
     await onTodoUseCase.deleteMultiOnTodo(deleteTodos);
-    _state = _state.copyWith(todos: restTodos, multiDeleteStatus: false, multiDeleteTodoIds: {});
+    _state = _state.copyWith(
+        todos: restTodos, multiDeleteStatus: false, multiDeleteTodoIds: {});
     notifyListeners();
   }
 
@@ -134,6 +143,11 @@ class OnMonthlyViewModel extends UiProviderObserve {
     }
 
     _state = _state.copyWith(multiDeleteTodoIds: multiDeleteTodoIds);
+    notifyListeners();
+  }
+
+  updateKeyboardHeight(double keyboardHeight) {
+    _state = _state.copyWith(keyboardHeight: keyboardHeight);
     notifyListeners();
   }
 

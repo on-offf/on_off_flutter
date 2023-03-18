@@ -20,6 +20,8 @@ class OnMonthlyScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final uiProvider = context.watch<UiProvider>();
     final viewModel = context.watch<OnMonthlyViewModel>();
+    viewModel.generateMonthlyItemWrapperScrollController();
+
     return Scaffold(
       // 작성 화면에서 바로 달력 화면으로 올 경우, 키보드가 늦게 내려가는 경우 키보드 사이즈가 위젯에 영향을 끼치지 못하도록 설정 (픽셀 초과 에러 방지)
       resizeToAvoidBottomInset: false,
@@ -33,31 +35,33 @@ class OnMonthlyScreen extends StatelessWidget {
           Navigator.pushReplacementNamed(context, OffMonthlyScreen.routeName);
         },
       ),
-      body: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(
-              left: 37,
-              right: 37,
-            ),
-            child: Column(
-              children: [
-                FocusMonth(),
-                AnimatedContainer(
-                  duration: const Duration(milliseconds: 300),
-                  height:
-                      uiProvider.state.calendarFormat == CalendarFormat.month
-                          ? 320
-                          : 70,
-                  child: const SingleChildScrollView(
-                    child: MonthlyCalendar(),
+      body: SingleChildScrollView(
+        controller: viewModel.state.monthlyItemWrapperScrollController,
+        // physics: const NeverScrollableScrollPhysics(),
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(
+                left: 37,
+                right: 37,
+              ),
+              child: Column(
+                children: [
+                  FocusMonth(),
+                  AnimatedContainer(
+                    duration: const Duration(milliseconds: 300),
+                    height:
+                        uiProvider.state.calendarFormat == CalendarFormat.month
+                            ? 320
+                            : 70,
+                    child: const SingleChildScrollView(
+                      child: MonthlyCalendar(),
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-          Expanded(
-            child: GestureDetector(
+            GestureDetector(
               onVerticalDragEnd: (details) {
                 if (viewModel.state.todos != null) {
                   _positionChange(uiProvider, details);
@@ -65,8 +69,11 @@ class OnMonthlyScreen extends StatelessWidget {
               },
               child: OnMonthlyItemWrapper(),
             ),
-          ),
-        ],
+            SizedBox(
+              height: viewModel.state.keyboardHeight,
+            ),
+          ],
+        ),
       ),
     );
   }
