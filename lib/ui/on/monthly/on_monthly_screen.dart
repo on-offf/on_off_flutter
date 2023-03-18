@@ -68,6 +68,7 @@ class _OnMonthlyScreenState extends State<OnMonthlyScreen> {
             ),
             GestureDetector(
               onVerticalDragEnd: (details) {
+                viewModel.todoInputUnFocus();
                 if (viewModel.state.todos != null) {
                   _positionChange(uiProvider, details);
                 }

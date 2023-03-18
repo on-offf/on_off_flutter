@@ -40,6 +40,18 @@ class OnMonthlyViewModel extends UiProviderObserve {
     );
   }
 
+  generateTodoInputState(FocusNode focusNode) {
+    _state = _state.copyWith(
+      todoInputFocusNode: focusNode,
+    );
+  }
+
+  todoInputUnFocus() {
+    if (state.todoInputFocusNode != null && state.todoInputFocusNode!.hasFocus) {
+      state.todoInputFocusNode!.unfocus();
+    }
+  }
+
   saveContent(String title) async {
     DateTime dateTime = uiState!.focusedDay;
     OnTodo todo = await onTodoUseCase.insertOnTodo(dateTime, title);
@@ -165,6 +177,9 @@ class OnMonthlyViewModel extends UiProviderObserve {
   }
 
   _changeFocusedDay(DateTime focusedDay) async {
+    if (state.todoInputFocusNode != null && state.todoInputFocusNode!.hasFocus) {
+      state.todoInputFocusNode!.unfocus();
+    }
     List<OnTodo> selectOnTodoList = await onTodoUseCase.selectOnTodoList(
       focusedDay,
       state.order,

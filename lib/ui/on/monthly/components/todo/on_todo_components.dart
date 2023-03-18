@@ -20,11 +20,13 @@ class OnTodoComponents extends StatelessWidget {
       if (uiProvider.state.calendarFormat == CalendarFormat.week) {
         if (viewModel.state.todoComponentsController!.position.pixels <
             -60) {
+          viewModel.todoInputUnFocus();
           uiProvider.changeCalendarFormat(CalendarFormat.month);
         }
       } else {
         if (viewModel.state.todoComponentsController!.position.pixels - 60 >
             viewModel.state.todoComponentsController!.position.maxScrollExtent) {
+          viewModel.todoInputUnFocus();
           uiProvider.changeCalendarFormat(CalendarFormat.week);
         }
       }

@@ -26,5 +26,6 @@ class OnMonthlyState with _$OnMonthlyState {
     required double todoComponentsHeight,
     GlobalKey? todoComponentsKey,
 
+    FocusNode? todoInputFocusNode,
   }) = _OnMonthlyState;
 }

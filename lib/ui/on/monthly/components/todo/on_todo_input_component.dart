@@ -14,16 +14,31 @@ class OnTodoInputComponent extends StatefulWidget {
 
 class _OnTodoInputComponentState extends State<OnTodoInputComponent> {
   final GlobalKey _widgetKey = GlobalKey();
+  late final FocusNode focusNode;
+
+  @override
+  void initState() {
+    super.initState();
+    focusNode = FocusNode();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    focusNode.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     UiProvider uiProvider = context.watch<UiProvider>();
     OnMonthlyViewModel viewModel = context.watch<OnMonthlyViewModel>();
     var createTodoTextFormFieldController = TextEditingController();
+    viewModel.generateTodoInputState(focusNode);
     keyboardEvent(context, viewModel);
 
     return TextFormField(
       key: _widgetKey,
+      focusNode: viewModel.state.todoInputFocusNode,
       style:
           kSubtitle2.copyWith(color: Colors.black, fontWeight: FontWeight.bold),
       controller: createTodoTextFormFieldController,
