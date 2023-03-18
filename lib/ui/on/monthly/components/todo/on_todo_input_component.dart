@@ -5,8 +5,14 @@ import 'package:on_off/ui/on/monthly/on_monthly_view_model.dart';
 import 'package:on_off/ui/provider/ui_provider.dart';
 import 'package:provider/provider.dart';
 
-class OnTodoInputComponent extends StatelessWidget {
+class OnTodoInputComponent extends StatefulWidget {
   OnTodoInputComponent({Key? key}) : super(key: key);
+
+  @override
+  State<OnTodoInputComponent> createState() => _OnTodoInputComponentState();
+}
+
+class _OnTodoInputComponentState extends State<OnTodoInputComponent> {
   final GlobalKey _widgetKey = GlobalKey();
 
   @override
