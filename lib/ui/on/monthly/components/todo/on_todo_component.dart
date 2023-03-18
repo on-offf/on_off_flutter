@@ -33,6 +33,7 @@ class OnTodoComponent extends StatelessWidget {
             ),
           Expanded(
             child: Slidable(
+              groupTag: 0,
               endActionPane: ActionPane(
                 extentRatio: .15,
                 motion: const ScrollMotion(),

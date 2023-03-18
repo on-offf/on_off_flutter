@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:on_off/domain/entity/on/on_todo.dart';
 import 'package:on_off/ui/on/monthly/components/todo/on_todo_component.dart';
 import 'package:on_off/ui/on/monthly/on_monthly_view_model.dart';
@@ -32,35 +33,37 @@ class OnTodoComponents extends StatelessWidget {
     return SizedBox(
       key: viewModel.state.todoComponentsKey,
       height: viewModel.state.todoComponentsHeight,
-      child: ReorderableListView.builder(
-        scrollController: viewModel.state.todoComponentsController,
-        buildDefaultDragHandles: viewModel.state.order == 'todoOrder',
-        itemBuilder: (context, index) {
-          OnTodo todo = viewModel.state.todos![index];
-          return OnTodoComponent(key: ObjectKey(todo.id), todo: todo);
-        },
-        itemCount: viewModel.state.todos!.length,
-        onReorder: (oldIndex, newIndex) async {
-          List<OnTodo> copyTodos = [];
-          int i = 0;
-          for (int index = 0; index < viewModel.state.todos!.length; index++) {
-            if (index == oldIndex) {
-              continue;
-            } else if (index == newIndex) {
-              OnTodo todo = viewModel.state.todos![oldIndex];
+      child: SlidableAutoCloseBehavior(
+        child: ReorderableListView.builder(
+          scrollController: viewModel.state.todoComponentsController,
+          buildDefaultDragHandles: viewModel.state.order == 'todoOrder',
+          itemBuilder: (context, index) {
+            OnTodo todo = viewModel.state.todos![index];
+            return OnTodoComponent(key: ObjectKey(todo.id), todo: todo);
+          },
+          itemCount: viewModel.state.todos!.length,
+          onReorder: (oldIndex, newIndex) async {
+            List<OnTodo> copyTodos = [];
+            int i = 0;
+            for (int index = 0; index < viewModel.state.todos!.length; index++) {
+              if (index == oldIndex) {
+                continue;
+              } else if (index == newIndex) {
+                OnTodo todo = viewModel.state.todos![oldIndex];
+                copyTodos.add(todo.copyWith(todoOrder: i++));
+              }
+
+              OnTodo todo = viewModel.state.todos![index];
               copyTodos.add(todo.copyWith(todoOrder: i++));
             }
 
-            OnTodo todo = viewModel.state.todos![index];
-            copyTodos.add(todo.copyWith(todoOrder: i++));
-          }
-
-          if (newIndex == viewModel.state.todos!.length) {
-            OnTodo todo = viewModel.state.todos![oldIndex];
-            copyTodos.add(todo.copyWith(todoOrder: newIndex));
-          }
-          await viewModel.updateTodos(copyTodos);
-        },
+            if (newIndex == viewModel.state.todos!.length) {
+              OnTodo todo = viewModel.state.todos![oldIndex];
+              copyTodos.add(todo.copyWith(todoOrder: newIndex));
+            }
+            await viewModel.updateTodos(copyTodos);
+          },
+        ),
       ),
     );
   }
