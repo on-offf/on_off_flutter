@@ -32,6 +32,9 @@ enum IconPath {
   expressionReverse,
   expressionSleep,
 
+  // on_main
+  todoSubmit,
+
   // setting
   settingArrowButton,
 
@@ -96,6 +99,9 @@ extension IconExtension on IconPath {
         return "assets/icons/stickers/expression_reverse.svg";
       case IconPath.expressionSleep:
         return "assets/icons/stickers/expression_sleep.svg";
+
+      case IconPath.todoSubmit:
+        return "assets/icons/on/todo_submit.svg";
 
       case IconPath.settingArrowButton:
         return "assets/icons/setting/setting_arrow_button.svg";
