@@ -50,6 +50,7 @@ flutter:
     - assets/icons/floating_button/
     - assets/icons/off_write/
     - assets/icons/stickers/
+    - assets/icons/on/
     - assets/icons/setting/
     - lib/ui/off/list/
 

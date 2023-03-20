@@ -53,6 +53,8 @@ class OnMonthlyViewModel extends UiProviderObserve {
   }
 
   saveContent(String title) async {
+    if (title.trim().isEmpty) return;
+
     DateTime dateTime = uiState!.focusedDay;
     OnTodo todo = await onTodoUseCase.insertOnTodo(dateTime, title);
 
