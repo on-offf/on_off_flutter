@@ -64,7 +64,8 @@ class FocusMonth extends StatelessWidget {
             ),
             SvgPicture.asset(
               IconPath.downArrow.name,
-              colorFilter: ColorFilter.mode(uiProvider.state.colorConst.getPrimary(), BlendMode.srcIn),
+              colorFilter: ColorFilter.mode(
+                  uiProvider.state.colorConst.getPrimary(), BlendMode.srcIn),
               width: 12,
             ),
           ],
@@ -88,8 +89,10 @@ class FocusMonth extends StatelessWidget {
             Positioned(
               left: isAccent ? offset.dx - 26 : offset.dx,
               top: offset.dy + size.height,
-              width: 162,
-              height: 171,
+              // width: 162,
+              // height: 171,
+              width: 188,
+              height: 195,
               child: Material(
                 color: Colors.transparent,
                 child: Container(
@@ -122,7 +125,9 @@ class FocusMonth extends StatelessWidget {
                                 IconPath.previousYearButton.name,
                                 height: 11,
                                 width: 11,
-                                colorFilter: ColorFilter.mode(uiProvider.state.colorConst.getPrimary(), BlendMode.srcIn),
+                                colorFilter: ColorFilter.mode(
+                                    uiProvider.state.colorConst.getPrimary(),
+                                    BlendMode.srcIn),
                               ),
                             ),
                           ),
@@ -131,7 +136,9 @@ class FocusMonth extends StatelessWidget {
                                 top: 0.0, bottom: 0, left: 0, right: 0),
                             child: Text(
                               "$year",
-                              style: kSubtitle3,
+                              style: kSubtitle3.copyWith(
+                                  color:
+                                      uiProvider.state.colorConst.getPrimary()),
                             ),
                           ),
                           Padding(
@@ -146,7 +153,9 @@ class FocusMonth extends StatelessWidget {
                                 IconPath.nextYearButton.name,
                                 height: 11,
                                 width: 11,
-                                colorFilter: ColorFilter.mode(uiProvider.state.colorConst.getPrimary(), BlendMode.srcIn),
+                                colorFilter: ColorFilter.mode(
+                                    uiProvider.state.colorConst.getPrimary(),
+                                    BlendMode.srcIn),
                               ),
                             ),
                           ),
@@ -188,6 +197,21 @@ class FocusMonth extends StatelessWidget {
                           width: 16,
                         ),
                       ]),
+                      // Expanded(
+                      //   child: GridView.builder(
+                      //     itemCount: 12,
+                      //     gridDelegate:
+                      //         const SliverGridDelegateWithFixedCrossAxisCount(
+                      //       crossAxisCount: 4, //1 개의 행에 보여줄 item 개수
+                      //       childAspectRatio: 1 / 1, //item 의 가로 2, 세로 1 의 비율
+                      //       mainAxisSpacing: 15, //수평 Padding
+                      //       crossAxisSpacing: 15, //수직 Padding
+                      //     ),
+                      //     itemBuilder: (BuildContext _, int i) {
+                      //       return monthSelectButton(year, (i + 1).toString());
+                      //     },
+                      //   ),
+                      // ),
                     ],
                   ),
                 ),
@@ -206,7 +230,7 @@ class FocusMonth extends StatelessWidget {
 
     return Expanded(
       child: SizedBox(
-        height: 31,
+        height: 41,
         child: TextButton(
           onPressed: () {
             uiProvider
