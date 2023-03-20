@@ -46,47 +46,7 @@ class OnMonthlyItem extends StatelessWidget {
             ),
           ],
         ),
-        Column(
-          children: [
-            OnTodoComponentContainer(),
-            if (viewModel.state.multiDeleteStatus)
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  GestureDetector(
-                    onTap: () {
-                      viewModel.updateMultiDeleteStatus();
-                    },
-                    child: Container(
-                      height: 40,
-                      width: 200,
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        color: Colors.grey[500],
-                      ),
-                      child: const Text('취소'),
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      viewModel.deleteMultiOnTodo();
-                    },
-                    child: Container(
-                      height: 40,
-                      width: 200,
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        color: Colors.grey[500],
-                      ),
-                      child: const Text('전체 삭제'),
-                    ),
-                  ),
-                ],
-              ),
-          ],
-        ),
+        const OnTodoComponentContainer(),
       ],
     );
   }

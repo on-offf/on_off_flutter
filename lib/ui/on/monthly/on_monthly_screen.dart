@@ -4,6 +4,7 @@ import 'package:on_off/ui/components/focus_month.dart';
 import 'package:on_off/ui/components/monthly_calendar.dart';
 import 'package:on_off/ui/components/off_appbar.dart';
 import 'package:on_off/ui/off/monthly/off_monthly_screen.dart';
+import 'package:on_off/ui/on/monthly/components/on_multi_delete_container.dart';
 import 'package:on_off/ui/on/monthly/components/on_monthly_item_scroller.dart';
 import 'package:on_off/ui/provider/ui_provider.dart';
 import 'package:provider/provider.dart';
@@ -75,6 +76,8 @@ class _OnMonthlyScreenState extends State<OnMonthlyScreen> {
               },
               child: OnMonthlyItemScroller(),
             ),
+            if (viewModel.state.multiDeleteStatus)
+              const OnMultiDeleteContainer(),
             SizedBox(
               height: viewModel.state.keyboardHeight,
             ),
