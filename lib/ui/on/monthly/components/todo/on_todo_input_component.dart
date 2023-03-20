@@ -42,6 +42,7 @@ class _OnTodoInputComponentState extends State<OnTodoInputComponent> {
       style:
           kSubtitle2.copyWith(color: Colors.black, fontWeight: FontWeight.bold),
       controller: createTodoTextFormFieldController,
+      maxLength: 20,
       decoration: InputDecoration(
         hintText: "오늘의 리스트를 추가해 주세요!",
         hintStyle: kSubtitle2.copyWith(fontWeight: FontWeight.bold),
@@ -53,6 +54,7 @@ class _OnTodoInputComponentState extends State<OnTodoInputComponent> {
             color: uiProvider.state.colorConst.getPrimary(),
           ),
         ),
+        counterText: "", //글자수 세는것 안보이게
       ),
       onFieldSubmitted: (value) async {
         await viewModel.saveContent(value);
@@ -86,7 +88,8 @@ class _OnTodoInputComponentState extends State<OnTodoInputComponent> {
     });
   }
 
-  void updateKeyboardHeight(OnMonthlyViewModel viewModel, double keyboardHeight, double upperSize) {
+  void updateKeyboardHeight(
+      OnMonthlyViewModel viewModel, double keyboardHeight, double upperSize) {
     viewModel.updateKeyboardHeight(keyboardHeight);
     viewModel.state.onMonthlyScreenScrollerController?.animateTo(
       keyboardHeight - upperSize,
