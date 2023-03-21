@@ -59,11 +59,12 @@ class MyApp extends StatelessWidget {
         builder: (context, child) => ResponsiveWrapper.builder(
           child,
           // minWidth: 480,
-          minWidth: 440,
+          minWidth: 390,
           defaultScale: true,
           breakpoints: [
             // const ResponsiveBreakpoint.resize(480, name: MOBILE),
-            const ResponsiveBreakpoint.resize(440, name: MOBILE),
+            const ResponsiveBreakpoint.resize(390, name: MOBILE),
+            const ResponsiveBreakpoint.autoScale(800, name: TABLET),
           ],
           background: Container(color: const Color(0xFFF5F5F5)),
         ),
