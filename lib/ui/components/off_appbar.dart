@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:on_off/domain/icon/icon_path.dart';
+import 'package:on_off/ui/on/monthly/on_monthly_view_model.dart';
 import 'package:on_off/ui/provider/ui_provider.dart';
 import 'package:on_off/ui/setting/home/setting_screen.dart';
 import 'package:on_off/ui/setting/home/setting_view_model.dart';
@@ -15,6 +16,7 @@ PreferredSize offAppBar(
 }) {
   final uiProvider = context.watch<UiProvider>();
   final settingViewModel = context.watch<SettingViewModel>();
+  final OnMonthlyViewModel onMonthlyViewModel = context.watch<OnMonthlyViewModel>();
 
   return PreferredSize(
     preferredSize: const Size.fromHeight(77),
@@ -42,6 +44,8 @@ PreferredSize offAppBar(
         settingButton
             ? GestureDetector(
                 onTap: () async {
+                  onMonthlyViewModel.unFocus();
+
                   uiProvider.changeCalendarFormat(CalendarFormat.month);
 
                   if (settingViewModel.state.setting.isScreenLock == 1) {
@@ -60,6 +64,8 @@ PreferredSize offAppBar(
                     height: 24.76,
                   ),
                   onPressed: () async {
+                    onMonthlyViewModel.unFocus();
+
                     uiProvider.changeCalendarFormat(CalendarFormat.month);
 
                     if (settingViewModel.state.setting.isScreenLock == 1) {

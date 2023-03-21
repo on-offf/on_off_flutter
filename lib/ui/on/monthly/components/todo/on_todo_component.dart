@@ -34,7 +34,7 @@ class OnTodoComponent extends StatelessWidget {
           Expanded(
             child: Slidable(
               groupTag: 0,
-              endActionPane: ActionPane(
+              endActionPane: viewModel.state.multiDeleteStatus ? null : ActionPane(
                 extentRatio: .15,
                 motion: const ScrollMotion(),
                 children: [
@@ -52,20 +52,21 @@ class OnTodoComponent extends StatelessWidget {
               ),
               child: Row(
                 children: [
-                  Checkbox(
-                    value: todo.status == 1 ? true : false,
-                    onChanged: (bool? value) async {
-                      await viewModel.changeTodoStatus(todo);
-                    },
-                    activeColor: uiProvider.state.colorConst.getPrimary(),
-                    side: const BorderSide(
-                      color: Color(0xffD9D9D9),
-                      width: 1,
+                  if (!viewModel.state.multiDeleteStatus)
+                    Checkbox(
+                      value: todo.status == 1 ? true : false,
+                      onChanged: (bool? value) async {
+                        await viewModel.changeTodoStatus(todo);
+                      },
+                      activeColor: uiProvider.state.colorConst.getPrimary(),
+                      side: const BorderSide(
+                        color: Color(0xffD9D9D9),
+                        width: 1,
+                      ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(5),
+                      ),
                     ),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(5),
-                    ),
-                  ),
                   Text(
                     todo.title,
                     style: todo.status == 1

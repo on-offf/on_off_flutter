@@ -3,6 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 import 'package:on_off/constants/constants_text_style.dart';
 import 'package:on_off/domain/icon/icon_path.dart';
+import 'package:on_off/ui/on/monthly/on_monthly_view_model.dart';
 import 'package:on_off/ui/provider/ui_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -27,12 +28,14 @@ class FocusMonth extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     uiProvider = context.watch<UiProvider>();
+    OnMonthlyViewModel onMonthlyViewModel = context.watch<OnMonthlyViewModel>();
 
     return Padding(
       padding: const EdgeInsets.only(left: 5, bottom: 17),
       child: GestureDetector(
         onTap: () {
           if (!showOverlay) return;
+          onMonthlyViewModel.unFocus();
 
           uiProvider.focusMonthSelected();
           if (uiProvider.state.focusMonthSelected) {

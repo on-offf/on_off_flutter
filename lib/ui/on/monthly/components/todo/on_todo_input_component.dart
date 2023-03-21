@@ -108,23 +108,29 @@ class _OnTodoInputComponentState extends State<OnTodoInputComponent> {
         return;
       }
 
-      RenderBox renderBox =
-          _widgetKey.currentContext?.findRenderObject() as RenderBox;
+      var box = _widgetKey.currentContext?.findRenderObject();
+      if (box == null) return;
+
+      RenderBox renderBox = box as RenderBox;
       Offset offset = renderBox.localToGlobal(Offset.zero);
       double widgetHeight = renderBox.size.height;
 
-      double upperSize = (offset.dy + (widgetHeight)) / 2;
       Future.delayed(const Duration(milliseconds: 450), () {
-        double keyboardHeight = MediaQuery.of(context).viewInsets.bottom + upperSize;
-        updateKeyboardHeight(viewModel, keyboardHeight, upperSize);
+        double keyboardHeight = MediaQuery.of(context).viewInsets.bottom;
+
+        double y = offset.dy + widgetHeight + 40;
+        if (MediaQuery.of(context).size.height - y > keyboardHeight) return;
+
+        updateKeyboardHeight(viewModel, keyboardHeight, keyboardHeight - (MediaQuery.of(context).size.height - y));
       });
     });
   }
 
   void updateKeyboardHeight(OnMonthlyViewModel viewModel, double keyboardHeight, double upperSize) {
     viewModel.updateKeyboardHeight(keyboardHeight);
+    print(upperSize);
     viewModel.state.onMonthlyScreenScrollerController?.animateTo(
-      keyboardHeight - upperSize,
+      upperSize,
       duration: const Duration(
         milliseconds: 200,
       ),

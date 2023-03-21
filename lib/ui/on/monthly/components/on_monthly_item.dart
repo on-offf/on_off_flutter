@@ -53,7 +53,7 @@ class OnMonthlyItem extends StatelessWidget {
 
   Future<dynamic> _buildBottomSheet(
       BuildContext context, OnMonthlyViewModel viewModel, UiProvider uiProvider) {
-    viewModel.todoInputUnFocus();
+    viewModel.unFocus();
     return showModalBottomSheet(
       context: context,
       backgroundColor: Colors.transparent,
