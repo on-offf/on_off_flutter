@@ -54,7 +54,7 @@ class OnTodoComponents extends StatelessWidget {
           buildDefaultDragHandles: viewModel.state.order == 'todoOrder',
           itemBuilder: (context, index) {
             OnTodo todo = viewModel.state.todos![index];
-            return OnTodoComponent(key: ObjectKey(todo.id), todo: todo);
+            return OnTodoComponent(key: ObjectKey(todo.id), onTodo: todo);
           },
           itemCount: viewModel.state.todos!.length,
           onReorder: (oldIndex, newIndex) async {

@@ -101,7 +101,6 @@ class OnMonthlyViewModel extends UiProviderObserve {
     });
 
     _state = _state.copyWith(todos: todos);
-    notifyListeners();
   }
 
   changeTodosByStatus(int status) async {
@@ -174,7 +173,6 @@ class OnMonthlyViewModel extends UiProviderObserve {
     }
 
     _state = _state.copyWith(multiDeleteTodoIds: multiDeleteTodoIds);
-    notifyListeners();
   }
 
   updateKeyboardHeight(double keyboardHeight) {

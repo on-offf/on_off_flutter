@@ -128,7 +128,6 @@ class _OnTodoInputComponentState extends State<OnTodoInputComponent> {
 
   void updateKeyboardHeight(OnMonthlyViewModel viewModel, double keyboardHeight, double upperSize) {
     viewModel.updateKeyboardHeight(keyboardHeight);
-    print(upperSize);
     viewModel.state.onMonthlyScreenScrollerController?.animateTo(
       upperSize,
       duration: const Duration(
