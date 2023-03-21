@@ -80,8 +80,6 @@ class _OnMonthlyScreenState extends State<OnMonthlyScreen> {
               child: OnMonthlyItemScroller(),
             ),
             if (viewModel.state.multiDeleteStatus)
-            const Expanded(child: SizedBox()),
-            if (viewModel.state.multiDeleteStatus)
               const OnMultiDeleteContainer(),
             SizedBox(height: viewModel.state.keyboardHeight),
           ],

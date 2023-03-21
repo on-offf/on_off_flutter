@@ -78,9 +78,6 @@ class _OnTodoInputComponentState extends State<OnTodoInputComponent> {
       double upperSize = (offset.dy + (widgetHeight)) / 2;
       Future.delayed(const Duration(milliseconds: 450), () {
         double keyboardHeight = MediaQuery.of(context).viewInsets.bottom + upperSize;
-        print(keyboardHeight);
-        print(offset.dy);
-
         updateKeyboardHeight(viewModel, keyboardHeight, upperSize);
       });
     });
