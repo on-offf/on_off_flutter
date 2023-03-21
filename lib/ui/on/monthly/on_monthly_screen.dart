@@ -36,11 +36,14 @@ class _OnMonthlyScreenState extends State<OnMonthlyScreen> {
         context,
         isPrevButton: false,
       ),
-      floatingActionButton: OnFloatingActionButton(
-        onOffButtonNavigator: () {
-          Navigator.pushReplacementNamed(context, OffMonthlyScreen.routeName);
-        },
-      ),
+      floatingActionButton: viewModel.state.multiDeleteStatus
+          ? null
+          : OnFloatingActionButton(
+              onOffButtonNavigator: () {
+                Navigator.pushReplacementNamed(
+                    context, OffMonthlyScreen.routeName);
+              },
+            ),
       body: SingleChildScrollView(
         controller: viewModel.state.onMonthlyScreenScrollerController,
         physics: const NeverScrollableScrollPhysics(),
@@ -56,10 +59,10 @@ class _OnMonthlyScreenState extends State<OnMonthlyScreen> {
                   FocusMonth(),
                   AnimatedContainer(
                     duration: const Duration(milliseconds: 300),
-                    height:
-                        uiProvider.state.calendarFormat == CalendarFormat.month
-                            ? 320
-                            : 70,
+                    height: uiProvider.state.calendarFormat ==
+                            CalendarFormat.month
+                        ? 320
+                        : 70,
                     child: const SingleChildScrollView(
                       child: MonthlyCalendar(),
                     ),
@@ -77,10 +80,10 @@ class _OnMonthlyScreenState extends State<OnMonthlyScreen> {
               child: OnMonthlyItemScroller(),
             ),
             if (viewModel.state.multiDeleteStatus)
+            const Expanded(child: SizedBox()),
+            if (viewModel.state.multiDeleteStatus)
               const OnMultiDeleteContainer(),
-            SizedBox(
-              height: viewModel.state.keyboardHeight,
-            ),
+            SizedBox(height: viewModel.state.keyboardHeight),
           ],
         ),
       ),

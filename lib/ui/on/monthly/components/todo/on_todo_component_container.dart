@@ -18,7 +18,7 @@ class OnTodoComponentContainer extends StatelessWidget {
           const OnTodoInputComponent(),
         if (!viewModel.state.multiDeleteStatus)
           const SizedBox(height: 10),
-        const OnTodoComponents(),
+        OnTodoComponents(key: GlobalKey()),
       ],
     );
   }

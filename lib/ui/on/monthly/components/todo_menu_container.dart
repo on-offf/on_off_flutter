@@ -5,8 +5,8 @@ import 'package:on_off/ui/on/monthly/on_monthly_view_model.dart';
 import 'package:on_off/ui/provider/ui_provider.dart';
 import 'package:provider/provider.dart';
 
-class TodoBottomSheetMenu extends StatelessWidget {
-  const TodoBottomSheetMenu({Key? key}) : super(key: key);
+class TodoMenuContainer extends StatelessWidget {
+  const TodoMenuContainer({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +14,7 @@ class TodoBottomSheetMenu extends StatelessWidget {
     UiProvider uiProvider = context.watch<UiProvider>();
 
     return Container(
-      height: 400,
+      height: 305,
       padding: const EdgeInsets.only(
         top: 43,
       ),

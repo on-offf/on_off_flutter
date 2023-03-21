@@ -8,13 +8,16 @@ import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class OnTodoComponents extends StatelessWidget {
-  const OnTodoComponents({Key? key}) : super(key: key);
+  OnTodoComponents({required Key key}) : super(key: key);
+
+
 
   @override
   Widget build(BuildContext context) {
-    OnMonthlyViewModel viewModel = context.watch<OnMonthlyViewModel>();
-    UiProvider uiProvider = context.watch<UiProvider>();
+  OnMonthlyViewModel viewModel = context.watch<OnMonthlyViewModel>();
+  UiProvider uiProvider = context.watch<UiProvider>();
 
+    // viewModel.updateTodoComponentsHeight(y)
     viewModel.generateTodoComponentsState();
     viewModel.state.todoComponentsController!.addListener(() {
       if (uiProvider.state.calendarFormat == CalendarFormat.week) {
@@ -32,7 +35,20 @@ class OnTodoComponents extends StatelessWidget {
       }
     });
 
-    return SizedBox(
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      RenderBox renderBox = (key as GlobalKey).currentContext?.findRenderObject() as RenderBox;
+
+      double displayHeight = MediaQuery.of(context).size.height;
+      double y = renderBox.localToGlobal(Offset.zero).dy;
+
+      double todoComponentsHeight = displayHeight - y - 30;
+      if (viewModel.state.multiDeleteStatus) {
+        todoComponentsHeight -= 153;
+      }
+      viewModel.updateTodoComponentsHeight(todoComponentsHeight);
+    });
+
+    return Container(
       key: viewModel.state.todoComponentsKey,
       height: viewModel.state.todoComponentsHeight,
       child: SlidableAutoCloseBehavior(

@@ -46,6 +46,12 @@ class OnMonthlyViewModel extends UiProviderObserve {
     );
   }
 
+  updateTodoComponentsHeight(double height) {
+    if (_state.todoComponentsHeight == height) return;
+    _state = _state.copyWith(todoComponentsHeight: height);
+    notifyListeners();
+  }
+
   todoInputUnFocus() {
     if (state.todoInputFocusNode != null && state.todoInputFocusNode!.hasFocus) {
       state.todoInputFocusNode!.unfocus();
@@ -139,9 +145,7 @@ class OnMonthlyViewModel extends UiProviderObserve {
   }
 
   updateTodos(List<OnTodo> todos) async {
-    double todosTotalHeight = todos.length * 40;
-    _state =
-        _state.copyWith(todos: todos, todoComponentsHeight: todosTotalHeight);
+    _state = _state.copyWith(todos: todos);
     notifyListeners();
     onTodoUseCase.updateTodoList(todos);
   }

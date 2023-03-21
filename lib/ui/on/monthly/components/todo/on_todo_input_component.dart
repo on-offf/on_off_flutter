@@ -6,7 +6,7 @@ import 'package:on_off/ui/provider/ui_provider.dart';
 import 'package:provider/provider.dart';
 
 class OnTodoInputComponent extends StatefulWidget {
-  OnTodoInputComponent({Key? key}) : super(key: key);
+  const OnTodoInputComponent({Key? key}) : super(key: key);
 
   @override
   State<OnTodoInputComponent> createState() => _OnTodoInputComponentState();
@@ -77,12 +77,10 @@ class _OnTodoInputComponentState extends State<OnTodoInputComponent> {
 
       double upperSize = (offset.dy + (widgetHeight)) / 2;
       Future.delayed(const Duration(milliseconds: 450), () {
-        double keyboardHeight = MediaQuery.of(context).viewInsets.bottom;
+        double keyboardHeight = MediaQuery.of(context).viewInsets.bottom + upperSize;
+        print(keyboardHeight);
+        print(offset.dy);
 
-        if (offset.dy < keyboardHeight) {
-          viewModel.updateKeyboardHeight(0);
-          return;
-        }
         updateKeyboardHeight(viewModel, keyboardHeight, upperSize);
       });
     });
