@@ -154,7 +154,7 @@ class _OffWriteScreenState extends State<OffWriteScreen> {
                     color: const Color.fromRGBO(230, 247, 252, .3),
                     borderRadius: BorderRadius.circular(10),
                   ),
-                  height: 500,
+                  height: 1000,
                   child: Column(
                     children: [
                       const SizedBox(

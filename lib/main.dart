@@ -38,7 +38,8 @@ class MyApp extends StatelessWidget {
     final uiProvider = context.watch<UiProvider>();
     final state = uiProvider.state;
 
-    final SettingViewModel settingViewModel = Provider.of<SettingViewModel>(context);
+    final SettingViewModel settingViewModel =
+        Provider.of<SettingViewModel>(context);
 
     return GestureDetector(
       onTap: () {
@@ -57,10 +58,13 @@ class MyApp extends StatelessWidget {
         routes: Routes.routes,
         builder: (context, child) => ResponsiveWrapper.builder(
           child,
-          minWidth: 480,
+          // minWidth: 480,
+          minWidth: 390,
           defaultScale: true,
           breakpoints: [
-            const ResponsiveBreakpoint.resize(480, name: MOBILE),
+            // const ResponsiveBreakpoint.resize(480, name: MOBILE),
+            const ResponsiveBreakpoint.resize(390, name: MOBILE),
+            const ResponsiveBreakpoint.autoScale(800, name: TABLET),
           ],
           background: Container(color: const Color(0xFFF5F5F5)),
         ),
@@ -69,7 +73,8 @@ class MyApp extends StatelessWidget {
   }
 
   String checkInitScreen(SettingViewModel settingViewModel) {
-    if (settingViewModel.state.setting.isOnOffSwitch == 0) return OffMonthlyScreen.routeName;
+    if (settingViewModel.state.setting.isOnOffSwitch == 0)
+      return OffMonthlyScreen.routeName;
     var switchStartHour = settingViewModel.state.setting.switchStartHour;
     var switchStartMinutes = settingViewModel.state.setting.switchStartMinutes;
     var switchEndHour = settingViewModel.state.setting.switchEndHour;
