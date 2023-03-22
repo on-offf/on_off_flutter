@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:on_off/constants/constants_text_style.dart';
 import 'package:on_off/ui/on/monthly/on_monthly_view_model.dart';
 import 'package:on_off/ui/provider/ui_provider.dart';
 import 'package:provider/provider.dart';
@@ -25,11 +26,10 @@ class OnMultiDeleteContainer extends StatelessWidget {
         ),
         child: Container(
           decoration: const BoxDecoration(
-            borderRadius: BorderRadius.vertical(
-              top: Radius.circular(25),
-            ),
-            color: Colors.white
-          ),
+              borderRadius: BorderRadius.vertical(
+                top: Radius.circular(25),
+              ),
+              color: Colors.white),
           child: Container(
             height: 142,
             padding: const EdgeInsets.only(
@@ -61,7 +61,12 @@ class OnMultiDeleteContainer extends StatelessWidget {
                       ),
                       color: Colors.white,
                     ),
-                    child: const Text('취소'),
+                    child: Text(
+                      '뒤로가기',
+                      style: kBody2.copyWith(
+                        color: uiProvider.state.colorConst.getPrimary(),
+                      ),
+                    ),
                   ),
                 ),
                 const SizedBox(width: 9),
@@ -81,7 +86,12 @@ class OnMultiDeleteContainer extends StatelessWidget {
                       ),
                       color: Colors.white,
                     ),
-                    child: const Text('전체 삭제'),
+                    child: Text(
+                      '선택한 일정 삭제하기',
+                      style: kBody2.copyWith(
+                        color: uiProvider.state.colorConst.getPrimary(),
+                      ),
+                    ),
                   ),
                 ),
               ],

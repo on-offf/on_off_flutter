@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:on_off/constants/constants_text_style.dart';
 import 'package:on_off/domain/entity/on/on_todo.dart';
 import 'package:on_off/ui/on/monthly/components/todo/on_todo_component.dart';
 import 'package:on_off/ui/on/monthly/on_monthly_view_model.dart';
@@ -12,20 +13,20 @@ class OnTodoComponents extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-  OnMonthlyViewModel viewModel = context.watch<OnMonthlyViewModel>();
-  UiProvider uiProvider = context.watch<UiProvider>();
+    OnMonthlyViewModel viewModel = context.watch<OnMonthlyViewModel>();
+    UiProvider uiProvider = context.watch<UiProvider>();
 
     viewModel.generateTodoComponentsState();
     viewModel.state.todoComponentsController!.addListener(() {
       if (uiProvider.state.calendarFormat == CalendarFormat.week) {
-        if (viewModel.state.todoComponentsController!.position.pixels <
-            -60) {
+        if (viewModel.state.todoComponentsController!.position.pixels < -60) {
           viewModel.unFocus();
           uiProvider.changeCalendarFormat(CalendarFormat.month);
         }
       } else {
         if (viewModel.state.todoComponentsController!.position.pixels - 60 >
-            viewModel.state.todoComponentsController!.position.maxScrollExtent) {
+            viewModel
+                .state.todoComponentsController!.position.maxScrollExtent) {
           viewModel.unFocus();
           uiProvider.changeCalendarFormat(CalendarFormat.week);
         }
@@ -33,7 +34,8 @@ class OnTodoComponents extends StatelessWidget {
     });
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      RenderBox renderBox = (key as GlobalKey).currentContext?.findRenderObject() as RenderBox;
+      RenderBox renderBox =
+          (key as GlobalKey).currentContext?.findRenderObject() as RenderBox;
 
       double displayHeight = MediaQuery.of(context).size.height;
       double y = renderBox.localToGlobal(Offset.zero).dy;
@@ -45,7 +47,7 @@ class OnTodoComponents extends StatelessWidget {
       viewModel.updateTodoComponentsHeight(todoComponentsHeight);
     });
 
-    return Container(
+    return SizedBox(
       key: viewModel.state.todoComponentsKey,
       height: viewModel.state.todoComponentsHeight,
       child: SlidableAutoCloseBehavior(
@@ -74,18 +76,27 @@ class OnTodoComponents extends StatelessWidget {
                     ),
                     color: Colors.white,
                   ),
-                  child: const Text('전체삭제하기'),
+                  child: Text(
+                    '전체삭제하기',
+                    style: kBody2.copyWith(
+                      color: uiProvider.state.colorConst.getPrimary(),
+                    ),
+                  ),
                 ),
               );
             }
             OnTodo todo = viewModel.state.todos![index];
             return OnTodoComponent(key: ObjectKey(todo.id), onTodo: todo);
           },
-          itemCount: viewModel.state.multiDeleteStatus ? viewModel.state.todos!.length + 1 : viewModel.state.todos!.length,
+          itemCount: viewModel.state.multiDeleteStatus
+              ? viewModel.state.todos!.length + 1
+              : viewModel.state.todos!.length,
           onReorder: (oldIndex, newIndex) async {
             List<OnTodo> copyTodos = [];
             int i = 0;
-            for (int index = 0; index < viewModel.state.todos!.length; index++) {
+            for (int index = 0;
+                index < viewModel.state.todos!.length;
+                index++) {
               if (index == oldIndex) {
                 continue;
               } else if (index == newIndex) {
