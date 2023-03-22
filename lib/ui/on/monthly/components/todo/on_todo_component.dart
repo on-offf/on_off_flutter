@@ -32,31 +32,48 @@ class _OnTodoComponentState extends State<OnTodoComponent> {
           if (viewModel.state.multiDeleteStatus)
             Checkbox(
               value: deleteChecked,
+              checkColor: Colors.transparent,
+              fillColor: MaterialStateProperty.resolveWith(
+                  (Set<MaterialState> states) {
+                if (states.contains(MaterialState.selected)) {
+                  return uiProvider.state.colorConst.getPrimary();
+                }
+                return const Color.fromRGBO(0, 0, 0, .23);
+              }),
+              shape: const CircleBorder(
+                side: BorderSide(
+                  width: 1,
+                  color: Colors.transparent,
+                ),
+              ),
+              visualDensity: VisualDensity.compact,
+              materialTapTargetSize: MaterialTapTargetSize.padded,
               onChanged: (isChecked) async {
                 setState(() => deleteChecked = isChecked);
                 viewModel.updateMultiDeleteTodoIdCheck(todo.id!, isChecked!);
               },
-              checkColor: const Color(0xffFFFFFF),
             ),
           Expanded(
             child: Slidable(
               groupTag: 0,
-              endActionPane: viewModel.state.multiDeleteStatus ? null : ActionPane(
-                extentRatio: .15,
-                motion: const ScrollMotion(),
-                children: [
-                  IconButton(
-                    onPressed: () async {
-                      await viewModel.deleteTodo(todo);
-                    },
-                    icon: SvgPicture.asset(
-                      width: 18,
-                      height: 18,
-                      IconPath.trashCan.name,
+              endActionPane: viewModel.state.multiDeleteStatus
+                  ? null
+                  : ActionPane(
+                      extentRatio: .15,
+                      motion: const ScrollMotion(),
+                      children: [
+                        IconButton(
+                          onPressed: () async {
+                            await viewModel.deleteTodo(todo);
+                          },
+                          icon: SvgPicture.asset(
+                            width: 18,
+                            height: 18,
+                            IconPath.trashCan.name,
+                          ),
+                        ),
+                      ],
                     ),
-                  ),
-                ],
-              ),
               child: Row(
                 children: [
                   if (!viewModel.state.multiDeleteStatus)
@@ -81,9 +98,9 @@ class _OnTodoComponentState extends State<OnTodoComponent> {
                     todo.title,
                     style: todo.status == 1
                         ? kBody2.copyWith(
-                      color: const Color(0xffb3b3b3),
-                      decoration: TextDecoration.lineThrough,
-                    )
+                            color: const Color(0xffb3b3b3),
+                            decoration: TextDecoration.lineThrough,
+                          )
                         : kBody2,
                   ),
                 ],
