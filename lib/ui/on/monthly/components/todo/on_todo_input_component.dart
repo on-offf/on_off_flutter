@@ -104,12 +104,12 @@ class _OnTodoInputComponentState extends State<OnTodoInputComponent> {
 
   keyboardEvent(BuildContext context, OnMonthlyViewModel viewModel) {
     KeyboardVisibilityController().onChange.listen((event) {
-      if (ModalRoute.of(context)!.settings.name != OnMonthlyScreen.routeName) {
+      if (!event) {
+        viewModel.updateKeyboardHeight(0);
         return;
       }
 
-      if (!event) {
-        viewModel.updateKeyboardHeight(0);
+      if (!focusNode.hasFocus) {
         return;
       }
 

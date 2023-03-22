@@ -41,7 +41,7 @@ class OnTodoComponents extends StatelessWidget {
       double displayHeight = MediaQuery.of(context).size.height;
       double y = renderBox.localToGlobal(Offset.zero).dy;
 
-      double todoComponentsHeight = displayHeight - y - 15;
+      double todoComponentsHeight = displayHeight - y;
       if (viewModel.state.multiDeleteStatus) {
         todoComponentsHeight -= 142;
       }
@@ -99,7 +99,7 @@ class OnTodoComponents extends StatelessWidget {
             OnTodo todo = viewModel.state.todos![index];
             return OnTodoComponent(key: ObjectKey(todo.id), onTodo: todo);
           },
-          itemCount: viewModel.state.multiDeleteStatus
+          itemCount: viewModel.state.multiDeleteStatus && viewModel.state.todos!.length > 0
               ? viewModel.state.todos!.length + 1
               : viewModel.state.todos!.length,
           onReorder: (oldIndex, newIndex) async {

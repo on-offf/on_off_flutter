@@ -191,7 +191,9 @@ class OnMonthlyViewModel extends UiProviderObserve {
   }
 
   updateKeyboardHeight(double keyboardHeight) {
-    _state.onMonthlyScreenScrollerController!.animateTo(
+    if (_state.onMonthlyScreenScrollerController == null || !_state.onMonthlyScreenScrollerController!.hasClients) return;
+
+    _state.onMonthlyScreenScrollerController?.animateTo(
       0,
       duration: const Duration(milliseconds: 450),
       curve: Curves.ease,
