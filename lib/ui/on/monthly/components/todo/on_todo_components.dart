@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:on_off/constants/constants_text_style.dart';
 import 'package:on_off/domain/entity/on/on_todo.dart';
+import 'package:on_off/ui/components/simple_dialog.dart';
 import 'package:on_off/ui/on/monthly/components/todo/on_todo_component.dart';
 import 'package:on_off/ui/on/monthly/on_monthly_view_model.dart';
 import 'package:on_off/ui/provider/ui_provider.dart';
@@ -58,8 +59,18 @@ class OnTodoComponents extends StatelessWidget {
             if (index == viewModel.state.todos!.length) {
               return GestureDetector(
                 key: GlobalKey(),
-                onTap: () {
-                  viewModel.deleteAllTodo();
+                onTap: () async {
+                  bool result = await simpleConfirmButtonDialog(
+                    context,
+                    primaryColor: uiProvider.state.colorConst.getPrimary(),
+                    canvasColor: uiProvider.state.colorConst.canvas,
+                    message: "선택한 일정을 \n진짜로 삭제하시겠습니까?",
+                    trueButton: "네",
+                    falseButton: "뒤로가기",
+                    width: 215,
+                    height: 134,
+                  );
+                  if (result) viewModel.deleteAllTodo();
                 },
                 child: Container(
                   width: 309,

@@ -70,7 +70,10 @@ class OnMonthlyViewModel extends UiProviderObserve {
     OnTodo todo = await onTodoUseCase.insertOnTodo(dateTime, title);
 
     List<OnTodo> todos = [];
-    todos.add(todo);
+
+    if (_state.showStatus != 1) {
+      todos.add(todo);
+    }
     for (var element in _state.todos!) {
       todos.add(element);
     }

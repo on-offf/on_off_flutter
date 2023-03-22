@@ -84,6 +84,8 @@ Future<dynamic> simpleConfirmButtonDialog(
   required Color primaryColor,
   required Color canvasColor,
   required String message,
+  String trueButton = "예",
+  String falseButton = "아니오",
   double width = 200,
   double height = 100,
 }) {
@@ -138,7 +140,7 @@ Future<dynamic> simpleConfirmButtonDialog(
                     ),
                   ),
                   child: Text(
-                    '예',
+                    trueButton,
                     style: kSubtitle3.copyWith(
                       color: primaryColor,
                     ),
@@ -162,7 +164,7 @@ Future<dynamic> simpleConfirmButtonDialog(
                     ),
                   ),
                   child: Text(
-                    '아니요',
+                    falseButton,
                     style: kSubtitle3.copyWith(
                       color: primaryColor,
                     ),

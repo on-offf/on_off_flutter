@@ -84,6 +84,10 @@ class _OnTodoComponentState extends State<OnTodoComponent> {
                         setState(() {
                           todo = todo.copyWith(status: value! ? 1 : 0);
                         });
+
+                        if (viewModel.state.showStatus != 2) {
+                          viewModel.notifyListeners();
+                        }
                       },
                       activeColor: uiProvider.state.colorConst.getPrimary(),
                       side: const BorderSide(
