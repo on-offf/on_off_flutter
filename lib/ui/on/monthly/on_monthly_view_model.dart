@@ -148,6 +148,18 @@ class OnMonthlyViewModel extends UiProviderObserve {
     notifyListeners();
   }
 
+  deleteAllTodo() async {
+    if (_state.todos == null || _state.todos!.isEmpty) return;
+
+    await onTodoUseCase.deleteMultiOnTodo(_state.todos!);
+    _state = _state.copyWith(
+      todos: [],
+      multiDeleteStatus: false,
+      multiDeleteTodoIds: {},
+    );
+    notifyListeners();
+  }
+
   updateTodos(List<OnTodo> todos) async {
     _state = _state.copyWith(todos: todos);
     notifyListeners();

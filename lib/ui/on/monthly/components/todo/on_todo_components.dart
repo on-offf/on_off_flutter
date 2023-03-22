@@ -38,7 +38,7 @@ class OnTodoComponents extends StatelessWidget {
       double displayHeight = MediaQuery.of(context).size.height;
       double y = renderBox.localToGlobal(Offset.zero).dy;
 
-      double todoComponentsHeight = displayHeight - y;
+      double todoComponentsHeight = displayHeight - y - 15;
       if (viewModel.state.multiDeleteStatus) {
         todoComponentsHeight -= 142;
       }
@@ -53,10 +53,35 @@ class OnTodoComponents extends StatelessWidget {
           scrollController: viewModel.state.todoComponentsController,
           buildDefaultDragHandles: viewModel.state.order == 'todoOrder',
           itemBuilder: (context, index) {
+            if (index == viewModel.state.todos!.length) {
+              return GestureDetector(
+                key: GlobalKey(),
+                onTap: () {
+                  viewModel.deleteAllTodo();
+                },
+                child: Container(
+                  width: 309,
+                  height: 56,
+                  margin: const EdgeInsets.only(
+                    bottom: 18,
+                  ),
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    border: Border.all(
+                      color: uiProvider.state.colorConst.getPrimary(),
+                      width: 1,
+                    ),
+                    color: Colors.white,
+                  ),
+                  child: const Text('전체삭제하기'),
+                ),
+              );
+            }
             OnTodo todo = viewModel.state.todos![index];
             return OnTodoComponent(key: ObjectKey(todo.id), onTodo: todo);
           },
-          itemCount: viewModel.state.todos!.length,
+          itemCount: viewModel.state.multiDeleteStatus ? viewModel.state.todos!.length + 1 : viewModel.state.todos!.length,
           onReorder: (oldIndex, newIndex) async {
             List<OnTodo> copyTodos = [];
             int i = 0;
