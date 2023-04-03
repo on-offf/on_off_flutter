@@ -4,6 +4,7 @@ import 'package:on_off/domain/model/OnTodoStatus.dart';
 import 'package:on_off/ui/on/monthly/on_monthly_view_model.dart';
 import 'package:on_off/ui/provider/ui_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:table_calendar/table_calendar.dart';
 
 class TodoMenuContainer extends StatelessWidget {
   const TodoMenuContainer({Key? key}) : super(key: key);
@@ -113,6 +114,7 @@ class TodoMenuContainer extends StatelessWidget {
           const SizedBox(height: 13),
           GestureDetector(
             onTap: () {
+              uiProvider.changeCalendarFormat(CalendarFormat.week);
               viewModel.updateMultiDeleteStatus();
               Navigator.pop(context);
             },
