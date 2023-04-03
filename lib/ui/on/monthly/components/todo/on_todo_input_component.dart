@@ -4,7 +4,6 @@ import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:on_off/constants/constants_text_style.dart';
 import 'package:on_off/domain/icon/icon_path.dart';
-import 'package:on_off/ui/on/monthly/on_monthly_screen.dart';
 import 'package:on_off/ui/on/monthly/on_monthly_view_model.dart';
 import 'package:on_off/ui/provider/ui_provider.dart';
 import 'package:provider/provider.dart';
@@ -56,7 +55,7 @@ class _OnTodoInputComponentState extends State<OnTodoInputComponent> {
               style:
                   kSubtitle2.copyWith(color: Colors.black, fontWeight: FontWeight.bold),
               controller: createTodoTextFormFieldController,
-              maxLength: 15,
+              maxLength: 17,
               decoration: InputDecoration(
                 hintText: "오늘의 리스트를 추가해 주세요!",
                 hintStyle: kSubtitle2.copyWith(fontWeight: FontWeight.bold),
