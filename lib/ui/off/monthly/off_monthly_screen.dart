@@ -33,9 +33,6 @@ class OffMonthlyScreen extends StatelessWidget {
           uiProvider.changeCalendarFormat(CalendarFormat.month);
           Navigator.pushNamed(context, OffListScreen.routeName);
         },
-        onOffButtonNavigator: () {
-          Navigator.pushReplacementNamed(context, OnMonthlyScreen.routeName);
-        },
       ),
       body: Column(
         children: [

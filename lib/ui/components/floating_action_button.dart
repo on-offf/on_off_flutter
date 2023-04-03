@@ -4,15 +4,16 @@ import 'package:on_off/domain/icon/icon_path.dart';
 import 'package:on_off/ui/provider/ui_provider.dart';
 import 'package:provider/provider.dart';
 
+import '../off/monthly/off_monthly_screen.dart';
+import '../on/monthly/on_monthly_screen.dart';
+
 class OffFloatingActionButton extends StatelessWidget {
   const OffFloatingActionButton({
     Key? key,
     required this.montlyListButtonNavigator,
-    required this.onOffButtonNavigator,
   }) : super(key: key);
 
   final VoidCallback montlyListButtonNavigator;
-  final VoidCallback onOffButtonNavigator;
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +50,9 @@ class OffFloatingActionButton extends StatelessWidget {
               FloatingActionButton(
                 heroTag: 'moveOnOffScreen',
                 onPressed: () {
-                  onOffButtonNavigator.call();
+                  // onOffButtonNavigator.call();
+                  Navigator.pushReplacement(
+                      context, _FadeRoute(page: const OnMonthlyScreen()));
                 },
                 backgroundColor: Colors.transparent,
                 elevation: 0,
@@ -78,10 +81,7 @@ class OffFloatingActionButton extends StatelessWidget {
 class OnFloatingActionButton extends StatelessWidget {
   const OnFloatingActionButton({
     Key? key,
-    required this.onOffButtonNavigator,
   }) : super(key: key);
-
-  final VoidCallback onOffButtonNavigator;
 
   @override
   Widget build(BuildContext context) {
@@ -92,28 +92,8 @@ class OnFloatingActionButton extends StatelessWidget {
         FloatingActionButton(
           heroTag: 'moveOnOffScreen',
           onPressed: () {
-            // simpleHighlightTextDialog(
-            //   context,
-            //   primaryColor: uiProvier.state.colorConst.getPrimary(),
-            //   canvasColor: Colors.white,
-            //   text: TextSpan(
-            //     style: const TextStyle(
-            //       color: Colors.black,
-            //     ),
-            //     children: [
-            //       const TextSpan(text: '아직 준비 중인 기능이에요.\n'),
-            //       TextSpan(
-            //         text: 'ON ',
-            //         style: TextStyle(
-            //           color: uiProvier.state.colorConst.getPrimary(),
-            //           fontWeight: FontWeight.w700,
-            //         ),
-            //       ),
-            //       const TextSpan(text: '페이지 많이 기대해주세요!'),
-            //     ],
-            //   ),
-            // );
-            onOffButtonNavigator.call();
+            Navigator.pushReplacement(
+                context, _FadeRoute(page: const OffMonthlyScreen()));
           },
           backgroundColor: Theme.of(context).primaryColor,
           elevation: 0,
@@ -133,4 +113,27 @@ class OnFloatingActionButton extends StatelessWidget {
       ],
     );
   }
+}
+
+class _FadeRoute extends PageRouteBuilder {
+  final Widget page;
+  _FadeRoute({required this.page})
+      : super(
+          pageBuilder: (
+            BuildContext context,
+            Animation<double> animation,
+            Animation<double> secondaryAnimation,
+          ) =>
+              page,
+          transitionsBuilder: (
+            BuildContext context,
+            Animation<double> animation,
+            Animation<double> secondaryAnimation,
+            Widget child,
+          ) =>
+              FadeTransition(
+            opacity: animation,
+            child: child,
+          ),
+        );
 }
