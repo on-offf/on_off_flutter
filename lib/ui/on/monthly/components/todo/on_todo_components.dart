@@ -53,6 +53,9 @@ class OnTodoComponents extends StatelessWidget {
       height: viewModel.state.todoComponentsHeight,
       child: SlidableAutoCloseBehavior(
         child: ReorderableListView.builder(
+          physics: uiProvider.state.calendarFormat == CalendarFormat.month
+              ? const NeverScrollableScrollPhysics()
+              : const BouncingScrollPhysics(),
           scrollController: viewModel.state.todoComponentsController,
           buildDefaultDragHandles: viewModel.state.order == 'todoOrder',
           itemBuilder: (context, index) {
@@ -99,7 +102,8 @@ class OnTodoComponents extends StatelessWidget {
             OnTodo todo = viewModel.state.todos![index];
             return OnTodoComponent(key: ObjectKey(todo.id), onTodo: todo);
           },
-          itemCount: viewModel.state.multiDeleteStatus && viewModel.state.todos!.length > 0
+          itemCount: viewModel.state.multiDeleteStatus &&
+                  viewModel.state.todos!.length > 0
               ? viewModel.state.todos!.length + 1
               : viewModel.state.todos!.length,
           onReorder: (oldIndex, newIndex) async {
