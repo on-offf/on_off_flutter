@@ -6,7 +6,7 @@ import 'package:on_off/ui/off/list/off_list_screen.dart';
 import 'package:on_off/ui/off/write/off_write_screen.dart';
 import 'package:on_off/ui/on/monthly/on_monthly_screen.dart';
 import 'package:on_off/ui/setting/home/setting_screen.dart';
-import 'package:on_off/ui/setting/password/password_confirm_screen.dart';
+import 'package:on_off/ui/setting/theme/theme_select_screen.dart';
 
 class Routes {
   Routes._();
@@ -23,6 +23,7 @@ class Routes {
 
     // setting
     SettingScreen.routeName: (ctx) => SettingScreen(),
+    ThemeSelectScreen.routeName: (ctx) => ThemeSelectScreen(),
     // PasswordConfirmScreen.routeName: (ctx) => PasswordConfirmScreen(),
   };
 }

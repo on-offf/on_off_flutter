@@ -49,21 +49,8 @@ class UiProvider with ChangeNotifier {
   UiState get state => _state;
 
   // setting
-  void changeMainColor(MainColors mainColor) {
-    switch (mainColor) {
-      case MainColors.ocean:
-        _state = _state.copyWith(colorConst: _state.oceanMainColor);
-        break;
-      case MainColors.orange:
-        _state = _state.copyWith(colorConst: _state.orangeMainColor);
-        break;
-      case MainColors.yellow:
-        _state = _state.copyWith(colorConst: _state.yellowMainColor);
-        break;
-      case MainColors.purple:
-        _state = _state.copyWith(colorConst: _state.purpleMainColor);
-        break;
-    }
+  void changeMainColor(ColorConst colorConst) {
+    _state = _state.copyWith(colorConst: colorConst);
     _notifyListeners();
   }
 

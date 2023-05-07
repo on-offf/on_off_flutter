@@ -11,6 +11,7 @@ import 'package:on_off/ui/setting/home/components/alert_time_dialog.dart';
 import 'package:on_off/ui/setting/home/components/animated_switch.dart';
 import 'package:on_off/ui/setting/password/password_confirm_screen.dart';
 import 'package:on_off/ui/setting/home/setting_view_model.dart';
+import 'package:on_off/ui/setting/theme/theme_select_screen.dart';
 import 'package:provider/provider.dart';
 
 import 'components/notification.dart';
@@ -117,7 +118,8 @@ class _SettingScreenState extends State<SettingScreen> {
 
                         simpleTextDialog(
                           context,
-                          primaryColor: uiProvider.state.colorConst.getPrimary(),
+                          primaryColor:
+                              uiProvider.state.colorConst.getPrimary(),
                           canvasColor: Colors.white,
                           message: "비밀번호가 변경되었습니다.",
                         );
@@ -518,6 +520,37 @@ class _SettingScreenState extends State<SettingScreen> {
               ],
             ),
           ),
+          divide(),
+          Container(
+            padding: buttonEdgeInsets(),
+            color: Colors.white,
+            child: GestureDetector(
+              onTap: () {
+                Navigator.pushNamed(context, ThemeSelectScreen.routeName);
+              },
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        '테마 변경',
+                        style: buttonTextStyle(),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(right: 15.0),
+                        child: SvgPicture.asset(
+                          width: 9,
+                          height: 14,
+                          IconPath.settingArrowButton.name,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
           Container(
             padding: titleEdgeInsets(),
             color: const Color(0xffebebeb),
@@ -529,93 +562,55 @@ class _SettingScreenState extends State<SettingScreen> {
               ),
             ),
           ),
-          // 2차 출시 이후에 반영.
-          // GestureDetector(
-          //   onTap: () {},
-          //   child: Container(
-          //     padding: buttonEdgeInsets(),
-          //     color: Colors.white,
-          //     child: Row(
-          //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          //       children: [
-          //         Text(
-          //           '리뷰는 큰 힘이 됩니다!',
-          //           style: buttonTextStyle(),
-          //         ),
-          //         Padding(
-          //           padding: const EdgeInsets.only(right: 15.0),
-          //           child: Image(
-          //             width: 9,
-          //             height: 14,
-          //             image: AssetImage(
-          //               IconPath.settingArrowButton.name,
-          //             ),
-          //           ),
-          //         ),
-          //       ],
-          //     ),
-          //   ),
-          // ),
-          // divide(),
-          GestureDetector(
-            onTap: () {
-              print('click!');
-            },
-            child: Container(
-              padding: buttonEdgeInsets(),
-              color: Colors.white,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  GestureDetector(
-                    onTap: () async => await _sendEmail(
-                        context, uiProvider.state.colorConst.getPrimary()),
-                    child: Text(
-                      '아쉬운 점을 알려주세요!',
-                      style: buttonTextStyle(),
-                    ),
+          Container(
+            padding: buttonEdgeInsets(),
+            color: Colors.white,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                GestureDetector(
+                  onTap: () async => await _sendEmail(
+                      context, uiProvider.state.colorConst.getPrimary()),
+                  child: Text(
+                    '아쉬운 점을 알려주세요!',
+                    style: buttonTextStyle(),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(right: 15.0),
-                    child: SvgPicture.asset(
-                      width: 9,
-                      height: 14,
-                      IconPath.settingArrowButton.name,
-                    ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(right: 15.0),
+                  child: SvgPicture.asset(
+                    width: 9,
+                    height: 14,
+                    IconPath.settingArrowButton.name,
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
           divide(),
-          GestureDetector(
-            onTap: () {
-              print('click!!');
-            },
-            child: Container(
-              padding: buttonEdgeInsets(),
-              color: Colors.white,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  GestureDetector(
-                    onTap: () => _showVersion(
-                        context, uiProvider.state.colorConst.getPrimary()),
-                    child: Text(
-                      '버전관리',
-                      style: buttonTextStyle(),
-                    ),
+          Container(
+            padding: buttonEdgeInsets(),
+            color: Colors.white,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                GestureDetector(
+                  onTap: () => _showVersion(
+                      context, uiProvider.state.colorConst.getPrimary()),
+                  child: Text(
+                    '버전관리',
+                    style: buttonTextStyle(),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(right: 15.0),
-                    child: SvgPicture.asset(
-                      width: 9,
-                      height: 14,
-                      IconPath.settingArrowButton.name,
-                    ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(right: 15.0),
+                  child: SvgPicture.asset(
+                    width: 9,
+                    height: 14,
+                    IconPath.settingArrowButton.name,
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
           divide(),
@@ -843,7 +838,7 @@ class _SettingScreenState extends State<SettingScreen> {
   }
 
   void _showVersion(context, primaryColor) {
-    String message = "현재 버전은 0.1 입니다.\n2023년 1월 v1.0 출시 예정입니다.";
+    String message = "현재 버전은 v1.0.2입니다.";
 
     simpleTextDialog(
       context,

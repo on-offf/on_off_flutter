@@ -2,14 +2,6 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 
-enum MainColors {
-  ocean,
-  yellow,
-  purple,
-  orange,
-  ;
-}
-
 abstract class ColorConst {
   Color secondaryLight = const Color(0xffFFB703);
   Color secondaryDark = const Color(0xffFB8501);
