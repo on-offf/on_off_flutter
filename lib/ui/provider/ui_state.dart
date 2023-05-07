@@ -26,6 +26,6 @@ class UiState with _$UiState {
     required ColorConst oceanMainColor,
     required ColorConst yellowMainColor,
     required ColorConst purpleMainColor,
-    required ColorConst orangeMainColor,
+    required ColorConst greenMainColor,
   }) = _UiState;
 }

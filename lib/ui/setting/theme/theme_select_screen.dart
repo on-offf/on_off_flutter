@@ -94,7 +94,7 @@ class _ThemeSelectScreenState extends State<ThemeSelectScreen> {
                     colorConst: uiProvider.state.purpleMainColor,
                   ),
                   ThemeCard(
-                    colorConst: uiProvider.state.orangeMainColor,
+                    colorConst: uiProvider.state.greenMainColor,
                   ),
                   ThemeCard(
                     colorConst: uiProvider.state.yellowMainColor,

@@ -43,7 +43,7 @@ class UiProvider with ChangeNotifier {
     oceanMainColor: OceanMainColor(),
     yellowMainColor: YellowMainColor(),
     purpleMainColor: PurpleMainColor(),
-    orangeMainColor: OrangeMainColor(),
+    greenMainColor: GreenMainColor(),
   );
 
   UiState get state => _state;

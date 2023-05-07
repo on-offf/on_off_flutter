@@ -104,7 +104,7 @@ class YellowMainColor extends ColorConst {
 }
 
 class PurpleMainColor extends ColorConst {
-  Color primary = const Color(0xff9747FF);
+  Color primary = const Color(0xffC497FF);
   Color primaryLight = const Color(0xffD3B1FF);
   Color primaryDark = const Color(0xff6012C5);
 
@@ -136,6 +136,35 @@ class OrangeMainColor extends ColorConst {
   Color primary = const Color(0xffFB8501);
   Color primaryLight = const Color(0xffFFB703);
   Color primaryDark = const Color(0xffF4DEA7);
+
+// TODO 컬러 수정
+  Color primaryPlus = const Color(0xff);
+
+  @override
+  Color getPrimary() {
+    return primary;
+  }
+
+  @override
+  Color getPrimaryDark() {
+    return primaryDark;
+  }
+
+  @override
+  Color getPrimaryLight() {
+    return primaryLight;
+  }
+
+  @override
+  Color getPrimaryPlus() {
+    return primaryPlus;
+  }
+}
+
+class GreenMainColor extends ColorConst {
+  Color primary = const Color(0xff4BED9C);
+  Color primaryLight = const Color(0xff72FFB8);
+  Color primaryDark = const Color(0xffEBFFF5);
 
 // TODO 컬러 수정
   Color primaryPlus = const Color(0xff);
