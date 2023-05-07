@@ -22,5 +22,10 @@ class UiState with _$UiState {
 
     //select start screen
     required String startRoute,
+
+    required ColorConst oceanMainColor,
+    required ColorConst yellowMainColor,
+    required ColorConst purpleMainColor,
+    required ColorConst orangeMainColor,
   }) = _UiState;
 }

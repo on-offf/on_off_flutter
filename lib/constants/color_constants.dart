@@ -2,6 +2,14 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 
+enum MainColors {
+  ocean,
+  yellow,
+  purple,
+  orange,
+  ;
+}
+
 abstract class ColorConst {
   Color secondaryLight = const Color(0xffFFB703);
   Color secondaryDark = const Color(0xffFB8501);
@@ -11,12 +19,15 @@ abstract class ColorConst {
   Color gray = const Color(0xffB3B3B3);
   Color lightGray = const Color(0xffE7E7E7);
 
-  // Color canvas = const Color(0xffebebeb);
+// Color canvas = const Color(0xffebebeb);
   Color canvas = Colors.white;
 
   Color getPrimary();
+
   Color getPrimaryLight();
+
   Color getPrimaryDark();
+
   Color getPrimaryPlus();
 
   Color getSecondaryLight() {
@@ -76,7 +87,7 @@ class YellowMainColor extends ColorConst {
   Color primaryLight = const Color(0xffEFE4AD);
   Color primaryDark = const Color(0xffFFB703);
 
-  // TODO 컬러 수정
+// TODO 컬러 수정
   Color primaryPlus = const Color(0xff);
 
   @override
@@ -105,7 +116,7 @@ class PurpleMainColor extends ColorConst {
   Color primaryLight = const Color(0xffD3B1FF);
   Color primaryDark = const Color(0xff6012C5);
 
-  // TODO 컬러 수정
+// TODO 컬러 수정
   Color primaryPlus = const Color(0xff);
 
   @override
@@ -134,7 +145,7 @@ class OrangeMainColor extends ColorConst {
   Color primaryLight = const Color(0xffFFB703);
   Color primaryDark = const Color(0xffF4DEA7);
 
-  // TODO 컬러 수정
+// TODO 컬러 수정
   Color primaryPlus = const Color(0xff);
 
   @override
