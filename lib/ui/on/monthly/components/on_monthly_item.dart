@@ -38,9 +38,14 @@ class OnMonthlyItem extends StatelessWidget {
               ),
             ),
             IconButton(
-              onPressed: () => _buildBottomSheet(context, viewModel, uiProvider),
+              onPressed: () =>
+                  _buildBottomSheet(context, viewModel, uiProvider),
               icon: SvgPicture.asset(
                 IconPath.menu.name,
+                colorFilter: ColorFilter.mode(
+                  uiProvider.state.colorConst.getPrimary(),
+                  BlendMode.srcIn,
+                ),
               ),
               iconSize: 5,
             ),
@@ -51,8 +56,8 @@ class OnMonthlyItem extends StatelessWidget {
     );
   }
 
-  Future<dynamic> _buildBottomSheet(
-      BuildContext context, OnMonthlyViewModel viewModel, UiProvider uiProvider) {
+  Future<dynamic> _buildBottomSheet(BuildContext context,
+      OnMonthlyViewModel viewModel, UiProvider uiProvider) {
     viewModel.unFocus();
     return showModalBottomSheet(
       context: context,
