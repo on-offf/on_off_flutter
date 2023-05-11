@@ -304,6 +304,10 @@ class _SettingScreenState extends State<SettingScreen> {
                             width: 9,
                             height: 14,
                             IconPath.settingArrowButton.name,
+                            colorFilter: ColorFilter.mode(
+                              uiProvider.state.colorConst.getPrimary(),
+                              BlendMode.srcIn,
+                            ),
                           ),
                         ),
                       ],
