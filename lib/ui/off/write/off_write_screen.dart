@@ -146,12 +146,20 @@ class _OffWriteScreenState extends State<OffWriteScreen> {
                       ),
                       filled: true,
                       fillColor: const Color.fromRGBO(18, 112, 176, 0.24),
+
+                      //TODO : 작성하는 화면의 컬러값의 상수값 설정해야함. 설정 이후에 이 부분 수정.
+
+                      // Color: uiProvider!.state.colorConst.getPrimaryLight(),
                     ),
                   ),
                 ),
                 Container(
                   decoration: BoxDecoration(
                     color: const Color.fromRGBO(230, 247, 252, .3),
+
+                    //TODO : 작성하는 화면의 컬러값의 상수값 설정해야함. 설정 이후에 이 부분 수정.
+
+                    // color: uiProvider!.state.colorConst.getPrimaryLight(),
                     borderRadius: BorderRadius.circular(10),
                   ),
                   height: 1000,
