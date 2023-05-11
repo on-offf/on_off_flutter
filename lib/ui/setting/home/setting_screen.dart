@@ -521,36 +521,8 @@ class _SettingScreenState extends State<SettingScreen> {
             ),
           ),
           divide(),
-          Container(
-            padding: buttonEdgeInsets(),
-            color: Colors.white,
-            child: GestureDetector(
-              onTap: () {
-                Navigator.pushNamed(context, ThemeSelectScreen.routeName);
-              },
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        '테마 변경',
-                        style: buttonTextStyle(),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(right: 15.0),
-                        child: SvgPicture.asset(
-                          width: 9,
-                          height: 14,
-                          IconPath.settingArrowButton.name,
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          ),
+          itemWithArrowButton(uiProvider, '테마 변경',
+              () => Navigator.pushNamed(context, ThemeSelectScreen.routeName)),
           Container(
             padding: titleEdgeInsets(),
             color: const Color(0xffebebeb),
@@ -562,56 +534,18 @@ class _SettingScreenState extends State<SettingScreen> {
               ),
             ),
           ),
-          Container(
-            padding: buttonEdgeInsets(),
-            color: Colors.white,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                GestureDetector(
-                  onTap: () async => await _sendEmail(
-                      context, uiProvider.state.colorConst.getPrimary()),
-                  child: Text(
-                    '아쉬운 점을 알려주세요!',
-                    style: buttonTextStyle(),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(right: 15.0),
-                  child: SvgPicture.asset(
-                    width: 9,
-                    height: 14,
-                    IconPath.settingArrowButton.name,
-                  ),
-                ),
-              ],
-            ),
+          itemWithArrowButton(
+            uiProvider,
+            '아쉬운 점을 알려주세요',
+            () async => await _sendEmail(
+                context, uiProvider.state.colorConst.getPrimary()),
           ),
           divide(),
-          Container(
-            padding: buttonEdgeInsets(),
-            color: Colors.white,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                GestureDetector(
-                  onTap: () => _showVersion(
-                      context, uiProvider.state.colorConst.getPrimary()),
-                  child: Text(
-                    '버전관리',
-                    style: buttonTextStyle(),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(right: 15.0),
-                  child: SvgPicture.asset(
-                    width: 9,
-                    height: 14,
-                    IconPath.settingArrowButton.name,
-                  ),
-                ),
-              ],
-            ),
+          itemWithArrowButton(
+            uiProvider,
+            '버전관리',
+            () =>
+                _showVersion(context, uiProvider.state.colorConst.getPrimary()),
           ),
           divide(),
           Container(
@@ -703,6 +637,43 @@ class _SettingScreenState extends State<SettingScreen> {
         thickness: 1.5,
         height: 0,
         color: Color.fromARGB(40, 0, 0, 0),
+      ),
+    );
+  }
+
+  Container itemWithArrowButton(
+      UiProvider uiProvider, String titleText, Function()? onTap) {
+    return Container(
+      padding: buttonEdgeInsets(),
+      color: Colors.white,
+      child: GestureDetector(
+        onTap: onTap,
+        child: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  // '테마 변경',
+                  titleText,
+                  style: buttonTextStyle(),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(right: 15.0),
+                  child: SvgPicture.asset(
+                    width: 9,
+                    height: 14,
+                    IconPath.settingArrowButton.name,
+                    colorFilter: ColorFilter.mode(
+                      uiProvider.state.colorConst.getPrimary(),
+                      BlendMode.srcIn,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
