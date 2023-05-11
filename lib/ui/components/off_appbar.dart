@@ -16,7 +16,8 @@ PreferredSize offAppBar(
 }) {
   final uiProvider = context.watch<UiProvider>();
   final settingViewModel = context.watch<SettingViewModel>();
-  final OnMonthlyViewModel onMonthlyViewModel = context.watch<OnMonthlyViewModel>();
+  final OnMonthlyViewModel onMonthlyViewModel =
+      context.watch<OnMonthlyViewModel>();
 
   return PreferredSize(
     preferredSize: const Size.fromHeight(77),
@@ -62,6 +63,10 @@ PreferredSize offAppBar(
                     IconPath.setting.name,
                     width: 24.17,
                     height: 24.76,
+                    colorFilter: ColorFilter.mode(
+                      uiProvider.state.colorConst.getPrimary(),
+                      BlendMode.srcIn,
+                    ),
                   ),
                   onPressed: () async {
                     onMonthlyViewModel.unFocus();
