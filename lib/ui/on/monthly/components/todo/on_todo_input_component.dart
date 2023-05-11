@@ -52,8 +52,8 @@ class _OnTodoInputComponentState extends State<OnTodoInputComponent> {
             width: 262,
             child: TextFormField(
               focusNode: viewModel.state.todoInputFocusNode,
-              style:
-                  kSubtitle2.copyWith(color: Colors.black, fontWeight: FontWeight.bold),
+              style: kSubtitle2.copyWith(
+                  color: Colors.black, fontWeight: FontWeight.bold),
               controller: createTodoTextFormFieldController,
               maxLength: 17,
               decoration: InputDecoration(
@@ -68,7 +68,8 @@ class _OnTodoInputComponentState extends State<OnTodoInputComponent> {
                   ),
                 ),
                 counterText: "", //글자수 세는것 안보이게
-                contentPadding: const EdgeInsets.only(left: 20, bottom: 6, top: 0),
+                contentPadding:
+                    const EdgeInsets.only(left: 20, bottom: 6, top: 0),
               ),
               onFieldSubmitted: (value) async {
                 await viewModel.saveContent(value);
@@ -88,11 +89,18 @@ class _OnTodoInputComponentState extends State<OnTodoInputComponent> {
             height: 41,
             child: IconButton(
               onPressed: () async {
-                await viewModel.saveContent(createTodoTextFormFieldController.text);
+                await viewModel
+                    .saveContent(createTodoTextFormFieldController.text);
                 createTodoTextFormFieldController.text = '';
                 focusNode.unfocus();
               },
-              icon: SvgPicture.asset(IconPath.todoSubmit.name),
+              icon: SvgPicture.asset(
+                IconPath.todoSubmit.name,
+                colorFilter: ColorFilter.mode(
+                  uiProvider.state.colorConst.getPrimary(),
+                  BlendMode.srcIn,
+                ),
+              ),
               iconSize: 16,
             ),
           ),
@@ -125,12 +133,14 @@ class _OnTodoInputComponentState extends State<OnTodoInputComponent> {
         double y = offset.dy + widgetHeight + 40;
         if (MediaQuery.of(context).size.height - y > keyboardHeight) return;
 
-        updateKeyboardHeight(viewModel, keyboardHeight, keyboardHeight - (MediaQuery.of(context).size.height - y));
+        updateKeyboardHeight(viewModel, keyboardHeight,
+            keyboardHeight - (MediaQuery.of(context).size.height - y));
       });
     });
   }
 
-  void updateKeyboardHeight(OnMonthlyViewModel viewModel, double keyboardHeight, double upperSize) {
+  void updateKeyboardHeight(
+      OnMonthlyViewModel viewModel, double keyboardHeight, double upperSize) {
     viewModel.updateKeyboardHeight(keyboardHeight);
     viewModel.state.onMonthlyScreenScrollerController?.animateTo(
       upperSize,
