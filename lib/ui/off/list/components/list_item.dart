@@ -4,6 +4,7 @@ import 'package:on_off/constants/constants_text_style.dart';
 import 'package:on_off/domain/model/content.dart';
 import 'package:on_off/ui/components/build_selected_icons.dart';
 import 'package:on_off/ui/off/list/off_list_view_model.dart';
+import 'package:on_off/ui/provider/ui_provider.dart';
 import 'package:provider/provider.dart';
 
 class ListItem extends StatelessWidget {
@@ -18,6 +19,7 @@ class ListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     OffListViewModel viewModel = context.watch<OffListViewModel>();
+    UiProvider uiProvider = context.watch<UiProvider>();
 
     return Column(
       children: [
@@ -50,6 +52,10 @@ class ListItem extends StatelessWidget {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(7),
             color: const Color.fromRGBO(18, 112, 176, 0.24),
+
+            //TODO : 작성하는 화면의 컬러값의 상수값 설정해야함. 설정 이후에 이 부분 수정.
+
+            // color: uiProvider.state.colorConst.getPrimaryLight(),
           ),
           child: Text(
             content.title,
@@ -59,7 +65,7 @@ class ListItem extends StatelessWidget {
         Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(7),
-            color: const Color.fromRGBO(230, 247, 252, 0.3),
+            // color: const Color.fromRGBO(230, 247, 252, 0.3), // TODO : 논의. 배경색이 필요 없는것 같음.
           ),
           child: Column(
             children: [
