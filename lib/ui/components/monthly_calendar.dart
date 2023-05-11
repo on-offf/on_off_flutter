@@ -26,8 +26,8 @@ class MonthlyCalendar extends StatelessWidget {
         uiProvider.changeFocusedDay(dateTime);
         uiProvider.changeCalendarPage(dateTime);
       },
-      daysOfWeekStyle: _daysOfWeekStyle(),
-      calendarStyle: _calendarStyle(),
+      daysOfWeekStyle: _daysOfWeekStyle(uiProvider),
+      calendarStyle: _calendarStyle(uiProvider),
     );
   }
 
@@ -38,9 +38,9 @@ class MonthlyCalendar extends StatelessWidget {
     };
   }
 
-  DaysOfWeekStyle _daysOfWeekStyle() {
-    return const DaysOfWeekStyle(
-      weekdayStyle: TextStyle(
+  DaysOfWeekStyle _daysOfWeekStyle(UiProvider uiProvider) {
+    return DaysOfWeekStyle(
+      weekdayStyle: const TextStyle(
         fontWeight: FontWeight.w400,
         fontSize: 11,
         height: 1.21,
@@ -50,12 +50,12 @@ class MonthlyCalendar extends StatelessWidget {
         fontWeight: FontWeight.w400,
         fontSize: 11,
         height: 1.21,
-        color: Color(0xff219EBC),
+        color: uiProvider.state.colorConst.getPrimary(),
       ),
     );
   }
 
-  CalendarStyle _calendarStyle() {
+  CalendarStyle _calendarStyle(UiProvider uiProvider) {
     double fontSize = 14;
     return CalendarStyle(
       outsideDaysVisible: false,
@@ -80,14 +80,14 @@ class MonthlyCalendar extends StatelessWidget {
         fontWeight: FontWeight.w400,
         fontSize: fontSize,
         height: 1.21,
-        color: const Color(0xff219EBC),
+        color: uiProvider.state.colorConst.getPrimary(),
       ),
       todayDecoration: const BoxDecoration(
         color: Colors.transparent,
         shape: BoxShape.circle,
       ),
-      selectedDecoration: const BoxDecoration(
-        color: Color(0xFF219EBC),
+      selectedDecoration: BoxDecoration(
+        color: uiProvider.state.colorConst.getPrimary(),
         shape: BoxShape.circle,
       ),
       outsideTextStyle: TextStyle(
