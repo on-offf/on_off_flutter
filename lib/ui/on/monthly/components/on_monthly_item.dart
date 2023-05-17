@@ -62,7 +62,7 @@ class OnMonthlyItem extends StatelessWidget {
     return showModalBottomSheet(
       context: context,
       backgroundColor: Colors.transparent,
-      barrierColor: Colors.transparent,
+      barrierColor: Colors.black45,
       builder: (context) {
         return ClipRRect(
           borderRadius: const BorderRadius.vertical(

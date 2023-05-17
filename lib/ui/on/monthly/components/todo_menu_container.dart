@@ -15,13 +15,13 @@ class TodoMenuContainer extends StatelessWidget {
     UiProvider uiProvider = context.watch<UiProvider>();
 
     return Container(
-      height: 305,
+      height: 212,
       padding: const EdgeInsets.only(
-        top: 43,
+        top: 22,
       ),
       decoration: BoxDecoration(
         borderRadius: const BorderRadius.vertical(
-          top: Radius.circular(25.0),
+          top: Radius.circular(18.0),
         ),
         color: uiProvider.state.colorConst.getPrimary().withOpacity(.2),
       ),
@@ -40,7 +40,7 @@ class TodoMenuContainer extends StatelessWidget {
                   width: 153,
                   alignment: Alignment.center,
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
+                    borderRadius: BorderRadius.circular(11),
                     border: Border.all(
                       color: uiProvider.state.colorConst.getPrimary(),
                       width: 1,
@@ -68,7 +68,7 @@ class TodoMenuContainer extends StatelessWidget {
                   width: 153,
                   alignment: Alignment.center,
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
+                    borderRadius: BorderRadius.circular(11),
                     border: Border.all(
                       color: uiProvider.state.colorConst.getPrimary(),
                       width: 1,
@@ -86,57 +86,65 @@ class TodoMenuContainer extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 15),
-          GestureDetector(
-            onTap: () {
-              viewModel.changeTodosByStatus(ALL);
-              Navigator.pop(context);
-            },
-            child: Container(
-              height: 69,
-              width: 313,
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
-                border: Border.all(
-                  color: uiProvider.state.colorConst.getPrimary(),
-                  width: 1,
-                ),
-                color: Colors.white,
-              ),
-              child: Text(
-                "오늘의 일정 전체보기",
-                style: kBody2.copyWith(
-                  color: uiProvider.state.colorConst.getPrimary(),
-                ),
-              ),
-            ),
-          ),
-          const SizedBox(height: 13),
-          GestureDetector(
-            onTap: () {
-              uiProvider.changeCalendarFormat(CalendarFormat.week);
-              viewModel.updateMultiDeleteStatus();
-              Navigator.pop(context);
-            },
-            child: Container(
-              height: 69,
-              width: 313,
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
-                border: Border.all(
-                  color: uiProvider.state.colorConst.getPrimary(),
-                  width: 1,
-                ),
-                color: Colors.white,
-              ),
-              child: Text(
-                "다수의 일정 삭제하기",
-                style: kBody2.copyWith(
-                  color: uiProvider.state.colorConst.getPrimary(),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              GestureDetector(
+                onTap: () {
+                  viewModel.changeTodosByStatus(ALL);
+                  Navigator.pop(context);
+                },
+                child: Container(
+                  height: 69,
+                  width: 153,
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(11),
+                    border: Border.all(
+                      color: uiProvider.state.colorConst.getPrimary(),
+                      width: 1,
+                    ),
+                    color: Colors.white,
+                  ),
+                  child: Text(
+                    "오늘의 일정 \n전체 보기",
+                    style: kBody2.copyWith(
+                      color: uiProvider.state.colorConst.getPrimary(),
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
                 ),
               ),
-            ),
+              const SizedBox(
+                width: 9,
+              ),
+              GestureDetector(
+                onTap: () {
+                  uiProvider.changeCalendarFormat(CalendarFormat.week);
+                  viewModel.updateMultiDeleteStatus();
+                  Navigator.pop(context);
+                },
+                child: Container(
+                  height: 69,
+                  width: 153,
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(11),
+                    border: Border.all(
+                      color: uiProvider.state.colorConst.getPrimary(),
+                      width: 1,
+                    ),
+                    color: Colors.white,
+                  ),
+                  child: Text(
+                    "일정 삭제하기",
+                    style: kBody2.copyWith(
+                      color: uiProvider.state.colorConst.getPrimary(),
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ),
         ],
       ),
