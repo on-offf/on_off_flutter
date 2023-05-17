@@ -146,6 +146,18 @@ class _IconsAboveKeyboardState extends State<IconsAboveKeyboard> {
                       if (viewModel.state.offDiary?.id != null) {
                         Navigator.of(context).pop();
                       } else {
+                        // bool result = await simpleConfirmButtonDialog(
+                        //   context,
+                        //   primaryColor:
+                        //       uiProvider!.state.colorConst.getPrimary(),
+                        //   canvasColor: uiProvider!.state.colorConst.canvas,
+                        //   message: "일기 수정을 끝내시겠습니까?",
+                        //   trueButton: "네",
+                        //   falseButton: "뒤로가기",
+                        //   width: 215,
+                        //   height: 134,
+                        // );
+                        // if (result)
                         Navigator.of(context)
                             .popAndPushNamed(OffDailyScreen.routeName);
                       }

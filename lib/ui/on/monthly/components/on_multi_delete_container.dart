@@ -84,7 +84,7 @@ class OnMultiDeleteContainer extends StatelessWidget {
                       width: 215,
                       height: 134,
                     );
-                    viewModel.deleteMultiOnTodo();
+                    if (result) viewModel.deleteMultiOnTodo();
                   },
                   child: Container(
                     height: 69,
