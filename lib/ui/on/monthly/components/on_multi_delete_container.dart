@@ -4,6 +4,8 @@ import 'package:on_off/ui/on/monthly/on_monthly_view_model.dart';
 import 'package:on_off/ui/provider/ui_provider.dart';
 import 'package:provider/provider.dart';
 
+import '../../../components/simple_dialog.dart';
+
 class OnMultiDeleteContainer extends StatelessWidget {
   const OnMultiDeleteContainer({Key? key}) : super(key: key);
 
@@ -71,7 +73,17 @@ class OnMultiDeleteContainer extends StatelessWidget {
                 ),
                 const SizedBox(width: 9),
                 GestureDetector(
-                  onTap: () {
+                  onTap: () async {
+                    bool result = await simpleConfirmButtonDialog(
+                      context,
+                      primaryColor: uiProvider.state.colorConst.getPrimary(),
+                      canvasColor: uiProvider.state.colorConst.canvas,
+                      message: "선택한 일정을 \n진짜로 삭제하시겠습니까?",
+                      trueButton: "네",
+                      falseButton: "뒤로가기",
+                      width: 215,
+                      height: 134,
+                    );
                     viewModel.deleteMultiOnTodo();
                   },
                   child: Container(
