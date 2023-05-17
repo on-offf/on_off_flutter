@@ -67,7 +67,7 @@ class OnTodoComponents extends StatelessWidget {
                     context,
                     primaryColor: uiProvider.state.colorConst.getPrimary(),
                     canvasColor: uiProvider.state.colorConst.canvas,
-                    message: "선택한 일정을 \n진짜로 삭제하시겠습니까?",
+                    message: "전체 일정을 \n진짜로 삭제하시겠습니까?",
                     trueButton: "네",
                     falseButton: "뒤로가기",
                     width: 215,
