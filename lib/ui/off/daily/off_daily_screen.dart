@@ -130,8 +130,9 @@ class OffDailyScreen extends StatelessWidget {
                     );
                   },
                   child: SingleChildScrollView(
-                    child: SizedBox(
+                    child: Container(
                       width: MediaQuery.of(context).size.width - 74,
+                      padding: const EdgeInsets.all(22),
                       child: Text(
                         viewModel.state.content!.content,
                         softWrap: true,
