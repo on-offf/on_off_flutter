@@ -90,7 +90,7 @@ Future<dynamic> simpleConfirmButtonDialog(
   double height = 100,
 }) {
   return showDialog(
-    barrierColor: Colors.transparent,
+    barrierColor: Colors.black26,
     context: context,
     builder: (_) => Dialog(
       shape: const RoundedRectangleBorder(
