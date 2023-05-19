@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:on_off/constants/constants_text_style.dart';
 import 'package:on_off/ui/components/focus_month.dart';
 import 'package:on_off/ui/components/off_appbar.dart';
+import 'package:on_off/ui/components/transform_daily_weekly.dart';
 import 'package:on_off/ui/off/daily/off_daily_view_model.dart';
 import 'package:on_off/ui/off/gallery/off_gallery_screen.dart';
 import 'package:on_off/ui/off/write/off_write_screen.dart';
@@ -24,12 +25,12 @@ class _OffDailyScreenState extends State<OffDailyScreen> {
   final GlobalKey key = GlobalKey();
   double height = 300;
 
-
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) => setHeight());
   }
+
   void setHeight() {
     final renderBox = key.currentContext?.findRenderObject() as RenderBox?;
     if (renderBox == null) return;
@@ -58,7 +59,15 @@ class _OffDailyScreenState extends State<OffDailyScreen> {
         ),
         child: Column(
           children: [
-            FocusMonth(),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                FocusMonth(
+                  showOverlay: false,
+                ),
+                TransformDailyWeekly(key: GlobalKey()),
+              ],
+            ),
             const SizedBox(height: 3),
             Container(
               key: key,
