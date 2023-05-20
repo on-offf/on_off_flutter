@@ -21,74 +21,81 @@ class ListItem extends StatelessWidget {
     OffListViewModel viewModel = context.watch<OffListViewModel>();
     UiProvider uiProvider = context.watch<UiProvider>();
 
-    return Column(
-      children: [
-        Row(
-          children: [
-            CompositedTransformTarget(
-              link: selectIconSheetLink,
-              child: Text(
-                DateFormat.MMMEd('ko_kr').format(content.time),
-                style: kSubtitle2,
+    return Container(
+      margin: const EdgeInsets.only(top: 10, bottom: 20),
+      padding: const EdgeInsets.symmetric(
+        horizontal: 22,
+        vertical: 20,
+      ),
+      decoration: BoxDecoration(
+        color: uiProvider.state.colorConst.getPrimaryPlus(),
+        borderRadius: BorderRadius.circular(7),
+        boxShadow: const [
+          BoxShadow(
+            color: Color.fromRGBO(0, 0, 0, .25),
+            spreadRadius: 0,
+            blurRadius: 3,
+            offset: Offset(1, -1),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              CompositedTransformTarget(
+                link: selectIconSheetLink,
+                child: Text(
+                  DateFormat.MMMEd('ko_kr').format(content.time),
+                  style: kBody2,
+                ),
               ),
-            ),
-            viewModel.state.iconMap[content.time.day] == null
-                ? const SizedBox(width: 8)
-                : buildSelectedIcon(
-                    viewModel.state.iconMap[content.time.day]!.name),
-            Expanded(
-              child: Container(
+              viewModel.state.iconMap[content.time.day] == null
+                  ? const SizedBox(width: 8)
+                  : buildSelectedIcon(
+                      viewModel.state.iconMap[content.time.day]!.name),
+              Container(
                 height: 2,
                 color: Theme.of(context).primaryColor,
               ),
-            ),
-          ],
-        ),
-        const SizedBox(height: 10),
-        Container(
-          height: 41,
-          padding: const EdgeInsets.only(left: 8),
-          alignment: Alignment.centerLeft,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(7),
-            color: const Color.fromRGBO(18, 112, 176, 0.24),
-
-            //TODO : 작성하는 화면의 컬러값의 상수값 설정해야함. 설정 이후에 이 부분 수정.
-
-            // color: uiProvider.state.colorConst.getPrimaryLight(),
-          ),
-          child: Text(
-            content.title,
-            style: kSubtitle3.copyWith(height: 1),
-          ),
-        ),
-        Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(7),
-            // color: const Color.fromRGBO(230, 247, 252, 0.3), // TODO : 논의. 배경색이 필요 없는것 같음.
-          ),
-          child: Column(
-            children: [
-              const SizedBox(height: 15),
-              SizedBox(
-                height: 145,
-                width: MediaQuery.of(context).size.width - 74,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(12),
-                  child: Image.memory(
-                    content.imageList[0].imageFile,
-                    fit: BoxFit.cover,
-                    width: MediaQuery.of(context).size.width - 74,
-                  ),
-                ),
-              ),
             ],
           ),
-        ),
-        const SizedBox(
-          height: 15,
-        ),
-      ],
+          const SizedBox(height: 10),
+          Text(
+            content.title,
+            style: kOffTitle.copyWith(
+              color: uiProvider.state.colorConst.darkGray,
+            ),
+          ),
+          const SizedBox(height: 20),
+          Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(7),
+              // color: const Color.fromRGBO(230, 247, 252, 0.3), // TODO : 논의. 배경색이 필요 없는것 같음.
+            ),
+            child: Column(
+              children: [
+                SizedBox(
+                  height: 145,
+                  width: MediaQuery.of(context).size.width - 74,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(12),
+                    child: Image.memory(
+                      content.imageList[0].imageFile,
+                      fit: BoxFit.cover,
+                      width: MediaQuery.of(context).size.width - 74,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(
+            height: 15,
+          ),
+        ],
+      ),
     );
   }
 }

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:on_off/constants/constants_text_style.dart';
 import 'package:on_off/domain/icon/icon_path.dart';
+import 'package:on_off/ui/components/off_appbar.dart';
+import 'package:on_off/ui/components/transform_daily_weekly.dart';
 import 'package:on_off/ui/off/daily/off_daily_screen.dart';
 import 'package:on_off/ui/components/focus_month.dart';
 import 'package:on_off/ui/off/list/components/off_list_order_change_button.dart';
@@ -23,31 +25,27 @@ class OffListScreen extends StatelessWidget {
     UiProvider uiProvider = context.watch<UiProvider>();
 
     return Scaffold(
-      appBar: AppBar(
-        toolbarHeight: 0,
-        leading: Container(),
-        backgroundColor: uiProvider.state.colorConst.canvas,
-        elevation: 0,
+      appBar: offAppBar(
+        context,
+        isPrevButton: true,
+        settingButton: false,
       ),
-      body: Container(
+      body: Padding(
         padding: const EdgeInsets.only(
-          top: 0,
           left: 37,
           right: 37,
-          bottom: 0,
         ),
         child: Column(
           children: [
-            SizedBox(
-              height: 80,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  FocusMonth(
-                    isAccent: true,
-                  ),
-                ],
-              ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                FocusMonth(),
+                TransformDailyWeekly(
+                  key: GlobalKey(),
+                  text: 'Weekly',
+                ),
+              ],
             ),
             Expanded(
               child: ListView.builder(
@@ -55,15 +53,6 @@ class OffListScreen extends StatelessWidget {
                   if (index == 0 && viewModel.state.contents.isEmpty) {
                     return Column(
                       children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: const [
-                            OffListOrderChangeButton(),
-                          ],
-                        ),
-                        SizedBox(
-                          height: MediaQuery.of(context).size.height / 5,
-                        ),
                         SvgPicture.asset(
                           IconPath.noHaveContent.name,
                           width: 130,
@@ -153,29 +142,21 @@ class OffListScreen extends StatelessWidget {
                         ),
                       ],
                     );
-                  } else if (index == 0) {
-                    return Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: const [
-                        OffListOrderChangeButton(),
-                      ],
-                    );
                   } else {
                     return GestureDetector(
-                      child: ListItem(
-                          content: viewModel.state.contents[index - 1]),
+                      child: ListItem(content: viewModel.state.contents[index]),
                       onTap: () {
                         //daily 스크린으로 이동
                         uiProvider.changeSelectedDay(
-                            viewModel.state.contents[index - 1].time);
+                            viewModel.state.contents[index].time);
                         uiProvider.changeFocusedDay(
-                            viewModel.state.contents[index - 1].time);
+                            viewModel.state.contents[index].time);
                         Navigator.pushNamed(context, OffDailyScreen.routeName);
                       },
                     );
                   }
                 }),
-                itemCount: viewModel.state.contents.length + 1,
+                itemCount: viewModel.state.contents.length,
               ),
             ),
           ],
