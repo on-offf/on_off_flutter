@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
-
 import 'package:on_off/constants/constants_text_style.dart';
 import 'package:on_off/ui/components/build_selected_icons.dart';
+import 'package:on_off/ui/components/focus_month.dart';
 import 'package:on_off/ui/components/image_input.dart';
 import 'package:on_off/ui/components/off_appbar.dart';
 import 'package:on_off/ui/components/simple_dialog.dart';
 import 'package:on_off/ui/components/sticker_button.dart';
+import 'package:on_off/ui/components/transform_daily_weekly.dart';
 import 'package:on_off/ui/off/list/off_list_screen.dart';
 import 'package:on_off/ui/off/monthly/off_monthly_screen.dart';
 import 'package:on_off/ui/off/write/components/icons_above_keyboard.dart';
@@ -32,10 +33,12 @@ class _OffWriteScreenState extends State<OffWriteScreen> {
   final TextEditingController bodyController = TextEditingController();
   final LayerLink selectIconSheetLink = LayerLink();
   bool isClicked = false;
-  OffWriteViewModel? viewModel;
-  UiProvider? uiProvider;
+  late OffWriteViewModel viewModel;
+  late UiProvider uiProvider;
   bool init = false;
   late ScrollController _scrollController;
+  final GlobalKey key = GlobalKey();
+  double height = 300;
 
   void changeByFocus(bool hasFocus) {
     if (hasFocus == true) {
@@ -47,6 +50,16 @@ class _OffWriteScreenState extends State<OffWriteScreen> {
         isClicked = false;
       });
     }
+  }
+
+  void setHeight() {
+    final renderBox = key.currentContext?.findRenderObject() as RenderBox?;
+    if (renderBox == null) return;
+    setState(
+      () => height = MediaQuery.of(context).size.height -
+          renderBox.localToGlobal(Offset.zero).dy -
+          46,
+    );
   }
 
   @override
@@ -65,7 +78,7 @@ class _OffWriteScreenState extends State<OffWriteScreen> {
     _bodyFocus.dispose();
     titleController.dispose();
     bodyController.dispose();
-    viewModel!.resetState();
+    viewModel.resetState();
     _scrollController.dispose();
     super.dispose();
   }
@@ -74,7 +87,7 @@ class _OffWriteScreenState extends State<OffWriteScreen> {
   Widget build(BuildContext context) {
     viewModel = context.watch<OffWriteViewModel>();
     uiProvider = context.watch<UiProvider>();
-    double height = MediaQuery.of(context).size.height;
+    setHeight();
 
     if (!init) {
       init = true;
@@ -89,182 +102,76 @@ class _OffWriteScreenState extends State<OffWriteScreen> {
       ),
       body: Stack(
         children: [
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 37),
-            height: height,
-            child: ListView(
-              controller: _scrollController,
+          Padding(
+            padding: const EdgeInsets.only(
+              top: 10,
+              left: 37,
+              right: 37,
+            ),
+            child: Column(
               children: [
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      DateFormat.MMMMEEEEd('ko_KR')
-                          .format(uiProvider!.state.focusedDay),
-                      style: const TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w700,
-                        height: 1.448,
-                        letterSpacing: .25,
-                      ),
+                    FocusMonth(
+                      showOverlay: false,
                     ),
-                    if (viewModel!.state.icon != null) _buildRemovableIcon(),
+                    TransformDailyWeekly(
+                      key: GlobalKey(),
+                      isOverlay: false,
+                    ),
                   ],
                 ),
-                const SizedBox(
-                  height: 10,
-                ),
-                SizedBox(
-                  height: 41,
-                  child: TextField(
-                    focusNode: _titleFocus,
-                    controller: titleController,
-                    maxLength: 20,
-                    maxLengthEnforcement: MaxLengthEnforcement.enforced,
-                    style: const TextStyle(
-                      fontWeight: FontWeight.w700,
-                      fontSize: 14,
-                      letterSpacing: .1,
-                    ),
-                    decoration: InputDecoration(
-                      hintText: '제목을 입력해주세요.',
-                      counterText: '',
-                      contentPadding: const EdgeInsets.only(left: 10),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8.0),
-                        borderSide: const BorderSide(
-                          width: 0,
-                          style: BorderStyle.none,
-                        ),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8.0),
-                        borderSide: const BorderSide(
-                          width: 0,
-                          style: BorderStyle.none,
-                        ),
-                      ),
-                      filled: true,
-                      fillColor: const Color.fromRGBO(18, 112, 176, 0.24),
-
-                      //TODO : 작성하는 화면의 컬러값의 상수값 설정해야함. 설정 이후에 이 부분 수정.
-
-                      // Color: uiProvider!.state.colorConst.getPrimaryLight(),
-                    ),
-                  ),
-                ),
                 Container(
+                  key: key,
+                  height: height,
+                  padding: const EdgeInsets.symmetric(horizontal: 21),
                   decoration: BoxDecoration(
-                    color: const Color.fromRGBO(230, 247, 252, .3),
-
-                    //TODO : 작성하는 화면의 컬러값의 상수값 설정해야함. 설정 이후에 이 부분 수정.
-
-                    // color: uiProvider!.state.colorConst.getPrimaryLight(),
-                    borderRadius: BorderRadius.circular(10),
+                    color: uiProvider.state.colorConst.getPrimaryPlus(),
+                    borderRadius: BorderRadius.circular(7),
+                    boxShadow: const [
+                      BoxShadow(
+                        color: Color.fromRGBO(0, 0, 0, .25),
+                        spreadRadius: 0,
+                        blurRadius: 3,
+                        offset: Offset(1, -1),
+                      ),
+                    ],
                   ),
-                  height: 1000,
-                  child: Column(
+                  child: ListView(
+                    controller: _scrollController,
                     children: [
-                      const SizedBox(
-                        height: 15,
+                      const SizedBox(height: 20),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Text(
+                            DateFormat.MMMMEEEEd('ko_KR')
+                                .format(uiProvider.state.focusedDay),
+                            style: kBody2,
+                          ),
+                        ],
                       ),
-                      viewModel!.state.imagePaths.isNotEmpty
-                          ? SizedBox(
-                              height: 150,
-                              child: ListView.builder(
-                                scrollDirection: Axis.horizontal,
-                                itemCount:
-                                    viewModel!.state.imagePaths.length < 10
-                                        ? viewModel!.state.imagePaths.length + 1
-                                        : viewModel!.state.imagePaths.length,
-                                itemBuilder: (ctx, index) {
-                                  if (index ==
-                                      viewModel!.state.imagePaths.length) {
-                                    return SizedBox(
-                                      width: 100,
-                                      child: IconButton(
-                                        onPressed: () async {
-                                          var pickedImage = await inputImage(1);
-                                          if (pickedImage == null) return;
-                                          viewModel?.addSelectedImagePaths(
-                                              pickedImage);
-                                        },
-                                        icon: const Icon(
-                                          Icons.add_circle_outline,
-                                          color: Colors.black38,
-                                        ),
-                                      ),
-                                    );
-                                  }
-
-                                  return Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 3.0),
-                                    child: Stack(
-                                      children: [
-                                        ClipRRect(
-                                          borderRadius: const BorderRadius.all(
-                                            Radius.circular(10),
-                                          ),
-                                          child: Image.file(
-                                            viewModel!
-                                                .state.imagePaths[index].file,
-                                            height: 140,
-                                          ),
-                                        ),
-                                        Positioned(
-                                          top: 5,
-                                          right: 5,
-                                          child: GestureDetector(
-                                            onTap: () {
-                                              if (viewModel!
-                                                      .state.imagePaths.length >
-                                                  1) {
-                                                viewModel?.removeImage(
-                                                    viewModel!.state
-                                                        .imagePaths[index]);
-                                              } else {
-                                                _imageRemoveFailDialog(
-                                                    uiProvider!.state);
-                                              }
-                                            },
-                                            child: const Icon(Icons.cancel),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  );
-                                },
-                              ),
-                            )
-                          : Container(),
                       const SizedBox(
-                        height: 5,
+                        height: 10,
                       ),
-                      Container(
-                        padding: const EdgeInsets.only(left: 8),
+                      SizedBox(
                         height: 41,
-                        alignment: Alignment.centerLeft,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(7),
-                        ),
-                        child: StickerButton(
-                          layerLink: selectIconSheetLink,
-                          actionAfterSelect: (path) => viewModel?.addIcon(path),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
                         child: TextField(
-                          focusNode: _bodyFocus,
-                          controller: bodyController,
-                          style: kBody2,
-                          minLines: 8,
-                          maxLines: 8,
+                          focusNode: _titleFocus,
+                          controller: titleController,
+                          maxLength: 20,
+                          maxLengthEnforcement: MaxLengthEnforcement.enforced,
+                          style: TextStyle(
+                            fontWeight: FontWeight.w700,
+                            fontSize: 14,
+                            letterSpacing: .1,
+                            color: uiProvider.state.colorConst.darkGray,
+                          ),
                           decoration: InputDecoration(
-                            hintText: '일기를 입력해주세요...',
-                            contentPadding: const EdgeInsets.only(left: 10),
-                            focusedBorder: InputBorder.none,
+                            contentPadding: EdgeInsets.zero,
+                            hintText: '제목을 입력해주세요.',
+                            counterText: '',
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(8.0),
                               borderSide: const BorderSide(
@@ -272,15 +179,156 @@ class _OffWriteScreenState extends State<OffWriteScreen> {
                                 style: BorderStyle.none,
                               ),
                             ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8.0),
+                              borderSide: const BorderSide(
+                                width: 0,
+                                style: BorderStyle.none,
+                              ),
+                            ),
                           ),
-                          onTap: () {
-                            //키보드 높이 120 + 키보드 위 버튼들 높이 56
-                            _scrollController.animateTo(
-                              176,
-                              duration: const Duration(milliseconds: 500),
-                              curve: Curves.ease,
-                            );
-                          },
+                        ),
+                      ),
+                      Container(
+                        decoration: BoxDecoration(
+                          color: uiProvider.state.colorConst.getPrimaryPlus(),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        height: 1000,
+                        child: Column(
+                          children: [
+                            const SizedBox(
+                              height: 15,
+                            ),
+                            viewModel.state.imagePaths.isNotEmpty
+                                ? SizedBox(
+                                    height: 150,
+                                    child: ListView.builder(
+                                      scrollDirection: Axis.horizontal,
+                                      itemCount: viewModel
+                                                  .state.imagePaths.length <
+                                              10
+                                          ? viewModel.state.imagePaths.length +
+                                              1
+                                          : viewModel.state.imagePaths.length,
+                                      itemBuilder: (ctx, index) {
+                                        if (index ==
+                                            viewModel.state.imagePaths.length) {
+                                          return SizedBox(
+                                            width: 100,
+                                            child: IconButton(
+                                              onPressed: () async {
+                                                var pickedImage =
+                                                    await inputImage(1);
+                                                if (pickedImage == null) return;
+                                                viewModel.addSelectedImagePaths(
+                                                    pickedImage);
+                                              },
+                                              icon: const Icon(
+                                                Icons.add_circle_outline,
+                                                color: Colors.black38,
+                                              ),
+                                            ),
+                                          );
+                                        }
+                                        return Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 3.0),
+                                          child: Stack(
+                                            children: [
+                                              ClipRRect(
+                                                borderRadius:
+                                                    const BorderRadius.all(
+                                                  Radius.circular(10),
+                                                ),
+                                                child: Image.file(
+                                                  viewModel.state
+                                                      .imagePaths[index].file,
+                                                  height: 140,
+                                                ),
+                                              ),
+                                              Positioned(
+                                                top: 5,
+                                                right: 5,
+                                                child: GestureDetector(
+                                                  onTap: () {
+                                                    if (viewModel.state
+                                                            .imagePaths.length >
+                                                        1) {
+                                                      viewModel.removeImage(
+                                                          viewModel.state
+                                                                  .imagePaths[
+                                                              index]);
+                                                    } else {
+                                                      _imageRemoveFailDialog(
+                                                          uiProvider.state);
+                                                    }
+                                                  },
+                                                  child:
+                                                      const Icon(Icons.cancel),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                  )
+                                : Container(),
+                            const SizedBox(
+                              height: 5,
+                            ),
+                            Container(
+                              padding: const EdgeInsets.only(left: 8),
+                              height: 41,
+                              alignment: Alignment.centerLeft,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(7),
+                              ),
+                              child: Row(
+                                children: [
+                                  StickerButton(
+                                    layerLink: selectIconSheetLink,
+                                    actionAfterSelect: (path) =>
+                                        viewModel.addIcon(path),
+                                  ),
+                                  if (viewModel.state.icon != null)
+                                    _buildRemovableIcon(),
+                                ],
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: TextField(
+                                focusNode: _bodyFocus,
+                                controller: bodyController,
+                                style: kBody2,
+                                minLines: 8,
+                                maxLines: 8,
+                                decoration: InputDecoration(
+                                  hintText: '일기를 입력해주세요...',
+                                  contentPadding:
+                                      const EdgeInsets.only(left: 10),
+                                  focusedBorder: InputBorder.none,
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(8.0),
+                                    borderSide: const BorderSide(
+                                      width: 0,
+                                      style: BorderStyle.none,
+                                    ),
+                                  ),
+                                ),
+                                onTap: () {
+                                  //키보드 높이 120 + 키보드 위 버튼들 높이 56
+                                  _scrollController.animateTo(
+                                    176,
+                                    duration: const Duration(milliseconds: 500),
+                                    curve: Curves.ease,
+                                  );
+                                },
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ],
@@ -303,27 +351,27 @@ class _OffWriteScreenState extends State<OffWriteScreen> {
   }
 
   void _init() async {
-    await viewModel!.getFocusedDayDetail();
-    if (viewModel?.state.offDiary != null) {
-      titleController.text = viewModel!.state.offDiary!.title;
-      bodyController.text = viewModel!.state.offDiary!.content;
+    await viewModel.getFocusedDayDetail();
+    if (viewModel.state.offDiary != null) {
+      titleController.text = viewModel.state.offDiary!.title;
+      bodyController.text = viewModel.state.offDiary!.content;
     } else {
       var file = await inputImage(1);
       if (file == null) {
         Navigator.pop(context);
         return;
       }
-      viewModel!.addSelectedImagePaths(file);
+      viewModel.addSelectedImagePaths(file);
     }
   }
 
   void removeDialogFunction() async {
     FocusManager.instance.primaryFocus?.unfocus();
-    bool remove = await _removeDialog(uiProvider!.state);
+    bool remove = await _removeDialog(uiProvider.state);
     if (remove) {
-      await viewModel?.removeContent();
-      uiProvider?.initScreen(OffMonthlyScreen.routeName);
-      uiProvider?.initScreen(OffListScreen.routeName);
+      await viewModel.removeContent();
+      uiProvider.initScreen(OffMonthlyScreen.routeName);
+      uiProvider.initScreen(OffListScreen.routeName);
       Future.delayed(
           Duration.zero,
           () => Navigator.pushNamedAndRemoveUntil(
@@ -333,8 +381,8 @@ class _OffWriteScreenState extends State<OffWriteScreen> {
 
   Widget _buildRemovableIcon() {
     return GestureDetector(
-        child: buildSelectedIcon(viewModel!.state.icon!.name),
-        onTap: () => viewModel?.removeIcon(uiProvider!.state.focusedDay));
+        child: buildSelectedIcon(viewModel.state.icon!.name),
+        onTap: () => viewModel.removeIcon(uiProvider.state.focusedDay));
   }
 
   Future<dynamic> _removeDialog(UiState uiState) {

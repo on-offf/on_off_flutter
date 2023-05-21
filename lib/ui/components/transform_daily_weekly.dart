@@ -7,11 +7,12 @@ import 'package:on_off/ui/provider/ui_provider.dart';
 import 'package:provider/provider.dart';
 
 class TransformDailyWeekly extends StatelessWidget {
-  TransformDailyWeekly({GlobalKey? key, this.text = 'Daily'}) : super(key: key);
+  TransformDailyWeekly({GlobalKey? key, this.text = 'Daily', this.isOverlay = true}) : super(key: key);
 
   late OverlayEntry overlayEntry;
   late UiProvider uiProvider;
   String text;
+  bool isOverlay;
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +20,9 @@ class TransformDailyWeekly extends StatelessWidget {
 
     return GestureDetector(
       onTap: () {
-        overlayEntry = _createOverlay();
+        if (isOverlay) {
+          overlayEntry = _createOverlay();
+        }
         Navigator.of(context).overlay?.insert(overlayEntry);
       },
       child: Padding(
@@ -49,9 +52,8 @@ class TransformDailyWeekly extends StatelessWidget {
   }
 
   OverlayEntry _createOverlay() {
-    RenderBox renderBox = (key as GlobalKey)
-        .currentContext
-        ?.findRenderObject() as RenderBox;
+    RenderBox renderBox =
+        (key as GlobalKey).currentContext?.findRenderObject() as RenderBox;
     Offset offset = renderBox.localToGlobal(Offset.zero);
 
     return OverlayEntry(
@@ -84,7 +86,8 @@ class TransformDailyWeekly extends StatelessWidget {
                           overlayEntry.remove();
                           if (text == 'Daily') return;
 
-                          Navigator.popAndPushNamed(context, OffDailyScreen.routeName);
+                          Navigator.popAndPushNamed(
+                              context, OffDailyScreen.routeName);
                         },
                         child: const Text(
                           'Daily',
@@ -100,7 +103,8 @@ class TransformDailyWeekly extends StatelessWidget {
                           overlayEntry.remove();
                           if (text == 'Weekly') return;
 
-                          Navigator.popAndPushNamed(context, OffListScreen.routeName);
+                          Navigator.popAndPushNamed(
+                              context, OffListScreen.routeName);
                         },
                         child: const Text(
                           'Weekly',
