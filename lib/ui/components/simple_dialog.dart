@@ -111,10 +111,8 @@ Future<dynamic> simpleConfirmButtonDialog(
           color: canvasColor,
         ),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const SizedBox(
-              height: 18,
-            ),
             Text(
               message,
               style: kSubtitle3.copyWith(
@@ -127,7 +125,7 @@ Future<dynamic> simpleConfirmButtonDialog(
               children: [
                 TextButton(
                   onPressed: () {
-                    Navigator.of(context).pop(true);
+                    Navigator.of(_).pop(true);
                   },
                   style: TextButton.styleFrom(
                     shape: RoundedRectangleBorder(
@@ -151,7 +149,7 @@ Future<dynamic> simpleConfirmButtonDialog(
                 ),
                 TextButton(
                   onPressed: () {
-                    Navigator.of(context, rootNavigator: true).pop(false);
+                    Navigator.of(_, rootNavigator: true).pop(false);
                   },
                   style: TextButton.styleFrom(
                     shape: RoundedRectangleBorder(
@@ -263,7 +261,7 @@ Future<dynamic> simpleInputDialog(
               children: [
                 TextButton(
                   onPressed: () {
-                    Navigator.of(context).pop(controller.text);
+                    Navigator.of(_).pop(controller.text);
                   },
                   style: TextButton.styleFrom(
                     shape: RoundedRectangleBorder(
@@ -288,7 +286,7 @@ Future<dynamic> simpleInputDialog(
                 ),
                 TextButton(
                   onPressed: () {
-                    Navigator.of(context, rootNavigator: true).pop();
+                    Navigator.of(_, rootNavigator: true).pop();
                   },
                   style: TextButton.styleFrom(
                     shape: RoundedRectangleBorder(
