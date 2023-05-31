@@ -83,6 +83,9 @@ class _StickerButtonState extends State<StickerButton> {
   Widget build(BuildContext context) {
     return TextButton(
       onPressed: () => clickAddIcon(),
+      style: ButtonStyle(
+        padding: MaterialStateProperty.all(const EdgeInsets.all(0)),
+      ),
       child: const Text(
         '오늘의 기분은?',
         style: TextStyle(

@@ -1,7 +1,10 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:on_off/domain/icon/icon_path.dart';
 import 'package:on_off/ui/off/daily/off_daily_screen.dart';
+import 'package:on_off/ui/off/daily/off_daily_view_model.dart';
 import 'package:on_off/ui/off/list/off_list_screen.dart';
 import 'package:on_off/ui/provider/ui_provider.dart';
 import 'package:provider/provider.dart';
@@ -17,13 +20,17 @@ class TransformDailyWeekly extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     uiProvider = context.watch<UiProvider>();
+    OffDailyViewModel viewModel = context.watch<OffDailyViewModel>();
+    if (viewModel.state.content == null) {
+      isOverlay = false;
+    }
 
     return GestureDetector(
       onTap: () {
         if (isOverlay) {
           overlayEntry = _createOverlay();
+          Navigator.of(context).overlay?.insert(overlayEntry);
         }
-        Navigator.of(context).overlay?.insert(overlayEntry);
       },
       child: Padding(
         padding: const EdgeInsets.only(left: 5, bottom: 17),
@@ -86,7 +93,10 @@ class TransformDailyWeekly extends StatelessWidget {
                           overlayEntry.remove();
                           if (text == 'Daily') return;
 
-                          Navigator.popAndPushNamed(
+                          while (Navigator.canPop(context)) {
+                            Navigator.pop(context);
+                          }
+                          Navigator.pushNamed(
                               context, OffDailyScreen.routeName);
                         },
                         child: const Text(
@@ -103,7 +113,10 @@ class TransformDailyWeekly extends StatelessWidget {
                           overlayEntry.remove();
                           if (text == 'Weekly') return;
 
-                          Navigator.popAndPushNamed(
+                          while (Navigator.canPop(context)) {
+                            Navigator.pop(context);
+                          }
+                          Navigator.pushNamed(
                               context, OffListScreen.routeName);
                         },
                         child: const Text(

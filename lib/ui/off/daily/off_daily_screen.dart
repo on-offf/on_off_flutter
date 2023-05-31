@@ -2,8 +2,10 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:on_off/constants/constants_text_style.dart';
+import 'package:on_off/ui/components/build_selected_icons.dart';
 import 'package:on_off/ui/components/focus_month.dart';
 import 'package:on_off/ui/components/off_appbar.dart';
+import 'package:on_off/ui/components/sticker_button.dart';
 import 'package:on_off/ui/components/transform_daily_weekly.dart';
 import 'package:on_off/ui/off/daily/off_daily_view_model.dart';
 import 'package:on_off/ui/off/gallery/off_gallery_screen.dart';
@@ -24,6 +26,9 @@ class _OffDailyScreenState extends State<OffDailyScreen> {
   bool initScreen = true;
   final GlobalKey key = GlobalKey();
   double height = 300;
+  final LayerLink selectIconSheetLink = LayerLink();
+  late OffDailyViewModel viewModel;
+  late UiProvider uiProvider;
 
   @override
   void initState() {
@@ -43,8 +48,8 @@ class _OffDailyScreenState extends State<OffDailyScreen> {
 
   @override
   Widget build(BuildContext context) {
-    OffDailyViewModel viewModel = context.watch<OffDailyViewModel>();
-    UiProvider uiProvider = context.watch<UiProvider>();
+    viewModel = context.watch<OffDailyViewModel>();
+    uiProvider = context.watch<UiProvider>();
 
     return Scaffold(
       appBar: offAppBar(
@@ -145,7 +150,32 @@ class _OffDailyScreenState extends State<OffDailyScreen> {
                         ),
                       ),
                     ),
-                    const SizedBox(height: 14),
+                    const SizedBox(height: 20),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: viewModel.state.content!.imageList
+                          .map(
+                            (e) => Container(
+                              width: 10,
+                              height: 10,
+                              margin: const EdgeInsets.symmetric(horizontal: 2),
+                              decoration: BoxDecoration(
+                                color: uiProvider.state.colorConst.getPrimary(),
+                                borderRadius: BorderRadius.circular(99),
+                              ),
+                            ),
+                          )
+                          .toList(),
+                    ),
+                    Row(
+                      children: [
+                        StickerButton(
+                          layerLink: selectIconSheetLink,
+                          actionAfterSelect: (path) => viewModel.addIcon(path),
+                        ),
+                        if (viewModel.state.icon != null) _buildRemovableIcon(),
+                      ],
+                    ),
                     Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(7),
@@ -163,7 +193,7 @@ class _OffDailyScreenState extends State<OffDailyScreen> {
                         child: SingleChildScrollView(
                           child: Container(
                             width: MediaQuery.of(context).size.width - 74,
-                            padding: const EdgeInsets.all(22),
+                            padding: const EdgeInsets.symmetric(vertical: 10),
                             child: Text(
                               viewModel.state.content!.content,
                               softWrap: true,
@@ -182,5 +212,11 @@ class _OffDailyScreenState extends State<OffDailyScreen> {
         ),
       ),
     );
+  }
+
+  Widget _buildRemovableIcon() {
+    return GestureDetector(
+        child: buildSelectedIcon(viewModel.state.icon!.name),
+        onTap: () => viewModel.removeIcon(uiProvider.state.focusedDay));
   }
 }

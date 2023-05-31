@@ -6,7 +6,6 @@ import 'package:on_off/ui/components/off_appbar.dart';
 import 'package:on_off/ui/components/transform_daily_weekly.dart';
 import 'package:on_off/ui/off/daily/off_daily_screen.dart';
 import 'package:on_off/ui/components/focus_month.dart';
-import 'package:on_off/ui/off/list/components/off_list_order_change_button.dart';
 import 'package:on_off/ui/off/list/components/list_item.dart';
 import 'package:on_off/ui/off/list/off_list_view_model.dart';
 import 'package:on_off/ui/off/write/off_write_screen.dart';
@@ -23,7 +22,6 @@ class OffListScreen extends StatelessWidget {
     OffListViewModel viewModel = context.watch<OffListViewModel>();
 
     UiProvider uiProvider = context.watch<UiProvider>();
-
     return Scaffold(
       appBar: offAppBar(
         context,
@@ -53,6 +51,7 @@ class OffListScreen extends StatelessWidget {
                   if (index == 0 && viewModel.state.contents.isEmpty) {
                     return Column(
                       children: [
+                        const SizedBox(height: 100,),
                         SvgPicture.asset(
                           IconPath.noHaveContent.name,
                           width: 130,
@@ -156,7 +155,7 @@ class OffListScreen extends StatelessWidget {
                     );
                   }
                 }),
-                itemCount: viewModel.state.contents.length,
+                itemCount: viewModel.state.contents.isEmpty ? 1 : viewModel.state.contents.length,
               ),
             ),
           ],

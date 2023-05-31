@@ -76,17 +76,20 @@ class OffDailyViewModel extends UiProviderObserve {
     _state = _state.copyWith(icon: icon);
   }
 
-  void addIcon(DateTime selectedDate, String path) async {
-    selectedDate =
-        DateTime(selectedDate.year, selectedDate.month, selectedDate.day, 9);
-    var offIcon = await offIconUseCase.insert(selectedDate, path);
-
-    _state = _state.copyWith(icon: offIcon);
+  addIcon(String path) async {
+    OffIconEntity icon = await offIconUseCase.insert(uiState!.focusedDay, path);
+    _state = _state.copyWith(icon: icon);
     notifyListeners();
   }
 
   void changeCurrentIndex(int currentIndex) {
     _state = _state.copyWith(currentIndex: currentIndex);
+    notifyListeners();
+  }
+
+  void removeIcon(DateTime dateTime) async {
+    await offIconUseCase.delete(dateTime);
+    _state = _state.copyWith(icon: null);
     notifyListeners();
   }
 

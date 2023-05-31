@@ -279,7 +279,6 @@ class _OffWriteScreenState extends State<OffWriteScreen> {
                               height: 5,
                             ),
                             Container(
-                              padding: const EdgeInsets.only(left: 8),
                               height: 41,
                               alignment: Alignment.centerLeft,
                               decoration: BoxDecoration(
@@ -298,7 +297,7 @@ class _OffWriteScreenState extends State<OffWriteScreen> {
                               ),
                             ),
                             Padding(
-                              padding: const EdgeInsets.all(8.0),
+                              padding: const EdgeInsets.symmetric(vertical: 8.0),
                               child: TextField(
                                 focusNode: _bodyFocus,
                                 controller: bodyController,
@@ -307,8 +306,7 @@ class _OffWriteScreenState extends State<OffWriteScreen> {
                                 maxLines: 8,
                                 decoration: InputDecoration(
                                   hintText: '일기를 입력해주세요...',
-                                  contentPadding:
-                                      const EdgeInsets.only(left: 10),
+                                  contentPadding: const EdgeInsets.only(left: 0),
                                   focusedBorder: InputBorder.none,
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(8.0),
