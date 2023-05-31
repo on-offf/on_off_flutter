@@ -142,7 +142,7 @@ class OffMonthlyItem extends StatelessWidget {
               ),
             ),
             viewModel.state.icon != null
-                ? buildSelectedIcon(viewModel.state.icon!.name)
+                ? buildSelectedIcon(viewModel.state.icon!.name, uiProvider)
                 : const SizedBox(width: 27),
             Expanded(
               child: Container(

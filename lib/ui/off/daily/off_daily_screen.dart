@@ -216,7 +216,7 @@ class _OffDailyScreenState extends State<OffDailyScreen> {
 
   Widget _buildRemovableIcon() {
     return GestureDetector(
-        child: buildSelectedIcon(viewModel.state.icon!.name),
+        child: buildSelectedIcon(viewModel.state.icon!.name, uiProvider),
         onTap: () => viewModel.removeIcon(uiProvider.state.focusedDay));
   }
 }

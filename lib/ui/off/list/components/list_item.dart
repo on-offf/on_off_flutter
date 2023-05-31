@@ -54,7 +54,7 @@ class ListItem extends StatelessWidget {
               viewModel.state.iconMap[content.time.day] == null
                   ? const SizedBox(width: 8)
                   : buildSelectedIcon(
-                      viewModel.state.iconMap[content.time.day]!.name),
+                      viewModel.state.iconMap[content.time.day]!.name, uiProvider),
               Container(
                 height: 2,
                 color: Theme.of(context).primaryColor,

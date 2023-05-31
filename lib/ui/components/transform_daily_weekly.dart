@@ -76,7 +76,7 @@ class TransformDailyWeekly extends StatelessWidget {
               child: Material(
                 color: Colors.transparent,
                 child: Container(
-                  width: 50,
+                  width: 70,
                   height: 70,
                   decoration: BoxDecoration(
                       color: Colors.white,
@@ -102,7 +102,7 @@ class TransformDailyWeekly extends StatelessWidget {
                         child: const Text(
                           'Daily',
                           style: TextStyle(
-                            fontSize: 11,
+                            fontSize: 14,
                             fontWeight: FontWeight.w400,
                           ),
                         ),
@@ -122,7 +122,7 @@ class TransformDailyWeekly extends StatelessWidget {
                         child: const Text(
                           'Weekly',
                           style: TextStyle(
-                            fontSize: 11,
+                            fontSize: 14,
                             fontWeight: FontWeight.w400,
                           ),
                         ),

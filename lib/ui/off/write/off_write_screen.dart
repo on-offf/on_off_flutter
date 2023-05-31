@@ -379,7 +379,7 @@ class _OffWriteScreenState extends State<OffWriteScreen> {
 
   Widget _buildRemovableIcon() {
     return GestureDetector(
-        child: buildSelectedIcon(viewModel.state.icon!.name),
+        child: buildSelectedIcon(viewModel.state.icon!.name, uiProvider),
         onTap: () => viewModel.removeIcon(uiProvider.state.focusedDay));
   }
 
