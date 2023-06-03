@@ -10,9 +10,11 @@ class ThemeCard extends StatelessWidget {
   const ThemeCard({
     Key? key,
     required this.colorConst,
+    required this.colorName,
   }) : super(key: key);
 
   final ColorConst colorConst;
+  final String colorName;
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +51,7 @@ class ThemeCard extends StatelessWidget {
                     bottom: 0,
                   ),
                   child: Text(
-                    'BLUE',
+                    colorName,
                     style: kBody2.copyWith(
                       color: Colors.white,
                     ),

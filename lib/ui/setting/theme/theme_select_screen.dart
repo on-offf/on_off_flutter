@@ -89,15 +89,19 @@ class _ThemeSelectScreenState extends State<ThemeSelectScreen> {
                   const SizedBox(height: 29),
                   ThemeCard(
                     colorConst: uiProvider.state.oceanMainColor,
+                    colorName: 'BLUE',
                   ),
                   ThemeCard(
                     colorConst: uiProvider.state.purpleMainColor,
+                    colorName: 'PURPLE',
                   ),
                   ThemeCard(
                     colorConst: uiProvider.state.greenMainColor,
+                    colorName: 'GREEN',
                   ),
                   ThemeCard(
                     colorConst: uiProvider.state.yellowMainColor,
+                    colorName: 'YELLOW',
                   ),
                   const SizedBox(height: 15),
                 ],

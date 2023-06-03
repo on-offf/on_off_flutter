@@ -36,7 +36,7 @@ class IconsAboveKeyboard extends StatefulWidget {
 
 class _IconsAboveKeyboardState extends State<IconsAboveKeyboard> {
   File? _pickedImage;
-  UiProvider? uiProvider;
+  late UiProvider uiProvider;
   final int imageLimitNumber = 10;
 
   @override
@@ -50,7 +50,7 @@ class _IconsAboveKeyboardState extends State<IconsAboveKeyboard> {
       child: Container(
         height: 56,
         decoration: BoxDecoration(
-          color: Theme.of(context).canvasColor,
+          color: uiProvider.state.colorConst.canvas,
           border: Border.symmetric(
             horizontal: BorderSide(
               width: 1,
@@ -67,7 +67,7 @@ class _IconsAboveKeyboardState extends State<IconsAboveKeyboard> {
                 IconButton(
                   onPressed: () async {
                     if (viewModel.state.imagePaths.length >= imageLimitNumber) {
-                      _imageLimitTenDialog(uiProvider!.state);
+                      _imageLimitTenDialog(uiProvider.state);
                     } else {
                       _pickedImage = await inputImage(0);
                       if (_pickedImage != null) {
@@ -81,13 +81,17 @@ class _IconsAboveKeyboardState extends State<IconsAboveKeyboard> {
                     IconPath.camera.name,
                     width: 37,
                     height: 35,
+                    colorFilter: ColorFilter.mode(
+                      uiProvider.state.colorConst.getPrimary(),
+                      BlendMode.srcIn,
+                    ),
                   ),
                 ),
                 const SizedBox(width: 20),
                 IconButton(
                   onPressed: () async {
                     if (viewModel.state.imagePaths.length >= imageLimitNumber) {
-                      _imageLimitTenDialog(uiProvider!.state);
+                      _imageLimitTenDialog(uiProvider.state);
                     } else {
                       _pickedImage = await inputImage(1);
                       if (_pickedImage != null) {
@@ -101,6 +105,10 @@ class _IconsAboveKeyboardState extends State<IconsAboveKeyboard> {
                     IconPath.clip.name,
                     width: 29,
                     height: 29,
+                    colorFilter: ColorFilter.mode(
+                      uiProvider.state.colorConst.getPrimary(),
+                      BlendMode.srcIn,
+                    ),
                   ),
                 ),
                 const SizedBox(width: 20),
@@ -111,6 +119,10 @@ class _IconsAboveKeyboardState extends State<IconsAboveKeyboard> {
                     IconPath.trashCan.name,
                     width: 29,
                     height: 29,
+                    colorFilter: ColorFilter.mode(
+                      uiProvider.state.colorConst.getPrimary(),
+                      BlendMode.srcIn,
+                    ),
                   ),
                 ),
               ],
@@ -135,15 +147,15 @@ class _IconsAboveKeyboardState extends State<IconsAboveKeyboard> {
                       return;
                     }
                     if (widget.titleController.text.trim().isEmpty) {
-                      _titleFailDialog(uiProvider!.state);
+                      _titleFailDialog(uiProvider.state);
                     } else if (widget.bodyController.text.trim().isEmpty) {
-                      _contentFailDialog(uiProvider!.state);
+                      _contentFailDialog(uiProvider.state);
                     } else {
                       await viewModel.saveContent(widget.titleController.text,
                           widget.bodyController.text);
-                      await uiProvider?.initScreen(OffDailyScreen.routeName);
-                      uiProvider?.initScreen(OffMonthlyScreen.routeName);
-                      uiProvider?.initScreen(OffListScreen.routeName);
+                      await uiProvider.initScreen(OffDailyScreen.routeName);
+                      uiProvider.initScreen(OffMonthlyScreen.routeName);
+                      uiProvider.initScreen(OffListScreen.routeName);
 
                       if (viewModel.state.offDiary?.id != null) {
                         bool? result = await simpleConfirmButtonDialog(
@@ -169,6 +181,10 @@ class _IconsAboveKeyboardState extends State<IconsAboveKeyboard> {
                     IconPath.submit.name,
                     width: 30,
                     height: 30,
+                    colorFilter: ColorFilter.mode(
+                      uiProvider.state.colorConst.getPrimary(),
+                      BlendMode.srcIn,
+                    ),
                   ),
                 ),
                 const SizedBox(width: 38),
