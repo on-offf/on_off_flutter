@@ -1,5 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 
 import 'package:on_off/domain/icon/icon_path.dart';
 
@@ -82,6 +83,9 @@ class _StickerButtonState extends State<StickerButton> {
   Widget build(BuildContext context) {
     return TextButton(
       onPressed: () => clickAddIcon(),
+      style: ButtonStyle(
+        padding: MaterialStateProperty.all(const EdgeInsets.all(0)),
+      ),
       child: const Text(
         '오늘의 기분은?',
         style: TextStyle(
@@ -155,8 +159,8 @@ class _StickerButtonState extends State<StickerButton> {
         _actionAfterSelect(imagePath);
       },
       padding: const EdgeInsets.all(0),
-      icon: Image(
-        image: AssetImage(imagePath),
+      icon: SvgPicture.asset(
+        imagePath,
         width: 48,
         height: 48,
       ),

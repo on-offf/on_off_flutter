@@ -1,5 +1,11 @@
 import 'package:flutter/widgets.dart';
 
+const TextStyle kOffTitle = TextStyle(
+  fontSize: 14,
+  fontWeight: FontWeight.w700,
+  letterSpacing: .1,
+);
+
 const TextStyle kTitle1 = TextStyle(
   fontSize: 16,
   fontWeight: FontWeight.w400,

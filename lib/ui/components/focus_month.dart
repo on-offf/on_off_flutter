@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 import 'package:on_off/constants/constants_text_style.dart';
 import 'package:on_off/domain/icon/icon_path.dart';
+import 'package:on_off/ui/on/monthly/on_monthly_view_model.dart';
 import 'package:on_off/ui/provider/ui_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -26,12 +28,14 @@ class FocusMonth extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     uiProvider = context.watch<UiProvider>();
+    OnMonthlyViewModel onMonthlyViewModel = context.watch<OnMonthlyViewModel>();
 
     return Padding(
       padding: const EdgeInsets.only(left: 5, bottom: 17),
       child: GestureDetector(
         onTap: () {
           if (!showOverlay) return;
+          onMonthlyViewModel.unFocus();
 
           uiProvider.focusMonthSelected();
           if (uiProvider.state.focusMonthSelected) {
@@ -61,10 +65,11 @@ class FocusMonth extends StatelessWidget {
             const SizedBox(
               width: 6.38,
             ),
-            Image(
-              image: AssetImage(IconPath.downArrow.name),
-              width: 4.29,
-              height: 6.32,
+            SvgPicture.asset(
+              IconPath.downArrow.name,
+              colorFilter: ColorFilter.mode(
+                  uiProvider.state.colorConst.getPrimary(), BlendMode.srcIn),
+              width: 12,
             ),
           ],
         ),
@@ -87,8 +92,10 @@ class FocusMonth extends StatelessWidget {
             Positioned(
               left: isAccent ? offset.dx - 26 : offset.dx,
               top: offset.dy + size.height,
-              width: 162,
-              height: 171,
+              // width: 162,
+              // height: 171,
+              width: 188,
+              height: 195,
               child: Material(
                 color: Colors.transparent,
                 child: Container(
@@ -117,12 +124,13 @@ class FocusMonth extends StatelessWidget {
                                 year = year - 1;
                                 uiProvider.selfNotifyListeners();
                               },
-                              icon: Image(
-                                image: AssetImage(
-                                  IconPath.previousYearButton.name,
-                                ),
+                              icon: SvgPicture.asset(
+                                IconPath.previousYearButton.name,
                                 height: 11,
                                 width: 11,
+                                colorFilter: ColorFilter.mode(
+                                    uiProvider.state.colorConst.getPrimary(),
+                                    BlendMode.srcIn),
                               ),
                             ),
                           ),
@@ -131,7 +139,9 @@ class FocusMonth extends StatelessWidget {
                                 top: 0.0, bottom: 0, left: 0, right: 0),
                             child: Text(
                               "$year",
-                              style: kSubtitle3,
+                              style: kSubtitle3.copyWith(
+                                  color:
+                                      uiProvider.state.colorConst.getPrimary()),
                             ),
                           ),
                           Padding(
@@ -142,10 +152,13 @@ class FocusMonth extends StatelessWidget {
                                 year = year + 1;
                                 uiProvider.selfNotifyListeners();
                               },
-                              icon: Image(
-                                image: AssetImage(IconPath.nextYearButton.name),
+                              icon: SvgPicture.asset(
+                                IconPath.nextYearButton.name,
                                 height: 11,
                                 width: 11,
+                                colorFilter: ColorFilter.mode(
+                                    uiProvider.state.colorConst.getPrimary(),
+                                    BlendMode.srcIn),
                               ),
                             ),
                           ),
@@ -187,6 +200,21 @@ class FocusMonth extends StatelessWidget {
                           width: 16,
                         ),
                       ]),
+                      // Expanded(
+                      //   child: GridView.builder(
+                      //     itemCount: 12,
+                      //     gridDelegate:
+                      //         const SliverGridDelegateWithFixedCrossAxisCount(
+                      //       crossAxisCount: 4, //1 개의 행에 보여줄 item 개수
+                      //       childAspectRatio: 1 / 1, //item 의 가로 2, 세로 1 의 비율
+                      //       mainAxisSpacing: 15, //수평 Padding
+                      //       crossAxisSpacing: 15, //수직 Padding
+                      //     ),
+                      //     itemBuilder: (BuildContext _, int i) {
+                      //       return monthSelectButton(year, (i + 1).toString());
+                      //     },
+                      //   ),
+                      // ),
                     ],
                   ),
                 ),
@@ -205,13 +233,13 @@ class FocusMonth extends StatelessWidget {
 
     return Expanded(
       child: SizedBox(
-        height: 31,
+        height: 41,
         child: TextButton(
           onPressed: () {
-            uiProvider.changeFocusedDay(
-                DateTime.utc(year, int.parse(month), 1));
-            uiProvider.changeCalendarPage(
-                DateTime.utc(year, int.parse(month), 1));
+            uiProvider
+                .changeFocusedDay(DateTime.utc(year, int.parse(month), 1));
+            uiProvider
+                .changeCalendarPage(DateTime.utc(year, int.parse(month), 1));
             uiProvider.removeOverlay();
           },
           style: !isFocusMonth

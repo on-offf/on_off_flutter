@@ -3,7 +3,7 @@ import 'package:sqflite/sqflite.dart';
 
 class OffIconDAO {
   static const table = 'off_icon';
-  static const ddl = 'CREATE TABLE ${OffIconDAO.table} (dateTime Integer, name TEXT)';
+  static const ddl = 'CREATE TABLE IF NOT EXISTS ${OffIconDAO.table} (dateTime Integer, name TEXT)';
 
   final Database database;
 

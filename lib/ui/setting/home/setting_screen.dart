@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_email_sender/flutter_email_sender.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:on_off/constants/constants_text_style.dart';
 import 'package:on_off/domain/icon/icon_path.dart';
 import 'package:on_off/domain/model/alert_time.dart';
@@ -10,6 +11,7 @@ import 'package:on_off/ui/setting/home/components/alert_time_dialog.dart';
 import 'package:on_off/ui/setting/home/components/animated_switch.dart';
 import 'package:on_off/ui/setting/password/password_confirm_screen.dart';
 import 'package:on_off/ui/setting/home/setting_view_model.dart';
+import 'package:on_off/ui/setting/theme/theme_select_screen.dart';
 import 'package:provider/provider.dart';
 
 import 'components/notification.dart';
@@ -39,16 +41,12 @@ class _SettingScreenState extends State<SettingScreen> {
       appBar: AppBar(
         backgroundColor: uiProvider.state.colorConst.getPrimary(),
         elevation: 0,
-        leading: ElevatedButton(
+        leading: IconButton(
           onPressed: () {
             Navigator.pop(context);
           },
-          style: ElevatedButton.styleFrom(
-            primary: uiProvider.state.colorConst.getPrimary(),
-            elevation: 0,
-          ),
-          child: Image(
-            image: AssetImage(IconPath.appbarPreviousButton.name),
+          icon: SvgPicture.asset(
+            IconPath.appbarPreviousButton.name,
             color: Colors.white,
           ),
         ),
@@ -62,6 +60,7 @@ class _SettingScreenState extends State<SettingScreen> {
         physics: const NeverScrollableScrollPhysics(),
         children: [
           Container(
+            color: const Color(0xffebebeb),
             padding: titleEdgeInsets(),
             child: Align(
               alignment: Alignment.bottomLeft,
@@ -301,11 +300,13 @@ class _SettingScreenState extends State<SettingScreen> {
                         ),
                         Padding(
                           padding: const EdgeInsets.only(right: 15.0),
-                          child: Image(
+                          child: SvgPicture.asset(
                             width: 9,
                             height: 14,
-                            image: AssetImage(
-                              IconPath.settingArrowButton.name,
+                            IconPath.settingArrowButton.name,
+                            colorFilter: ColorFilter.mode(
+                              uiProvider.state.colorConst.getPrimary(),
+                              BlendMode.srcIn,
                             ),
                           ),
                         ),
@@ -315,8 +316,220 @@ class _SettingScreenState extends State<SettingScreen> {
               ],
             ),
           ),
+          divide(),
+          Container(
+            padding: buttonEdgeInsets(),
+            color: Colors.white,
+            child: Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'ON 시간 설정',
+                      style: buttonTextStyle(),
+                    ),
+                    AnimatedSwitch(
+                      uiState: uiProvider.state,
+                      isLock: viewModel.state.setting.isOnOffSwitch == 1,
+                      onPressed: () async {
+                        viewModel.changeIsOnOffSwitch();
+                      },
+                    ),
+                  ],
+                ),
+                if (viewModel.state.setting.isOnOffSwitch == 1)
+                  Container(
+                    padding: const EdgeInsets.only(
+                      top: 0,
+                      bottom: 0,
+                      left: 10,
+                      right: 0,
+                    ),
+                    height: 25,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "ON 시작",
+                          style: switchOnOffTextStyle(),
+                        ),
+                        TextButton(
+                          onPressed: () async {
+                            AlertTime? time = await alertTimeDialog(
+                              context,
+                              viewModel,
+                              viewModel.state,
+                              uiProvider,
+                              uiProvider.state,
+                              uiProvider.state.colorConst.getPrimary(),
+                            );
+                            if (time != null) {
+                              viewModel.changeSwitchTime(true, time);
+                            }
+                          },
+                          style: TextButton.styleFrom(
+                            padding: const EdgeInsets.all(0),
+                          ),
+                          child: RichText(
+                            text: TextSpan(
+                              style: switchOnOffTextStyle(),
+                              children: [
+                                TextSpan(
+                                  text:
+                                      viewModel.state.setting.switchStartHour <
+                                              12
+                                          ? 'AM '
+                                          : 'PM ',
+                                  style: messageTextStyle().copyWith(
+                                    color: uiProvider.state.colorConst
+                                        .getPrimary(),
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                                TextSpan(
+                                  text: viewModel
+                                              .state.setting.switchStartHour ==
+                                          0
+                                      ? '12'
+                                      : viewModel.state.setting
+                                                  .switchStartHour <=
+                                              12
+                                          ? '${viewModel.state.setting.switchStartHour}'
+                                          : '${viewModel.state.setting.switchStartHour - 12}',
+                                  style: messageTextStyle().copyWith(
+                                    color: uiProvider.state.colorConst
+                                        .getPrimary(),
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                                TextSpan(
+                                  text: ':',
+                                  style: messageTextStyle().copyWith(
+                                    color: uiProvider.state.colorConst
+                                        .getPrimary(),
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                                TextSpan(
+                                  text:
+                                      '${viewModel.state.setting.switchStartMinutes < 10 ? '0' : ''}${viewModel.state.setting.switchStartMinutes}',
+                                  style: messageTextStyle().copyWith(
+                                    color: uiProvider.state.colorConst
+                                        .getPrimary(),
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                if (viewModel.state.setting.isOnOffSwitch == 1)
+                  const SizedBox(
+                    height: 10,
+                  ),
+                if (viewModel.state.setting.isOnOffSwitch == 1)
+                  Container(
+                    padding: const EdgeInsets.only(
+                      top: 0,
+                      bottom: 0,
+                      left: 10,
+                      right: 0,
+                    ),
+                    height: 25,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "ON 종료",
+                          style: switchOnOffTextStyle(),
+                        ),
+                        TextButton(
+                          onPressed: () async {
+                            AlertTime? time = await alertTimeDialog(
+                              context,
+                              viewModel,
+                              viewModel.state,
+                              uiProvider,
+                              uiProvider.state,
+                              uiProvider.state.colorConst.getPrimary(),
+                            );
+                            if (time != null) {
+                              viewModel.changeSwitchTime(false, time);
+                            }
+                          },
+                          style: TextButton.styleFrom(
+                            padding: const EdgeInsets.all(0),
+                          ),
+                          child: RichText(
+                            text: TextSpan(
+                              style: switchOnOffTextStyle(),
+                              children: [
+                                TextSpan(
+                                  text:
+                                      viewModel.state.setting.switchEndHour < 12
+                                          ? 'AM '
+                                          : 'PM ',
+                                  style: messageTextStyle().copyWith(
+                                    color: uiProvider.state.colorConst
+                                        .getPrimary(),
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                                TextSpan(
+                                  text: viewModel.state.setting.switchEndHour ==
+                                          0
+                                      ? '12'
+                                      : viewModel.state.setting.switchEndHour <=
+                                              12
+                                          ? '${viewModel.state.setting.switchEndHour}'
+                                          : '${viewModel.state.setting.switchEndHour - 12}',
+                                  style: messageTextStyle().copyWith(
+                                    color: uiProvider.state.colorConst
+                                        .getPrimary(),
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                                TextSpan(
+                                  text: ':',
+                                  style: messageTextStyle().copyWith(
+                                    color: uiProvider.state.colorConst
+                                        .getPrimary(),
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                                TextSpan(
+                                  text:
+                                      '${viewModel.state.setting.switchEndMinutes < 10 ? '0' : ''}${viewModel.state.setting.switchEndMinutes}',
+                                  style: messageTextStyle().copyWith(
+                                    color: uiProvider.state.colorConst
+                                        .getPrimary(),
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                if (viewModel.state.setting.isOnOffSwitch == 1)
+                  const SizedBox(
+                    height: 10,
+                  ),
+              ],
+            ),
+          ),
+          divide(),
+          itemWithArrowButton(uiProvider, '테마 변경',
+              () => Navigator.pushNamed(context, ThemeSelectScreen.routeName)),
           Container(
             padding: titleEdgeInsets(),
+            color: const Color(0xffebebeb),
             child: Align(
               alignment: Alignment.bottomLeft,
               child: Text(
@@ -325,98 +538,18 @@ class _SettingScreenState extends State<SettingScreen> {
               ),
             ),
           ),
-          // 2차 출시 이후에 반영.
-          // GestureDetector(
-          //   onTap: () {},
-          //   child: Container(
-          //     padding: buttonEdgeInsets(),
-          //     color: Colors.white,
-          //     child: Row(
-          //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          //       children: [
-          //         Text(
-          //           '리뷰는 큰 힘이 됩니다!',
-          //           style: buttonTextStyle(),
-          //         ),
-          //         Padding(
-          //           padding: const EdgeInsets.only(right: 15.0),
-          //           child: Image(
-          //             width: 9,
-          //             height: 14,
-          //             image: AssetImage(
-          //               IconPath.settingArrowButton.name,
-          //             ),
-          //           ),
-          //         ),
-          //       ],
-          //     ),
-          //   ),
-          // ),
-          // divide(),
-          GestureDetector(
-            onTap: () {
-              print('click!');
-            },
-            child: Container(
-              padding: buttonEdgeInsets(),
-              color: Colors.white,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  GestureDetector(
-                    onTap: () async => await _sendEmail(
-                        context, uiProvider.state.colorConst.getPrimary()),
-                    child: Text(
-                      '아쉬운 점을 알려주세요!',
-                      style: buttonTextStyle(),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(right: 15.0),
-                    child: Image(
-                      width: 9,
-                      height: 14,
-                      image: AssetImage(
-                        IconPath.settingArrowButton.name,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
+          itemWithArrowButton(
+            uiProvider,
+            '아쉬운 점을 알려주세요',
+            () async => await _sendEmail(
+                context, uiProvider.state.colorConst.getPrimary()),
           ),
           divide(),
-          GestureDetector(
-            onTap: () {
-              print('click!!');
-            },
-            child: Container(
-              padding: buttonEdgeInsets(),
-              color: Colors.white,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  GestureDetector(
-                    onTap: () => _showVersion(
-                        context, uiProvider.state.colorConst.getPrimary()),
-                    child: Text(
-                      '버전관리',
-                      style: buttonTextStyle(),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(right: 15.0),
-                    child: Image(
-                      width: 9,
-                      height: 14,
-                      image: AssetImage(
-                        IconPath.settingArrowButton.name,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
+          itemWithArrowButton(
+            uiProvider,
+            '버전관리',
+            () =>
+                _showVersion(context, uiProvider.state.colorConst.getPrimary()),
           ),
           divide(),
           Container(
@@ -512,6 +645,43 @@ class _SettingScreenState extends State<SettingScreen> {
     );
   }
 
+  Container itemWithArrowButton(
+      UiProvider uiProvider, String titleText, Function()? onTap) {
+    return Container(
+      padding: buttonEdgeInsets(),
+      color: Colors.white,
+      child: GestureDetector(
+        onTap: onTap,
+        child: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  // '테마 변경',
+                  titleText,
+                  style: buttonTextStyle(),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(right: 15.0),
+                  child: SvgPicture.asset(
+                    width: 9,
+                    height: 14,
+                    IconPath.settingArrowButton.name,
+                    colorFilter: ColorFilter.mode(
+                      uiProvider.state.colorConst.getPrimary(),
+                      BlendMode.srcIn,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   TextStyle buttonTextStyle() {
     return const TextStyle(
       fontWeight: FontWeight.w400,
@@ -543,6 +713,16 @@ class _SettingScreenState extends State<SettingScreen> {
   TextStyle messageTextStyle() {
     return const TextStyle(
       fontSize: 12,
+      fontWeight: FontWeight.w100,
+      letterSpacing: .25,
+      height: 1.666,
+      color: Colors.black,
+    );
+  }
+
+  TextStyle switchOnOffTextStyle() {
+    return const TextStyle(
+      fontSize: 15,
       fontWeight: FontWeight.w100,
       letterSpacing: .25,
       height: 1.666,
@@ -633,7 +813,7 @@ class _SettingScreenState extends State<SettingScreen> {
   }
 
   void _showVersion(context, primaryColor) {
-    String message = "현재 버전은 0.1 입니다.\n2023년 1월 v1.0 출시 예정입니다.";
+    String message = "현재 버전은 v1.0.2입니다.";
 
     simpleTextDialog(
       context,

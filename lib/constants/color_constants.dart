@@ -11,11 +11,15 @@ abstract class ColorConst {
   Color gray = const Color(0xffB3B3B3);
   Color lightGray = const Color(0xffE7E7E7);
 
-  Color canvas = const Color(0xffebebeb);
+// Color canvas = const Color(0xffebebeb);
+  Color canvas = Colors.white;
 
   Color getPrimary();
+
   Color getPrimaryLight();
+
   Color getPrimaryDark();
+
   Color getPrimaryPlus();
 
   Color getSecondaryLight() {
@@ -68,16 +72,13 @@ class OceanMainColor extends ColorConst {
   Color getPrimaryPlus() {
     return primaryPlus;
   }
-
 }
 
 class YellowMainColor extends ColorConst {
-  Color primary = const Color(0xffFFE55A);
-  Color primaryLight = const Color(0xffEFE4AD);
-  Color primaryDark = const Color(0xffFFB703);
-
-  // TODO 컬러 수정
-  Color primaryPlus = const Color(0xff);
+  Color primary = const Color(0xffFFEC89);
+  Color primaryLight = const Color(0xffFFFBE5);
+  Color primaryDark = const Color(0xffFFD467);
+  Color primaryPlus = const Color(0xffFFF4D9);
 
   @override
   Color getPrimary() {
@@ -101,12 +102,10 @@ class YellowMainColor extends ColorConst {
 }
 
 class PurpleMainColor extends ColorConst {
-  Color primary = const Color(0xff9747FF);
-  Color primaryLight = const Color(0xffD3B1FF);
-  Color primaryDark = const Color(0xff6012C5);
-
-  // TODO 컬러 수정
-  Color primaryPlus = const Color(0xff);
+  Color primary = const Color(0xffC497FF);
+  Color primaryLight = const Color(0xffF4EBFF);
+  Color primaryDark = const Color(0xff8A51D4);
+  Color primaryPlus = const Color(0xffFCEFFF);
 
   @override
   Color getPrimary() {
@@ -133,9 +132,7 @@ class OrangeMainColor extends ColorConst {
   Color primary = const Color(0xffFB8501);
   Color primaryLight = const Color(0xffFFB703);
   Color primaryDark = const Color(0xffF4DEA7);
-
-  // TODO 컬러 수정
-  Color primaryPlus = const Color(0xff);
+  Color primaryPlus = const Color(0xffFFF4D9);
 
   @override
   Color getPrimary() {
@@ -158,3 +155,29 @@ class OrangeMainColor extends ColorConst {
   }
 }
 
+class GreenMainColor extends ColorConst {
+  Color primary = const Color(0xff4BED9C);
+  Color primaryLight = const Color(0xff72FFB8);
+  Color primaryDark = const Color(0xffEBFFF5);
+  Color primaryPlus = const Color(0xffFCEFFF);
+
+  @override
+  Color getPrimary() {
+    return primary;
+  }
+
+  @override
+  Color getPrimaryDark() {
+    return primaryDark;
+  }
+
+  @override
+  Color getPrimaryLight() {
+    return primaryLight;
+  }
+
+  @override
+  Color getPrimaryPlus() {
+    return primaryPlus;
+  }
+}

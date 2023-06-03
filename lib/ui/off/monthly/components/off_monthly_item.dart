@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 import 'package:on_off/constants/constants_text_style.dart';
 import 'package:on_off/domain/icon/icon_path.dart';
@@ -26,104 +27,110 @@ class OffMonthlyItem extends StatelessWidget {
     _scrollControllerListener(_scrollController2, uiProvider);
 
     return viewModel.state.content == null
-        ? SingleChildScrollView(
-            //작은 화면에서 게시글 없을 때 화면이 잘려서 에러 발생하는 것 보완
-            physics: const NeverScrollableScrollPhysics(),
-            child: Column(
-              children: [
-                Image(
-                  image: AssetImage(IconPath.noHaveContent.name),
-                  width: 120,
-                  height: 120,
+        ? Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        SvgPicture.asset(
+          IconPath.noHaveContent.name,
+          width: 120,
+          height: 120,
+          colorFilter: ColorFilter.mode(
+            uiProvider.state.colorConst.getPrimary(),
+            BlendMode.srcIn,
+          ),
+        ),
+        const SizedBox(
+          height: 15,
+        ),
+        Text(
+          '이날은 아직 \n게시글이 없습니다!',
+          style: kSubtitle3.copyWith(
+            color: uiProvider.state.colorConst.getPrimary(),
+          ),
+          textAlign: TextAlign.center,
+        ),
+        TextButton(
+          onPressed: () {
+            uiProvider.changeFloatingActionButtonSwitch(true);
+            Navigator.pushNamed(context, OffWriteScreen.routeName);
+          },
+          style: ButtonStyle(
+            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+              RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(
+                  18.0,
                 ),
-                const SizedBox(
-                  height: 15,
+                side: BorderSide(
+                  color: uiProvider.state.colorConst.getPrimary(),
                 ),
-                Text(
-                  '이날은 아직 \n게시글이 없습니다!',
-                  style: kSubtitle3.copyWith(
-                    color: uiProvider.state.colorConst.getPrimary(),
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-                TextButton(
-                  onPressed: () {
-                    uiProvider.changeFloatingActionButtonSwitch(true);
-                    Navigator.pushNamed(context, OffWriteScreen.routeName);
-                  },
-                  style: ButtonStyle(
-                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                      RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(
-                          18.0,
-                        ),
-                        side: BorderSide(
-                          color: uiProvider.state.colorConst.getPrimary(),
-                        ),
-                      ),
-                    ),
-                  ),
-                  child: Text(
-                    '글쓰러 가기',
-                    style: TextStyle(
-                      fontWeight: FontWeight.w700,
-                      fontSize: 14,
-                      letterSpacing: 0.1,
-                      color: uiProvider.state.colorConst.getPrimary(),
-                    ),
-                  ),
-                ),
-              ],
+              ),
             ),
-          )
+          ),
+          child: Text(
+            '글쓰러 가기',
+            style: TextStyle(
+              fontWeight: FontWeight.w700,
+              fontSize: 14,
+              letterSpacing: 0.1,
+              color: uiProvider.state.colorConst.getPrimary(),
+            ),
+          ),
+        ),
+        SizedBox(
+          height: MediaQuery
+              .of(context)
+              .size
+              .height / 10,
+        )
+      ],
+    )
         : Container(
-            decoration: uiProvider.state.calendarFormat == CalendarFormat.week
-                ? const BoxDecoration(
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(22),
-                      topRight: Radius.circular(22),
-                    ),
-                    boxShadow: [
-                      BoxShadow(
-                        offset: Offset(-3, -3),
-                        blurRadius: 1,
-                        spreadRadius: 1,
-                        color: Color.fromRGBO(0, 0, 0, .1),
-                      ),
-                    ],
-                  )
-                : const BoxDecoration(),
-            child: Container(
-              decoration: uiProvider.state.calendarFormat == CalendarFormat.week
-                  ? BoxDecoration(
-                      borderRadius: const BorderRadius.only(
-                        topLeft: Radius.circular(22),
-                        topRight: Radius.circular(22),
-                      ),
-                      color: uiProvider.state.colorConst.canvas,
-                    )
-                  : const BoxDecoration(),
-              padding: EdgeInsets.only(
-                top: uiProvider.state.calendarFormat == CalendarFormat.month
-                    ? 0
-                    : 25,
-                left: 37,
-                right: 37,
-              ),
-              child: SingleChildScrollView(
-                physics: uiProvider.state.calendarFormat == CalendarFormat.month
-                    ? const NeverScrollableScrollPhysics()
-                    : const BouncingScrollPhysics(),
-                controller: _scrollController,
-                child: item(context, viewModel, uiProvider, layerLink),
-              ),
-            ),
-          );
+      decoration: const BoxDecoration(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(22),
+          topRight: Radius.circular(22),
+        ),
+        boxShadow: [
+          BoxShadow(
+            offset: Offset(-3, -3),
+            blurRadius: 1,
+            spreadRadius: 1,
+            color: Color.fromRGBO(0, 0, 0, .1),
+          ),
+        ],
+      ),
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: const BorderRadius.only(
+            topLeft: Radius.circular(22),
+            topRight: Radius.circular(22),
+          ),
+          color: uiProvider.state.colorConst.canvas,
+        ),
+        padding: EdgeInsets.only(
+          top: uiProvider.state.calendarFormat == CalendarFormat.month
+              ? 0
+              : 25,
+          left: 37,
+          right: 37,
+        ),
+        child: SingleChildScrollView(
+          physics: uiProvider.state.calendarFormat == CalendarFormat.month
+              ? const NeverScrollableScrollPhysics()
+              : const BouncingScrollPhysics(),
+          controller: _scrollController,
+          child: item(context, viewModel, uiProvider, layerLink),
+        ),
+      ),
+    );
   }
 
-  Widget item(context, viewModel, uiProvider, layerLink) {
+  Widget item(BuildContext context, OffMonthlyViewModel viewModel,
+      UiProvider uiProvider, layerLink) {
     return Column(
       children: [
+        if (uiProvider.state.calendarFormat == CalendarFormat.month)
+          const SizedBox(height: 45),
         Row(
           children: [
             CompositedTransformTarget(
@@ -135,53 +142,35 @@ class OffMonthlyItem extends StatelessWidget {
               ),
             ),
             viewModel.state.icon != null
-                ? buildSelectedIcon(viewModel.state.icon.name)
-                : const SizedBox(width: 10),
+                ? buildSelectedIcon(viewModel.state.icon!.name, uiProvider)
+                : const SizedBox(width: 27),
             Expanded(
               child: Container(
                 height: 2,
-                color: Theme.of(context).primaryColor,
+                color: Theme
+                    .of(context)
+                    .primaryColor,
               ),
             ),
           ],
         ),
         const SizedBox(height: 23),
-        Container(
-          decoration: const BoxDecoration(
-            color: Color.fromRGBO(100, 207, 239, .1),
-          ),
+        SizedBox(
           height: 500,
           child: SingleChildScrollView(
             physics: uiProvider.state.calendarFormat == CalendarFormat.month
                 ? const NeverScrollableScrollPhysics() //아래에서 위로 스와이프하지 않았을 때 스크롤 방지
-                : const BouncingScrollPhysics(),
+                : const ClampingScrollPhysics(),
             controller: _scrollController2,
-            child: Column(
-              children: [
-                Container(
-                  height: 41,
-                  padding: const EdgeInsets.only(left: 8),
-                  alignment: Alignment.centerLeft,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(7),
-                    color: const Color.fromRGBO(18, 112, 176, 0.24),
-                  ),
-                  child: Text(
-                    viewModel.state.content!.title,
-                    style: kSubtitle3.copyWith(height: 1),
-                  ),
-                ),
-                const SizedBox(height: 10),
-                showItem(context, viewModel, uiProvider),
-              ],
-            ),
+            child: showItem(context, viewModel, uiProvider),
           ),
         ),
       ],
     );
   }
 
-  Widget showItem(context, viewModel, uiProvider) {
+  Widget showItem(BuildContext context, OffMonthlyViewModel viewModel,
+      UiProvider uiProvider) {
     return Column(
       children: [
         GestureDetector(
@@ -195,19 +184,25 @@ class OffMonthlyItem extends StatelessWidget {
             );
           },
           child: SizedBox(
-            width: MediaQuery.of(context).size.width - 74,
+            width: MediaQuery
+                .of(context)
+                .size
+                .width - 74,
             height: 240,
             child: ClipRRect(
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(7),
               child: Image.memory(
                 viewModel.state.content!.imageList.first.imageFile,
                 fit: BoxFit.cover,
-                width: MediaQuery.of(context).size.width - 74,
+                width: MediaQuery
+                    .of(context)
+                    .size
+                    .width - 74,
               ),
             ),
           ),
         ),
-        const SizedBox(height: 15),
+        const SizedBox(height: 20),
         GestureDetector(
           onTap: () {
             uiProvider.changeCalendarFormat(CalendarFormat.month);
@@ -220,50 +215,46 @@ class OffMonthlyItem extends StatelessWidget {
               },
             );
           },
-          child: Column(
-            children: [
-              Row(
-                children: [
-                  const Text(
-                    "오늘의 일기",
-                    style: kSubtitle2,
-                  ),
-                  const SizedBox(
-                    width: 40.5,
-                  ),
-                  Expanded(
-                    child: Container(
-                      height: 2,
-                      decoration: const BoxDecoration(
-                        color: Color(0xff219EBC),
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(2.0),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 7),
-              SizedBox(
-                width: MediaQuery.of(context).size.width - 74,
-                height: 100, //TODO 화면이 작은 폰에서도 작동하는지 확인해야 함.
-                child: Text(
-                  viewModel.state.content!.content,
-                  textAlign: TextAlign.start,
-                  softWrap: true,
-                  style: kBody1,
+          child: Container(
+            decoration: BoxDecoration(
+              color: uiProvider.state.colorConst.getPrimaryPlus(),
+              borderRadius: BorderRadius.circular(7),
+            ),
+            padding: const EdgeInsets.symmetric(
+              horizontal: 22,
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(height: 10),
+                const Text(
+                  "오늘의 일기",
+                  style: kSubtitle2,
                 ),
-              ),
-            ],
+                const SizedBox(height: 20),
+                SizedBox(
+                  width: MediaQuery
+                      .of(context)
+                      .size
+                      .width - 74,
+                  height: 100, //TODO 화면이 작은 폰에서도 작동하는지 확인해야 함.
+                  child: Text(
+                    viewModel.state.content!.content,
+                    textAlign: TextAlign.start,
+                    softWrap: true,
+                    style: kBody1,
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ],
     );
   }
 
-  void _scrollControllerListener(
-      ScrollController scrollController, UiProvider uiProvider) {
+  void _scrollControllerListener(ScrollController scrollController,
+      UiProvider uiProvider) {
     scrollController.addListener(() {
       if (scrollController.offset < -50) {
         uiProvider.changeCalendarFormat(CalendarFormat.month);

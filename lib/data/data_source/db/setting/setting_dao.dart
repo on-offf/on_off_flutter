@@ -4,7 +4,22 @@ import 'package:sqflite/sqflite.dart';
 class SettingDAO {
   static const table = 'setting';
   static const ddl =
-      'CREATE TABLE ${SettingDAO.table} (isScreenLock Integer, isAlert Integer, password TEXT, alertMessage TEXT, alertMeridiem TEXT, alertHour Integer, alertMinutes Integer)';
+  '''
+      CREATE TABLE IF NOT EXISTS ${SettingDAO.table} (
+        isScreenLock Integer, 
+        isAlert Integer, 
+        password TEXT, 
+        alertMessage TEXT, 
+        alertMeridiem TEXT, 
+        alertHour Integer, 
+        alertMinutes Integer,
+        isOnOffSwitch Integer DEFAULT 0,
+        switchStartHour Integer DEFAULT 10,
+        switchStartMinutes Integer DEFAULT 0,
+        switchEndHour Integer DEFAULT 18,
+        switchEndMinutes Integer DEFAULT 0
+        )
+  ''';
 
   final Database database;
 
@@ -14,6 +29,11 @@ class SettingDAO {
     var entity = SettingEntity(
       isScreenLock: 0,
       isAlert: 0,
+      isOnOffSwitch: 0,
+      switchStartHour: 10,
+      switchStartMinutes: 0,
+      switchEndHour: 18,
+      switchEndMinutes: 0,
     );
     await database.insert(table, entity.toJson());
     return entity;

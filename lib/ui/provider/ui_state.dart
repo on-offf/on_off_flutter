@@ -19,5 +19,13 @@ class UiState with _$UiState {
     // focus year & month
     required bool focusMonthSelected,
     required OverlayEntry? overlayEntry,
+
+    //select start screen
+    required String startRoute,
+
+    required ColorConst oceanMainColor,
+    required ColorConst yellowMainColor,
+    required ColorConst purpleMainColor,
+    required ColorConst greenMainColor,
   }) = _UiState;
 }

@@ -1,10 +1,14 @@
+import 'dart:async';
+
 import 'package:on_off/data/data_source/db/off/off_icon_dao.dart';
 import 'package:on_off/data/data_source/db/off/off_diary_dao.dart';
 import 'package:on_off/data/data_source/db/off/off_image_dao.dart';
+import 'package:on_off/data/data_source/db/on/on_todo_dao.dart';
 import 'package:on_off/data/data_source/db/setting/setting_dao.dart';
 import 'package:on_off/domain/use_case/data_source/off/off_icon_use_case.dart';
 import 'package:on_off/domain/use_case/data_source/off/off_diary_use_case.dart';
 import 'package:on_off/domain/use_case/data_source/off/off_image_use_case.dart';
+import 'package:on_off/domain/use_case/data_source/on/on_todo_use_case.dart';
 import 'package:on_off/domain/use_case/data_source/setting/setting_use_case.dart';
 import 'package:on_off/ui/off/daily/off_daily_view_model.dart';
 import 'package:on_off/ui/off/gallery/off_gallery_view_model.dart';
@@ -21,7 +25,7 @@ import 'package:sqflite/sqflite.dart';
 
 Future<List<SingleChildWidget>> getProviders() async {
   var databaseName = 'on_off.db';
-  var databaseVersion = 1;
+  var databaseVersion = 2;
 
   Database database = await openDatabase(
     databaseName,
@@ -32,20 +36,28 @@ Future<List<SingleChildWidget>> getProviders() async {
       await db.execute(OffImageDAO.ddl);
       await db.execute(OffIconDAO.ddl);
 
+      // ON
+      await db.execute(OnTodoDAO.ddl);
+
       // SETTING
       await db.execute(SettingDAO.ddl);
     },
+    onUpgrade: _upgrade,
   );
 
   OffDiaryDAO offDiaryDAO = OffDiaryDAO(database);
   OffImageDAO offImageDAO = OffImageDAO(database);
   OffIconDAO iconDAO = OffIconDAO(database);
 
+  OnTodoDAO onTodoDAO = OnTodoDAO(database);
+
   SettingDAO settingDAO = SettingDAO(database);
 
   OffDiaryUseCase offDiaryUseCase = OffDiaryUseCase(offDiaryDAO);
   OffImageUseCase offImageUseCase = OffImageUseCase(offImageDAO);
   OffIconUseCase offIconUseCase = OffIconUseCase(iconDAO);
+
+  OnTodoUseCase onTodoUseCase = OnTodoUseCase(onTodoDAO);
 
   SettingUseCase settingUseCase = SettingUseCase(settingDAO);
 
@@ -85,7 +97,9 @@ Future<List<SingleChildWidget>> getProviders() async {
   );
 
   // On View Model
-  OnMonthlyViewModel onHomeViewModel = OnMonthlyViewModel();
+  OnMonthlyViewModel onHomeViewModel = OnMonthlyViewModel(
+    onTodoUseCase: onTodoUseCase,
+  );
 
   // Setting View Model
   SettingViewModel settingViewModel = SettingViewModel(
@@ -103,10 +117,10 @@ Future<List<SingleChildWidget>> getProviders() async {
   viewModelList.add(offGalleryViewModel);
 
   viewModelList.add(onHomeViewModel);
-
   viewModelList.add(settingViewModel);
 
   UiProvider uiProvider = UiProvider(viewModelList: viewModelList);
+  await uiProvider.init();
 
   return [
     ChangeNotifierProvider(create: (_) => uiProvider),
@@ -125,4 +139,46 @@ Future<List<SingleChildWidget>> getProviders() async {
     // setting
     ChangeNotifierProvider(create: (_) => settingViewModel),
   ];
+}
+
+_upgrade(Database db, int oldVersion, int newVersion) async {
+  if (oldVersion == newVersion) return;
+
+  switch(oldVersion) {
+    case 1: await _dbVersion1(db);
+  }
+}
+
+_dbVersion1(Database db) async {
+  Batch batch = db.batch();
+  List<Map> settingTableInfo = await db.rawQuery('PRAGMA table_info(${SettingDAO.table});');
+  String isOnOffSwitch = 'isOnOffSwitch';
+  String switchStartHour = 'switchStartHour';
+  String switchStartMinutes = 'switchStartMinutes';
+  String switchEndHour = 'switchEndHour';
+  String switchEndMinutes = 'switchEndMinutes';
+
+  if (!settingTableInfo.any((element) => element[isOnOffSwitch] == isOnOffSwitch)) {
+    batch.execute('ALTER TABLE ${SettingDAO.table} ADD $isOnOffSwitch Integer DEFAULT 0');
+  }
+
+  if (!settingTableInfo.any((element) => element[switchStartHour] == switchStartHour)) {
+    batch.execute('ALTER TABLE ${SettingDAO.table} ADD $switchStartHour Integer DEFAULT 10');
+  }
+
+  if (!settingTableInfo.any((element) => element[switchStartMinutes] == switchStartMinutes)) {
+    batch.execute('ALTER TABLE ${SettingDAO.table} ADD $switchStartMinutes Integer DEFAULT 0');
+  }
+
+  if (!settingTableInfo.any((element) => element[switchEndHour] == switchEndHour)) {
+    batch.execute('ALTER TABLE ${SettingDAO.table} ADD $switchEndHour Integer DEFAULT 18');
+  }
+
+  if (!settingTableInfo.any((element) => element[switchEndMinutes] == switchEndMinutes)) {
+    batch.execute('ALTER TABLE ${SettingDAO.table} ADD $switchEndMinutes Integer DEFAULT 0');
+  }
+
+  // ON
+  await db.execute(OnTodoDAO.ddl);
+  batch.commit();
 }

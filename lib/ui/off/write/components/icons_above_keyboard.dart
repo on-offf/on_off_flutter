@@ -2,6 +2,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:on_off/constants/constants_text_style.dart';
 
 import 'package:on_off/domain/icon/icon_path.dart';
@@ -35,7 +36,7 @@ class IconsAboveKeyboard extends StatefulWidget {
 
 class _IconsAboveKeyboardState extends State<IconsAboveKeyboard> {
   File? _pickedImage;
-  UiProvider? uiProvider;
+  late UiProvider uiProvider;
   final int imageLimitNumber = 10;
 
   @override
@@ -49,7 +50,7 @@ class _IconsAboveKeyboardState extends State<IconsAboveKeyboard> {
       child: Container(
         height: 56,
         decoration: BoxDecoration(
-          color: Theme.of(context).canvasColor,
+          color: uiProvider.state.colorConst.canvas,
           border: Border.symmetric(
             horizontal: BorderSide(
               width: 1,
@@ -66,7 +67,7 @@ class _IconsAboveKeyboardState extends State<IconsAboveKeyboard> {
                 IconButton(
                   onPressed: () async {
                     if (viewModel.state.imagePaths.length >= imageLimitNumber) {
-                      _imageLimitTenDialog(uiProvider!.state);
+                      _imageLimitTenDialog(uiProvider.state);
                     } else {
                       _pickedImage = await inputImage(0);
                       if (_pickedImage != null) {
@@ -76,17 +77,21 @@ class _IconsAboveKeyboardState extends State<IconsAboveKeyboard> {
                     }
                   },
                   padding: const EdgeInsets.all(0),
-                  icon: Image(
-                    image: AssetImage(IconPath.camera.name),
+                  icon: SvgPicture.asset(
+                    IconPath.camera.name,
                     width: 37,
                     height: 35,
+                    colorFilter: ColorFilter.mode(
+                      uiProvider.state.colorConst.getPrimary(),
+                      BlendMode.srcIn,
+                    ),
                   ),
                 ),
                 const SizedBox(width: 20),
                 IconButton(
                   onPressed: () async {
                     if (viewModel.state.imagePaths.length >= imageLimitNumber) {
-                      _imageLimitTenDialog(uiProvider!.state);
+                      _imageLimitTenDialog(uiProvider.state);
                     } else {
                       _pickedImage = await inputImage(1);
                       if (_pickedImage != null) {
@@ -96,20 +101,28 @@ class _IconsAboveKeyboardState extends State<IconsAboveKeyboard> {
                     }
                   },
                   padding: const EdgeInsets.all(0),
-                  icon: Image(
-                    image: AssetImage(IconPath.clip.name),
+                  icon: SvgPicture.asset(
+                    IconPath.clip.name,
                     width: 29,
                     height: 29,
+                    colorFilter: ColorFilter.mode(
+                      uiProvider.state.colorConst.getPrimary(),
+                      BlendMode.srcIn,
+                    ),
                   ),
                 ),
                 const SizedBox(width: 20),
                 IconButton(
                   onPressed: widget.removeDialogFunction,
                   padding: const EdgeInsets.all(0),
-                  icon: Image(
-                    image: AssetImage(IconPath.trashCan.name),
+                  icon: SvgPicture.asset(
+                    IconPath.trashCan.name,
                     width: 29,
                     height: 29,
+                    colorFilter: ColorFilter.mode(
+                      uiProvider.state.colorConst.getPrimary(),
+                      BlendMode.srcIn,
+                    ),
                   ),
                 ),
               ],
@@ -127,33 +140,51 @@ class _IconsAboveKeyboardState extends State<IconsAboveKeyboard> {
                 ),
                 IconButton(
                   onPressed: () async {
+                    final navigator = Navigator.of(context);
+
                     if (viewModel.state.imagePaths.isEmpty) {
                       _showImageRegistryDialog();
                       return;
                     }
                     if (widget.titleController.text.trim().isEmpty) {
-                      _titleFailDialog(uiProvider!.state);
+                      _titleFailDialog(uiProvider.state);
                     } else if (widget.bodyController.text.trim().isEmpty) {
-                      _contentFailDialog(uiProvider!.state);
+                      _contentFailDialog(uiProvider.state);
                     } else {
                       await viewModel.saveContent(widget.titleController.text,
                           widget.bodyController.text);
-                      await uiProvider?.initScreen(OffDailyScreen.routeName);
-                      uiProvider?.initScreen(OffMonthlyScreen.routeName);
-                      uiProvider?.initScreen(OffListScreen.routeName);
+                      await uiProvider.initScreen(OffDailyScreen.routeName);
+                      uiProvider.initScreen(OffMonthlyScreen.routeName);
+                      uiProvider.initScreen(OffListScreen.routeName);
 
                       if (viewModel.state.offDiary?.id != null) {
-                        Navigator.of(context).pop();
+                        bool? result = await simpleConfirmButtonDialog(
+                          context,
+                          primaryColor:
+                              uiProvider!.state.colorConst.getPrimary(),
+                          canvasColor: uiProvider!.state.colorConst.canvas,
+                          message: "일기 수정을 끝내시겠습니까?",
+                          trueButton: "네",
+                          falseButton: "뒤로가기",
+                          width: 215,
+                          height: 134,
+                        );
+                        if (result != null && result) navigator.pop();
                       } else {
-                        Navigator.of(context).popAndPushNamed(OffDailyScreen.routeName);
+                        Navigator.of(context)
+                            .popAndPushNamed(OffDailyScreen.routeName);
                       }
                     }
                   },
                   padding: const EdgeInsets.all(0),
-                  icon: Image(
-                    image: AssetImage(IconPath.submit.name),
+                  icon: SvgPicture.asset(
+                    IconPath.submit.name,
                     width: 30,
                     height: 30,
+                    colorFilter: ColorFilter.mode(
+                      uiProvider.state.colorConst.getPrimary(),
+                      BlendMode.srcIn,
+                    ),
                   ),
                 ),
                 const SizedBox(width: 38),

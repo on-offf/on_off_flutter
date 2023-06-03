@@ -19,13 +19,11 @@ Future<AlertTime?> alertTimeDialog(
 
   /* TRUE : AM & FALSE : PM */
   bool meridiem = DateTime.now().hour < 12;
-  int hour = dateTime.hour < 12
-          ? dateTime.hour
-          : dateTime.hour - 12;
+  int hour = dateTime.hour < 12 ? dateTime.hour : dateTime.hour - 12;
   int minutes = dateTime.minute;
 
-  FixedExtentScrollController hourController =
-      FixedExtentScrollController(initialItem: dateTime.hour < 12 ? dateTime.hour : dateTime.hour - 12);
+  FixedExtentScrollController hourController = FixedExtentScrollController(
+      initialItem: dateTime.hour < 12 ? dateTime.hour : dateTime.hour - 12);
   FixedExtentScrollController minuteController =
       FixedExtentScrollController(initialItem: minutes);
 
@@ -70,7 +68,7 @@ Future<AlertTime?> alertTimeDialog(
                             meridiem = true;
                             uiProvider.selfNotifyListeners();
                           },
-                          style: meridiemButtonStyle(),
+                          style: meridiemButtonStyle(uiProvider),
                           child: Text(
                             'AM',
                             style: meridiemTextStyle().copyWith(
@@ -86,7 +84,7 @@ Future<AlertTime?> alertTimeDialog(
                             meridiem = false;
                             uiProvider.selfNotifyListeners();
                           },
-                          style: meridiemButtonStyle(),
+                          style: meridiemButtonStyle(uiProvider),
                           child: Text(
                             'PM',
                             style: meridiemTextStyle().copyWith(
@@ -181,6 +179,8 @@ Future<AlertTime?> alertTimeDialog(
                         style: BorderStyle.solid,
                       ),
                     ),
+                    foregroundColor:
+                        uiProvider.state.colorConst.getPrimaryLight(),
                   ),
                   child: Text(
                     '예',
@@ -206,6 +206,8 @@ Future<AlertTime?> alertTimeDialog(
                         style: BorderStyle.solid,
                       ),
                     ),
+                    foregroundColor:
+                        uiProvider.state.colorConst.getPrimaryLight(),
                   ),
                   child: Text(
                     '아니요',
@@ -233,9 +235,10 @@ TextStyle meridiemTextStyle() {
   );
 }
 
-ButtonStyle meridiemButtonStyle() {
+ButtonStyle meridiemButtonStyle(UiProvider uiProvider) {
   return TextButton.styleFrom(
     padding: const EdgeInsets.all(0),
+    foregroundColor: uiProvider.state.colorConst.getPrimaryLight(),
   );
 }
 
