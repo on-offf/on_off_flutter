@@ -75,9 +75,9 @@ class OceanMainColor extends ColorConst {
 }
 
 class YellowMainColor extends ColorConst {
-  Color primary = const Color(0xffFFEC89);
-  Color primaryLight = const Color(0xffFFFBE5);
-  Color primaryDark = const Color(0xffFFD467);
+  Color primary = const Color(0xffFFD467);
+  Color primaryLight = const Color(0xffF1D54A);
+  Color primaryDark = const Color(0xffFFEC89);
   Color primaryPlus = const Color(0xffFFF4D9);
 
   @override
@@ -156,10 +156,10 @@ class OrangeMainColor extends ColorConst {
 }
 
 class GreenMainColor extends ColorConst {
-  Color primary = const Color(0xff4BED9C);
-  Color primaryLight = const Color(0xff72FFB8);
-  Color primaryDark = const Color(0xffEBFFF5);
-  Color primaryPlus = const Color(0xffFCEFFF);
+  Color primary = const Color(0xff93F1C2);
+  Color primaryLight = const Color(0xffEBFFF5);
+  Color primaryDark = const Color(0xff76E3AD);
+  Color primaryPlus = const Color(0xffF2FFF8);
 
   @override
   Color getPrimary() {
