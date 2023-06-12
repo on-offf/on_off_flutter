@@ -157,10 +157,25 @@ class UiProvider with ChangeNotifier {
     for (var viewModel in viewModelList) {
       if (viewModel is SettingViewModel) {
         await viewModel.init(_state);
+        changeMainColor(_stringToColor(viewModel.state.setting.themeColor));
       } else {
         viewModel.init(_state);
       }
     }
+  }
+
+  ColorConst _stringToColor(String color) {
+    ColorConst colorConst;
+    if (color == 'PURPLE') {
+      colorConst = _state.purpleMainColor;
+    } else if (color == 'YELLOW') {
+      colorConst = _state.yellowMainColor;
+    } else if (color == 'GREEN') {
+      colorConst = _state.greenMainColor;
+    } else {
+      colorConst = _state.oceanMainColor;
+    }
+    return colorConst;
   }
 
   Future<void> _notifyListeners() async {
