@@ -1,10 +1,24 @@
 ![배너](./readme_img/image.png)
 
-일과 일상을 분리해보세요!
+### 💼 일과 일상을 분리해보세요 🛀
 
-<p align="center"> 
-  <a href="https://apps.apple.com/kr/app/on-off/id6444564887"><img src="./readme_img/app-store-icon.png" width="49%"></a>
-  <a href="https://play.google.com/store/apps/details?id=io.my.on_off&hl=ko"><img src="./readme_img/google-playstore-icon.png" width="49%"></a>
+<p align="left"> 
+  <a href="https://apps.apple.com/kr/app/on-off/id6444564887"><img src="./readme_img/app-store-icon.png" width="30%"></a>
+  <a href="https://play.google.com/store/apps/details?id=io.my.on_off&hl=ko"><img src="./readme_img/google-playstore-icon.png" width="27%"></a>
+</p>
+
+> **삶과 일상을 분리하여 소소한 나만의 하루를 기록해보세요.**
+
+- 📅 ON : 미팅 시간이 헷갈리셨나요? 분주한 일과 속에서 간편하게 당신의 일정을 확인해보세요.
+- 📅 OFF : 퇴근, 학업 등등 일상에서 바쁘게 움직였던 나를 잠시 내려놓고 '온전히 나를 위한' 오늘 하루를 기록해보세요.
+
+<p align = "center">
+
+| <img src="./readme_img/image12.png" width="200"> | <img src="./readme_img/image12.png"  width="200"> | <img src="./readme_img/image12.png" width="200"> | <img src="./readme_img/image11.png" width="200"> |
+| ------------------------------------------------ | ------------------------------------------------- | ------------------------------------------------ | ------------------------------------------------ |
+| **김보성**                                       | **김상완**                                        | **장윤정**                                       | **허지원**                                       |
+| [@mysend12](https://github.com/mysend12)         | [@]()                                             | [@]()                                            | [@hunnypooh](https://github.com/huuny-pooh)      |
+
 </p>
 
 ## 주요 기능 소개
@@ -80,7 +94,7 @@
 ON & OFF는 달력을 이용했기 때문에, 사용자가 선택한 일자를 변경하면, setting 화면을 제외한 모든 viewModel에 적용되어야했습니다. 또한 다이나믹 테마를 적용할 계획이 있었기 때문에 이를 위한 공통 상태도 필요했구요.
 
 이와 같이 공통으로 관리해야할 상태들이 몇가지 있었는데, 이를 위하여 옵저버 패턴을 도입하였습니다.
-![기술개선방향-옵저버패턴](image.png)
+![기술개선방향-옵저버패턴](./readme_img/image7.png)
 
 #### 옵저버 패턴의 문제
 
