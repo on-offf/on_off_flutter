@@ -1,5 +1,13 @@
 ![배너](./readme_img/image.png)
 
+<p align="center">  
+  <img src="https://img.shields.io/github/issues/on-offf/on_off_flutter"/>
+  <img src="https://img.shields.io/github/issues-closed/on-offf/on_off_flutter"/>
+  <img src="https://img.shields.io/github/commit-activity/w/on-offf/on_off_flutter">
+  <img src="https://img.shields.io/github/last-commit/on-offf/on_off_flutter">
+  <br><br>
+</p>
+
 ### 💼 일과 일상을 분리해보세요 🛀
 
 <p align="left"> 
@@ -71,21 +79,28 @@
 
 ## 협업 방식
 
-거의 온라인 100% 진행한 거에도 불구하고, 슬랙/피그마 등으로 서로 회의를 통해 필요한 내용 및 진도를 정리하여 프로젝트를 진행하였으며, 완성을 하였습니다.
+거의 온라인 100% 진행했기 때문에 협업방식을 중요하게 생각했습니다. 슬랙/피그마 등으로 서로 회의를 통해 필요한 내용 및 진도를 정리하여 프로젝트를 진행하였으며, 완성을 하였습니다.
 
 ### Slack
 
 ![슬랙 활동 화면](./readme_img/image2.png)
 ![슬랙 활동 화면 2](./readme_img/image3.png)
 
+- 각 분야별로 채널을 만들고 해당 분야에 궁금한점과 얘기할 거리를 각 분야의 채널에 남겨서 빠른 의사소통이 이뤄졌습니다.
+
 ### Figma
 
 ![피그마 코멘트 화면](./readme_img/image4.png)
+
+- 디자인 팀에서 피그마로 화면 UI를 공유하고, UI에 맞게 개발하면서 궁금한점은 해당 지점에 코멘트를 남기고 답변을 받으면서 소통했습니다.
 
 ### Git flow
 
 ![깃허브 이슈](./readme_img/image5.png)
 ![깃 그래프](./readme_img/image6.png)
+
+- 깃에서는 크게 두가지 브랜치 1.master(배포된 코드) 2.develop(개발중인 코드)를 만들고, develop 아래에 `feat/기능이름`, `qa/zeon` 처럼 `상위분야/하위분야` 로 브랜치를 생성해서 개발했습니다.
+- 개발할때 큰 기능은 브랜치를 새로 생성하고, 이슈를 등록하고, 해당 이슈번호로 깃 컨벤션을 지키면서 커밋 했습니다. 브랜치를 생성할때 설정한 목표를 달성하면, 해당 브랜치를 develop으로 merge하고 삭제하면서 기능 추가를 완료했습니다.
 
 ## 기술적으로 개선해야할 방향
 
