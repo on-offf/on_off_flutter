@@ -17,7 +17,8 @@ class SettingDAO {
         switchStartHour Integer DEFAULT 10,
         switchStartMinutes Integer DEFAULT 0,
         switchEndHour Integer DEFAULT 18,
-        switchEndMinutes Integer DEFAULT 0
+        switchEndMinutes Integer DEFAULT 0,
+        themeColor TEXT DEFAULT OCEAN
         )
   ''';
 
@@ -34,6 +35,7 @@ class SettingDAO {
       switchStartMinutes: 0,
       switchEndHour: 18,
       switchEndMinutes: 0,
+      themeColor: 'OCEAN',
     );
     await database.insert(table, entity.toJson());
     return entity;

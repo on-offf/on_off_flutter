@@ -25,7 +25,7 @@ import 'package:sqflite/sqflite.dart';
 
 Future<List<SingleChildWidget>> getProviders() async {
   var databaseName = 'on_off.db';
-  var databaseVersion = 2;
+  var databaseVersion = 3;
 
   Database database = await openDatabase(
     databaseName,
@@ -144,41 +144,72 @@ Future<List<SingleChildWidget>> getProviders() async {
 _upgrade(Database db, int oldVersion, int newVersion) async {
   if (oldVersion == newVersion) return;
 
-  switch(oldVersion) {
-    case 1: await _dbVersion1(db);
+  switch (oldVersion) {
+    case 1:
+      await _dbVersion1(db);
+      await _dbVersion2(db);
+      break;
+    case 2:
+      await _dbVersion2(db);
+      break;
   }
 }
 
 _dbVersion1(Database db) async {
   Batch batch = db.batch();
-  List<Map> settingTableInfo = await db.rawQuery('PRAGMA table_info(${SettingDAO.table});');
+  List<Map> settingTableInfo =
+      await db.rawQuery('PRAGMA table_info(${SettingDAO.table});');
   String isOnOffSwitch = 'isOnOffSwitch';
   String switchStartHour = 'switchStartHour';
   String switchStartMinutes = 'switchStartMinutes';
   String switchEndHour = 'switchEndHour';
   String switchEndMinutes = 'switchEndMinutes';
 
-  if (!settingTableInfo.any((element) => element[isOnOffSwitch] == isOnOffSwitch)) {
-    batch.execute('ALTER TABLE ${SettingDAO.table} ADD $isOnOffSwitch Integer DEFAULT 0');
+  if (!settingTableInfo
+      .any((element) => element[isOnOffSwitch] == isOnOffSwitch)) {
+    batch.execute(
+        'ALTER TABLE ${SettingDAO.table} ADD $isOnOffSwitch Integer DEFAULT 0');
   }
 
-  if (!settingTableInfo.any((element) => element[switchStartHour] == switchStartHour)) {
-    batch.execute('ALTER TABLE ${SettingDAO.table} ADD $switchStartHour Integer DEFAULT 10');
+  if (!settingTableInfo
+      .any((element) => element[switchStartHour] == switchStartHour)) {
+    batch.execute(
+        'ALTER TABLE ${SettingDAO.table} ADD $switchStartHour Integer DEFAULT 10');
   }
 
-  if (!settingTableInfo.any((element) => element[switchStartMinutes] == switchStartMinutes)) {
-    batch.execute('ALTER TABLE ${SettingDAO.table} ADD $switchStartMinutes Integer DEFAULT 0');
+  if (!settingTableInfo
+      .any((element) => element[switchStartMinutes] == switchStartMinutes)) {
+    batch.execute(
+        'ALTER TABLE ${SettingDAO.table} ADD $switchStartMinutes Integer DEFAULT 0');
   }
 
-  if (!settingTableInfo.any((element) => element[switchEndHour] == switchEndHour)) {
-    batch.execute('ALTER TABLE ${SettingDAO.table} ADD $switchEndHour Integer DEFAULT 18');
+  if (!settingTableInfo
+      .any((element) => element[switchEndHour] == switchEndHour)) {
+    batch.execute(
+        'ALTER TABLE ${SettingDAO.table} ADD $switchEndHour Integer DEFAULT 18');
   }
 
-  if (!settingTableInfo.any((element) => element[switchEndMinutes] == switchEndMinutes)) {
-    batch.execute('ALTER TABLE ${SettingDAO.table} ADD $switchEndMinutes Integer DEFAULT 0');
+  if (!settingTableInfo
+      .any((element) => element[switchEndMinutes] == switchEndMinutes)) {
+    batch.execute(
+        'ALTER TABLE ${SettingDAO.table} ADD $switchEndMinutes Integer DEFAULT 0');
   }
 
   // ON
   await db.execute(OnTodoDAO.ddl);
+  batch.commit();
+}
+
+_dbVersion2(Database db) async {
+  Batch batch = db.batch();
+  List<Map> settingTableInfo =
+      await db.rawQuery('PRAGMA table_info(${SettingDAO.table});');
+  String themeColor = 'themeColor';
+
+  if (!settingTableInfo.any((element) => element[themeColor] == themeColor)) {
+    batch.execute(
+        'ALTER TABLE ${SettingDAO.table} ADD $themeColor TEXT DEFAULT OCEAN');
+  }
+
   batch.commit();
 }

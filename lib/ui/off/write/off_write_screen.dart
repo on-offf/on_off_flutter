@@ -116,10 +116,6 @@ class _OffWriteScreenState extends State<OffWriteScreen> {
                     FocusMonth(
                       showOverlay: false,
                     ),
-                    TransformDailyWeekly(
-                      key: GlobalKey(),
-                      isOverlay: false,
-                    ),
                   ],
                 ),
                 Container(

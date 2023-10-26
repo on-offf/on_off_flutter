@@ -1,3 +1,4 @@
+import 'package:on_off/constants/color_constants.dart';
 import 'package:on_off/domain/entity/setting/setting_entity.dart';
 import 'package:on_off/domain/model/alert_time.dart';
 import 'package:on_off/domain/use_case/data_source/setting/setting_use_case.dart';
@@ -20,6 +21,7 @@ class SettingViewModel extends UiProviderObserve {
       switchStartMinutes: 0,
       switchEndHour: 18,
       switchEndMinutes: 0,
+      themeColor: 'OCEAN',
     ),
   );
 
@@ -130,5 +132,23 @@ class SettingViewModel extends UiProviderObserve {
   @override
   update(UiState uiState) async {
     this.uiState = uiState.copyWith();
+  }
+
+  String _colorToString(ColorConst colorConst) {
+    if (colorConst is YellowMainColor) {
+      return 'YELLOW';
+    } else if (colorConst is PurpleMainColor) {
+      return 'PURPLE';
+    } else if (colorConst is GreenMainColor) {
+      return 'GREEN';
+    }
+    return 'OCEAN';
+  }
+
+  void changeThemeColor(ColorConst colorConst) async {
+    _state = _state.copyWith(
+      setting: await settingUseCase.updateSettingEntity(
+          _state.setting.copyWith(themeColor: _colorToString(colorConst))),
+    );
   }
 }

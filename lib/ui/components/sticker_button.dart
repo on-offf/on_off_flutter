@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 import 'package:on_off/domain/icon/icon_path.dart';
+import 'package:on_off/ui/provider/ui_provider.dart';
+import 'package:provider/provider.dart';
 
 class StickerButton extends StatefulWidget {
   LayerLink layerLink;
@@ -41,6 +43,7 @@ class _StickerButtonState extends State<StickerButton> {
       OverlayEntry(builder: _overlayEntryBuilder);
   static const double _dropdownWidth = 314;
   static const double _dropdownHeight = 254;
+  late UiProvider uiProvider;
 
   // static  LayerLink link = widget.layerLink;
 
@@ -81,6 +84,7 @@ class _StickerButtonState extends State<StickerButton> {
 
   @override
   Widget build(BuildContext context) {
+    uiProvider = context.watch<UiProvider>();
     return TextButton(
       onPressed: () => clickAddIcon(),
       style: ButtonStyle(
@@ -122,11 +126,11 @@ class _StickerButtonState extends State<StickerButton> {
             child: Container(
               decoration: BoxDecoration(
                 border: Border.all(
-                  color: Theme.of(context).primaryColor,
+                  color: uiProvider.state.colorConst.getPrimary(),
                   width: 3,
                 ),
                 borderRadius: BorderRadius.circular(29),
-                color: Theme.of(context).canvasColor,
+                color: uiProvider.state.colorConst.canvas,
               ),
               child: GridView(
                 padding: const EdgeInsets.all(30),
@@ -163,6 +167,8 @@ class _StickerButtonState extends State<StickerButton> {
         imagePath,
         width: 48,
         height: 48,
+        colorFilter: ColorFilter.mode(
+            uiProvider.state.colorConst.getPrimary(), BlendMode.srcIn),
       ),
     );
   }

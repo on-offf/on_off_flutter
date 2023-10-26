@@ -4,6 +4,7 @@ import 'package:on_off/constants/color_constants.dart';
 import 'package:on_off/constants/constants_text_style.dart';
 import 'package:on_off/domain/icon/icon_path.dart';
 import 'package:on_off/ui/provider/ui_provider.dart';
+import 'package:on_off/ui/setting/home/setting_view_model.dart';
 import 'package:provider/provider.dart';
 
 class ThemeCard extends StatelessWidget {
@@ -19,9 +20,13 @@ class ThemeCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     UiProvider uiProvider = context.watch<UiProvider>();
+    SettingViewModel viewModel = context.watch<SettingViewModel>();
 
     return GestureDetector(
-      onTap: () => uiProvider.changeMainColor(colorConst),
+      onTap: () {
+        uiProvider.changeMainColor(colorConst);
+        viewModel.changeThemeColor(colorConst);
+      },
       child: Container(
         margin: const EdgeInsets.symmetric(
           vertical: 15,

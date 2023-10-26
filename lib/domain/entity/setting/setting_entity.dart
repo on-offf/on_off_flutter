@@ -17,6 +17,7 @@ class SettingEntity with _$SettingEntity {
     required int switchStartMinutes,
     required int switchEndHour,
     required int switchEndMinutes,
+    required String themeColor,
   }) = _SettingEntity;
 
   factory SettingEntity.fromJson(Map<String, dynamic> json) =>
